@@ -1,16 +1,21 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:VisualElement name="VisualElement" style="flex-grow: 1; -unity-font: none;">
         <ui:VisualElement name="View" style="flex-grow: 1; max-height: 10%; min-height: 10%; background-color: rgb(255, 255, 255); flex-direction: row;">
-            <ui:VisualElement name="View" style="flex-grow: 1; max-width: 20%; min-width: 10%; background-color: rgb(162, 162, 162);" />
+            <ui:VisualElement name="View" style="flex-grow: 1; max-width: 20%; min-width: 20%; background-color: rgb(162, 162, 162);" />
             <ui:VisualElement name="View" style="flex-grow: 1;">
-                <ui:VisualElement name="View" style="flex-grow: 1; max-height: 50%;">
-                    <ui:Label tabindex="-1" text="쉘터 레벨 :&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 80px; -unity-text-align: upper-left; -unity-font: url(&apos;project://database/Assets/ProjectDaNyan/Fonts/AppleSDGothicNeoR.ttf?fileID=12800000&amp;guid=ff2ed81f1195edf4c94e3800811d1482&amp;type=3#AppleSDGothicNeoR&apos;); -unity-font-definition: initial;" />
+                <ui:VisualElement name="View" style="flex-grow: 1; max-height: 50%; flex-direction: row; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                    <ui:VisualElement style="flex-grow: 1; padding-left: 10px;">
+                        <ui:Label tabindex="-1" text="쉘터 레벨 :&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 80px; -unity-text-align: upper-left; -unity-font: url(&apos;project://database/Assets/ProjectDaNyan/Fonts/AppleSDGothicNeoR.ttf?fileID=12800000&amp;guid=ff2ed81f1195edf4c94e3800811d1482&amp;type=3#AppleSDGothicNeoR&apos;); -unity-font-definition: initial;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-width: 15%; min-width: 15%;">
+                        <ui:Button text="게임&#10;종료" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ExitGame" style="max-width: 100%; min-width: 100%; font-size: 45px; -unity-font: url(&apos;project://database/Assets/ProjectDaNyan/Fonts/AppleSDGothicNeoR.ttf?fileID=12800000&amp;guid=ff2ed81f1195edf4c94e3800811d1482&amp;type=3#AppleSDGothicNeoR&apos;); -unity-font-definition: url(&apos;project://database/Assets/ProjectDaNyan/Fonts/AppleSDGothicNeoR%20SDF.asset?fileID=11400000&amp;guid=63235b348dd2358458d7a9f48198fc89&amp;type=2#AppleSDGothicNeoR SDF&apos;);" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="View" style="flex-grow: 1; max-height: 50%; flex-direction: row;">
-                    <ui:VisualElement name="View" style="flex-grow: 1; font-size: 80px;">
+                    <ui:VisualElement name="View" style="flex-grow: 1; font-size: 80px; padding-right: 0; padding-left: 10px;">
                         <ui:Label tabindex="-1" text="골드 : &#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font: url(&apos;project://database/Assets/ProjectDaNyan/Fonts/AppleSDGothicNeoR.ttf?fileID=12800000&amp;guid=ff2ed81f1195edf4c94e3800811d1482&amp;type=3#AppleSDGothicNeoR&apos;); -unity-font-definition: url(&apos;project://database/Assets/ProjectDaNyan/Fonts/AppleSDGothicNeoR%20SDF.asset?fileID=11400000&amp;guid=63235b348dd2358458d7a9f48198fc89&amp;type=2#AppleSDGothicNeoR SDF&apos;);" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="View" style="flex-grow: 1;">
+                    <ui:VisualElement name="View" style="flex-grow: 1; padding-left: 10px;">
                         <ui:Label tabindex="-1" text="티켓 :" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 80px; -unity-font: url(&apos;project://database/Assets/ProjectDaNyan/Fonts/AppleSDGothicNeoR.ttf?fileID=12800000&amp;guid=ff2ed81f1195edf4c94e3800811d1482&amp;type=3#AppleSDGothicNeoR&apos;); -unity-font-definition: url(&apos;project://database/Assets/ProjectDaNyan/Fonts/AppleSDGothicNeoR%20SDF.asset?fileID=11400000&amp;guid=63235b348dd2358458d7a9f48198fc89&amp;type=2#AppleSDGothicNeoR SDF&apos;);" />
                     </ui:VisualElement>
                 </ui:VisualElement>
