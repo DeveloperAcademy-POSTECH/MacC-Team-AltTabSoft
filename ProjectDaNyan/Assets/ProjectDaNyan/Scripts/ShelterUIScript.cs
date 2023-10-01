@@ -12,8 +12,8 @@ public class ShelterUIScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var a = GetComponentsInChildren<Button>();
-        foreach (var button in a)
+        var buttons = GetComponentsInChildren<Button>();
+        foreach (var button in buttons)
         {
             Debug.Log(button.transform.name);
             var buttonName = button.transform.name; 
