@@ -1,31 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StageUIScript : MonoBehaviour
+namespace ProjectDaNyan.Scripts
 {
-    private Button _buttonGoToShelter;
-
-    // Start is called before the first frame update
-    void Start()
+    public class StageUIScript : MonoBehaviour
     {
-        var buttons = GetComponentsInChildren<Button>();
-        foreach (var button in buttons)
+        private Button _buttonGoToShelter;
+        private Button _buttonPause;
+        private GameObject _pauseUI;
+        private GameObject _staticCanvas;
+        private Button _buttonContinueStage;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            Debug.Log(button.transform.name);
-            var buttonName = button.transform.name;
-            if (buttonName == "Button_GoTo_Shelter")
-            {
-                _buttonGoToShelter = button;
-            }
-        }
+            _pauseUI = transform.Find("PauseCanvas").gameObject;
+            _staticCanvas = transform.Find("StaticCanvas").gameObject;
         
-        _buttonGoToShelter.onClick.AddListener(() =>
-        {
-            Debug.Log("ㅗ도도도");
-            SceneManager.LoadScene("ShelterScene");
-        });
+            var buttons = GetComponentsInChildren<Button>(includeInactive: true);
+            foreach (var button in buttons)
+            {
+                Debug.Log(button.transform.name);
+                var buttonName = button.transform.name;
+                if (buttonName == "Button_GoTo_Shelter") _buttonGoToShelter = button;
+                else if (buttonName == "Button_Pause") _buttonPause = button;
+                else if (buttonName == "Button_Continue_Stage") _buttonContinueStage = button;
+            }
+        
+            // 각 버튼 별 역할 세팅
+            _buttonGoToShelter.onClick.AddListener(() =>
+            {
+                SceneManager.LoadScene("ShelterScene");
+            });
+        
+            _buttonPause.onClick.AddListener(() =>
+            {
+                _pauseUI.SetActive(true);
+                _staticCanvas.SetActive(false);
+            });
+            
+            _buttonContinueStage.onClick.AddListener(() =>
+            {
+                _pauseUI.SetActive(false);
+                _staticCanvas.SetActive(true);
+            });
+        }
     }
 }
