@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,17 +12,22 @@ namespace ProjectDaNyan.Scripts
         private GameObject _pauseUI;
         private GameObject _staticCanvas;
         private Button _buttonContinueStage;
+        
+        private Image _blackScreen;
+        private GameObject _transitionCanvas;
 
         // Start is called before the first frame update
         void Start()
         {
             _pauseUI = transform.Find("PauseCanvas").gameObject;
             _staticCanvas = transform.Find("StaticCanvas").gameObject;
+            _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive:true).gameObject.GetComponent<Image>();
+            _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
         
             var buttons = GetComponentsInChildren<Button>(includeInactive: true);
             foreach (var button in buttons)
             {
-                Debug.Log(button.transform.name);
+                // Debug.Log(button.transform.name);
                 var buttonName = button.transform.name;
                 if (buttonName == "Button_GoTo_Shelter") _buttonGoToShelter = button;
                 else if (buttonName == "Button_Pause") _buttonPause = button;
@@ -44,6 +50,11 @@ namespace ProjectDaNyan.Scripts
             {
                 _pauseUI.SetActive(false);
                 _staticCanvas.SetActive(true);
+            });
+
+            _blackScreen.DOFade(0f, 0.2f).OnComplete(() =>
+            {
+                _transitionCanvas.SetActive(false);
             });
         }
     }
