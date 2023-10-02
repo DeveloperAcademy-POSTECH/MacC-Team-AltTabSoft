@@ -16,14 +16,14 @@ namespace ProjectDaNyan.Scripts
         
         private Image _blackScreen;
         private GameObject _transitionCanvas;
-
-        // Start is called before the first frame update
+        
         private void Awake()
         {
             _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
             _transitionCanvas.SetActive(true);
         }
 
+        // Start is called before the first frame update
         void Start()
         {
             _pauseUI = transform.Find("PauseCanvas").gameObject;
@@ -33,7 +33,6 @@ namespace ProjectDaNyan.Scripts
             var buttons = GetComponentsInChildren<Button>(includeInactive: true);
             foreach (var button in buttons)
             {
-                // Debug.Log(button.transform.name);
                 var buttonName = button.transform.name;
                 if (buttonName == "Button_GoTo_Shelter") _buttonGoToShelter = button;
                 else if (buttonName == "Button_Pause") _buttonPause = button;
@@ -43,7 +42,14 @@ namespace ProjectDaNyan.Scripts
             // 각 버튼 별 역할 세팅
             _buttonGoToShelter.onClick.AddListener(() =>
             {
-                SceneManager.LoadScene("ShelterScene");
+                float duration = 0.5f;
+                
+                //화면 암전
+                _transitionCanvas.SetActive(true);
+                _blackScreen.DOFade(1f, duration*0.8f).OnComplete(() =>
+                {
+                    SceneManager.LoadScene("ShelterScene");
+                });
             });
         
             _buttonPause.onClick.AddListener(() =>
@@ -58,6 +64,7 @@ namespace ProjectDaNyan.Scripts
                 _staticCanvas.SetActive(true);
             });
 
+            //화면 불러올 때
             _blackScreen.DOFade(0f, 0.2f).OnComplete(() =>
             {
                 _transitionCanvas.SetActive(false);
