@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -5,7 +6,7 @@ using UnityEngine.UI;
 
 namespace ProjectDaNyan.Scripts
 {
-    public class StageUIScript : MonoBehaviour
+    public class GameObjectTouch : MonoBehaviour
     {
         private Button _buttonGoToShelter;
         private Button _buttonPause;
@@ -17,12 +18,17 @@ namespace ProjectDaNyan.Scripts
         private GameObject _transitionCanvas;
 
         // Start is called before the first frame update
+        private void Awake()
+        {
+            _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
+            _transitionCanvas.SetActive(true);
+        }
+
         void Start()
         {
             _pauseUI = transform.Find("PauseCanvas").gameObject;
             _staticCanvas = transform.Find("StaticCanvas").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive:true).gameObject.GetComponent<Image>();
-            _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
         
             var buttons = GetComponentsInChildren<Button>(includeInactive: true);
             foreach (var button in buttons)
