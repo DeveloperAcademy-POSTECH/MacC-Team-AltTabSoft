@@ -1,44 +1,85 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : JoystickController
 {
+    [SerializeField] private GameObject playerObject;
+    [SerializeField] private int playerSpeed = 500;
 
-    public float movementSpeed = 50f;
-    public float jumpForce = 300;
-    public float timeBeforeNextJump = 1.2f;
+    private Rigidbody playerRigid;
+    private TrailRenderer playerTrailRenderer;
+    private Animator playerAnim;
+
+    private Vector3 movePosition;
+    private Vector3 dashMovePosition;
+
+    private float movementSpeed = 50f;
+    private float jumpForce = 300;
+    private float timeBeforeNextJump = 1.2f;
     private float canJump = 0f;
-    Rigidbody rb;
+
+    private float playerRotationPositionX;
+    private float playerRotationPositionY;
+
+    private PlayerState playerState = PlayerState.stop;
     
-    void Start()
+    protected override void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        playerRigid = playerObject.GetComponent<Rigidbody>();
+        playerTrailRenderer = playerObject.GetComponent<TrailRenderer>();
+        playerAnim = playerObject.GetComponent<Animator>();
+
+        base.Start();
+        background.gameObject.SetActive(false);
+    }
+
+    public override void OnPointerDown(PointerEventData eventData)
+    {
+        playerState = PlayerState.walk;
+        background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
+        background.gameObject.SetActive(true);
+        base.OnPointerDown(eventData);
+    }
+
+    public override void OnPointerUp(PointerEventData eventData)
+    {
+        background.gameObject.SetActive(false);
+        base.OnPointerUp(eventData);
+        playerState = PlayerState.stop;
     }
 
     void Update()
     {
-        ControllPlayer();
+
     }
 
-    void ControllPlayer()
+    private void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
-
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-
-        if (movement != Vector3.zero)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15f);
-        }
-
-        transform.Translate(movement * movementSpeed * Time.deltaTime, Space.World);
-
-        if (Input.GetButtonDown("Jump") && Time.time > canJump)
-        {
-                rb.AddForce(0, jumpForce, 0);
-                canJump = Time.time + timeBeforeNextJump;
-        }
+        PlayerRotate();
+        PlayerMove();
     }
+
+    void PlayerRotate()
+    {
+        if (playerState != PlayerState.stop)
+        {
+            playerRotationPositionX = this.Direction.x;
+            playerRotationPositionY = this.Direction.y;
+        }
+
+        playerRigid.MoveRotation(Quaternion.Euler(0f,
+            Mathf.Atan2(playerRotationPositionX, playerRotationPositionY) * Mathf.Rad2Deg, 0f));
+    }
+    void PlayerMove()
+    {
+        Vector3 normalized = new Vector3(this.Direction.x, 0, this.Direction.y).normalized;
+        movePosition = normalized * (Time.deltaTime * playerSpeed);
+        playerRigid.velocity = movePosition;
+        dashMovePosition = movePosition;
+    }
+    private enum PlayerState {walk,dash,stop}
 }
