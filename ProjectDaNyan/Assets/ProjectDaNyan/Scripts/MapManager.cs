@@ -12,7 +12,8 @@ public class MapManager : MonoBehaviour
     [SerializeField] public GameObject[] landArray;
     [SerializeField] public GameObject player;
     // 상자 고양이; 상자 고양이(5마리)는 초기에 맵 생성 시 랜덤하게 스폰
-    [SerializeField] public GameObject boxCat;
+    [SerializeField] private GameObject boxCatPrefab;
+    GameObject boxCat;
     // 수집한 상자 고양이 수 -> 다른 파일로 이동 고민 중
     public int collectedCats = 0;
     // 타일 하나의 크기
@@ -24,6 +25,8 @@ public class MapManager : MonoBehaviour
 
     void Start()
     {
+        boxCat = Instantiate(boxCatPrefab);
+
         // border 초기화, 플레이어의 시작 위치는 (0, 1, 0)이므로 왼쪽 끝 좌표는 -UnitSize * 1.5f, 오른쪽 끝 좌표는 UnitSize * 1.5f
         // 둘을 합하면 UnitSize * 3이며 이는 전체 타일의 크기와 같음
         border = new Vector3[]
@@ -62,7 +65,7 @@ public class MapManager : MonoBehaviour
             float randomX = Random.Range(landArray[index].transform.position.x - halfSight, landArray[index].transform.position.x + halfSight);
             float randomZ = Random.Range(landArray[index].transform.position.z - halfSight, landArray[index].transform.position.z + halfSight); 
         
-            Vector3 randomPosition = new Vector3(randomX, 1, randomZ);
+            Vector3 randomPosition = new Vector3(randomX, 0, randomZ);
             // 선택한 위치에 상자 고양이 생성
             GameObject _boxCat = Instantiate(boxCat, randomPosition, Quaternion.identity);
             // 상자 고양이를 자식으로 설정하여 타일과 같이 이동하도록 함
