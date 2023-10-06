@@ -5,10 +5,10 @@ using UnityEngine;
 public class EneymyScanner : MonoBehaviour
 {
     
-    public Collider[] colliders;
-    public Collider nearCollider;
-    public LayerMask layer;
-    public int scanRange;
+    public Collider[] colliders; //scanRange 내의 에너미의 collider 모음
+    public Collider nearCollider; //가장 가까운 에너미의 collider
+    public LayerMask layer; //에너미 인식 기준이 되는 레이
+    public int scanRange; //인식 범위
 
     void Update()
     {
