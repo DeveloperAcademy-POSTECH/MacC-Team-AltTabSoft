@@ -9,15 +9,17 @@ using UnityEngine.EventSystems;
 public class PlayerController : JoystickController
 {
     [SerializeField] private GameObject playerObject;
-    [SerializeField] private int playerSpeed = 500;
+    [SerializeField] private int playerSpeed = 50;
+    [SerializeField] private int dashSpeed = 10;
     
     private Rigidbody playerRigid;
     private TrailRenderer playerTrailRenderer;
     private Animator playerAnim;
+    private CharacterController playerCharacterController;
 
     private Vector3 movePosition;
     private Vector3 dashMovePosition;
-
+    
     private int dashTimerCount = 0;
 
     private float movementSpeed = 50f;
@@ -37,7 +39,12 @@ public class PlayerController : JoystickController
         playerRigid = playerObject.GetComponent<Rigidbody>();
         playerTrailRenderer = playerObject.GetComponent<TrailRenderer>();
         playerAnim = playerObject.GetComponent<Animator>();
+        playerCharacterController = playerObject.GetComponent<CharacterController>();
 
+        // 게임이 시작될 때 캐릭터의 머리가 카메라를 바라보도록 회전각을 설정
+        playerRotationPositionX = 1;
+        playerRotationPositionY = -1;
+        
         base.Start();
         background.gameObject.SetActive(false);
     }
@@ -135,13 +142,13 @@ public class PlayerController : JoystickController
     {
         Vector3 normalized = new Vector3(this.Direction.x+this.Direction.y, 0, this.Direction.y-this.Direction.x).normalized;
         movePosition = normalized * (Time.deltaTime * playerSpeed);
-        playerRigid.velocity = movePosition;
-        dashMovePosition = movePosition * 10;
+        playerCharacterController.Move(movePosition);
+        dashMovePosition = movePosition * dashSpeed;
     }
 
     void PlayerDash()
     {
-            playerRigid.velocity = dashMovePosition;
+            playerCharacterController.Move(dashMovePosition);
             dashTimerCount += 1;
 
             if (dashTimerCount == 25)
