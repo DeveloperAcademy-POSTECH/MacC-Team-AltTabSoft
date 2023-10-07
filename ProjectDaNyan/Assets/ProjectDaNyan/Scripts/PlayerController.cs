@@ -33,10 +33,6 @@ public class PlayerController : JoystickController
 
     private float playerRotationPositionX;
     private float playerRotationPositionY;
-
-    private PlayerState playerState = PlayerState.stop;
-
-    private bool isJoystickPositionGoEnd = false;
     
     protected override void Start()
     {
@@ -51,61 +47,6 @@ public class PlayerController : JoystickController
         
         base.Start();
         background.gameObject.SetActive(false);
-    }
-    
-    public override void OnPointerDown(PointerEventData eventData)
-    {
-        playerState = PlayerState.walk;
-        background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
-        background.gameObject.SetActive(true);
-        base.OnPointerDown(eventData);
-    }
-    
-    protected override void HandleInput(float magnitude, Vector2 normalised, Vector2 radius, Camera cam)
-    {
-        if (magnitude > deadZone)
-        {
-            if (magnitude > 1)
-            {
-                input = normalised;
-                isJoystickPositionGoEnd = true;
-                
-                //대시 준비 시 대시 방향 표시
-                playerMoveDirectionObject.SetActive(false);
-                playerDashDirectionObject.SetActive(true);
-            }
-            else
-            {
-                isJoystickPositionGoEnd = false;
-            }
-        }
-        else
-        {
-            input = Vector2.zero;
-        }
-        
-        Debug.Log(isJoystickPositionGoEnd);
-    }
-
-    public override void OnPointerUp(PointerEventData eventData)
-    {
-        background.gameObject.SetActive(false);
-        base.OnPointerUp(eventData);
-
-        if (isJoystickPositionGoEnd)
-        {
-            playerState = PlayerState.dash;
-            isJoystickPositionGoEnd = false;
-        }
-        else
-        {
-            playerState = PlayerState.stop;
-        }
-    }
-
-    void Update()
-    {
-
     }
 
     private void FixedUpdate()
@@ -156,12 +97,16 @@ public class PlayerController : JoystickController
         movePosition = normalized * (Time.deltaTime * playerSpeed);
         playerCharacterController.Move(movePosition);
         dashMovePosition = movePosition * dashSpeed;
-
         //대시 준비 상태가 아니라면 현재 이동방향을 표시
         if (!isJoystickPositionGoEnd)
         {
             playerMoveDirectionObject.SetActive(true);
             playerDashDirectionObject.SetActive(false);
+        }
+        else
+        {
+            playerMoveDirectionObject.SetActive(false);
+            playerDashDirectionObject.SetActive(true);
         }
     }
 
@@ -178,5 +123,5 @@ public class PlayerController : JoystickController
             
             playerDashDirectionObject.SetActive(false);
     }
-    private enum PlayerState {walk,dash,stop}
+    
 }
