@@ -29,7 +29,8 @@ public class PlayerController : MonoBehaviour
 
     private float playerRotationPositionX;
     private float playerRotationPositionY;
-    
+    private float _floatingPosition;
+
     void Start()
     {
         playerTrailRenderer = playerObject.GetComponent<TrailRenderer>();
@@ -46,7 +47,8 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         PlayerRotate();
-
+        PlayerFall();
+        
         switch (_joy.playerState)
         {
             case JoystickController.PlayerState.walk:
@@ -72,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerStop()
     {
-        playerCharacterController.Move(new Vector3(0, 0, 0));
+        playerCharacterController.Move(new Vector3(0, _floatingPosition, 0));
         
         //이동방향 및 대시방향 표시하는 오브젝트 끄기
         playerMoveDirectionObject.SetActive(false);
@@ -82,7 +84,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
         movePosition = normalized * (Time.deltaTime * playerSpeed);
-        playerCharacterController.Move(movePosition);
+        playerCharacterController.Move(new Vector3(movePosition.x,_floatingPosition,movePosition.z));
         dashMovePosition = movePosition * dashSpeed;
         //대시 준비 상태가 아니라면 현재 이동방향을 표시
         if (!_joy.isJoystickPositionGoEnd)
@@ -99,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
-            playerCharacterController.Move(dashMovePosition);
+            playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
             dashTimerCount += 1;
             
             if (dashTimerCount == dashLimitTic1SecondsTo50)
@@ -108,6 +110,18 @@ public class PlayerController : MonoBehaviour
                 _joy.playerState = JoystickController.PlayerState.stop;
             }
             playerDashDirectionObject.SetActive(false);
+    }
+
+    void PlayerFall()
+    {
+        if (playerCharacterController.isGrounded == false)
+        {
+            _floatingPosition += -9.81f * Time.deltaTime;
+        }
+        else
+        {
+            _floatingPosition = 0f;
+        }
     }
     
 }
