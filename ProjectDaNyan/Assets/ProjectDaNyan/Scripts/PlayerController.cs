@@ -67,8 +67,8 @@ public class PlayerController : JoystickController
     {
         if (playerState != PlayerState.stop)
         {
-            playerRotationPositionX = this.Direction.x;
-            playerRotationPositionY = this.Direction.y;
+            playerRotationPositionX = this.Direction.x - this.Direction.y;
+            playerRotationPositionY = this.Direction.y + this.Direction.x;
         }
 
         playerRigid.MoveRotation(Quaternion.Euler(0f,
@@ -76,7 +76,7 @@ public class PlayerController : JoystickController
     }
     void PlayerMove()
     {
-        Vector3 normalized = new Vector3(this.Direction.x, 0, this.Direction.y).normalized;
+        Vector3 normalized = new Vector3(this.Direction.x+this.Direction.y, 0, this.Direction.y-this.Direction.x).normalized;
         movePosition = normalized * (Time.deltaTime * playerSpeed);
         playerRigid.velocity = movePosition;
         dashMovePosition = movePosition;
