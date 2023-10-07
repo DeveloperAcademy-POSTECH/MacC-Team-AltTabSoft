@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,13 +10,15 @@ public class PlayerController : JoystickController
 {
     [SerializeField] private GameObject playerObject;
     [SerializeField] private int playerSpeed = 500;
-
+    
     private Rigidbody playerRigid;
     private TrailRenderer playerTrailRenderer;
     private Animator playerAnim;
 
     private Vector3 movePosition;
     private Vector3 dashMovePosition;
+
+    private int dashTimerCount = 0;
 
     private float movementSpeed = 50f;
     private float jumpForce = 300;
@@ -26,6 +29,8 @@ public class PlayerController : JoystickController
     private float playerRotationPositionY;
 
     private PlayerState playerState = PlayerState.stop;
+
+    private bool isJoystickPositionGoEnd = false;
     
     protected override void Start()
     {
@@ -36,7 +41,7 @@ public class PlayerController : JoystickController
         base.Start();
         background.gameObject.SetActive(false);
     }
-
+    
     public override void OnPointerDown(PointerEventData eventData)
     {
         playerState = PlayerState.walk;
@@ -44,12 +49,40 @@ public class PlayerController : JoystickController
         background.gameObject.SetActive(true);
         base.OnPointerDown(eventData);
     }
+    
+    protected override void HandleInput(float magnitude, Vector2 normalised, Vector2 radius, Camera cam)
+    {
+        if (magnitude > deadZone)
+        {
+            if (magnitude > 1)
+            {
+                input = normalised;
+                isJoystickPositionGoEnd = true;
+            }
+        }
+        else
+        {
+            input = Vector2.zero;
+            isJoystickPositionGoEnd = false;
+        }
+        
+        Debug.Log(isJoystickPositionGoEnd);
+    }
 
     public override void OnPointerUp(PointerEventData eventData)
     {
         background.gameObject.SetActive(false);
         base.OnPointerUp(eventData);
-        playerState = PlayerState.stop;
+
+        if (isJoystickPositionGoEnd)
+        {
+            playerState = PlayerState.dash;
+            isJoystickPositionGoEnd = false;
+        }
+        else
+        {
+            playerState = PlayerState.stop;
+        }
     }
 
     void Update()
@@ -60,7 +93,23 @@ public class PlayerController : JoystickController
     private void FixedUpdate()
     {
         PlayerRotate();
-        PlayerMove();
+
+        switch (playerState)
+        {
+            case PlayerState.walk:
+            {
+                PlayerWalk();
+                break;
+            }
+            case PlayerState.dash:
+            {
+                PlayerDash();
+                break;
+            }
+            default:
+                PlayerStop();
+                break;
+        }
     }
 
     void PlayerRotate()
@@ -74,12 +123,29 @@ public class PlayerController : JoystickController
         playerRigid.MoveRotation(Quaternion.Euler(0f,
             Mathf.Atan2(playerRotationPositionX, playerRotationPositionY) * Mathf.Rad2Deg, 0f));
     }
-    void PlayerMove()
+
+    void PlayerStop()
+    {
+        playerRigid.velocity = new Vector3(0, 0, 0);
+    }
+    void PlayerWalk()
     {
         Vector3 normalized = new Vector3(this.Direction.x+this.Direction.y, 0, this.Direction.y-this.Direction.x).normalized;
         movePosition = normalized * (Time.deltaTime * playerSpeed);
         playerRigid.velocity = movePosition;
-        dashMovePosition = movePosition;
+        dashMovePosition = movePosition * 10;
+    }
+
+    void PlayerDash()
+    {
+            playerRigid.velocity = dashMovePosition;
+            dashTimerCount += 1;
+
+            if (dashTimerCount == 25)
+            {
+                dashTimerCount = 0;
+                playerState = PlayerState.stop;
+            }
     }
     private enum PlayerState {walk,dash,stop}
 }

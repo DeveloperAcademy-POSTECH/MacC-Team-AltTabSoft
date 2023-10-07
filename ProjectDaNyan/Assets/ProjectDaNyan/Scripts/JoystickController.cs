@@ -26,7 +26,7 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IDragHandl
     public bool SnapY { get { return snapY; } set { snapY = value; } }
 
     [SerializeField] private float handleRange = 1;
-    [SerializeField] private float deadZone = 0;
+    [SerializeField] protected float deadZone = 0;
     [SerializeField] private AxisOptions axisOptions = AxisOptions.Both;
     [SerializeField] private bool snapX = false;
     [SerializeField] private bool snapY = false;
@@ -38,7 +38,7 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Canvas canvas;
     private Camera cam;
 
-    private Vector2 input = Vector2.zero;
+    protected Vector2 input = Vector2.zero;
 
     protected virtual void Start()
     {
