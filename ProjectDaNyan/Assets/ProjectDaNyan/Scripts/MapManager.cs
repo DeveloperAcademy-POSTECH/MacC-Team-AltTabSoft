@@ -65,7 +65,8 @@ public class MapManager : MonoBehaviour
             float randomX = Random.Range(landArray[index].transform.position.x - halfSight, landArray[index].transform.position.x + halfSight);
             float randomZ = Random.Range(landArray[index].transform.position.z - halfSight, landArray[index].transform.position.z + halfSight); 
         
-            Vector3 randomPosition = new Vector3(randomX, 0, randomZ);
+            Vector3 randomPosition = new Vector3(randomX, 1, randomZ);
+
             // 선택한 위치에 상자 고양이 생성
             GameObject _boxCat = Instantiate(boxCat, randomPosition, Quaternion.identity);
             // 상자 고양이를 자식으로 설정하여 타일과 같이 이동하도록 함
@@ -77,7 +78,10 @@ public class MapManager : MonoBehaviour
     {
         foreach (Transform child in landArray[index].transform)
         {
-            Destroy(child.gameObject);
+            if (child.CompareTag("boxCat"))
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
 
