@@ -5868,13 +5868,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105652896}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.27, y: -0.59, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.59, z: 2.27}
   m_LocalScale: {x: 0.4, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2110752892}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!23 &1105652900
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6877,7 +6877,7 @@ Transform:
   m_GameObject: {fileID: 1280255055}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.66, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.66}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8318,13 +8318,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1561510270}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0.9, y: -0.59, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.59, z: 0.6}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2110752892}
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1561510274
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10931,11 +10931,11 @@ GameObject:
   - component: {fileID: 2110752891}
   - component: {fileID: 2110752890}
   - component: {fileID: 2110752889}
-  - component: {fileID: 2110752894}
   - component: {fileID: 2110752896}
   - component: {fileID: 2110752895}
   - component: {fileID: 2110752897}
   - component: {fileID: 2110752898}
+  - component: {fileID: 2110752899}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -11022,7 +11022,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110752888}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11031,34 +11031,7 @@ Transform:
   - {fileID: 1561510271}
   - {fileID: 1105652897}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
---- !u!54 &2110752894
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2110752888}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 36
-  m_CollisionDetection: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &2110752895
 TrailRenderer:
   serializedVersion: 3
@@ -11315,6 +11288,25 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2110752899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110752888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c359a4cdd85b45808a20af772612cbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObject: {fileID: 2110752888}
+  playerMoveDirectionObject: {fileID: 1561510270}
+  playerDashDirectionObject: {fileID: 1105652896}
+  playerSpeed: 10
+  dashSpeed: 10
+  dashLimitTic1SecondsTo50: 10
+  _joy: {fileID: 7012832760136418615}
 --- !u!1 &2111278070
 GameObject:
   m_ObjectHideFlags: 0
@@ -12646,7 +12638,7 @@ GameObject:
   - component: {fileID: 7012832760136418615}
   m_Layer: 5
   m_Name: Joystick
-  m_TagString: Untagged
+  m_TagString: JoyStick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13177,7 +13169,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4918716883965632476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c359a4cdd85b45808a20af772612cbc, type: 3}
+  m_Script: {fileID: 11500000, guid: ca6166403beb54a279819f1b092ac91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   handleRange: 2
@@ -13188,12 +13180,6 @@ MonoBehaviour:
   background: {fileID: 3123017990531454257}
   handle: {fileID: 5802322863740338619}
   playerState: 2
-  playerObject: {fileID: 2110752888}
-  playerMoveDirectionObject: {fileID: 1561510270}
-  playerDashDirectionObject: {fileID: 1105652896}
-  playerSpeed: 5
-  dashSpeed: 25
-  dashLimitTic1SecondsTo50: 12
 --- !u!4 &7080802051201456825 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6371379803092186221, guid: 22a534c383652e44ea94e98b3d8b2974, type: 3}
