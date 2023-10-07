@@ -9,8 +9,12 @@ using UnityEngine.EventSystems;
 public class PlayerController : JoystickController
 {
     [SerializeField] private GameObject playerObject;
+    [SerializeField] private GameObject playerMoveDirectionObject;
+    [SerializeField] private GameObject playerDashDirectionObject;
+    
     [SerializeField] private int playerSpeed = 50;
     [SerializeField] private int dashSpeed = 10;
+    [SerializeField] private int dashLimitTic1SecondsTo50 = 50; //50틱 = 1초, 대시가 지속될 시간 설정
     
     private Rigidbody playerRigid;
     private TrailRenderer playerTrailRenderer;
@@ -65,6 +69,10 @@ public class PlayerController : JoystickController
             {
                 input = normalised;
                 isJoystickPositionGoEnd = true;
+                
+                //대시 준비 시 대시 방향 표시
+                playerMoveDirectionObject.SetActive(false);
+                playerDashDirectionObject.SetActive(true);
             }
             else
             {
@@ -136,7 +144,11 @@ public class PlayerController : JoystickController
 
     void PlayerStop()
     {
-        playerRigid.velocity = new Vector3(0, 0, 0);
+        playerCharacterController.Move(new Vector3(0, 0, 0));
+        
+        //이동방향 및 대시방향 표시하는 오브젝트 끄기
+        playerMoveDirectionObject.SetActive(false);
+        playerDashDirectionObject.SetActive(false);
     }
     void PlayerWalk()
     {
@@ -144,6 +156,13 @@ public class PlayerController : JoystickController
         movePosition = normalized * (Time.deltaTime * playerSpeed);
         playerCharacterController.Move(movePosition);
         dashMovePosition = movePosition * dashSpeed;
+
+        //대시 준비 상태가 아니라면 현재 이동방향을 표시
+        if (!isJoystickPositionGoEnd)
+        {
+            playerMoveDirectionObject.SetActive(true);
+            playerDashDirectionObject.SetActive(false);
+        }
     }
 
     void PlayerDash()
@@ -151,11 +170,13 @@ public class PlayerController : JoystickController
             playerCharacterController.Move(dashMovePosition);
             dashTimerCount += 1;
 
-            if (dashTimerCount == 25)
+            if (dashTimerCount == dashLimitTic1SecondsTo50)
             {
                 dashTimerCount = 0;
                 playerState = PlayerState.stop;
             }
+            
+            playerDashDirectionObject.SetActive(false);
     }
     private enum PlayerState {walk,dash,stop}
 }
