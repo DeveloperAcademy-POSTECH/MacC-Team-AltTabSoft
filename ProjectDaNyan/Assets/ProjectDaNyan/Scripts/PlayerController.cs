@@ -59,11 +59,14 @@ public class PlayerController : JoystickController
                 input = normalised;
                 isJoystickPositionGoEnd = true;
             }
+            else
+            {
+                isJoystickPositionGoEnd = false;
+            }
         }
         else
         {
             input = Vector2.zero;
-            isJoystickPositionGoEnd = false;
         }
         
         Debug.Log(isJoystickPositionGoEnd);
@@ -114,7 +117,7 @@ public class PlayerController : JoystickController
 
     void PlayerRotate()
     {
-        if (playerState != PlayerState.stop)
+        if (playerState == PlayerState.walk)
         {
             playerRotationPositionX = this.Direction.x - this.Direction.y;
             playerRotationPositionY = this.Direction.y + this.Direction.x;
