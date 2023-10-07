@@ -1,10 +1,9 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace ProjectDaNyan.Scripts
+namespace ProjectDaNyan.Views.StageUI
 {
     public class GameObjectTouch : MonoBehaviour
     {
