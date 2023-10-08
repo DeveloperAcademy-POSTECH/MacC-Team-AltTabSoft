@@ -9,7 +9,7 @@ public class FloatingJoystick : Joystick
     {
         base.Start();
         background.gameObject.SetActive(false);
-        Debug.Log(false);
+        // Debug.Log(false);
     }
 
     public override void OnPointerDown(PointerEventData eventData)

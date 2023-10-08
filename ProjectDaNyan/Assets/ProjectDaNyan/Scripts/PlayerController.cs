@@ -1,21 +1,26 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class PlayerController : JoystickController
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject playerObject;
-    [SerializeField] private int playerSpeed = 500;
+    [SerializeField] private GameObject playerMoveDirectionObject;
+    [SerializeField] private GameObject playerDashDirectionObject;
+    
+    [SerializeField] private int playerSpeed = 10;
+    [SerializeField] private int dashSpeed = 10;
+    [SerializeField] private int dashLimitTic1SecondsTo50 = 10; //50틱 = 1초, 대시가 지속될 시간 설정
 
+    [SerializeField] private JoystickController _joy;
+    
     private Rigidbody playerRigid;
     private TrailRenderer playerTrailRenderer;
     private Animator playerAnim;
+    private CharacterController playerCharacterController;
 
     private Vector3 movePosition;
     private Vector3 dashMovePosition;
+    
+    private int dashTimerCount = 0;
 
     private float movementSpeed = 50f;
     private float jumpForce = 300;
@@ -24,62 +29,99 @@ public class PlayerController : JoystickController
 
     private float playerRotationPositionX;
     private float playerRotationPositionY;
+    private float _floatingPosition;
 
-    private PlayerState playerState = PlayerState.stop;
-    
-    protected override void Start()
+    void Start()
     {
-        playerRigid = playerObject.GetComponent<Rigidbody>();
         playerTrailRenderer = playerObject.GetComponent<TrailRenderer>();
         playerAnim = playerObject.GetComponent<Animator>();
+        playerCharacterController = playerObject.GetComponent<CharacterController>();
 
-        base.Start();
-        background.gameObject.SetActive(false);
-    }
+        // 게임이 시작될 때 캐릭터의 머리가 카메라를 바라보도록 회전각을 설정
+        playerRotationPositionX = 1;
+        playerRotationPositionY = -1;
 
-    public override void OnPointerDown(PointerEventData eventData)
-    {
-        playerState = PlayerState.walk;
-        background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
-        background.gameObject.SetActive(true);
-        base.OnPointerDown(eventData);
-    }
-
-    public override void OnPointerUp(PointerEventData eventData)
-    {
-        background.gameObject.SetActive(false);
-        base.OnPointerUp(eventData);
-        playerState = PlayerState.stop;
-    }
-
-    void Update()
-    {
-
+        _joy = GameObject.FindGameObjectWithTag("JoyStick").gameObject.GetComponent<JoystickController>();
     }
 
     private void FixedUpdate()
     {
         PlayerRotate();
-        PlayerMove();
+        PlayerFall();
+        
+        switch (_joy.playerState)
+        {
+            case JoystickController.PlayerState.walk:
+            {
+                PlayerWalk();
+                break;
+            }
+            case JoystickController.PlayerState.dash:
+            {
+                PlayerDash();
+                break;
+            }
+            default:
+                PlayerStop();
+                break;
+        }
     }
 
     void PlayerRotate()
     {
-        if (playerState != PlayerState.stop)
-        {
-            playerRotationPositionX = this.Direction.x;
-            playerRotationPositionY = this.Direction.y;
-        }
+        transform.LookAt(transform.position+movePosition+dashMovePosition);
+    }
 
-        playerRigid.MoveRotation(Quaternion.Euler(0f,
-            Mathf.Atan2(playerRotationPositionX, playerRotationPositionY) * Mathf.Rad2Deg, 0f));
-    }
-    void PlayerMove()
+    void PlayerStop()
     {
-        Vector3 normalized = new Vector3(this.Direction.x, 0, this.Direction.y).normalized;
-        movePosition = normalized * (Time.deltaTime * playerSpeed);
-        playerRigid.velocity = movePosition;
-        dashMovePosition = movePosition;
+        playerCharacterController.Move(new Vector3(0, _floatingPosition, 0));
+        
+        //이동방향 및 대시방향 표시하는 오브젝트 끄기
+        playerMoveDirectionObject.SetActive(false);
+        playerDashDirectionObject.SetActive(false);
     }
-    private enum PlayerState {walk,dash,stop}
+    void PlayerWalk()
+    {
+        Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
+        movePosition = normalized * (Time.deltaTime * playerSpeed);
+        playerCharacterController.Move(new Vector3(movePosition.x,_floatingPosition,movePosition.z));
+        dashMovePosition = movePosition * dashSpeed;
+        //대시 준비 상태가 아니라면 현재 이동방향을 표시
+        if (!_joy.isJoystickPositionGoEnd)
+        {
+            playerMoveDirectionObject.SetActive(true);
+            playerDashDirectionObject.SetActive(false);
+        }
+        else
+        {
+            playerMoveDirectionObject.SetActive(false);
+            playerDashDirectionObject.SetActive(true);
+        }
+    }
+
+    void PlayerDash()
+    {
+            playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
+            dashTimerCount += 1;
+            
+            if (dashTimerCount == dashLimitTic1SecondsTo50)
+            {
+                dashTimerCount = 0;
+                _joy.playerState = JoystickController.PlayerState.stop;
+            }
+            playerDashDirectionObject.SetActive(false);
+    }
+
+    void PlayerFall()
+    {
+        if (playerCharacterController.isGrounded == false)
+        {
+            _floatingPosition += -9.81f * Time.deltaTime;
+        }
+        else
+        {
+            _floatingPosition = 0f;
+        }
+    }
+    
 }
