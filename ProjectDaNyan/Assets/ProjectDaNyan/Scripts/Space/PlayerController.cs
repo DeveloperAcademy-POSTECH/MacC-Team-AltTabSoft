@@ -3,8 +3,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject playerObject;
-    [SerializeField] private GameObject playerMoveDirectionObject;
-    [SerializeField] private GameObject playerDashDirectionObject;
+    // [SerializeField] private GameObject playerMoveDirectionObject;
+    // [SerializeField] private GameObject playerDashDirectionObject;
     
     [SerializeField] private int playerSpeed = 10;
     [SerializeField] private int dashSpeed = 10;
@@ -77,8 +77,8 @@ public class PlayerController : MonoBehaviour
         playerCharacterController.Move(new Vector3(0, _floatingPosition, 0));
         
         //이동방향 및 대시방향 표시하는 오브젝트 끄기
-        playerMoveDirectionObject.SetActive(false);
-        playerDashDirectionObject.SetActive(false);
+        // playerMoveDirectionObject.SetActive(false);
+        // playerDashDirectionObject.SetActive(false);
     }
     void PlayerWalk()
     {
@@ -89,13 +89,13 @@ public class PlayerController : MonoBehaviour
         //대시 준비 상태가 아니라면 현재 이동방향을 표시
         if (!_joy.isJoystickPositionGoEnd)
         {
-            playerMoveDirectionObject.SetActive(true);
-            playerDashDirectionObject.SetActive(false);
+            // playerMoveDirectionObject.SetActive(true);
+            // playerDashDirectionObject.SetActive(false);
         }
         else
         {
-            playerMoveDirectionObject.SetActive(false);
-            playerDashDirectionObject.SetActive(true);
+            // playerMoveDirectionObject.SetActive(false);
+            // playerDashDirectionObject.SetActive(true);
         }
     }
 
@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
                 dashTimerCount = 0;
                 _joy.playerState = JoystickController.PlayerState.stop;
             }
-            playerDashDirectionObject.SetActive(false);
+            // playerDashDirectionObject.SetActive(false);
     }
 
     void PlayerFall()
