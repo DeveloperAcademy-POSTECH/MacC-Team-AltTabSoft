@@ -112,16 +112,12 @@ public class ShelterUIScript : MonoBehaviour
         // 무기 정보창 열기
         _buttonGotoWeaponInfoUI.onClick.AddListener(() =>
         {
-            _transitionCanvas.GetComponent<Canvas>().sortingOrder = -1;
-            _blackScreen.color = new Color(0f, 0f, 0f, 0.5f);
             _weaponInfoUI.SetActive(true);
         });
         
         // 무기 정보창 닫기
         _buttonGotoWeaponInfoUI.onClick.AddListener(() =>
         {
-            _transitionCanvas.GetComponent<Canvas>().sortingOrder = 1;
-            _blackScreen.color = new Color(0f, 0f, 0f, 0f);
             _weaponInfoUI.SetActive(true);
         });
         
