@@ -9,7 +9,8 @@ public class ShelterUIScript : MonoBehaviour
     private Button _buttonStage;
     private Button _buttonPlayer;
     private Button _buttonSkill;
-    private Button _buttonExitCharacterId;
+    private Button _buttonExitCharacterInfoUI;
+    private Button _buttonGotoWeaponInfoUI;
     
     private GameObject _staticCanvas;
     private GameObject _lowerBar;
@@ -20,7 +21,10 @@ public class ShelterUIScript : MonoBehaviour
     private Image _blackScreen;
     private GameObject _transitionCanvas;
     private RectMask2D _canvasSafeAreaRectMask2D;
-    private GameObject _characterId;
+    
+    private GameObject _characterInfoUI;
+    private GameObject _weaponInfoUI;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +35,13 @@ public class ShelterUIScript : MonoBehaviour
         _extraTop = GetComponentInChildren<ExtraTop>().gameObject;
         _extraBottom = GetComponentInChildren<ExtraBottom>().gameObject;
         _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive:true).gameObject.GetComponent<Image>();
+        
         _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
-        _characterId = GetComponentInChildren<CharacterID>(includeInactive: true).gameObject;
+        
+        // ChildrenUIs
+        _characterInfoUI = GetComponentInChildren<CharacterDescriptionUI>(includeInactive: true).gameObject;
+        _weaponInfoUI = GetComponentInChildren<WeaponDescriptionUI>(includeInactive: true).gameObject;
+        
 
         var buttons = GetComponentsInChildren<Button>(includeInactive: true);
         foreach (var button in buttons)
@@ -49,9 +58,12 @@ public class ShelterUIScript : MonoBehaviour
             } else if (buttonName == "Button_Player")
             {
                 _buttonPlayer = button;
-            } else if (buttonName == "Button_ExitCharacterId")
+            } else if (buttonName == "Button_Exit_CharacterUI")
             {
-                _buttonExitCharacterId = button;
+                _buttonExitCharacterInfoUI = button;
+            } else if (buttonName == "Button_GoTo_WeaponInfoUI")
+            {
+                _buttonGotoWeaponInfoUI = button;
             }
         }
         
@@ -86,15 +98,31 @@ public class ShelterUIScript : MonoBehaviour
         // 캐릭터 정보창 열기
         _buttonPlayer.onClick.AddListener(() =>
         {
-            _characterId.SetActive(true);
-            _buttonExitCharacterId.gameObject.SetActive(true);
+            _characterInfoUI.SetActive(true);
+            _buttonExitCharacterInfoUI.gameObject.SetActive(true);
         });
         
         // 캐릭터 정보탕 닫기
-        _buttonExitCharacterId.onClick.AddListener(() =>
+        _buttonExitCharacterInfoUI.onClick.AddListener(() =>
         {
-            _characterId.SetActive(false);
-            _buttonExitCharacterId.gameObject.SetActive(false);
+            _characterInfoUI.SetActive(false);
+            _buttonExitCharacterInfoUI.gameObject.SetActive(false);
+        });
+        
+        // 무기 정보창 열기
+        _buttonGotoWeaponInfoUI.onClick.AddListener(() =>
+        {
+            _transitionCanvas.GetComponent<Canvas>().sortingOrder = -1;
+            _blackScreen.color = new Color(0f, 0f, 0f, 0.5f);
+            _weaponInfoUI.SetActive(true);
+        });
+        
+        // 무기 정보창 닫기
+        _buttonGotoWeaponInfoUI.onClick.AddListener(() =>
+        {
+            _transitionCanvas.GetComponent<Canvas>().sortingOrder = 1;
+            _blackScreen.color = new Color(0f, 0f, 0f, 0f);
+            _weaponInfoUI.SetActive(true);
         });
         
         // 게임 종료
