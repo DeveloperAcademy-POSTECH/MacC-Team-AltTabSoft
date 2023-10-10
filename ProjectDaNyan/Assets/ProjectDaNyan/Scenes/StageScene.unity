@@ -1850,7 +1850,7 @@ Transform:
   m_GameObject: {fileID: 345560252}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.06975647, z: 0, w: 0.9975641}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3470,7 +3470,7 @@ Transform:
   m_GameObject: {fileID: 671158625}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.06975647, z: 0, w: 0.9975641}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8585,7 +8585,7 @@ Transform:
   m_GameObject: {fileID: 1650816202}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05, y: 0, z: 0.52}
+  m_LocalPosition: {x: 0.05, y: 0, z: 0.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9296,7 +9296,7 @@ Transform:
   m_GameObject: {fileID: 1783630732}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.13052616, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10595,7 +10595,7 @@ Transform:
   m_GameObject: {fileID: 2089665459}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.13052624, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11103,7 +11103,7 @@ MonoBehaviour:
   upgradedFireRate: 0.5
   laserFireRate: 5
   basicFireSpeed: 50
-  upgradedFireSpeed: 25
+  upgradedFireSpeed: 15
   bulletPosition: {fileID: 1650816203}
   upgradeBulletPositions:
   - {fileID: 1783630733}
@@ -11112,7 +11112,7 @@ MonoBehaviour:
   - {fileID: 345560253}
   basicBullet: {fileID: 4130157634977493257, guid: c69816360d369418c89415175c27620e, type: 3}
   upgradedBullet: {fileID: 4130157634977493257, guid: fb0ab43eb69c14d598780bfc9f2a6f46, type: 3}
-  laserBullet: {fileID: 0}
+  laserBullet: {fileID: 9190528761193402711, guid: f845ca21779d4447e950131e63c1e7ed, type: 3}
 --- !u!1 &2111278070
 GameObject:
   m_ObjectHideFlags: 0
@@ -11592,7 +11592,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52.15
+  m_fontSize: 52.1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

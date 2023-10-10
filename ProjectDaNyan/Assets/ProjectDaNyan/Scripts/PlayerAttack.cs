@@ -17,9 +17,12 @@ public class PlayerAttack : MonoBehaviour
     public GameObject upgradedBullet; //초월 공격 여러갈래로 퍼져나갈 총알들 프리펩
     public GameObject laserBullet; //레이저 관통 공격 오브젝트 프리
 
-    float basicfireDelay;
-    bool isFireReady;
-    bool isUpgrade = true;
+    float basicfireDelay; //기본 공격 딜레이 
+    float laserFireDelay; //레이저 딜레이 
+    bool isFireReady; 
+    bool isLaserReady;
+    bool isLaser = true; //레이저 공격을 입수했는지 여부 
+    bool isUpgrade = true; //초월 여부 
 
     private void Update()
     {
@@ -48,8 +51,18 @@ public class PlayerAttack : MonoBehaviour
                 basicfireDelay = 0;
             }
         }
+        if (isLaser)
+        {
+            isLaserReady = laserFireRate < laserFireDelay;
+            laserFireDelay += Time.deltaTime;
+            if (isLaserReady)
+            {
+                StartCoroutine("LaserAttack");
+                laserFireDelay = 0;
+            }
+        }
         
-        //StartCoroutine("LaserAttack");
+        
     }
 
     void MakeInstantBullet(GameObject bulletObject, Transform bulletObjectPosition, bool isGravity, float fireSpeed)
@@ -79,8 +92,9 @@ public class PlayerAttack : MonoBehaviour
 
     IEnumerator LaserAttack()
     {
-        yield return null;
-        //Laser 관통 공격 로직 
+        laserBullet.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        laserBullet.SetActive(false);
     }
     
 }
