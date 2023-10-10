@@ -11,7 +11,7 @@ public class ShelterUIScript : MonoBehaviour
     private Button _buttonSkill;
     private Button _buttonExitCharacterInfoUI;
     private Button _buttonGotoWeaponInfoUI;
-    private Button _buttonExitWeaponDescriptionUI;
+    private Button _buttonExitWeaponInfoUI;
     
     private GameObject _staticCanvas;
     private GameObject _lowerBar;
@@ -43,7 +43,6 @@ public class ShelterUIScript : MonoBehaviour
         _characterInfoUI = GetComponentInChildren<CharacterInfoUI>(includeInactive: true).gameObject;
         _weaponInfoUI = GetComponentInChildren<WeaponInfoUI>(includeInactive: true).gameObject;
         
-
         var buttons = GetComponentsInChildren<Button>(includeInactive: true);
         foreach (var button in buttons)
         {
@@ -64,9 +63,9 @@ public class ShelterUIScript : MonoBehaviour
             } else if (buttonName == "Button_GoTo_WeaponInfoUI")
             {
                 _buttonGotoWeaponInfoUI = button;
-            } else if (buttonName == "Button_ExitWeaponDescriptionUI")
+            } else if (buttonName == "Button_ExitWeaponInfoUI")
             {
-                _buttonExitWeaponDescriptionUI = button;
+                _buttonExitWeaponInfoUI = button;
             }
         }
         
@@ -119,9 +118,9 @@ public class ShelterUIScript : MonoBehaviour
         });
         
         // 무기 정보창 닫기
-        _buttonGotoWeaponInfoUI.onClick.AddListener(() =>
+        _buttonExitWeaponInfoUI.onClick.AddListener(() =>
         {
-            _weaponInfoUI.SetActive(true);
+            _weaponInfoUI.SetActive(false);
         });
         
         // 게임 종료
