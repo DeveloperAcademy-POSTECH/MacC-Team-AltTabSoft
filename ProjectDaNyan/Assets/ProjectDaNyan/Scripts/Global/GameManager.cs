@@ -8,11 +8,12 @@ public class GameManager : MonoBehaviour
     [Header("# Game Control")] public float gameTime;
 
     [Header("# Player Info")] public int collectedCatBox;
-
+    
     private void Awake()
     {
         Instance = this;
         _mapManager = FindObjectOfType<MapManager>();
+        Application.targetFrameRate = 120;
     }
 
     void Update()
