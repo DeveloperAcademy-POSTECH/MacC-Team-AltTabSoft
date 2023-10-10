@@ -11,6 +11,7 @@ public class ShelterUIScript : MonoBehaviour
     private Button _buttonSkill;
     private Button _buttonExitCharacterInfoUI;
     private Button _buttonGotoWeaponInfoUI;
+    private Button _buttonExitWeaponDescriptionUI;
     
     private GameObject _staticCanvas;
     private GameObject _lowerBar;
@@ -51,19 +52,21 @@ public class ShelterUIScript : MonoBehaviour
             if (buttonName == "Button_Exit")
             {
                 _buttonExit = button;
-            }
-            else if (buttonName == "Button_Stage")
+            } else if (buttonName == "Button_Stage")
             {
                 _buttonStage = button;
             } else if (buttonName == "Button_Player")
             {
                 _buttonPlayer = button;
-            } else if (buttonName == "Button_Exit_CharacterUI")
+            } else if (buttonName == "Button_ExitCharacterInfoUI")
             {
                 _buttonExitCharacterInfoUI = button;
             } else if (buttonName == "Button_GoTo_WeaponInfoUI")
             {
                 _buttonGotoWeaponInfoUI = button;
+            } else if (buttonName == "Button_ExitWeaponDescriptionUI")
+            {
+                _buttonExitWeaponDescriptionUI = button;
             }
         }
         
