@@ -23,10 +23,10 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        Use();
+        AllAttack();
     }
 
-    public void Use()
+    public void AllAttack()
     {
         if (isUpgrade == false)
         {
@@ -49,50 +49,30 @@ public class PlayerAttack : MonoBehaviour
             }
         }
         
-            
         //StartCoroutine("LaserAttack");
+    }
+
+    void MakeInstantBullet(GameObject bulletObject, Transform bulletObjectPosition, bool isGravity, float fireSpeed)
+    {
+        GameObject instantBasicBullet = Instantiate(bulletObject, bulletObjectPosition.position, Quaternion.identity);
+        Rigidbody basicBulletRigid = instantBasicBullet.GetComponent<Rigidbody>();
+        basicBulletRigid.useGravity = isGravity;
+        basicBulletRigid.velocity = bulletObjectPosition.forward * fireSpeed;
     }
 
     IEnumerator BasicAttack()
     {
-        //bulletPosition.LookAt(); //EnemyScanner로 스캔한 가까운 적 조
-        GameObject instantBasicBullet = Instantiate(basicBullet, bulletPosition.position, Quaternion.identity);
-        Rigidbody basicBulletRigid = instantBasicBullet.GetComponent<Rigidbody>();
-        basicBulletRigid.useGravity = false;
-        basicBulletRigid.velocity = bulletPosition.forward * basicFireSpeed;
-        //basicBulletRigid.velocity = new Vector3(1,0,2).normalized * basicFireSpeed;
+        MakeInstantBullet(basicBullet,bulletPosition,false,basicFireSpeed);
         yield return null;
-        //초월 공격 로
-
     }
 
     IEnumerator UpgradeAttack()
     {
-        GameObject instantBasicBullet = Instantiate(upgradedBullet, bulletPosition.position, Quaternion.identity);
-        Rigidbody upgradedBulletRigid = instantBasicBullet.GetComponent<Rigidbody>();
-        upgradedBulletRigid.useGravity = false;
-        upgradedBulletRigid.velocity = bulletPosition.forward * upgradedFireSpeed;
-
-        GameObject instantBasicBullet1 = Instantiate(upgradedBullet, upgradeBulletPositions[0].position, Quaternion.identity);
-        Rigidbody upgradedBulletRigid1 = instantBasicBullet1.GetComponent<Rigidbody>();
-        upgradedBulletRigid1.useGravity = false;
-        upgradedBulletRigid1.velocity = upgradeBulletPositions[0].forward * upgradedFireSpeed;
-
-        GameObject instantBasicBullet2 = Instantiate(upgradedBullet, upgradeBulletPositions[1].position, Quaternion.identity);
-        Rigidbody upgradedBulletRigid2 = instantBasicBullet2.GetComponent<Rigidbody>();
-        upgradedBulletRigid2.useGravity = false;
-        upgradedBulletRigid2.velocity = upgradeBulletPositions[1].forward * upgradedFireSpeed;
-
-        GameObject instantBasicBullet3 = Instantiate(upgradedBullet, upgradeBulletPositions[2].position, Quaternion.identity);
-        Rigidbody upgradedBulletRigid3 = instantBasicBullet3.GetComponent<Rigidbody>();
-        upgradedBulletRigid3.useGravity = false;
-        upgradedBulletRigid3.velocity = upgradeBulletPositions[2].forward * upgradedFireSpeed;
-
-        GameObject instantBasicBullet4 = Instantiate(upgradedBullet, upgradeBulletPositions[3].position, Quaternion.identity);
-        Rigidbody upgradedBulletRigid4 = instantBasicBullet4.GetComponent<Rigidbody>();
-        upgradedBulletRigid4.useGravity = false;
-        upgradedBulletRigid4.velocity = upgradeBulletPositions[3].forward * upgradedFireSpeed;
-
+        MakeInstantBullet(upgradedBullet, bulletPosition, false, upgradedFireSpeed);
+        MakeInstantBullet(upgradedBullet, upgradeBulletPositions[0], false, upgradedFireSpeed);
+        MakeInstantBullet(upgradedBullet, upgradeBulletPositions[1], false, upgradedFireSpeed);
+        MakeInstantBullet(upgradedBullet, upgradeBulletPositions[2], false, upgradedFireSpeed);
+        MakeInstantBullet(upgradedBullet, upgradeBulletPositions[3], false, upgradedFireSpeed);
         yield return null;
 
     }

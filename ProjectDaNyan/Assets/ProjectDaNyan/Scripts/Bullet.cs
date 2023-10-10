@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Enemy" && type != Type.Piercing) //관통 타입이 아니면 적에 맞을 경우 총알 오브젝트 사라짐
+        if (collision.gameObject.tag == "Enemy" && type != Type.Piercing) //관통 타입이 아니면 적에 맞을 경우 총알 오브젝트 사라
         {
             //적에 닿았을 때 로직
             Destroy(gameObject);
@@ -28,6 +28,4 @@ public class Bullet : MonoBehaviour
         }
 
     }
-
-    
 }
