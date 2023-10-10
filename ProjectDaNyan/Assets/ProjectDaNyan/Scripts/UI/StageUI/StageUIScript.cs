@@ -7,6 +7,7 @@ namespace ProjectDaNyan.Views.StageUI
 {
     public class GameObjectTouch : MonoBehaviour
     {
+        
         private Button _buttonGoToShelter;
         private Button _buttonPause;
         private GameObject _pauseUI;
@@ -15,7 +16,8 @@ namespace ProjectDaNyan.Views.StageUI
         
         private Image _blackScreen;
         private GameObject _transitionCanvas;
-        
+        private GameObject _stageClearUI;
+
         private void Awake()
         {
             _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
@@ -25,7 +27,8 @@ namespace ProjectDaNyan.Views.StageUI
         // Start is called before the first frame update
         void Start()
         {
-            _pauseUI = transform.Find("PauseCanvas").gameObject;
+            _pauseUI = transform.Find("PauseUI").gameObject;
+            _stageClearUI = transform.Find("StageClearUI").gameObject;
             _staticCanvas = transform.Find("StaticCanvas").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive:true).gameObject.GetComponent<Image>();
         
@@ -68,6 +71,14 @@ namespace ProjectDaNyan.Views.StageUI
             {
                 _transitionCanvas.SetActive(false);
             });
+        }
+
+        private void Update()
+        {
+            if (GameManager.Instance.isGameOver)
+            {
+                _stageClearUI.SetActive(true);
+            }
         }
     }
 }
