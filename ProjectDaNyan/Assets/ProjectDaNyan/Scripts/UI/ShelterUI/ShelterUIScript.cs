@@ -40,8 +40,8 @@ public class ShelterUIScript : MonoBehaviour
         _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
         
         // ChildrenUIs
-        _characterInfoUI = GetComponentInChildren<CharacterDescriptionUI>(includeInactive: true).gameObject;
-        _weaponInfoUI = GetComponentInChildren<WeaponDescriptionUI>(includeInactive: true).gameObject;
+        _characterInfoUI = GetComponentInChildren<CharacterInfoUI>(includeInactive: true).gameObject;
+        _weaponInfoUI = GetComponentInChildren<WeaponInfoUI>(includeInactive: true).gameObject;
         
 
         var buttons = GetComponentsInChildren<Button>(includeInactive: true);
