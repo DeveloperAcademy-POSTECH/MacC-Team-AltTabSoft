@@ -5,17 +5,19 @@ using UnityEngine.UI;
 
 namespace ProjectDaNyan.Views.StageUI
 {
-    public class GameObjectTouch : MonoBehaviour
+    public class StageUIScript : MonoBehaviour
     {
+        
         private Button _buttonGoToShelter;
         private Button _buttonPause;
         private GameObject _pauseUI;
-        private GameObject _staticCanvas;
+        private GameObject _stageMainUI;
         private Button _buttonContinueStage;
         
         private Image _blackScreen;
         private GameObject _transitionCanvas;
-        
+        private GameObject _stageClearUI;
+
         private void Awake()
         {
             _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
@@ -25,8 +27,9 @@ namespace ProjectDaNyan.Views.StageUI
         // Start is called before the first frame update
         void Start()
         {
-            _pauseUI = transform.Find("PauseCanvas").gameObject;
-            _staticCanvas = transform.Find("StaticCanvas").gameObject;
+            _pauseUI = transform.Find("PauseUI").gameObject;
+            _stageClearUI = transform.Find("StageClearUI").gameObject;
+            _stageMainUI = transform.Find("StageMainUI").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive:true).gameObject.GetComponent<Image>();
         
             var buttons = GetComponentsInChildren<Button>(includeInactive: true);
@@ -54,13 +57,13 @@ namespace ProjectDaNyan.Views.StageUI
             _buttonPause.onClick.AddListener(() =>
             {
                 _pauseUI.SetActive(true);
-                _staticCanvas.SetActive(false);
+                _stageMainUI.SetActive(false);
             });
             
             _buttonContinueStage.onClick.AddListener(() =>
             {
                 _pauseUI.SetActive(false);
-                _staticCanvas.SetActive(true);
+                _stageMainUI.SetActive(true);
             });
 
             //화면 불러올 때
@@ -68,6 +71,14 @@ namespace ProjectDaNyan.Views.StageUI
             {
                 _transitionCanvas.SetActive(false);
             });
+        }
+
+        private void Update()
+        {
+            if (GameManager.Instance.isGameOver)
+            {
+                _stageClearUI.SetActive(true);
+            }
         }
     }
 }
