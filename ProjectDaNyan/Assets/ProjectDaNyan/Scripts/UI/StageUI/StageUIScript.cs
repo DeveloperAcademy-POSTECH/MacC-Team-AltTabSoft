@@ -81,5 +81,13 @@ namespace ProjectDaNyan.Views.StageUI
                 _stageClearUI.SetActive(true);
             }
         }
+
+        private void Update()
+        {
+            if (GameManager.Instance.isGameOver)
+            {
+                _stageClearUI.SetActive(true);
+            }
+        }
     }
 }
