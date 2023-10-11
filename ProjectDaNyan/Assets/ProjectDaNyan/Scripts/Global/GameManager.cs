@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     {
         gameTime += Time.deltaTime;
         collectedCatBox = _mapManager.collectedCats;
-        if (gameTime >= 2f)
+        if (gameTime >= 120f) //(테스트용, 2분 뒤 GameOver)
         {
             isGameOver = true;
         } 

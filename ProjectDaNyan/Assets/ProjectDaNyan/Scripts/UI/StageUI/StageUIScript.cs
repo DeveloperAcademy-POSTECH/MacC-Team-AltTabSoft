@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 namespace ProjectDaNyan.Views.StageUI
 {
-    public class GameObjectTouch : MonoBehaviour
+    public class StageUIScript : MonoBehaviour
     {
         
         private Button _buttonGoToShelter;
         private Button _buttonPause;
         private GameObject _pauseUI;
-        private GameObject _staticCanvas;
+        private GameObject _stageMainUI;
         private Button _buttonContinueStage;
         
         private Image _blackScreen;
@@ -29,7 +29,7 @@ namespace ProjectDaNyan.Views.StageUI
         {
             _pauseUI = transform.Find("PauseUI").gameObject;
             _stageClearUI = transform.Find("StageClearUI").gameObject;
-            _staticCanvas = transform.Find("StaticCanvas").gameObject;
+            _stageMainUI = transform.Find("StageMainUI").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive:true).gameObject.GetComponent<Image>();
         
             var buttons = GetComponentsInChildren<Button>(includeInactive: true);
@@ -57,13 +57,13 @@ namespace ProjectDaNyan.Views.StageUI
             _buttonPause.onClick.AddListener(() =>
             {
                 _pauseUI.SetActive(true);
-                _staticCanvas.SetActive(false);
+                _stageMainUI.SetActive(false);
             });
             
             _buttonContinueStage.onClick.AddListener(() =>
             {
                 _pauseUI.SetActive(false);
-                _staticCanvas.SetActive(true);
+                _stageMainUI.SetActive(true);
             });
 
             //화면 불러올 때
