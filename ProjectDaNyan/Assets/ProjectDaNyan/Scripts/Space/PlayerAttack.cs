@@ -21,8 +21,15 @@ public class PlayerAttack : MonoBehaviour
     float laserFireDelay; //레이저 딜레이 
     bool isFireReady; 
     bool isLaserReady;
-    bool isLaser = true; //레이저 공격을 입수했는지 여부 
-    bool isUpgrade = true; //초월 여부 
+    bool isLaser = false; //레이저 공격을 입수했는지 여부 
+    bool isUpgrade = true; //초월 여부
+
+    EneymyScanner scanner; //가까운 적 탐지 스크립트 
+
+    private void Awake()
+    {
+        scanner = GetComponent<EneymyScanner>();
+    }
 
     private void Update()
     {
@@ -33,6 +40,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (isUpgrade == false)
         {
+            bulletPosition.LookAt(scanner.nearCollider.transform);
             isFireReady = basicFireRate < basicfireDelay;
             basicfireDelay += Time.deltaTime;
             if (isFireReady)
@@ -87,6 +95,16 @@ public class PlayerAttack : MonoBehaviour
         MakeInstantBullet(upgradedBullet, upgradeBulletPositions[2], false, upgradedFireSpeed);
         MakeInstantBullet(upgradedBullet, upgradeBulletPositions[3], false, upgradedFireSpeed);
         yield return null;
+
+        //bulletPosition.Rotate(new Vector3(0, Random.Range(-15f, 15f), 0));
+        //upgradeBulletPositions[2].Rotate(new Vector3(0, Random.Range(-15f, 15f), 0));
+        //upgradeBulletPositions[3].Rotate(new Vector3(0, Random.Range(-15f, 15f), 0));
+        //MakeInstantBullet(upgradedBullet, bulletPosition, false, upgradedFireSpeed);
+        //MakeInstantBullet(upgradedBullet, upgradeBulletPositions[2], false, upgradedFireSpeed);
+        //MakeInstantBullet(upgradedBullet, upgradeBulletPositions[3], false, upgradedFireSpeed);
+        //bulletPosition.localRotation = Quaternion.Euler(0, 0, 0);
+        //upgradeBulletPositions[2].localRotation = Quaternion.Euler(0, 0, 0);
+        //upgradeBulletPositions[3].localRotation = Quaternion.Euler(0, 0, 0);
 
     }
 

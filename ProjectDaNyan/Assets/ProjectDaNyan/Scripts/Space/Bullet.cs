@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         if (type != Type.Laser)
-            Destroy(gameObject, 2f);
+            Destroy(gameObject, 1f);
     }
 
     void OnCollisionEnter(Collision collision)
