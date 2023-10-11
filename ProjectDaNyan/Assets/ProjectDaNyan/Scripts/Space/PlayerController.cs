@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
                 PlayerDash();
                 break;
             }
+            case JoystickController.PlayerState.onTheRock:
+                break;
             default:
                 PlayerStop();
                 break;
@@ -86,7 +88,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
         movePosition = normalized * (Time.deltaTime * playerSpeed);
-        playerCharacterController.Move(new Vector3(movePosition.x,_floatingPosition,movePosition.z));
+        playerCharacterController.Move(new Vector3(movePosition.x,0,movePosition.z));
         dashMovePosition = movePosition * dashSpeed;
         //대시 준비 상태가 아니라면 현재 이동방향을 표시
         if (!_joy.isJoystickPositionGoEnd)
@@ -128,8 +130,17 @@ public class PlayerController : MonoBehaviour
 
     void playerWallReflection(Collision wall)
     {
+        dashTimerCount = 0;
         Vector3 normal = wall.contacts[0].normal; //법선벡터
+        playerCharacterController.Move(new Vector3(-dashMovePosition.x,0,-dashMovePosition.z));
         dashMovePosition = Vector3.Reflect(dashMovePosition, normal);
+    }
+
+    void playerMoveOnTheRock(Collision rock)
+    {
+        _joy.playerState = JoystickController.PlayerState.onTheRock;
+        _floatingPosition = rock.transform.position.y + 5.1f;
+        transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y,rock.transform.position.z));
     }
 
     //충돌 시 뚫고 나갈 수 없는 물체에 닿았을 때 작동 (벽, 돌 등)
@@ -137,6 +148,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Wall")
         {
+            Debug.Log("Wall");
             if (_joy.playerState == JoystickController.PlayerState.dash)
             {
                 playerWallReflection(other);
@@ -144,15 +156,13 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.tag == "Rock")
         {
-            Debug.Log("HMM");
-            _joy.playerState = JoystickController.PlayerState.stop;
-            _floatingPosition = other.transform.position.y + 5.1f;
-            playerCharacterController.Move(new Vector3(other.transform.position.x,other.transform.position.y+5.1f,other.transform.position.z));
-            if (_joy.playerState == JoystickController.PlayerState.dash)
+            Debug.Log("Rock");
+            if (_joy.playerState != JoystickController.PlayerState.onTheRock)
             {
-                transform.position = new Vector3(other.transform.position.x,other.transform.position.y+5.1f,other.transform.position.z);
-                _joy.playerState = JoystickController.PlayerState.stop;
-                PlayerStop();
+                if (_joy.playerState == JoystickController.PlayerState.dash)
+                {
+                    playerMoveOnTheRock(other);
+                }
             }
         }
     }
@@ -163,19 +173,22 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Wall")
         {
+            Debug.Log("In Wall");
             if (_joy.playerState == JoystickController.PlayerState.dash)
             {
-                playerWallReflection(other);
+                dashTimerCount = 0;
+                playerCharacterController.Move(new Vector3(-dashMovePosition.x,0,-dashMovePosition.z));
+                dashMovePosition = new Vector3(-dashMovePosition.x, 0, -dashMovePosition.z);
             }
         }
         else if (other.gameObject.tag == "Rock")
         {
-            Debug.Log("HMM");
-            if (_joy.playerState == JoystickController.PlayerState.dash)
+            if (_joy.playerState != JoystickController.PlayerState.onTheRock)
             {
-                _joy.playerState = JoystickController.PlayerState.stop;
-                PlayerStop();
-                transform.position = new Vector3(other.transform.position.x+200f,other.transform.position.y+2f,other.transform.position.z+300f);
+                if (_joy.playerState == JoystickController.PlayerState.dash)
+                {
+                    
+                }
             }
         }
     }
