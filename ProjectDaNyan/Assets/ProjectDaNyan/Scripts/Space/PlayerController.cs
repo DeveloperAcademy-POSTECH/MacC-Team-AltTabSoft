@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
     [SerializeField] private GameObject playerObject;
     [SerializeField] private GameObject playerMoveDirectionObject;
     [SerializeField] private GameObject playerDashDirectionObject;
@@ -123,5 +125,58 @@ public class PlayerController : MonoBehaviour
             _floatingPosition = 0f;
         }
     }
+
+    void playerWallReflection(Collision wall)
+    {
+        Vector3 normal = wall.contacts[0].normal; //법선벡터
+        dashMovePosition = Vector3.Reflect(dashMovePosition, normal);
+    }
+
+    //충돌 시 뚫고 나갈 수 없는 물체에 닿았을 때 작동 (벽, 돌 등)
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Wall")
+        {
+            if (_joy.playerState == JoystickController.PlayerState.dash)
+            {
+                playerWallReflection(other);
+            }
+        }
+        else if (other.gameObject.tag == "Rock")
+        {
+            Debug.Log("HMM");
+            _joy.playerState = JoystickController.PlayerState.stop;
+            _floatingPosition = other.transform.position.y + 5.1f;
+            playerCharacterController.Move(new Vector3(other.transform.position.x,other.transform.position.y+5.1f,other.transform.position.z));
+            if (_joy.playerState == JoystickController.PlayerState.dash)
+            {
+                transform.position = new Vector3(other.transform.position.x,other.transform.position.y+5.1f,other.transform.position.z);
+                _joy.playerState = JoystickController.PlayerState.stop;
+                PlayerStop();
+            }
+        }
+    }
     
+    //충돌 시 뚫고 나갈 수 없는 물체에 닿은 상태를 유지할 때 작동 (벽, 돌 등)
+    //이게 없으면 캐릭터가 벽이랑 붙은 상태에서 벽으로 대시할 때 대시 판정이 발생하지 않음
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.tag == "Wall")
+        {
+            if (_joy.playerState == JoystickController.PlayerState.dash)
+            {
+                playerWallReflection(other);
+            }
+        }
+        else if (other.gameObject.tag == "Rock")
+        {
+            Debug.Log("HMM");
+            if (_joy.playerState == JoystickController.PlayerState.dash)
+            {
+                _joy.playerState = JoystickController.PlayerState.stop;
+                PlayerStop();
+                transform.position = new Vector3(other.transform.position.x+200f,other.transform.position.y+2f,other.transform.position.z+300f);
+            }
+        }
+    }
 }

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class JoystickController : FloatingJoystick
 {
-    public enum PlayerState {walk,dash,stop}
+    public enum PlayerState {walk,dash,stop,onTheRock}
     public PlayerState playerState = PlayerState.stop;
     protected internal bool isJoystickPositionGoEnd = false;
     
