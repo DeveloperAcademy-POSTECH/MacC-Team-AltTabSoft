@@ -43,32 +43,6 @@ public class ShelterUIScript : MonoBehaviour
         _characterInfoUI = GetComponentInChildren<CharacterInfoUI>(includeInactive: true).gameObject;
         _weaponInfoUI = GetComponentInChildren<WeaponInfoUI>(includeInactive: true).gameObject;
         
-        var buttons = GetComponentsInChildren<Button>(includeInactive: true);
-        foreach (var button in buttons)
-        {
-            // Debug.Log(button.transform.name);
-            var buttonName = button.transform.name;
-            if (buttonName == "Button_Exit")
-            {
-                _buttonExit = button;
-            } else if (buttonName == "Button_Stage")
-            {
-                _buttonStage = button;
-            } else if (buttonName == "Button_Player")
-            {
-                _buttonPlayer = button;
-            } else if (buttonName == "Button_ExitCharacterInfoUI")
-            {
-                _buttonExitCharacterInfoUI = button;
-            } else if (buttonName == "Button_GoTo_WeaponInfoUI")
-            {
-                _buttonGotoWeaponInfoUI = button;
-            } else if (buttonName == "Button_ExitWeaponInfoUI")
-            {
-                _buttonExitWeaponInfoUI = button;
-            }
-        }
-        
         //화면 불러올 때
         _transitionCanvas.SetActive(true);
         _blackScreen.color =  new Color(_blackScreen.color.r, _blackScreen.color.g, _blackScreen.color.b, 1f);
@@ -76,54 +50,67 @@ public class ShelterUIScript : MonoBehaviour
         {
             _transitionCanvas.SetActive(false);
         });
-
-        _buttonStage.onClick.AddListener(() =>
-        { 
-            float endValue = 600f;  
-            float duration = 0.5f;
-            
-            //화면 암전
-            _transitionCanvas.SetActive(true);
-            _blackScreen.DOFade(1f, duration*0.8f);
-            
-            //UI 바깥으로 이동
-            _canvasSafeAreaRectMask2D.enabled = false;
-            _extraTop.transform.DOMoveY(_extraTop.transform.position.y + endValue, duration);
-            _extraBottom.transform.DOMoveY(_extraBottom.transform.position.y - endValue, duration);
-            _upperBar.transform.DOMoveY(_upperBar.transform.position.y + endValue, duration);
-            _lowerBox.transform.DOMoveY(_lowerBox.transform.position.y - endValue, duration).OnComplete(() =>
+        
+        //각 버튼별 역할 할당
+        var buttons = GetComponentsInChildren<Button>(includeInactive: true);
+        foreach (var button in buttons)
+        {
+            // Debug.Log(button.transform.name);
+            var buttonName = button.transform.name;
+            if (buttonName == "Button_Exit") //게임 종료
             {
-                SceneManager.LoadScene("StageScene");
-            });
-        });
-        
-        // 캐릭터 정보창 열기
-        _buttonPlayer.onClick.AddListener(() =>
-        {
-            _characterInfoUI.SetActive(true);
-            _buttonExitCharacterInfoUI.gameObject.SetActive(true);
-        });
-        
-        // 캐릭터 정보탕 닫기
-        _buttonExitCharacterInfoUI.onClick.AddListener(() =>
-        {
-            _characterInfoUI.SetActive(false);
-            _buttonExitCharacterInfoUI.gameObject.SetActive(false);
-        });
-        
-        // 무기 정보창 열기
-        _buttonGotoWeaponInfoUI.onClick.AddListener(() =>
-        {
-            _weaponInfoUI.SetActive(true);
-        });
-        
-        // 무기 정보창 닫기
-        _buttonExitWeaponInfoUI.onClick.AddListener(() =>
-        {
-            _weaponInfoUI.SetActive(false);
-        });
-        
-        // 게임 종료
-        _buttonExit.onClick.AddListener(() => { Application.Quit(); });
+                button.onClick.AddListener(() =>
+                {
+                    Application.Quit();
+                });
+            } else if (buttonName == "Button_Stage")
+            {
+                button.onClick.AddListener(() =>
+                { 
+                    float endValue = 600f;  
+                    float duration = 0.5f;
+            
+                    //화면 암전
+                    _transitionCanvas.SetActive(true);
+                    _blackScreen.DOFade(1f, duration*0.8f);
+            
+                    //UI 바깥으로 이동
+                    _canvasSafeAreaRectMask2D.enabled = false;
+                    _extraTop.transform.DOMoveY(_extraTop.transform.position.y + endValue, duration);
+                    _extraBottom.transform.DOMoveY(_extraBottom.transform.position.y - endValue, duration);
+                    _upperBar.transform.DOMoveY(_upperBar.transform.position.y + endValue, duration);
+                    _lowerBox.transform.DOMoveY(_lowerBox.transform.position.y - endValue, duration).OnComplete(() =>
+                    {
+                        SceneManager.LoadScene("StageScene");
+                    });
+                });
+            } else if (buttonName == "Button_Player") // 캐릭터 정보창 열기
+            {
+                button.onClick.AddListener(() =>
+                {
+                    _characterInfoUI.SetActive(true);
+                    _buttonExitCharacterInfoUI.gameObject.SetActive(true);
+                });
+            } else if (buttonName == "Button_ExitCharacterInfoUI") // 캐릭터 정보탕 닫기
+            {
+                button.onClick.AddListener(() =>
+                {
+                    _characterInfoUI.SetActive(false);
+                    _buttonExitCharacterInfoUI.gameObject.SetActive(false);
+                });
+            } else if (buttonName == "Button_GoTo_WeaponInfoUI")
+            {
+                button.onClick.AddListener(() =>
+                {
+                    _weaponInfoUI.SetActive(true);
+                });
+            } else if (buttonName == "Button_ExitWeaponInfoUI")
+            {
+                button.onClick.AddListener(() =>
+                {
+                    _weaponInfoUI.SetActive(false);
+                });
+            }
+        }
     }
 }
