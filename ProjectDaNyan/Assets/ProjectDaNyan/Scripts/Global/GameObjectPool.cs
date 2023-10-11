@@ -18,7 +18,7 @@ public class GameObjectPool : MonoBehaviour
     void Awake()
     {
         pool = new ObjectPool<GameObject>(CreateNewObject, BringObjectFromPool,
-            ReturnObjectToPool, DestroyObjectFromPool, true, 3, 5);
+            ReturnObjectToPool, DestroyObjectFromPool, true, 100, 500);
     }
 
      GameObject CreateNewObject()

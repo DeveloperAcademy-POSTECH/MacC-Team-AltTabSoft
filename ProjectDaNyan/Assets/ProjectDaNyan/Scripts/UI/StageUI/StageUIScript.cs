@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ProjectDaNyan.Views.StageUI
 {
-    public class GameObjectTouch : MonoBehaviour
+    public class StageUIScript : MonoBehaviour
     {
         private Button _buttonGoToShelter;
         private Button _buttonPause;
@@ -15,7 +15,11 @@ namespace ProjectDaNyan.Views.StageUI
         
         private Image _blackScreen;
         private GameObject _transitionCanvas;
-        
+
+
+        float currentGameTime;
+
+
         private void Awake()
         {
             _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
@@ -25,6 +29,9 @@ namespace ProjectDaNyan.Views.StageUI
         // Start is called before the first frame update
         void Start()
         {
+            GameManager1.Inst.delegateTimeCount += currentTIme;
+
+
             _pauseUI = transform.Find("PauseCanvas").gameObject;
             _staticCanvas = transform.Find("StaticCanvas").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive:true).gameObject.GetComponent<Image>();
@@ -68,6 +75,13 @@ namespace ProjectDaNyan.Views.StageUI
             {
                 _transitionCanvas.SetActive(false);
             });
+        }
+
+
+
+        void currentTIme(float t)
+        {
+            currentGameTime = t;
         }
     }
 }
