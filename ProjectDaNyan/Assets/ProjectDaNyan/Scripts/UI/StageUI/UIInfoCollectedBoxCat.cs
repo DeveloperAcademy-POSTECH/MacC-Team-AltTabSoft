@@ -12,6 +12,6 @@ public class UIInfoCollectedBoxCat: MonoBehaviour
 
     private void LateUpdate()
     {
-        _text.text = GameManager.Instance.collectedCatBox.ToString();
+        _text.text = GameManager.Inst.collectedCatBox.ToString();
     }
 }

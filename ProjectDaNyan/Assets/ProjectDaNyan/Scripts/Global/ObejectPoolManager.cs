@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-public class ObejectPoolManager : MonoBehaviour
+public class ObjectPoolManager : MonoBehaviour
 {
     //  dictionary 
     static Dictionary<string, GameObject> gameObjectPools = new Dictionary<string, GameObject>();
 
     [SerializeField] GameObject gameObjectPool;
 
-    private static ObejectPoolManager inst = null;
-    public static ObejectPoolManager Inst { get { if (inst == null) { return null; } return inst; } }
+    private static ObjectPoolManager inst = null;
+    public static ObjectPoolManager Inst { get { if (inst == null) { return null; } return inst; } }
 
     // rename pool name  
     string pattern = @"Prefab";
 
     private void Awake()
     {
+        // deactived 
         // Singleton Pattern 
         #region Singleton Pattern
         if (inst == null)
         {
-            inst = FindAnyObjectByType<ObejectPoolManager>();
+            inst = FindAnyObjectByType<ObjectPoolManager>();
 
             if (inst == null)
             {
@@ -36,12 +37,16 @@ public class ObejectPoolManager : MonoBehaviour
             Destroy(this.gameObject);
         }
         #endregion
-        //// Singleton Pattern
+        // Singleton Pattern
+
+        inst = this;
     }
 
 
     public GameObject BringObject(GameObject targetObject)
     {
+        Debug.Log("bring object");
+
         string key = targetObject.name.ToString();
 
         GameObject newObject = null;
@@ -78,6 +83,9 @@ public class ObejectPoolManager : MonoBehaviour
     // create new pool
     void createNewPool(GameObject targetObject)
     {
+
+        Debug.Log("create pool");
+
         string key = targetObject.name.ToString();
 
         // create new pool 
@@ -88,4 +96,6 @@ public class ObejectPoolManager : MonoBehaviour
         // add pool to dictionary 
         gameObjectPools.Add(key, newPool);
     }
+
+
 }
