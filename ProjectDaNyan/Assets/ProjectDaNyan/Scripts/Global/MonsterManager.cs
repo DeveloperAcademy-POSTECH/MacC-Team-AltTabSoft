@@ -53,8 +53,9 @@ public class MonsterManager : MonoBehaviour
         myMonsterNormalTypeFactory = GetComponentInChildren<MonsterNormalTypeFactory>();
 
 
-        GameManager1.Inst.delegateTimeCount += OnCalledEverySecond;
-        GameManager1.Inst.delegateGameState += checkGameState;
+
+        GameManager.Inst.delegateTimeCount += OnCalledEverySecond;
+        GameManager.Inst.delegateGameState += checkGameState;
     }
 
 
