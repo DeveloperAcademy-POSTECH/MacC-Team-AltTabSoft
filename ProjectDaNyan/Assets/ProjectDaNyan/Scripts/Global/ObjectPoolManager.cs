@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-public class ObejectPoolManager : MonoBehaviour
+public class ObjectPoolManager : MonoBehaviour
 {
     //  dictionary 
     static Dictionary<string, GameObject> gameObjectPools = new Dictionary<string, GameObject>();
 
     [SerializeField] GameObject gameObjectPool;
 
-    private static ObejectPoolManager inst = null;
-    public static ObejectPoolManager Inst { get { if (inst == null) { return null; } return inst; } }
+    private static ObjectPoolManager inst = null;
+    public static ObjectPoolManager Inst { get { if (inst == null) { return null; } return inst; } }
 
     // rename pool name  
     string pattern = @"Prefab";
@@ -22,7 +22,7 @@ public class ObejectPoolManager : MonoBehaviour
         #region Singleton Pattern
         if (inst == null)
         {
-            inst = FindAnyObjectByType<ObejectPoolManager>();
+            inst = FindAnyObjectByType<ObjectPoolManager>();
 
             if (inst == null)
             {

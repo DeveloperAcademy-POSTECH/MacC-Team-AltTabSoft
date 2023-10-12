@@ -29,17 +29,17 @@ public class MonsterNormalTypeFactory : MonsterFactory<Monster_Normal>
         {
             case Monster_Normal.SHORT_RANGE:
                 // bring object from pool
-                ObejectPoolManager.Inst.BringObject(monsterShortRangePrefab);
+                ObjectPoolManager.Inst.BringObject(monsterShortRangePrefab);
                 break;
 
             case Monster_Normal.LONG_RANGE:
                 // bring object from pool
-                ObejectPoolManager.Inst.BringObject(monsterLongRangePrefab);
+                ObjectPoolManager.Inst.BringObject(monsterLongRangePrefab);
                 break;
 
             case Monster_Normal.ELITE:
                 // bring object from pool
-                ObejectPoolManager.Inst.BringObject(monsterElitePrefab);
+                ObjectPoolManager.Inst.BringObject(monsterElitePrefab);
                 break;
         }
 

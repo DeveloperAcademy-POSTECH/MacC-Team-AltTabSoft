@@ -81,7 +81,7 @@ public class MonsterNormal : MonoBehaviour
 
     IEnumerator dead()
     {
-        ObejectPoolManager.Inst.DestroyObject(this.gameObject);
+        ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         yield return null;
     }
 
