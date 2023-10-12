@@ -37,9 +37,6 @@ public class MonsterNormal : MonoBehaviour
 
     void OnEnable()
     {
-
-
-
         myNavMeshAgent = GetComponent<NavMeshAgent>();
 
         // set target 
@@ -54,11 +51,8 @@ public class MonsterNormal : MonoBehaviour
         attackRange = monsterStatus.attackRange;
         attackSpeed = monsterStatus.attackSpeed;
 
-        myNavMeshAgent.SetDestination(target.transform.position);
         myNavMeshAgent.speed = monsterSpeed;
         StartCoroutine(monsterState());
-
-        Debug.Log($"I am monster! {this.transform.position}");
     }
 
     IEnumerator monsterState()
@@ -88,7 +82,7 @@ public class MonsterNormal : MonoBehaviour
 
     IEnumerator dead()
     {
-        ObejectPoolManager.Inst.DestroyObject(this.gameObject);
+        ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         yield return null;
     }
 

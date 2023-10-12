@@ -1,5 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using static GameManager1;
+
+
+public enum GameState
+{
+    readyGame,
+    inGame,
+    bossReady,
+    bossStage,
+    gameOver,
+    win,
+    restart,
+    endGame
+}
 
 public class GameManager1 : MonoBehaviour
 {
@@ -11,26 +25,24 @@ public class GameManager1 : MonoBehaviour
     public DelegateTimeCount delegateTimeCount;
 
 
+    public delegate void DelegateGameState(GameState currentGameState);
+    public DelegateGameState delegateGameState;
+
     //[SerializeField]private MapManager _mapManager;
 
     [Header("# Game Control")] public float gameTime;
-    [SerializeField] float MonsterReGenTime;
+    [SerializeField] float monsterReGenTime;
     [SerializeField] float readyTime = 5;
-    [SerializeField] float StageTime = 480f;
-    [SerializeField] bool BossStage;
-    [SerializeField] public GameState currentGameState;
+    [SerializeField] float stageTime = 480f;
+    [SerializeField] float currentTime = 0;
+    [SerializeField] float bossReadyTime = 3;
+    [SerializeField] public GameState CurrentGameState { get { return CurrentGameState; } }
+
+
+    GameState currentGameState;
 
 
     [Header("# Player Info")] public int collectedCatBox;
-
-    public enum GameState
-    {
-        startGame,
-        inGame,
-        bossStage,
-        gameOver,
-        win
-    }
 
 
     private void Awake()
@@ -64,33 +76,69 @@ public class GameManager1 : MonoBehaviour
     private void Start()
     {
         Debug.Log("manager start");
-        currentGameState = GameState.startGame;
-        StartCoroutine(gameState());
+        currentGameState = GameState.readyGame;
+        StartCoroutine(idle());
     }
 
 
     // Game state machine 
-    IEnumerator gameState()
+    IEnumerator idle()
     {
+        yield return new WaitForSeconds(0.1f);
 
-        while (StageTime > 0)
+        Debug.Log($"current game state {currentGameState}");
+
+        // notify 
+        delegateGameState(currentGameState);
+
+        switch (currentGameState)
         {
-            yield return StartCoroutine(currentGameState.ToString());
-        }
+            case GameState.readyGame:
+                StartCoroutine(readyGame());
+                break;
 
-        StartCoroutine(bossStage());
+            case GameState.inGame:
+                StartCoroutine(inGame());
+                break;
+
+            case GameState.bossReady:
+
+                StartCoroutine(bossReady());
+                break;
+
+            case GameState.bossStage:
+                StartCoroutine(bossStage());
+                break;
+
+            case GameState.gameOver:
+                StartCoroutine(gameOver());
+                break;
+
+            case GameState.win:
+                StartCoroutine(win());
+                break;
+
+            // re-load scene 
+            case GameState.restart:
+                StartCoroutine(restart());
+
+                break;
+
+            // end stage, load shelter scene 
+            case GameState.endGame:
+
+                StartCoroutine(endGame());
+                break;
+
+        }
     }
 
-
     // do something before game start 
-    IEnumerator startGame()
+    IEnumerator readyGame()
     {
         while (readyTime > 0)
         {
             // UI show game start countdown 
-
-
-            readyTime = timer(readyTime);
 
             if (delegateTimeCount != null)
             {
@@ -99,43 +147,52 @@ public class GameManager1 : MonoBehaviour
 
             Debug.Log($"ready : {readyTime}");
 
+
+
+            readyTime -= 1;
+
             // wait for 1 second 
             yield return new WaitForSeconds(1);
         }
 
         currentGameState = GameState.inGame;
+        StartCoroutine(idle());
     }
-
-
-    // time counter 
-    float timer (float t)
-    {
-        t -= 1;
-
-        return t;
-    }
-
-
 
 
 
     // do something during game playing 
     IEnumerator inGame()
     {
+        yield return new WaitForSeconds(1);
 
-        //Debug.Log($"inGame {StageTime}");
+        currentTime += 1;
+        delegateTimeCount(currentTime);
 
-
-        StageTime = timer(StageTime);
-
-        delegateTimeCount(StageTime);
-
-        if(StageTime >= 480)
+        if (currentTime == stageTime)
         {
-            currentGameState = GameState.bossStage;
+            currentGameState = GameState.bossReady;
         }
 
-        yield return new WaitForSeconds(1);
+        StartCoroutine(idle());
+    }
+
+
+    IEnumerator bossReady()
+    {
+
+        while(bossReadyTime > 0)
+        {
+            // let UI show boss ready panel
+
+
+
+            bossReadyTime -= 1;
+            yield return new WaitForSeconds(1);
+        }
+
+        currentGameState = GameState.bossStage;
+        StartCoroutine(idle());
     }
 
 
@@ -146,6 +203,8 @@ public class GameManager1 : MonoBehaviour
         // create boss 
 
         yield return null;
+
+        StartCoroutine(idle());
     }
 
 
@@ -156,6 +215,8 @@ public class GameManager1 : MonoBehaviour
 
 
         yield return null;
+
+        StartCoroutine(idle());
     }
 
 
@@ -166,20 +227,43 @@ public class GameManager1 : MonoBehaviour
 
 
         yield return null;
+
+        StartCoroutine(idle());
     }
 
-    /// <summary>
-    /// Player HP == 0 -> game over 
-    /// Boss HP == 0 -> game win 
-    /// Time 0 -> 8 min
-    /// at 8 min -> Boss -> time stop
-    ///
-    /// monster gen per 2 sec 
-    /// </summary>
+    IEnumerator endGame()
+    {
 
 
 
+        yield return null;
+    }
 
+
+    IEnumerator restart()
+    {
+
+
+
+        yield return null;
+    }
+
+
+
+    public void playerDead()
+    {
+        // 
+
+        currentGameState = GameState.gameOver;
+
+    }
+
+    public void BossDead()
+    {
+        //
+
+        currentGameState = GameState.win;
+    }
 
 
 }
