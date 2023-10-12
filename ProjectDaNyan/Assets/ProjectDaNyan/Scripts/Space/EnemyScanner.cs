@@ -15,7 +15,7 @@ public class EnemyScanner : MonoBehaviour
         ScanEnemy();
     }
 
-    public void ScanEnemy()
+    private void ScanEnemy()
     {
         float maxRange = Mathf.Infinity;
         foreach (Collider objectCollider in colliders)

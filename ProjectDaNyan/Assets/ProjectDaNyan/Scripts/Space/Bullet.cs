@@ -7,11 +7,39 @@ public class Bullet : MonoBehaviour
     public enum Type {Default, Piercing, Laser};
     public Type type;
     public int damage;
+    TrailRenderer trail;
+
+
+    int time = 3;
+
+    private void OnEnable()
+    {
+        trail = GetComponent<TrailRenderer>();
+        StartCoroutine(Goodbye());
+    }
 
     private void Update()
     {
-        if (type != Type.Laser)
-            Destroy(gameObject, 1f);
+        //if (type != Type.Laser)
+        //    Destroy(gameObject, 1f);
+
+    }
+
+
+    IEnumerator Goodbye()
+    {
+
+
+        //while(time > 0)
+        //{
+        //    time -= 1;
+        //    yield return new WaitForSeconds(1);
+        //}
+        yield return new WaitForSeconds(1f);
+        trail.Clear();
+        ObejectPoolManager.Inst.DestroyObject(this.gameObject);
+        
+
     }
 
     void OnCollisionEnter(Collision collision)

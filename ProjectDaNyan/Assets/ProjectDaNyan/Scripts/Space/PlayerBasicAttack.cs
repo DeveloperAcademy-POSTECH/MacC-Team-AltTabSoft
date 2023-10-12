@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerBasicAttack : MonoBehaviour
 {
+    public int basicFireLevel;
     public float basicFireRate; //기본공격주기 
     public float upgradedFireRate; //초월공격주기 
     public float basicFireSpeed; //기본공격 투사체 속도
@@ -19,8 +20,9 @@ public class PlayerBasicAttack : MonoBehaviour
 
     void MakeInstantBullet(GameObject bulletObject, Transform bulletObjectPosition, bool isGravity, float fireSpeed)
     {
-        GameObject instantBasicBullet = Instantiate(bulletObject, bulletObjectPosition.position, Quaternion.identity);
-        Rigidbody basicBulletRigid = instantBasicBullet.GetComponent<Rigidbody>();
+        GameObject bullet = ObejectPoolManager.Inst.BringObject(bulletObject);
+        bullet.transform.position = bulletObjectPosition.position;
+        Rigidbody basicBulletRigid = bullet.GetComponent<Rigidbody>();
         basicBulletRigid.useGravity = isGravity;
         basicBulletRigid.velocity = bulletObjectPosition.forward * fireSpeed;
     }
@@ -33,22 +35,13 @@ public class PlayerBasicAttack : MonoBehaviour
 
     IEnumerator UpgradeAttack()
     {
-        MakeInstantBullet(upgradedBullet, bulletPosition, false, upgradedFireSpeed);
-        MakeInstantBullet(upgradedBullet, upgradeBulletPositions[0], false, upgradedFireSpeed);
-        MakeInstantBullet(upgradedBullet, upgradeBulletPositions[1], false, upgradedFireSpeed);
-        MakeInstantBullet(upgradedBullet, upgradeBulletPositions[2], false, upgradedFireSpeed);
-        MakeInstantBullet(upgradedBullet, upgradeBulletPositions[3], false, upgradedFireSpeed);
         yield return null;
-
-        //bulletPosition.Rotate(new Vector3(0, Random.Range(-15f, 15f), 0));
-        //upgradeBulletPositions[2].Rotate(new Vector3(0, Random.Range(-15f, 15f), 0));
-        //upgradeBulletPositions[3].Rotate(new Vector3(0, Random.Range(-15f, 15f), 0));
-        //MakeInstantBullet(upgradedBullet, bulletPosition, false, upgradedFireSpeed);
-        //MakeInstantBullet(upgradedBullet, upgradeBulletPositions[2], false, upgradedFireSpeed);
-        //MakeInstantBullet(upgradedBullet, upgradeBulletPositions[3], false, upgradedFireSpeed);
-        //bulletPosition.localRotation = Quaternion.Euler(0, 0, 0);
-        //upgradeBulletPositions[2].localRotation = Quaternion.Euler(0, 0, 0);
-        //upgradeBulletPositions[3].localRotation = Quaternion.Euler(0, 0, 0);
+        bulletPosition.Rotate(new Vector3(0, Random.Range(-15f, 15f), 0));
+        MakeInstantBullet(upgradedBullet, bulletPosition, false, upgradedFireSpeed);
+        bulletPosition.localRotation = Quaternion.Euler(0, 0, 0);
 
     }
+
+
+
 }

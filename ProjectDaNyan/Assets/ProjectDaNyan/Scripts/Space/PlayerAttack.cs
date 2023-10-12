@@ -33,7 +33,7 @@ public class PlayerAttack : MonoBehaviour
         //기본공격, 초월공격 활성화 코드
         if (isUpgrade == false)
         {
-            playerBasicAttack.bulletPosition.LookAt(scanner.nearCollider.transform);
+            //playerBasicAttack.bulletPosition.LookAt(scanner.nearCollider.transform);
             isFireReady = playerBasicAttack.basicFireRate < basicfireDelay;
             basicfireDelay += Time.deltaTime;
             if (isFireReady)
