@@ -10,14 +10,14 @@ public class ItemController : MonoBehaviour
     {
         mapManager = FindObjectOfType<MapManager>();
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            mapManager.collectedCats++;
-            gameObject.SetActive(false);
-            Debug.Log("획득한 고양이 수: " +  mapManager.collectedCats);
-        }
-    }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.CompareTag("Player"))
+    //     {
+    //         mapManager.collectedCats++;
+    //         gameObject.SetActive(false);
+    //         //Debug.Log("획득한 고양이 수: " +  mapManager.collectedCats);
+    //     }
+    // }
 }
 
