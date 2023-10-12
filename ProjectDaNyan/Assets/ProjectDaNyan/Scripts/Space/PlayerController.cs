@@ -14,10 +14,13 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private JoystickController _joy;
     
+    [SerializeField] private float rockHeight;
+    
     private Rigidbody playerRigid;
     private TrailRenderer playerTrailRenderer;
     private Animator playerAnim;
     private CharacterController playerCharacterController;
+    private Transform playerTransform;
 
     private Vector3 movePosition;
     private Vector3 dashMovePosition;
@@ -32,12 +35,13 @@ public class PlayerController : MonoBehaviour
     private float playerRotationPositionX;
     private float playerRotationPositionY;
     private float _floatingPosition;
-
+    
     void Start()
     {
         playerTrailRenderer = playerObject.GetComponent<TrailRenderer>();
         playerAnim = playerObject.GetComponent<Animator>();
         playerCharacterController = playerObject.GetComponent<CharacterController>();
+        playerTransform = playerObject.GetComponent<Transform>();
 
         // 게임이 시작될 때 캐릭터의 머리가 카메라를 바라보도록 회전각을 설정
         playerRotationPositionX = 1;
@@ -64,6 +68,11 @@ public class PlayerController : MonoBehaviour
                 break;
             }
             case JoystickController.PlayerState.onTheRock:
+                PlayerMovingControllOnTheRock();
+                break;
+            case JoystickController.PlayerState.exitDashFromRock:
+                transform.position = new Vector3(transform.position.x, transform.position.y - rockHeight, transform.position.z);
+                PlayerDash();
                 break;
             default:
                 PlayerStop();
@@ -88,7 +97,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
         movePosition = normalized * (Time.deltaTime * playerSpeed);
-        playerCharacterController.Move(new Vector3(movePosition.x,0,movePosition.z));
+        playerCharacterController.Move(new Vector3(movePosition.x,_floatingPosition,movePosition.z));
         dashMovePosition = movePosition * dashSpeed;
         //대시 준비 상태가 아니라면 현재 이동방향을 표시
         if (!_joy.isJoystickPositionGoEnd)
@@ -105,15 +114,15 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
-            playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
-            dashTimerCount += 1;
+        playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
+        dashTimerCount += 1;
             
-            if (dashTimerCount == dashLimitTic1SecondsTo50)
-            {
-                dashTimerCount = 0;
-                _joy.playerState = JoystickController.PlayerState.stop;
-            }
-            playerDashDirectionObject.SetActive(false);
+        if (dashTimerCount == dashLimitTic1SecondsTo50)
+        {
+            dashTimerCount = 0;
+            _joy.playerState = JoystickController.PlayerState.stop;
+        }
+        playerDashDirectionObject.SetActive(false);
     }
 
     void PlayerFall()
@@ -128,7 +137,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void playerWallReflection(Collision wall)
+    void PlayerMovingControllOnTheRock()
+    {
+        Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
+        dashMovePosition = normalized * (Time.deltaTime * playerSpeed * dashSpeed);
+    }
+
+    void PlayerWallReflection(Collision wall)
     {
         dashTimerCount = 0;
         Vector3 normal = wall.contacts[0].normal; //법선벡터
@@ -136,11 +151,10 @@ public class PlayerController : MonoBehaviour
         dashMovePosition = Vector3.Reflect(dashMovePosition, normal);
     }
 
-    void playerMoveOnTheRock(Collision rock)
+    void PlayerMoveOnTheRock(Collision rock)
     {
         _joy.playerState = JoystickController.PlayerState.onTheRock;
-        _floatingPosition = rock.transform.position.y + 5.1f;
-        transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y,rock.transform.position.z));
+        transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
     }
 
     //충돌 시 뚫고 나갈 수 없는 물체에 닿았을 때 작동 (벽, 돌 등)
@@ -151,17 +165,17 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Wall");
             if (_joy.playerState == JoystickController.PlayerState.dash)
             {
-                playerWallReflection(other);
+                PlayerWallReflection(other);
             }
         }
         else if (other.gameObject.tag == "Rock")
         {
             Debug.Log("Rock");
-            if (_joy.playerState != JoystickController.PlayerState.onTheRock)
+            if ((_joy.playerState != JoystickController.PlayerState.onTheRock) && _joy.playerState != JoystickController.PlayerState.exitDashFromRock)
             {
                 if (_joy.playerState == JoystickController.PlayerState.dash)
                 {
-                    playerMoveOnTheRock(other);
+                    PlayerMoveOnTheRock(other);
                 }
             }
         }
@@ -181,15 +195,15 @@ public class PlayerController : MonoBehaviour
                 dashMovePosition = new Vector3(-dashMovePosition.x, 0, -dashMovePosition.z);
             }
         }
-        else if (other.gameObject.tag == "Rock")
-        {
-            if (_joy.playerState != JoystickController.PlayerState.onTheRock)
-            {
-                if (_joy.playerState == JoystickController.PlayerState.dash)
-                {
-                    
-                }
-            }
-        }
+        // else if (other.gameObject.tag == "Rock")
+        // {
+        //     if (_joy.playerState != JoystickController.PlayerState.onTheRock)
+        //     {
+        //         if (_joy.playerState == JoystickController.PlayerState.dash)
+        //         {
+        //             PlayerMoveOnTheRock(other);
+        //         }
+        //     }
+        // }
     }
 }
