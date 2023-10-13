@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class JoystickController : FloatingJoystick
 {
-    public enum PlayerState {walk,dash,stop}
+    public enum PlayerState {walk,dash,stop,onTheRock,exitDashFromRock}
     public PlayerState playerState = PlayerState.stop;
     protected internal bool isJoystickPositionGoEnd = false;
     
@@ -16,7 +16,15 @@ public class JoystickController : FloatingJoystick
 
         if (isJoystickPositionGoEnd)
         {
-            playerState = PlayerState.dash;
+            if (playerState == PlayerState.onTheRock)
+            {
+                playerState = PlayerState.exitDashFromRock;
+            }
+            else
+            {
+                playerState = PlayerState.dash;
+
+            }
             isJoystickPositionGoEnd = false;
         }
         else
@@ -27,7 +35,10 @@ public class JoystickController : FloatingJoystick
     
     public override void OnPointerDown(PointerEventData eventData)
     {
-        playerState = PlayerState.walk;
+        if (playerState != PlayerState.onTheRock)
+        {
+            playerState = PlayerState.walk;
+        }
         background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
         background.gameObject.SetActive(true);
         base.OnPointerDown(eventData);
