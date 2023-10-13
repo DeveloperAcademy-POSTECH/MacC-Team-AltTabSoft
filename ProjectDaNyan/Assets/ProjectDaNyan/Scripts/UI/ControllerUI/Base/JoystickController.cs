@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class JoystickController : FloatingJoystick
 {
-    public enum PlayerState {walk,dash,stop,onTheRock,exitDashFromRock}
-    public PlayerState playerState = PlayerState.stop;
     protected internal bool isJoystickPositionGoEnd = false;
+    public PlayerState _playerState;
     
     public override void OnPointerUp(PointerEventData eventData)
     {
@@ -16,28 +16,27 @@ public class JoystickController : FloatingJoystick
 
         if (isJoystickPositionGoEnd)
         {
-            if (playerState == PlayerState.onTheRock)
+            if (_playerState.getPsData() == PlayerState.PSData.onTheRock)
             {
-                playerState = PlayerState.exitDashFromRock;
+                _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
             }
             else
             {
-                playerState = PlayerState.dash;
-
+                _playerState.setPsData(PlayerState.PSData.dash);
             }
             isJoystickPositionGoEnd = false;
         }
         else
         {
-            playerState = PlayerState.stop;
+            _playerState.setPsData(PlayerState.PSData.stop);
         }
     }
     
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if (playerState != PlayerState.onTheRock)
+        if (_playerState.getPsData() != PlayerState.PSData.onTheRock)
         {
-            playerState = PlayerState.walk;
+            _playerState.setPsData(PlayerState.PSData.walk);
         }
         background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
         background.gameObject.SetActive(true);
