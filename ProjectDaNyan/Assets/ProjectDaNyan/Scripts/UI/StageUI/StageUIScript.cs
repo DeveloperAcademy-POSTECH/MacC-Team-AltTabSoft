@@ -73,7 +73,7 @@ namespace ProjectDaNyan.Views.StageUI
 
         private void Update()
         {
-            if (GameManager.Instance.isGameOver)
+            if (GameManager.Inst.isGameOver)
             {
                 _stageClearUI.SetActive(true);
             }
