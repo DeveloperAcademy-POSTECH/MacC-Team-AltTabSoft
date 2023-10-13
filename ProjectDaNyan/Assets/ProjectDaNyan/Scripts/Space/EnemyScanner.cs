@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EneymyScanner : MonoBehaviour
+public class EnemyScanner : MonoBehaviour
 {
     
     public Collider[] colliders; //scanRange 내의 에너미의 collider 모음
@@ -15,7 +15,7 @@ public class EneymyScanner : MonoBehaviour
         ScanEnemy();
     }
 
-    public void ScanEnemy()
+    private void ScanEnemy()
     {
         float maxRange = Mathf.Infinity;
         foreach (Collider objectCollider in colliders)
