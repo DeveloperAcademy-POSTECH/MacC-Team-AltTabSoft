@@ -3,6 +3,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterDescriptionUI : MonoBehaviour
+public class CharacterInfoUI : MonoBehaviour
 {
 }
