@@ -258,8 +258,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7074939654056581298}
   - component: {fileID: 7050538731767806074}
-  - component: {fileID: 1213982812748081177}
-  - component: {fileID: -683211869202521817}
+  - component: {fileID: 4176509280925174635}
+  - component: {fileID: 6757844107723290755}
   m_Layer: 0
   m_Name: BulletPostion
   m_TagString: Untagged
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLaser: 1
   isUpgrade: 1
---- !u!114 &1213982812748081177
+--- !u!114 &4176509280925174635
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -313,15 +313,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a58a28e3e6e415c965e06061dd6db8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicFireRate: 0
-  upgradedFireRate: 0
-  basicFireSpeed: 0
-  upgradedFireSpeed: 0
-  bulletPosition: {fileID: 0}
-  upgradeBulletPositions: []
-  basicBullet: {fileID: 0}
-  upgradedBullet: {fileID: 0}
---- !u!114 &-683211869202521817
+  basicFireLevel: 1
+  basicFireRate: 0.1
+  upgradedFireRate: 0.2
+  basicFireSpeed: 50
+  upgradedFireSpeed: 30
+  bulletPosition: {fileID: 7074939654056581298}
+  upgradeBulletPositions:
+  - {fileID: 4447942051285421434}
+  - {fileID: 6237722400549165260}
+  - {fileID: 4839745055448393325}
+  - {fileID: 2854646989178074079}
+  basicBullet: {fileID: 4130157634977493257, guid: c69816360d369418c89415175c27620e, type: 3}
+  upgradedBullet: {fileID: 4130157634977493257, guid: fb0ab43eb69c14d598780bfc9f2a6f46, type: 3}
+--- !u!114 &6757844107723290755
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -333,8 +338,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0654c54a8d00843e290a6c51a7e7bfc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserFireRate: 0
-  laserBullet: {fileID: 0}
+  laserFireRate: 2
+  laserBullet: {fileID: 2121972414583587391}
 --- !u!1 &7878016264483970160
 GameObject:
   m_ObjectHideFlags: 0
