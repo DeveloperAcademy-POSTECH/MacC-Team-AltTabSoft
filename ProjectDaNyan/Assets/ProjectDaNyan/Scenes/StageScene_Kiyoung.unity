@@ -605,11 +605,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 935592602}
   m_CullTransparentMesh: 1
+--- !u!1 &1008189858 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3892356420721282509, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
+  m_PrefabInstance: {fileID: 1207412896}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1008189859 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7229820694014617572, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
   m_PrefabInstance: {fileID: 1207412896}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1008189864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008189858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb56c2bd403a4f50990a9be4a679c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomFieldLevel: 1
+  fieldFireRate: 2
+  randomRange: 5
+  attackField: {fileID: 5354446010377860865, guid: adbcf6f0bdb1845418c3104ca6b473e3, type: 3}
+  center: {fileID: 1008189859}
 --- !u!1 &1105652896
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,9 +790,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2110752892}
     m_Modifications:
+    - target: {fileID: 471729918822199191, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2737946968871728852, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
+      propertyPath: isDrone
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2737946968871728852, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
+      propertyPath: isField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3892356420721282509, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
       propertyPath: m_Name
       value: PlayerAttackPosition
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812508783980361842, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
+      propertyPath: droneFireRate
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812508783980361842, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
+      propertyPath: droneFireSpeed
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7229820694014617572, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -815,7 +857,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3892356420721282509, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1008189864}
   m_SourcePrefab: {fileID: 100100000, guid: a50954a86bada4596b6325cf5042daf0, type: 3}
 --- !u!1 &1280255055
 GameObject:

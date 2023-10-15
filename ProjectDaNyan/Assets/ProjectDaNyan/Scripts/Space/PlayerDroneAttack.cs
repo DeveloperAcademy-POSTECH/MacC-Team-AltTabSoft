@@ -28,7 +28,8 @@ public class PlayerDroneAttack : MonoBehaviour
     {
         if (isDrone)
         {
-            drone.SetActive(true);
+            if (drone.activeSelf == false)
+                drone.SetActive(true);
             droneFireReady = droneFireRate < droneFireDelay;
             droneFireDelay += Time.deltaTime;
             if (droneFireReady)
@@ -50,7 +51,11 @@ public class PlayerDroneAttack : MonoBehaviour
 
     IEnumerator DroneFire()
     {
-        yield return null;
+        
+        MakeInstantBullet(droneBullet, bulletPosition, false, droneFireSpeed);
+        yield return new WaitForSeconds(0.05f);
+        MakeInstantBullet(droneBullet, bulletPosition, false, droneFireSpeed);
+        yield return new WaitForSeconds(0.05f);
         MakeInstantBullet(droneBullet, bulletPosition, false, droneFireSpeed);
     }
 }
