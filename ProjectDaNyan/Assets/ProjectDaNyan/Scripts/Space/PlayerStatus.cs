@@ -17,6 +17,8 @@ public class PlayerStatus : MonoBehaviour
     private int player_Now_HP = 100;
     
     private int heal_Cooltime = 0;
+
+    private int hitEnemy = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -61,6 +63,7 @@ public class PlayerStatus : MonoBehaviour
     {
         if (other.CompareTag("boxCat"))
         {
+            Debug.Log("Enter");
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 other.gameObject.SetActive(false);
@@ -71,10 +74,28 @@ public class PlayerStatus : MonoBehaviour
             }
             else
             {
-                Debug.Log("으윽! 적에게 맞았다! 10의 데미지를 입었다!");
-                player_Now_HP -= 10;
-                Debug.Log("현재 HP :"+player_Now_HP);
+                hitEnemy += 1;
+                //Debug.Log("으윽! 적에게 맞았다! 10의 데미지를 입었다!");
+                //player_Now_HP -= 10;
+                //Debug.Log("현재 HP :"+player_Now_HP);
             }
+        }
+    }
+    
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("boxCat"))
+        {
+            Debug.Log(hitEnemy);
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("boxCat"))
+        {
+            hitEnemy -= 1;
+            Debug.Log("Exit");
         }
     }
 }

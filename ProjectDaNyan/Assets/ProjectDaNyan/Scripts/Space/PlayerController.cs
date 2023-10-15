@@ -146,6 +146,8 @@ public class PlayerController : MonoBehaviour
     void PlayerWallReflection(Collision wall)
     {
         dashTimerCount = 0;
+        transform.position = new Vector3(transform.position.x - dashMovePosition.x, _floatingPosition,
+            transform.position.z - dashMovePosition.z);
         Vector3 normal = wall.contacts[0].normal; //법선벡터
         playerCharacterController.Move(new Vector3(-dashMovePosition.x,0,-dashMovePosition.z));
         dashMovePosition = Vector3.Reflect(dashMovePosition, normal);
@@ -160,6 +162,7 @@ public class PlayerController : MonoBehaviour
     //충돌 시 뚫고 나갈 수 없는 물체에 닿았을 때 작동 (벽, 돌 등)
     private void OnCollisionEnter(Collision other)
     {
+        Debug.Log("Collide");
         if (other.gameObject.tag == "Wall")
         {
             Debug.Log("Wall");
@@ -191,7 +194,8 @@ public class PlayerController : MonoBehaviour
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 dashTimerCount = 0;
-                playerCharacterController.Move(new Vector3(-dashMovePosition.x,0,-dashMovePosition.z));
+                transform.position = new Vector3(transform.position.x - dashMovePosition.x, _floatingPosition,
+                    transform.position.z - dashMovePosition.z);
                 dashMovePosition = new Vector3(-dashMovePosition.x, 0, -dashMovePosition.z);
             }
         }
@@ -205,5 +209,13 @@ public class PlayerController : MonoBehaviour
         //         }
         //     }
         // }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.tag == "Wall")
+        {
+            Debug.Log("Exit Wall");
+        }
     }
 }
