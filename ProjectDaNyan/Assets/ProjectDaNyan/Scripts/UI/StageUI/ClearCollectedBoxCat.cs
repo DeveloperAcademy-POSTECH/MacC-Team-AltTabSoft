@@ -12,6 +12,6 @@ public class ClearCollectedBoxCat: MonoBehaviour
 
     private void OnEnable()
     {
-         _text.text = string.Concat(GameManager.Instance.collectedCatBox.ToString(),  " 고양이 구출");
+         _text.text = string.Concat(GameManager.Inst.collectedCatBox.ToString(),  " 고양이 구출");
     }
 }

@@ -14,15 +14,15 @@ public class MonsterNormal : MonoBehaviour
     NavMeshAgent myNavMeshAgent = null;
     GameObject target = null;
 
-
     [Header("Attack Range Setting")]
 
     // attack range
+    [SerializeField] float attackPower;
+    [SerializeField] float monsterHP;
+    [SerializeField] float monsterSpeed;
     [SerializeField] float attackRange;
     [SerializeField] float attackSpeed;
-    [SerializeField] float damage;
-    [SerializeField] float monsterHP;
-    [SerializeField] float monsterDef;
+
 
     // Monster state
     public enum state
@@ -37,20 +37,21 @@ public class MonsterNormal : MonoBehaviour
 
     void OnEnable()
     {
-
         myNavMeshAgent = GetComponent<NavMeshAgent>();
 
         // set target 
-        //target = FindAnyObjectByType<Player>().gameObject;
+        target = FindAnyObjectByType<PlayerController>().gameObject;
         currentState = state.chasing;
 
         myNavMeshAgent.stoppingDistance = attackRange = monsterStatus.attackRange;
-        attackSpeed = monsterStatus.attackSpeed;
-        monsterHP = monsterStatus.hp;
-        damage = monsterStatus.damage;
-        damage = monsterStatus.def;
 
-        myNavMeshAgent.SetDestination(target.transform.position);
+        attackPower = monsterStatus.attackPower;
+        monsterHP = monsterStatus.hp;
+        monsterSpeed = monsterStatus.speed;
+        attackRange = monsterStatus.attackRange;
+        attackSpeed = monsterStatus.attackSpeed;
+
+        myNavMeshAgent.speed = monsterSpeed;
         StartCoroutine(monsterState());
     }
 
@@ -74,14 +75,14 @@ public class MonsterNormal : MonoBehaviour
 
     IEnumerator attack()
     {
-        target.SendMessage("applyDamage", damage, SendMessageOptions.DontRequireReceiver);
+        attackPlayer();
 
         yield return new WaitForSeconds(attackSpeed);
     }
 
     IEnumerator dead()
     {
-        ObejectPoolManager.Inst.DestroyObject(this.gameObject);
+        ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         yield return null;
     }
 
@@ -90,7 +91,12 @@ public class MonsterNormal : MonoBehaviour
 
         float distance = Vector3.Distance(this.transform.position, target.transform.position);
 
-        if (myNavMeshAgent.remainingDistance <= attackRange && distance <= attackRange)
+        if (distance >= 45)
+        {
+            currentState = state.dead;
+        }
+
+        else if (myNavMeshAgent.remainingDistance <= attackRange && distance <= attackRange)
         {
             myNavMeshAgent.isStopped = true;
             currentState = state.attack;
@@ -103,10 +109,18 @@ public class MonsterNormal : MonoBehaviour
     }
 
 
+    void attackPlayer()
+    {
+        // attacking player
+
+        target.SendMessage("applyDamage", attackPower, SendMessageOptions.DontRequireReceiver);
+    }
+
+
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Bullet")
+        if (collision.collider.tag.Equals("PlayerAttack"))
         {
             monsterHP = 0;
         }

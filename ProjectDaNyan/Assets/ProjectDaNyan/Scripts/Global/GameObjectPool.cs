@@ -15,7 +15,7 @@ public class GameObjectPool : MonoBehaviour
     string pattern = @" ?\(.*?\)";
 
 
-    void Awake()
+    private void Awake()
     {
         pool = new ObjectPool<GameObject>(CreateNewObject, BringObjectFromPool,
             ReturnObjectToPool, DestroyObjectFromPool, true, 3, 5);
@@ -29,20 +29,20 @@ public class GameObjectPool : MonoBehaviour
         return myObject;
     }
 
-     void BringObjectFromPool(GameObject monster)
+    private void BringObjectFromPool(GameObject monster)
     {
         prefab = monster;
         monster.gameObject.SetActive(true);
         monster.transform.position = transform.parent.position;
     }
 
-     void ReturnObjectToPool(GameObject myObject)
+    private void ReturnObjectToPool(GameObject myObject)
     {
         myObject.transform.position = transform.parent.position;
         myObject.gameObject.SetActive(false);
     }
 
-     void DestroyObjectFromPool(GameObject myObject)
+    private void DestroyObjectFromPool(GameObject myObject)
     {
         Destroy(myObject.gameObject);
     }

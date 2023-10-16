@@ -49,7 +49,7 @@ public class PlayerBasicAttack : MonoBehaviour
 
     void MakeInstantBullet(GameObject bulletObject, Transform bulletObjectPosition, bool isGravity, float fireSpeed)
     {
-        GameObject bullet = ObejectPoolManager.Inst.BringObject(bulletObject);
+        GameObject bullet = ObjectPoolManager.Inst.BringObject(bulletObject);
         bullet.transform.position = bulletObjectPosition.position;
         Rigidbody basicBulletRigid = bullet.GetComponent<Rigidbody>();
         basicBulletRigid.useGravity = isGravity;
