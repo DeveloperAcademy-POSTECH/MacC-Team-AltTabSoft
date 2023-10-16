@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour
         //}
         yield return new WaitForSeconds(1f);
         trail.Clear();
-        ObejectPoolManager.Inst.DestroyObject(this.gameObject);
+        ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         
 
     }
