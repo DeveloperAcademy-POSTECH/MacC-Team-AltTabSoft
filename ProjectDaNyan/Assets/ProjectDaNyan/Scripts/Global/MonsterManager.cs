@@ -86,7 +86,7 @@ public class MonsterManager : MonoBehaviour
                     monster.transform.position = monsterSpawnPoints[spawnPosition].transform.position;
                 }
 
-            break;
+                break;
 
 
             case GameState.bossStage:

@@ -60,8 +60,8 @@ public class GameManager : MonoBehaviour
 
     [Header("# Game Control")] public float gameTime;
     [SerializeField] float monsterReGenTime;
-    [SerializeField] float readyTime = 5;
-    [SerializeField] float stageTime = 30f;
+    [SerializeField] float readyTime = 3;
+    [SerializeField] float stageTime = 60f;
     [SerializeField] float currentTime = 0;
     [SerializeField] float bossReadyTime = 3;
     [SerializeField] public GameState CurrentGameState { get { return currentGameState; } }

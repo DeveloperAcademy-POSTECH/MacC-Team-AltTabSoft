@@ -75,7 +75,7 @@ public class MonsterNormal : MonoBehaviour
 
     IEnumerator attack()
     {
-        target.SendMessage("applyDamage", attackPower, SendMessageOptions.DontRequireReceiver);
+        attackPlayer();
 
         yield return new WaitForSeconds(attackSpeed);
     }
@@ -113,15 +113,14 @@ public class MonsterNormal : MonoBehaviour
     {
         // attacking player
 
-
-
+        target.SendMessage("applyDamage", attackPower, SendMessageOptions.DontRequireReceiver);
     }
 
 
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Bullet")
+        if (collision.collider.tag.Equals("PlayerAttack"))
         {
             monsterHP = 0;
         }

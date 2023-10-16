@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1693033644870736616}
   - component: {fileID: 2027788017827220870}
   - component: {fileID: 222016955668631790}
-  - component: {fileID: 942553055036714395}
   - component: {fileID: -6911005956656433545}
   m_Layer: 0
   m_Name: MonsterBoss
@@ -32,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 4.64, z: -8.69}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -128,34 +127,9 @@ MonoBehaviour:
   attackSpeed: 0
   dashSpeed: 10
   currentState: 0
+  readyDashTime: 3
   dashTime: 5
---- !u!54 &942553055036714395
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8644996199388943553}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  normalAttackCount: 3
 --- !u!195 &-6911005956656433545
 NavMeshAgent:
   m_ObjectHideFlags: 0

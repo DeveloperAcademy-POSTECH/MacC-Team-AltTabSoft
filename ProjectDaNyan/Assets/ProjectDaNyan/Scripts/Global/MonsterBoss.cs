@@ -16,6 +16,7 @@ public class MonsterBoss : MonoBehaviour
         chasing,
         normalAttack,
         dashAttack,
+        readyDashAttack,
         wideAttack,
         dead
     }
@@ -26,12 +27,16 @@ public class MonsterBoss : MonoBehaviour
     [SerializeField] float monsterSpeed;
     [SerializeField] float attackRange;
     [SerializeField] float attackSpeed;
-    [SerializeField] float dashSpeed = 10;
+    [SerializeField] float dashSpeed = 100;
 
     // boss monster current state 
     [SerializeField] protected BossState currentState;
 
+    [SerializeField] int readyDashTime = 3;
     [SerializeField] int dashTime = 5;
+    [SerializeField] int normalAttackCount = 3;
+    int normalAttackedCount = 0;
+
 
     Rigidbody monsterRigidbody;
     Vector3 dashDirection;
@@ -54,28 +59,75 @@ public class MonsterBoss : MonoBehaviour
         attackSpeed = monsterStatus.attackSpeed;
 
 
-        monsterRigidbody = GetComponent<Rigidbody>();
+        //monsterRigidbody = GetComponent<Rigidbody>();
 
         StartCoroutine(idle());
 
     }
 
 
+    //private void FixedUpdate()
+    //{
+
+
+    //    // if current state is not in dash attack nor ready dash attack, don't do anything 
+    //    if (currentState != BossState.dashAttack || currentState != BossState.readyDashAttack)
+    //        return;
+
+
+
+    //    switch (currentState)
+    //    {
+    //        // look at target 
+    //        case BossState.readyDashAttack:
+
+    //            this.transform.LookAt(target.transform);
+
+    //            break;
+
+    //        // dash to target 
+    //        case BossState.dashAttack:
+
+    //            monsterRigidbody.velocity = dashDirection * dashSpeed;
+
+    //            break;
+
+    //        // set velocity to zero 
+    //        default:
+    //            //monsterRigidbody.velocity = Vector3.zero;
+    //            break;
+    //    }
+
+    //}
+
+
+
+    // chasing => normal attack * 3 => dash attack => wide attack => chasing 
+
     IEnumerator idle()
     {
+        yield return new WaitForSeconds(0.1f);
+
+        Debug.Log($"Boss monster current state : {currentState}");
 
         while (monsterHP > 0)
         {
+
+            switch (currentState)
+            {
+                case BossState.chasing:
+                case BossState.normalAttack:
+                    //checkAttackDistance();
+                    break;
+            }
+
+
+
             yield return StartCoroutine(currentState.ToString());
         }
     }
 
 
-
-    //normalAttack,
-    //dashAttack,
-    //wideAttack,
-    //dead
 
     IEnumerator chasing()
     {
@@ -91,28 +143,52 @@ public class MonsterBoss : MonoBehaviour
     IEnumerator normalAttack()
     {
         // normal attack animation
-
-
-
+        //**** need to edit, animation required! **** 
         // apply damage to player 
+        NormalAttack();
 
+        normalAttackedCount += 1;
 
+        if (normalAttackedCount >= normalAttackCount)
+        {
+            currentState = BossState.readyDashAttack;
+
+            normalAttackedCount = 0;
+
+            //StartCoroutine(idle());
+            yield break;
+        }
         yield return new WaitForSeconds(attackSpeed);
+
+        StartCoroutine(idle());
+    }
+
+
+    IEnumerator readyDashAttack()
+    {
+        while (readyDashTime > 0)
+        {
+            readyDashTime -= 1;
+
+            yield return new WaitForSeconds(1);
+        }
+
+        currentState = BossState.dashAttack;
+
+        yield return null;
     }
 
 
     IEnumerator dashAttack()
     {
-        while(dashTime > 0)
+        while (dashTime > 0)
         {
-            monsterRigidbody.velocity = dashDirection * dashSpeed;
-
-
             dashTime -= 1;
             yield return new WaitForSeconds(1);
         }
 
-        yield return null;
+        currentState = BossState.chasing;
+        StartCoroutine(idle());
     }
 
     IEnumerator wideAttack()
@@ -128,11 +204,46 @@ public class MonsterBoss : MonoBehaviour
     }
 
 
+
+    void checkAttackDistance()
+    {
+        float distance = Vector3.Distance(this.transform.position, target.transform.position);
+
+
+        if (myNavMeshAgent.remainingDistance <= attackRange && distance <= attackRange)
+        {
+            myNavMeshAgent.isStopped = true;
+            currentState = BossState.normalAttack;
+        }
+        else
+        {
+            myNavMeshAgent.isStopped = false;
+            currentState = BossState.chasing;
+        }
+    }
+
+
+    public void NormalAttack()
+    {
+        Debug.Log("Boss monster normal attack");
+
+        //target.SendMessage("ApplyDamage", attackPower, SendMessageOptions.DontRequireReceiver);
+    }
+
+
     private void OnCollisionEnter(Collision collision)
     {
 
+        if (collision.gameObject.tag.Equals("PlayerAttack"))
+        {
+            // monster damaged
+            monsterHP -= 1;
+        }
+
+
+
         // check wall during dash 
-        if(currentState == BossState.dashAttack)
+        if (currentState == BossState.dashAttack)
         {
             if (collision.gameObject.tag.Equals("Wall"))
             {

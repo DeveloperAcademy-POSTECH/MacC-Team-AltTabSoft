@@ -18,6 +18,6 @@ public class MonsterSpawnPoints : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.transform.position = new Vector3(target.transform.position.x, 0, target.transform.position.z);
+        this.transform.position = new Vector3(target.transform.position.x, 1, target.transform.position.z);
     }
 }
