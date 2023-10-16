@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
+        this.gameObject.layer = 7;
         playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
         dashTimerCount += 1;
             
@@ -121,6 +122,7 @@ public class PlayerController : MonoBehaviour
         {
             dashTimerCount = 0;
             _playerState.setPsData(PlayerState.PSData.stop);
+            this.gameObject.layer = 6;
         }
         playerDashDirectionObject.SetActive(false);
     }
