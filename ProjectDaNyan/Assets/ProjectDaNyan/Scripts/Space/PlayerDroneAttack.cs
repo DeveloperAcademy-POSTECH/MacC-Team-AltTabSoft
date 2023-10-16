@@ -17,6 +17,7 @@ public class PlayerDroneAttack : MonoBehaviour
     float droneFireDelay;
     bool droneFireReady;
 
+    
     //EnemyScanner scanner;
 
     //private void OnEnable()

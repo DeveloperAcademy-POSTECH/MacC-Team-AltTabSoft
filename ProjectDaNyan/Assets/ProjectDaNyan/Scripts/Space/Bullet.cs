@@ -44,7 +44,7 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(4f);
             ObejectPoolManager.Inst.DestroyObject(this.gameObject);
         }
         
