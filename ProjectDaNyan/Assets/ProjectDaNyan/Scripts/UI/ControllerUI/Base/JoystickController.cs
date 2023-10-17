@@ -18,7 +18,7 @@ public class JoystickController : FloatingJoystick
         {
             if (_playerState.getPsData() == PlayerState.PSData.onTheRock)
             {
-                _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
+                _playerState.setPsData(PlayerState.PSData.exitStartFromRock);
             }
             else
             {
@@ -28,7 +28,10 @@ public class JoystickController : FloatingJoystick
         }
         else
         {
-            _playerState.setPsData(PlayerState.PSData.stop);
+            if (_playerState.getPsData() != PlayerState.PSData.onTheRock)
+            {
+                _playerState.setPsData(PlayerState.PSData.stop);
+            }
         }
     }
     
