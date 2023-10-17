@@ -11,9 +11,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int playerSpeed = 10;
     [SerializeField] private int dashSpeed = 10;
     [SerializeField] private int dashLimitTic1SecondsTo50 = 10; //50틱 = 1초, 대시가 지속될 시간 설정
+    [SerializeField] private int onTheRockQuitTimer = 25; //50틱 = 1초, 이 시간 안에 조이스틱 미조작 시 바위에서 강제사출
 
     [SerializeField] private JoystickController _joy;
-    
+    [SerializeField] private PlayerState _playerState;
+
     [SerializeField] private float rockHeight;
     
     private Rigidbody playerRigid;
@@ -55,28 +57,38 @@ public class PlayerController : MonoBehaviour
         PlayerRotate();
         PlayerFall();
         
-        switch (_joy.playerState)
+        switch (_playerState.getPsData())
         {
-            case JoystickController.PlayerState.walk:
+            case PlayerState.PSData.walk:
             {
                 PlayerWalk();
                 break;
             }
-            case JoystickController.PlayerState.dash:
+            case PlayerState.PSData.dash:
             {
                 PlayerDash();
                 break;
             }
-            case JoystickController.PlayerState.onTheRock:
+            case PlayerState.PSData.onTheRock:
+            {
                 PlayerMovingControllOnTheRock();
                 break;
-            case JoystickController.PlayerState.exitDashFromRock:
-                transform.position = new Vector3(transform.position.x, transform.position.y - rockHeight, transform.position.z);
-                PlayerDash();
+            }
+            case PlayerState.PSData.exitStartFromRock:
+            {
+                PlayerExitStartFromRock();
                 break;
+            }
+            case PlayerState.PSData.exitDashFromRock:
+            {
+                PlayerExitDashFromRock();
+                break;
+            }
             default:
+            {
                 PlayerStop();
                 break;
+            }
         }
     }
 
@@ -114,13 +126,18 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
+        playerTrailRenderer.emitting = true;
+        
+        this.gameObject.layer = 7;
         playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
         dashTimerCount += 1;
             
         if (dashTimerCount == dashLimitTic1SecondsTo50)
         {
             dashTimerCount = 0;
-            _joy.playerState = JoystickController.PlayerState.stop;
+            _playerState.setPsData(PlayerState.PSData.stop);
+            this.gameObject.layer = 6;
+            playerTrailRenderer.emitting = false;
         }
         playerDashDirectionObject.SetActive(false);
     }
@@ -153,57 +170,69 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMoveOnTheRock(Collision rock)
     {
-        _joy.playerState = JoystickController.PlayerState.onTheRock;
+        _playerState.setPsData(PlayerState.PSData.onTheRock);
+        dashTimerCount = 0;
         transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
+    }
+    
+    void PlayerExitStartFromRock()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y - (rockHeight * 2), transform.position.z);
+        _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
+    }
+    void PlayerExitDashFromRock()
+    {
+        playerTrailRenderer.emitting = true;
+
+        this.gameObject.layer = 7;
+        playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
+        dashTimerCount += 1;
+        
+        //대시가 1/2 진행된 지점에서 바위에서 탈출하는 대시 > 일반 대시로 판정을 변경 > 추후 미세조정 필요
+        if (dashTimerCount >= (dashLimitTic1SecondsTo50 / 2))
+        {
+            _playerState.setPsData(PlayerState.PSData.dash);
+        }
+        
+        playerDashDirectionObject.SetActive(false);
     }
 
     //충돌 시 뚫고 나갈 수 없는 물체에 닿았을 때 작동 (벽, 돌 등)
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Wall")
+        if (other.gameObject.CompareTag("Wall"))
         {
-            Debug.Log("Wall");
-            if (_joy.playerState == JoystickController.PlayerState.dash)
+            if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 PlayerWallReflection(other);
             }
         }
-        else if (other.gameObject.tag == "Rock")
+        else if (other.gameObject.CompareTag("Rock"))
         {
-            Debug.Log("Rock");
-            if ((_joy.playerState != JoystickController.PlayerState.onTheRock) && _joy.playerState != JoystickController.PlayerState.exitDashFromRock)
+            if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
-                if (_joy.playerState == JoystickController.PlayerState.dash)
-                {
-                    PlayerMoveOnTheRock(other);
-                }
+                PlayerMoveOnTheRock(other);
             }
         }
     }
     
     //충돌 시 뚫고 나갈 수 없는 물체에 닿은 상태를 유지할 때 작동 (벽, 돌 등)
-    //이게 없으면 캐릭터가 벽이랑 붙은 상태에서 벽으로 대시할 때 대시 판정이 발생하지 않음
+    //이게 없으면 캐릭터가 벽이랑 붙은 상태에서 벽으로 대시할 때 대시 판정이 발생하지 않을 수 있음
     private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.tag == "Wall")
         {
-            Debug.Log("In Wall");
-            if (_joy.playerState == JoystickController.PlayerState.dash)
+            if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
-                dashTimerCount = 0;
-                playerCharacterController.Move(new Vector3(-dashMovePosition.x,0,-dashMovePosition.z));
-                dashMovePosition = new Vector3(-dashMovePosition.x, 0, -dashMovePosition.z);
+                PlayerWallReflection(other);
             }
         }
-        // else if (other.gameObject.tag == "Rock")
-        // {
-        //     if (_joy.playerState != JoystickController.PlayerState.onTheRock)
-        //     {
-        //         if (_joy.playerState == JoystickController.PlayerState.dash)
-        //         {
-        //             PlayerMoveOnTheRock(other);
-        //         }
-        //     }
-        // }
+        else if (other.gameObject.CompareTag("Rock"))
+        {
+            if (_playerState.getPsData() == PlayerState.PSData.dash)
+            {
+                PlayerMoveOnTheRock(other);
+            }
+        }
     }
 }

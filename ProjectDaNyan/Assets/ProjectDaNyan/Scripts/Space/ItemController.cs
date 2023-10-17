@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour
 {
-    private MapManager mapManager;
+    /*private MapManager mapManager;
 
     private void Start()
     {
@@ -14,10 +14,10 @@ public class ItemController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            mapManager.collectedCats++;
+            //mapManager.collectedCats++;
             gameObject.SetActive(false);
             Debug.Log("획득한 고양이 수: " +  mapManager.collectedCats);
         }
-    }
+    }*/
 }
 
