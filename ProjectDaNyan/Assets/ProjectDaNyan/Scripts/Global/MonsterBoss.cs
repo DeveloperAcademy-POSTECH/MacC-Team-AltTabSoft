@@ -159,8 +159,6 @@ public class MonsterBoss : MonoBehaviour
             yield break;
         }
         yield return new WaitForSeconds(attackSpeed);
-
-        StartCoroutine(idle());
     }
 
 
@@ -188,7 +186,6 @@ public class MonsterBoss : MonoBehaviour
         }
 
         currentState = BossState.chasing;
-        StartCoroutine(idle());
     }
 
     IEnumerator wideAttack()
