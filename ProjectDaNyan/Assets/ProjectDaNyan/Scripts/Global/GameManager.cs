@@ -58,20 +58,18 @@ public class GameManager : MonoBehaviour
 
     //[SerializeField]private MapManager _mapManager;
 
-    [Header("# Game Control")] public float gameTime;
-    [SerializeField] float monsterReGenTime;
-    [SerializeField] float readyTime = 3;
-    [SerializeField] float stageTime = 60f;
-    [SerializeField] float currentTime = 0;
-    [SerializeField] float bossReadyTime = 3;
-    [SerializeField] public GameState CurrentGameState { get { return currentGameState; } }
+    [Header("# Game Control")] public float _gameTime;
+    [SerializeField] private float _monsterReGenTime;
+    [SerializeField] private float _readyTime = 3;
+    [SerializeField] private float _stageTime = 60f;
+    [SerializeField] private float _currentTime = 0;
+    [SerializeField] private float _bossReadyTime = 3;
+    [SerializeField] public GameState CurrentGameState { get { return _currentGameState; } }
 
 
-    Coroutine currentCoroutine;
-    GameState currentGameState;
-    GameState lastGameState;
-
-    bool isPaused = false;
+    private GameState _currentGameState;
+    private Coroutine _currentCoroutine;
+    private GameState _lastGameState;
 
     [Header("# Player Info")]
     public int collectedCatBox;
@@ -109,7 +107,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Debug.Log("manager start");
-        currentGameState = GameState.readyGame;
+        _currentGameState = GameState.readyGame;
         StartCoroutine(idle());
     }
 
@@ -119,24 +117,24 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
-        Debug.Log($"current game state {currentGameState}");
+        Debug.Log($"current game state {_currentGameState}");
 
         // notify 
-        delegateGameState(currentGameState);
+        delegateGameState(_currentGameState);
 
-        switch (currentGameState)
+        switch (_currentGameState)
         {
             case GameState.readyGame:
-                currentCoroutine = StartCoroutine(readyGame());
+                _currentCoroutine = StartCoroutine(readyGame());
                 break;
 
             case GameState.inGame:
-                currentCoroutine = StartCoroutine(inGame());
+                _currentCoroutine = StartCoroutine(inGame());
                 break;
 
             case GameState.bossReady:
 
-                currentCoroutine = StartCoroutine(bossReady());
+                _currentCoroutine = StartCoroutine(bossReady());
                 break;
 
             case GameState.bossStage:
@@ -156,24 +154,24 @@ public class GameManager : MonoBehaviour
     // do something before game start 
     IEnumerator readyGame()
     {
-        while (readyTime > 0)
+        while (_readyTime > 0)
         {
             // UI show game start countdown 
 
             if (delegateTimeCount != null)
             {
-                delegateTimeCount(readyTime);
+                delegateTimeCount(_readyTime);
             }
 
-            Debug.Log($"ready : {readyTime}");
+            Debug.Log($"ready : {_readyTime}");
 
-            readyTime -= 1;
+            _readyTime -= 1;
 
             // wait for 1 second 
             yield return new WaitForSeconds(1);
         }
 
-        currentGameState = GameState.inGame;
+        _currentGameState = GameState.inGame;
         StartCoroutine(idle());
     }
 
@@ -184,12 +182,12 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        currentTime += 1;
-        delegateTimeCount(currentTime);
+        _currentTime += 1;
+        delegateTimeCount(_currentTime);
 
-        if (currentTime == stageTime)
+        if (_currentTime == _stageTime)
         {
-            currentGameState = GameState.bossReady;
+            _currentGameState = GameState.bossReady;
         }
 
         StartCoroutine(idle());
@@ -200,16 +198,16 @@ public class GameManager : MonoBehaviour
     {
 
         // wait until boss stage ready time 
-        while (bossReadyTime > 0)
+        while (_bossReadyTime > 0)
         {
             Debug.Log("GameManager_Boss ready!");
 
 
-            bossReadyTime -= 1;
+            _bossReadyTime -= 1;
             yield return new WaitForSeconds(1);
         }
 
-        currentGameState = GameState.bossStage;
+        _currentGameState = GameState.bossStage;
         StartCoroutine(idle());
     }
 
@@ -217,14 +215,14 @@ public class GameManager : MonoBehaviour
     // player is dead, you lose 
     public void PlayerDead()
     {
-        currentGameState = GameState.gameOver;
+        _currentGameState = GameState.gameOver;
     }
 
 
     // boss is dead, player win
     public void BossDead()
     {
-        currentGameState = GameState.win;
+        _currentGameState = GameState.win;
     }
 
     // pause game
