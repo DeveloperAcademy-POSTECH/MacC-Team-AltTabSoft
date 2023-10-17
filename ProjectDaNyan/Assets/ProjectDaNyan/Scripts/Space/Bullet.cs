@@ -40,15 +40,13 @@ public class Bullet : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             trail.Clear();
-            ObejectPoolManager.Inst.DestroyObject(this.gameObject);
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         }
         else
         {
             yield return new WaitForSeconds(4f);
-            ObejectPoolManager.Inst.DestroyObject(this.gameObject);
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         }
-        
-
     }
 
     void OnCollisionEnter(Collision collision)
