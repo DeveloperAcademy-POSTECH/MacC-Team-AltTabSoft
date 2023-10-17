@@ -31,7 +31,7 @@ public class PlayerRandomFieldAttack : MonoBehaviour
 
     void MakeRandomAttackField(GameObject fieldObject, Transform fieldCenter)
     {
-        GameObject attackField = ObejectPoolManager.Inst.BringObject(fieldObject);
+        GameObject attackField = ObjectPoolManager.Inst.BringObject(fieldObject);
         Vector3 randomVector = new Vector3(Random.Range(-randomRange, randomRange),0, Random.Range(-randomRange, randomRange));
         attackField.transform.position = fieldCenter.position + randomVector;
 

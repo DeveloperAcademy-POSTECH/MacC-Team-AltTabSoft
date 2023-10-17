@@ -4,50 +4,48 @@ using UnityEngine;
 
 public class DroneChaseMonster : MonoBehaviour
 {
-    public Transform player;
-    public Transform target;
-    EnemyScanner enemyScanner;
+    public GameObject player;
+    public Transform thisPosition;
     UnityEngine.AI.NavMeshAgent agent;
 
     bool isReturn = false;
     
     void Awake()
     {
+        player = GameObject.Find("PlayerAttackPosition");
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        enemyScanner = GetComponent<EnemyScanner>();
+        //enemyScanner = GetComponent<EnemyScanner>();
     }
 
-
-    private void Update()
+    public void DroneMoving(Transform target)
     {
-        enemyScanner.ScanEnemy();
-        if(enemyScanner.nearCollider != null)
+        float distance = Vector3.Distance(player.transform.position, thisPosition.position);
+        StartCoroutine(FollowEnemy(target));
+
+        if (distance > 10)
         {
-            target = enemyScanner.nearCollider.transform;
-            if (isReturn!)
-            {
-                agent.SetDestination(target.position);
-            }
-            else
-            {
-                returnToPlayer();
-            }
+            StartCoroutine(ReturnToPlayer());
         }
-       
-        
+        else
+        {
+            StartCoroutine(FollowEnemy(target));
+        }
+
+
     }
 
-    void returnToPlayer()
+    IEnumerator FollowEnemy(Transform target)
     {
-        float distance = Vector3.Distance(player.position, target.position);
-        if (distance > 50)
-        {
-            agent.SetDestination(player.position);
-        }
-        else if(distance < 10)
-        {
-            isReturn = false;
-        }
+        yield return null;
+        if (target != null)
+            agent.SetDestination(target.position);
+        else
+            agent.SetDestination(player.transform.position);
+    }
 
+    IEnumerator ReturnToPlayer()
+    {
+        yield return null;
+        agent.SetDestination(player.transform.position);
     }
 }

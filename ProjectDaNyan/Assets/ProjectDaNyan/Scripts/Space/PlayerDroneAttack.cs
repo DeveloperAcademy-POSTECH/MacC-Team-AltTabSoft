@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerDroneAttack : MonoBehaviour
 {
     public Transform bulletPosition;
+    public Transform dronePosition;
     public GameObject droneBullet;
     public GameObject drone;
 
@@ -12,25 +13,42 @@ public class PlayerDroneAttack : MonoBehaviour
     public float droneSpeed;
     public float droneFireRate;
     public float droneFireSpeed;
-    public bool isDroneAppear;
+    bool isDroneAppear = false;
 
     float droneFireDelay;
     bool droneFireReady;
 
-    
-    //EnemyScanner scanner;
+    DroneChaseMonster droneChasing;
+    EnemyScanner scanner;
+    public Collider targetCollider;
 
-    //private void OnEnable()
-    //{
-    //    scanner = GetComponent<EnemyScanner>();
-    //}
+    private void OnEnable()
+    {
+        scanner = GetComponent<EnemyScanner>();
+        droneChasing = GetComponent<DroneChaseMonster>();
+        dronePosition = GameObject.Find("DronePosition").transform;
+
+    }
+
+    private void Update()
+    {
+        droneChasing.StartCoroutine("ReturnToPlayer");
+        scanner.ScanEnemy();
+        targetCollider = scanner.nearCollider;
+        if(scanner.nearCollider != null)
+            droneChasing.DroneMoving(targetCollider.transform);
+    }
 
     public void UseDroneAttack(bool isDrone)
     {
         if (isDrone)
         {
-            if (drone.activeSelf == false)
-                drone.SetActive(true);
+            if (isDroneAppear == false && drone != null && dronePosition != null)
+            {
+                CreateDrone(drone, dronePosition);
+                bulletPosition = GameObject.Find("DroneBulletPosition").transform;
+            }
+                
             droneFireReady = droneFireRate < droneFireDelay;
             droneFireDelay += Time.deltaTime;
             if (droneFireReady)
@@ -41,9 +59,18 @@ public class PlayerDroneAttack : MonoBehaviour
         }
     }
 
+    void CreateDrone(GameObject droneObject, Transform droneObjectPosition)
+    {
+        
+        GameObject createdDrone = ObjectPoolManager.Inst.BringObject(droneObject);
+        createdDrone.transform.position = droneObjectPosition.position;
+        isDroneAppear = true;
+
+    }
+
     void MakeInstantBullet(GameObject bulletObject, Transform bulletObjectPosition, bool isGravity, float fireSpeed)
     {
-        GameObject bullet = ObejectPoolManager.Inst.BringObject(bulletObject);
+        GameObject bullet = ObjectPoolManager.Inst.BringObject(bulletObject);
         bullet.transform.position = bulletObjectPosition.position;
         Rigidbody basicBulletRigid = bullet.GetComponent<Rigidbody>();
         basicBulletRigid.useGravity = isGravity;
