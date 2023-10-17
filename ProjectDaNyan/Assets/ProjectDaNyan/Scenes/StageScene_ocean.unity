@@ -1852,10 +1852,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7816720242755125304, guid: d4c4af53baa7a4eefbb7ad3edbf7e222, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8051340683231158732, guid: d4c4af53baa7a4eefbb7ad3edbf7e222, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2034,20 +2030,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2853491861618142130, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3239886862586665274, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
       propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3400492295373110742, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 4673406876136643668, guid: a176f183eedcf411fb08b4fdad02dbd5, type: 3}
-    - target: {fileID: 4977688364478794824, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5792001150830992708, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
@@ -2137,22 +2121,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landArray:
-  - {fileID: 5313662401139805110}
-  - {fileID: 6114438699302902857}
-  - {fileID: 8683064805367249165}
   - {fileID: 5358936256249779901}
-  - {fileID: 5983641238075654141}
-  - {fileID: 7810506883749389169}
-  - {fileID: 6437725178417950511}
+  - {fileID: 8683064805367249165}
+  - {fileID: 6114438699302902857}
+  - {fileID: 5313662401139805110}
   - {fileID: 973710464018465929}
-  - {fileID: 3604732535206415555}
-  - {fileID: 1596059570927115267}
-  - {fileID: 8669187743708454402}
+  - {fileID: 6437725178417950511}
+  - {fileID: 7810506883749389169}
+  - {fileID: 5983641238075654141}
   - {fileID: 6843944682384650383}
-  - {fileID: 7003980043319743594}
-  - {fileID: 400168826876923420}
-  - {fileID: 703414799198008036}
+  - {fileID: 8669187743708454402}
+  - {fileID: 1596059570927115267}
+  - {fileID: 3604732535206415555}
   - {fileID: 5766983344044466380}
+  - {fileID: 703414799198008036}
+  - {fileID: 400168826876923420}
+  - {fileID: 7003980043319743594}
   player: {fileID: 2110752888}
   boxCatPrefab: {fileID: 7703086083745402384, guid: 164b99f52a81e4deea47911c18cdf0d4, type: 3}
   collectedCats: 0
