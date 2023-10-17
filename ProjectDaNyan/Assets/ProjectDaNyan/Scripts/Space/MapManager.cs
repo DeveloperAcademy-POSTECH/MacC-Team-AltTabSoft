@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour
@@ -27,6 +28,13 @@ public class MapManager : MonoBehaviour
     // 보스전 -> 맵 제한 발동 여부
     bool isMapRestricted = false;
     
+    NavMeshSurface myNavMeshSurface; // (개선 필요) Floor 갱신시 Re-Bake 하기 위한 컴포넌트 
+    
+    private void Awake()
+    {
+        myNavMeshSurface = GetComponent<NavMeshSurface>();
+    }
+    
     void Start()
     {
         boxCat = Instantiate(boxCatPrefab);
@@ -44,7 +52,7 @@ public class MapManager : MonoBehaviour
 
     void Update()
     {
-        float passedTime = GameManager.Instance.gameTime;
+        float passedTime = GameManager.Inst.gameTime;
         int min = Mathf.FloorToInt(passedTime / 60);
         int sec = Mathf.FloorToInt(passedTime % 60);
 
@@ -344,6 +352,8 @@ public class MapManager : MonoBehaviour
                 }
                 break;
         }
+        // (MapManager1 -> MapManager) 맵 이동 시 navmeshsurface bake
+        myNavMeshSurface.BuildNavMesh();
     }
 }
 
