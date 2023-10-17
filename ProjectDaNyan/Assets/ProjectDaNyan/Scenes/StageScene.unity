@@ -1388,6 +1388,10 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1372643640380948066, guid: a1abba37212424f5ab2a925987121537, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1372643640380948066, guid: a1abba37212424f5ab2a925987121537, type: 3}
       propertyPath: landArray.Array.size
       value: 16
       objectReference: {fileID: 0}
@@ -1670,6 +1674,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3240628494863968684, guid: a1abba37212424f5ab2a925987121537, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8694636629277493339}
+    - targetCorrespondingSourceObject: {fileID: 3240628494863968684, guid: a1abba37212424f5ab2a925987121537, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8694636629277493344}
   m_SourcePrefab: {fileID: 100100000, guid: a1abba37212424f5ab2a925987121537, type: 3}
 --- !u!1 &703414799198008036 stripped
 GameObject:
@@ -2292,7 +2299,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 78d9c1ebf83a64847844b59980f233e2, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &8694636629277493342 stripped
 Transform:
@@ -2305,11 +2312,45 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 699569760543882459}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2687620452824814967}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee0b38df9b6f745ad8873a52ebc7971d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8694636629277493344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2687620452824814967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882243899537a4145ba8a1109d465cdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landArray:
+  - {fileID: 5358936256249779901}
+  - {fileID: 8683064805367249165}
+  - {fileID: 6114438699302902857}
+  - {fileID: 5313662401139805110}
+  - {fileID: 973710464018465929}
+  - {fileID: 6437725178417950511}
+  - {fileID: 7810506883749389169}
+  - {fileID: 5983641238075654141}
+  - {fileID: 6843944682384650383}
+  - {fileID: 8669187743708454402}
+  - {fileID: 1596059570927115267}
+  - {fileID: 3604732535206415555}
+  - {fileID: 5766983344044466380}
+  - {fileID: 703414799198008036}
+  - {fileID: 400168826876923420}
+  - {fileID: 7003980043319743594}
+  player: {fileID: 2110752888}
+  boxCatPrefab: {fileID: 7703086083745402384, guid: 164b99f52a81e4deea47911c18cdf0d4, type: 3}
+  collectedCats: 0
+  UnitSize: 25
+  halfSight: 25
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
