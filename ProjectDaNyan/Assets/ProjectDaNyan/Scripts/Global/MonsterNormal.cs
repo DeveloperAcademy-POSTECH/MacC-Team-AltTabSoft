@@ -8,7 +8,7 @@ public class MonsterNormal : MonoBehaviour
 {
     public IObjectPool<GameObject> myPool { get; set; }
 
-    [SerializeField]  MonsterStatus _monsterStatus;
+    [SerializeField] private MonsterStatus _monsterStatus;
 
     // nav mesh related variables 
     private NavMeshAgent _navMeshAgent = null;
@@ -26,14 +26,14 @@ public class MonsterNormal : MonoBehaviour
 
 
     // Monster state
-    public enum state
+    private enum state
     {
         chasing,
         attack,
         dead
     }
 
-    public state CurrentState;
+    private state _currentState;
 
 
     private void OnEnable()
@@ -42,7 +42,7 @@ public class MonsterNormal : MonoBehaviour
 
         // set target 
         _target = FindAnyObjectByType<PlayerController>().gameObject;
-        CurrentState = state.chasing;
+        _currentState = state.chasing;
 
         _navMeshAgent.stoppingDistance = _attackRange = _monsterStatus.attackRange;
 
@@ -66,7 +66,7 @@ public class MonsterNormal : MonoBehaviour
 
         while (_monsterHP > 0)
         {
-            yield return StartCoroutine(CurrentState.ToString());
+            yield return StartCoroutine(_currentState.ToString());
         }
 
         StartCoroutine(dead());
@@ -104,23 +104,23 @@ public class MonsterNormal : MonoBehaviour
 
         if (distance >= 45)
         {
-            CurrentState = state.dead;
+            _currentState = state.dead;
         }
 
         else if (_navMeshAgent.remainingDistance <= _attackRange && distance <= _attackRange)
         {
             _navMeshAgent.isStopped = true;
-            CurrentState = state.attack;
+            _currentState = state.attack;
         }
         else
         {
             _navMeshAgent.isStopped = false;
-            CurrentState = state.chasing;
+            _currentState = state.chasing;
         }
     }
 
 
-    void attackPlayer()
+    private void attackPlayer()
     {
         // attacking player
 
@@ -128,7 +128,6 @@ public class MonsterNormal : MonoBehaviour
 
         Debug.Log("monster attacks player");
     }
-
 
 
     private void OnTriggerEnter(Collider other)
@@ -139,6 +138,7 @@ public class MonsterNormal : MonoBehaviour
         if (other.tag.Equals("PlayerAttack"))
         {
 
+            // get bullet damage 
             if(other.gameObject.TryGetComponent<Bullet>(out Bullet bullet))
             {
                 int damage = bullet.damage;
