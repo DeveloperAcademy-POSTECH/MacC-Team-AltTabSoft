@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerState : MonoBehaviour
 {
     public static PlayerState psInstance = null;
-    public enum PSData {walk,dash,stop,onTheRock,exitDashFromRock}
+    public enum PSData {walk,dash,stop,onTheRock,exitStartFromRock, exitDashFromRock}
 
     private PSData psData = PSData.stop;
     
