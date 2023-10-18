@@ -314,7 +314,7 @@ Transform:
   m_GameObject: {fileID: 217074538}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.4, y: 1, z: -24.1}
+  m_LocalPosition: {x: -0.4, y: 1.55, z: 4.2}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1286,6 +1286,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0244b16b517bd48db89ff691186b0f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!96 &2110752905 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 3421144022553424768, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
+  m_PrefabInstance: {fileID: 8197505432003427599}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2120482533
 GameObject:
   m_ObjectHideFlags: 0
@@ -2263,14 +2268,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3239886862586665274, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3421144022553424768, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3421144022553424768, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
+      propertyPath: m_Emitting
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3421144022553424768, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
+      propertyPath: m_ApplyActiveColorSpace
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3421144022553424768, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e5510afcfdcd449e08e6f8b4fc8a308b, type: 2}
     - target: {fileID: 5792001150830992708, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792001150830992708, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6667353087869614381, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
       propertyPath: _joy
       value: 
       objectReference: {fileID: 7012832760136418615}
+    - target: {fileID: 6667353087869614381, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
+      propertyPath: rockHeight
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667353087869614381, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
+      propertyPath: playerTrailRenderer
+      value: 
+      objectReference: {fileID: 2110752905}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
