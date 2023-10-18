@@ -16,11 +16,17 @@ namespace ProjectDaNyan.Views.StageUI
         private Image _blackScreen;
         private GameObject _transitionCanvas;
         private GameObject _stageClearUI;
+        private GameObject _skillSelectUI;
+        public GameObject SkillSelectUI{get{return _skillSelectUI;}}
+
+        private PlayerStatus _playerStatus;
 
         private void Awake()
         {
             _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive: true).gameObject;
             _transitionCanvas.SetActive(true);
+            _playerStatus = FindObjectOfType<PlayerStatus>().gameObject.GetComponent<PlayerStatus>();
+            Debug.Log(_playerStatus);
         }
 
         // Start is called before the first frame update
@@ -29,9 +35,10 @@ namespace ProjectDaNyan.Views.StageUI
             _pauseUI = transform.Find("PauseUI").gameObject;
             _stageClearUI = transform.Find("StageClearUI").gameObject;
             _stageMainUI = transform.Find("StageMainUI").gameObject;
+            _skillSelectUI = transform.Find("SkillSelectUI").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
 
-            var buttons = GetComponentsInChildren<Button>(includeInactive: true);
+            var buttons = GetComponentsInChildren<Button>(includeInactive: true); // 버튼별 역할 할당
             foreach (var button in buttons)
             {
                 var buttonName = button.transform.name;
@@ -76,6 +83,12 @@ namespace ProjectDaNyan.Views.StageUI
             if (GameManager.Inst.isGameOver)
             {
                 _stageClearUI.SetActive(true);
+            }
+
+            if (_playerStatus.Level_Up_Require_EXP - _playerStatus.Player_now_EXP <= 0)
+            {
+                GameManager.Inst.PauseGame();
+                _skillSelectUI.SetActive(true);
             }
         }
     }

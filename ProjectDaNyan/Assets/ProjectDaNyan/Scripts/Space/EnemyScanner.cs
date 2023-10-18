@@ -12,10 +12,11 @@ public class EnemyScanner : MonoBehaviour
 
     void Update()
     {
-        ScanEnemy();
+        colliders = Physics.OverlapSphere(transform.position, scanRange, layer);
+        //ScanEnemy();
     }
 
-    private void ScanEnemy()
+    public void ScanEnemy()
     {
         float maxRange = Mathf.Infinity;
         foreach (Collider objectCollider in colliders)
