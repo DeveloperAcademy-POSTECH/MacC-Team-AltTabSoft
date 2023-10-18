@@ -14,7 +14,7 @@ public class PlayerBasicAttack : MonoBehaviour
     bool isFireReady;
     //public bool isUpgrade = true; //초월 여부
 
-
+    public Transform bulletPositionGroup;
     public Transform bulletPosition; //플레이어 오브젝트에 총알이 나갈 위치를 오브젝트로 지정
     public Transform[] upgradeBulletPositions; //초월 공격에서 추가될 공격 방향 
     public GameObject basicBullet; //기본 공격 총알로 쓸 오브젝트 프리펩
@@ -22,11 +22,12 @@ public class PlayerBasicAttack : MonoBehaviour
 
     EnemyScanner scanner; //가까운 적 탐지 스크립트
 
-    public void UseBasicAttack(bool isUpgrade)
+    public void UseBasicAttack(bool isUpgrade, Collider enemyCollider)
     {
+        bulletPositionGroup.LookAt(enemyCollider.transform);
         if (isUpgrade == false)
         {
-            //playerBasicAttack.bulletPosition.LookAt(scanner.nearCollider.transform);
+            
             isFireReady = basicFireRate < basicfireDelay;
             basicfireDelay += Time.deltaTime;
             if (isFireReady)
