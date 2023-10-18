@@ -22,11 +22,12 @@ public class PlayerBasicAttack : MonoBehaviour
 
     EnemyScanner scanner; //가까운 적 탐지 스크립트
 
-    public void UseBasicAttack(bool isUpgrade)
+    public void UseBasicAttack(bool isUpgrade, Collider enemyCollider)
     {
+        bulletPosition.LookAt(enemyCollider.transform);
         if (isUpgrade == false)
         {
-            //playerBasicAttack.bulletPosition.LookAt(scanner.nearCollider.transform);
+            
             isFireReady = basicFireRate < basicfireDelay;
             basicfireDelay += Time.deltaTime;
             if (isFireReady)

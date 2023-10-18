@@ -33,13 +33,12 @@ public class PlayerDroneAttack : MonoBehaviour
     private void Update()
     {
         droneChasing.StartCoroutine("ReturnToPlayer");
-        scanner.ScanEnemy();
         targetCollider = scanner.nearCollider;
         if(scanner.nearCollider != null)
             droneChasing.DroneMoving(targetCollider.transform);
     }
 
-    public void UseDroneAttack(bool isDrone)
+    public void UseDroneAttack(bool isDrone, Collider enemyCollider)
     {
         if (isDrone)
         {
@@ -53,6 +52,7 @@ public class PlayerDroneAttack : MonoBehaviour
             droneFireDelay += Time.deltaTime;
             if (droneFireReady)
             {
+                bulletPosition.LookAt(enemyCollider.transform);
                 StartCoroutine("DroneFire");
                 droneFireDelay = 0;
             }
