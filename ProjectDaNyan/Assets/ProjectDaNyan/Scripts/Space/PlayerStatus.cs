@@ -10,6 +10,10 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private int hp_Heal_Counter_x50 = 50;
     [SerializeField] private int hp_Heal_Amount = 1;
     [SerializeField] private int level_Up_Require_EXP = 100;
+    public int Level_Up_Require_EXP { get{return level_Up_Require_EXP;} }
+    public int Player_now_EXP { get{return player_now_EXP;}
+        set { player_now_EXP = value; }
+    }
     
     private int player_Level = 1;
     
