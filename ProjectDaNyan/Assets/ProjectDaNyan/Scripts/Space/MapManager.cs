@@ -360,18 +360,6 @@ public class MapManager : MonoBehaviour
         }
 
         myNavMeshSurface.UpdateNavMesh(myNavMeshSurface.navMeshData);
-
-        //myNavMeshSurface.UpdateNavMesh(myNavMeshSurface.navMeshData);
-        //AsyncBuildNavmesh(myNavMeshSurface);
-        //(MapManager1 -> MapManager) 맵 이동 시 navmeshsurface bake
-        //StartCoroutine(BuildNavmesh(myNavMeshSurface));
-    }
-    
-    async void AsyncBuildNavmesh(NavMeshSurface surface)
-    {
-        Debug.Log("Start");
-        await Task.Run(() => surface.UpdateNavMesh(surface.navMeshData));
-        Debug.Log("End!");
     }
 }
 
