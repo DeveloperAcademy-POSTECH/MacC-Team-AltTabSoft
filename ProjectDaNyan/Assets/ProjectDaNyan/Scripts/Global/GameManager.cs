@@ -58,21 +58,24 @@ public class GameManager : MonoBehaviour
 
     //[SerializeField]private MapManager _mapManager;
 
+
+   
     public float GameTime { get { return _currentTime; } }
+    public GameState CurrentGameState { get { return _currentGameState; } }
+
 
 
     [Header("# Game Control")]
     [SerializeField] private float _monsterReGenTime;
     [SerializeField] private float _readyTime = 3;
-    [SerializeField] private float _stageTime = 20f;
+    [SerializeField] private float _stageTime = 180f;
     [SerializeField] private float _currentTime = 0;
     [SerializeField] private float _bossReadyTime = 3;
-    [SerializeField] public GameState CurrentGameState { get { return _currentGameState; } }
 
 
-    private GameState _currentGameState;
-    private Coroutine _currentCoroutine;
-    private GameState _lastGameState;
+    [Header("# Game Status")]
+    [SerializeField] private GameState _currentGameState;
+
 
     [Header("# Player Info")]
     public int collectedCatBox;
@@ -198,7 +201,6 @@ public class GameManager : MonoBehaviour
 
     IEnumerator bossReady()
     {
-
         // wait until boss stage ready time 
         while (_bossReadyTime > 0)
         {
@@ -224,6 +226,7 @@ public class GameManager : MonoBehaviour
     // boss is dead, player win
     public void BossDead()
     {
+        Debug.Log($"boss dead {_currentGameState}");
         _currentGameState = GameState.win;
     }
 

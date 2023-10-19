@@ -48,11 +48,11 @@ public class MonsterManager : MonoBehaviour
 
         // delegate chain, add time and game state observer 
         GameManager.Inst.delegateTimeCount += OnCalledEverySecond;
-        GameManager.Inst.delegateGameState += checkGameState;
+        GameManager.Inst.delegateGameState += CheckGameState;
     }
 
 
-    public void checkGameState(GameState gameState)
+    public void CheckGameState(GameState gameState)
     {
         currentGameState = gameState;
 

@@ -87,7 +87,7 @@ public class MonsterBoss : MonoBehaviour
             // dash to target 
             case BossState.dashAttack:
 
-                _monsterRigidbody.velocity = _dashDirection * _dashSpeed;
+               // _monsterRigidbody.velocity = _dashDirection * _dashSpeed;
 
                 break;
 
@@ -134,9 +134,6 @@ public class MonsterBoss : MonoBehaviour
                 StartCoroutine(wideAttack());
                 break;
 
-            case BossState.dead:
-                StartCoroutine(dead());
-                break;
         }
     }
 
@@ -227,11 +224,6 @@ public class MonsterBoss : MonoBehaviour
         StartCoroutine(idle());
     }
 
-    IEnumerator dead()
-    {
-        GameManager.Inst.BossDead();
-        yield return null;
-    }
 
 
     // check distance between boss and player 
@@ -259,6 +251,17 @@ public class MonsterBoss : MonoBehaviour
         _target.SendMessage("ApplyDamage", _attackPower, SendMessageOptions.DontRequireReceiver);
     }
 
+    private void applyDamage(int damage)
+    {
+        if(_monsterHP <= 0)
+        {
+            GameManager.Inst.BossDead();
+            return;
+        }
+
+        _monsterHP -= damage;
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -282,11 +285,8 @@ public class MonsterBoss : MonoBehaviour
             // get bullet damage 
             if (other.gameObject.TryGetComponent<Bullet>(out Bullet bullet))
             {
-                int damage = bullet.damage;
+                applyDamage(bullet.damage);
             }
-
-            // monster damaged
-            _monsterHP -= 1;
         }
 
     }

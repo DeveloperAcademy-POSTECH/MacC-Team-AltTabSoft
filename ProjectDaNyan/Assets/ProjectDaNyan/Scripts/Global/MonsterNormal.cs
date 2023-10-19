@@ -54,6 +54,8 @@ public class MonsterNormal : MonoBehaviour
 
         _navMeshAgent.speed = _monsterSpeed;
 
+        GameManager.Inst.delegateGameState += PrepareBossStage;
+
         StartCoroutine(monsterState());
     }
 
@@ -124,11 +126,18 @@ public class MonsterNormal : MonoBehaviour
     {
         // attacking player
 
-        SendMessage("ApplyDamage", _attackPower, SendMessageOptions.DontRequireReceiver);
-
-        Debug.Log("monster attacks player");
+        _target.SendMessage("ApplyDamage", _attackPower, SendMessageOptions.DontRequireReceiver);
     }
 
+
+    public void PrepareBossStage(GameState gameState)
+    {
+        if(gameState == GameState.bossReady)
+        {
+            Debug.Log("monster, boss ready");
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
