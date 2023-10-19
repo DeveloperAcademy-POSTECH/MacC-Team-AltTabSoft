@@ -95,6 +95,8 @@ public class MonsterNormal : MonoBehaviour
 
     IEnumerator dead()
     {
+        GameManager.Inst.delegateGameState -= PrepareBossStage;
+
         ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         yield return null;
     }
