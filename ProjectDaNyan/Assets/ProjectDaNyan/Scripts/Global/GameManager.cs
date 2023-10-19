@@ -58,10 +58,13 @@ public class GameManager : MonoBehaviour
 
     //[SerializeField]private MapManager _mapManager;
 
-    [Header("# Game Control")] public float _gameTime;
+    public float GameTime { get { return _currentTime; } }
+
+
+    [Header("# Game Control")]
     [SerializeField] private float _monsterReGenTime;
     [SerializeField] private float _readyTime = 3;
-    [SerializeField] private float _stageTime = 60f;
+    [SerializeField] private float _stageTime = 20f;
     [SerializeField] private float _currentTime = 0;
     [SerializeField] private float _bossReadyTime = 3;
     [SerializeField] public GameState CurrentGameState { get { return _currentGameState; } }
@@ -125,29 +128,28 @@ public class GameManager : MonoBehaviour
         switch (_currentGameState)
         {
             case GameState.readyGame:
-                _currentCoroutine = StartCoroutine(readyGame());
-                break;
+                StartCoroutine(readyGame());
+            break;
 
             case GameState.inGame:
-                _currentCoroutine = StartCoroutine(inGame());
-                break;
+                StartCoroutine(inGame());
+            break;
 
             case GameState.bossReady:
-
-                _currentCoroutine = StartCoroutine(bossReady());
-                break;
+                StartCoroutine(bossReady());
+            break;
 
             case GameState.bossStage:
 
-                break;
+            break;
 
             case GameState.gameOver:
-
-                break;
+                Debug.Log("Player is dead");
+            break;
 
             case GameState.win:
-
-                break;
+                Debug.Log("Boss is dead");
+            break;
         }
     }
 

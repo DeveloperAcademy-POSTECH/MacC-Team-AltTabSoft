@@ -41,7 +41,7 @@ public class MonsterNormal : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
 
         // set target 
-        _target = FindAnyObjectByType<PlayerController>().gameObject;
+        _target = FindAnyObjectByType<PlayerStatus>().gameObject;
         _currentState = state.chasing;
 
         _navMeshAgent.stoppingDistance = _attackRange = _monsterStatus.attackRange;
@@ -124,7 +124,7 @@ public class MonsterNormal : MonoBehaviour
     {
         // attacking player
 
-        _target.SendMessage("applyDamage", _attackPower, SendMessageOptions.DontRequireReceiver);
+        SendMessage("ApplyDamage", _attackPower, SendMessageOptions.DontRequireReceiver);
 
         Debug.Log("monster attacks player");
     }
@@ -141,12 +141,9 @@ public class MonsterNormal : MonoBehaviour
             // get bullet damage 
             if(other.gameObject.TryGetComponent<Bullet>(out Bullet bullet))
             {
-                int damage = bullet.damage;
+                // apply player attack damage 
+                _monsterHP -= bullet.damage;
             }
-
-            // apply player attack damage 
-            _monsterHP = 0;
         }
     }
-
 }
