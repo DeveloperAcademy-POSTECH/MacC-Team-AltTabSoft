@@ -48,11 +48,11 @@ public class MonsterManager : MonoBehaviour
 
         // delegate chain, add time and game state observer 
         GameManager.Inst.delegateTimeCount += OnCalledEverySecond;
-        GameManager.Inst.delegateGameState += checkGameState;
+        GameManager.Inst.delegateGameState += CheckGameState;
     }
 
 
-    public void checkGameState(GameState gameState)
+    public void CheckGameState(GameState gameState)
     {
         currentGameState = gameState;
 
@@ -92,7 +92,9 @@ public class MonsterManager : MonoBehaviour
             case GameState.bossStage:
                 // do something
                 GameObject boss = ObjectPoolManager.Inst.BringObject(monsterBossPrefab);
-                boss.transform.position = monsterSpawnPoints[0].transform.position;
+                Vector3 genPos = monsterSpawnPoints[1].transform.position;
+                boss.transform.position = new Vector3(genPos.x, 1.5f, genPos.z);
+
 
             break;
 

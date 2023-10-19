@@ -52,7 +52,7 @@ public class MapManager : MonoBehaviour
 
     void Update()
     {
-        float passedTime = GameManager.Inst.gameTime;
+        float passedTime = GameManager.Inst.GameTime;
         int min = Mathf.FloorToInt(passedTime / 60);
         int sec = Mathf.FloorToInt(passedTime % 60);
 

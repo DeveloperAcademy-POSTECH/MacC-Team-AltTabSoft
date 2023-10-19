@@ -8,60 +8,67 @@ public class MonsterNormal : MonoBehaviour
 {
     public IObjectPool<GameObject> myPool { get; set; }
 
-    public MonsterStatus monsterStatus;
+    [SerializeField] private MonsterStatus _monsterStatus;
 
     // nav mesh related variables 
-    NavMeshAgent myNavMeshAgent = null;
-    GameObject target = null;
+    private NavMeshAgent _navMeshAgent = null;
+    private GameObject _target = null;
 
     [Header("Attack Range Setting")]
 
     // attack range
-    [SerializeField] float attackPower;
-    [SerializeField] float monsterHP;
-    [SerializeField] float monsterSpeed;
-    [SerializeField] float attackRange;
-    [SerializeField] float attackSpeed;
+    [SerializeField] private float _attackPower;
+    [SerializeField] private float _monsterHP;
+    [SerializeField] private float _monsterSpeed;
+    [SerializeField] private float _attackRange;
+    [SerializeField] private float _attackSpeed;
+    private float _attacktime;
 
 
     // Monster state
-    public enum state
+    private enum state
     {
         chasing,
         attack,
         dead
     }
 
-    [SerializeField] protected state currentState;
+    private state _currentState;
 
 
-    void OnEnable()
+    private void OnEnable()
     {
-        myNavMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
 
         // set target 
-        target = FindAnyObjectByType<PlayerController>().gameObject;
-        currentState = state.chasing;
+        _target = FindAnyObjectByType<PlayerStatus>().gameObject;
+        _currentState = state.chasing;
 
-        myNavMeshAgent.stoppingDistance = attackRange = monsterStatus.attackRange;
+        _navMeshAgent.stoppingDistance = _attackRange = _monsterStatus.attackRange;
 
-        attackPower = monsterStatus.attackPower;
-        monsterHP = monsterStatus.hp;
-        monsterSpeed = monsterStatus.speed;
-        attackRange = monsterStatus.attackRange;
-        attackSpeed = monsterStatus.attackSpeed;
+        _attackPower = _monsterStatus.attackPower;
+        _monsterHP = _monsterStatus.hp;
+        _monsterSpeed = _monsterStatus.speed;
+        _attackRange = _monsterStatus.attackRange;
+        _attackSpeed = _monsterStatus.attackSpeed;
 
-        myNavMeshAgent.speed = monsterSpeed;
+        _navMeshAgent.speed = _monsterSpeed;
+
+        GameManager.Inst.delegateGameState += PrepareBossStage;
+
         StartCoroutine(monsterState());
     }
 
     IEnumerator monsterState()
     {
-        while (monsterHP > 0)
-        {
-            checkAttackDistance();
+        checkAttackDistance();
 
-            yield return StartCoroutine(currentState.ToString());
+        yield return new WaitForSeconds(0.1f);
+
+
+        while (_monsterHP > 0)
+        {
+            yield return StartCoroutine(_currentState.ToString());
         }
 
         StartCoroutine(dead());
@@ -69,15 +76,21 @@ public class MonsterNormal : MonoBehaviour
 
     IEnumerator chasing()
     {
-        myNavMeshAgent.SetDestination(target.transform.position);
+        _navMeshAgent.SetDestination(_target.transform.position);
         yield return null;
     }
 
     IEnumerator attack()
     {
-        attackPlayer();
+        _attacktime += 0.1f;
 
-        yield return new WaitForSeconds(attackSpeed);
+
+        if(_attacktime >= _attackSpeed)
+        {
+            _attacktime = 0;
+            attackPlayer();
+        }
+        yield return null;
     }
 
     IEnumerator dead()
@@ -86,43 +99,60 @@ public class MonsterNormal : MonoBehaviour
         yield return null;
     }
 
-    void checkAttackDistance()
+    private void checkAttackDistance()
     {
 
-        float distance = Vector3.Distance(this.transform.position, target.transform.position);
+        float distance = Vector3.Distance(this.transform.position, _target.transform.position);
 
         if (distance >= 45)
         {
-            currentState = state.dead;
+            _currentState = state.dead;
         }
 
-        else if (myNavMeshAgent.remainingDistance <= attackRange && distance <= attackRange)
+        else if (_navMeshAgent.remainingDistance <= _attackRange && distance <= _attackRange)
         {
-            myNavMeshAgent.isStopped = true;
-            currentState = state.attack;
+            _navMeshAgent.isStopped = true;
+            _currentState = state.attack;
         }
         else
         {
-            myNavMeshAgent.isStopped = false;
-            currentState = state.chasing;
+            _navMeshAgent.isStopped = false;
+            _currentState = state.chasing;
         }
     }
 
 
-    void attackPlayer()
+    private void attackPlayer()
     {
         // attacking player
 
-        target.SendMessage("applyDamage", attackPower, SendMessageOptions.DontRequireReceiver);
+        _target.SendMessage("ApplyDamage", _attackPower, SendMessageOptions.DontRequireReceiver);
     }
 
 
-
-    private void OnCollisionEnter(Collision collision)
+    public void PrepareBossStage(GameState gameState)
     {
-        if (collision.collider.tag.Equals("PlayerAttack"))
+        if(gameState == GameState.bossReady)
         {
-            monsterHP = 0;
+            Debug.Log("monster, boss ready");
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"detect collision {other.gameObject}");
+
+
+        if (other.tag.Equals("PlayerAttack"))
+        {
+
+            // get bullet damage 
+            if(other.gameObject.TryGetComponent<Bullet>(out Bullet bullet))
+            {
+                // apply player attack damage 
+                _monsterHP -= bullet.damage;
+            }
         }
     }
 }
