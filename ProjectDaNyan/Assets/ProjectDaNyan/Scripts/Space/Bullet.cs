@@ -49,6 +49,21 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Monster") && type != Type.Piercing && type != Type.Laser)
+        {
+            trail.Clear();
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
+
+        if (other.gameObject.layer == LayerMask.NameToLayer("FieldObject") && type != Type.Laser)
+        {
+            trail.Clear();
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy" && type != Type.Piercing && type != Type.Laser) //관통 타입이 아니면 적에 맞을 경우 총알 오브젝트 사라
