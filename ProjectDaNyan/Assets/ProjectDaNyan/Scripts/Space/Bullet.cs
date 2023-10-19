@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public enum Type {Default, Piercing, Laser};
+    public enum Type {Default, Piercing, Laser, Field};
     public Type type;
     public int damage;
     TrailRenderer trail;
@@ -14,7 +14,8 @@ public class Bullet : MonoBehaviour
 
     private void OnEnable()
     {
-        trail = GetComponent<TrailRenderer>();
+        if(type != Type.Field)
+            trail = GetComponent<TrailRenderer>();
         StartCoroutine(Goodbye());
     }
 
@@ -35,11 +36,17 @@ public class Bullet : MonoBehaviour
         //    time -= 1;
         //    yield return new WaitForSeconds(1);
         //}
-        yield return new WaitForSeconds(1f);
-        trail.Clear();
-        ObjectPoolManager.Inst.DestroyObject(this.gameObject);
-        
-
+        if (type != Type.Field)
+        {
+            yield return new WaitForSeconds(1f);
+            trail.Clear();
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
+        else
+        {
+            yield return new WaitForSeconds(4f);
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
     }
 
     void OnCollisionEnter(Collision collision)

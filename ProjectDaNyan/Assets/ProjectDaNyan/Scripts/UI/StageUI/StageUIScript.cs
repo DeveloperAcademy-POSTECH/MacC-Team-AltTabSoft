@@ -1,7 +1,10 @@
+using System;
+using System.Diagnostics;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 namespace ProjectDaNyan.Views.StageUI
 {
@@ -16,11 +19,22 @@ namespace ProjectDaNyan.Views.StageUI
         private Image _blackScreen;
         private GameObject _transitionCanvas;
         private GameObject _stageClearUI;
+        private GameObject _stageFailedUI;
+        private GameObject _skillSelectUI;
+
+        public GameObject SkillSelectUI
+        {
+            get { return _skillSelectUI; }
+        }
+
+        private PlayerStatus _playerStatus;
 
         private void Awake()
         {
             _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive: true).gameObject;
             _transitionCanvas.SetActive(true);
+            _playerStatus = FindObjectOfType<PlayerStatus>().gameObject.GetComponent<PlayerStatus>();
+            Debug.Log(_playerStatus);
         }
 
         // Start is called before the first frame update
@@ -28,10 +42,12 @@ namespace ProjectDaNyan.Views.StageUI
         {
             _pauseUI = transform.Find("PauseUI").gameObject;
             _stageClearUI = transform.Find("StageClearUI").gameObject;
+            _stageFailedUI = transform.Find("StageFailedUI").gameObject;
             _stageMainUI = transform.Find("StageMainUI").gameObject;
+            _skillSelectUI = transform.Find("SkillSelectUI").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
 
-            var buttons = GetComponentsInChildren<Button>(includeInactive: true);
+            var buttons = GetComponentsInChildren<Button>(includeInactive: true); // 버튼별 역할 할당, 각 버튼별로 스크립트 편집 예정
             foreach (var button in buttons)
             {
                 var buttonName = button.transform.name;
@@ -73,9 +89,39 @@ namespace ProjectDaNyan.Views.StageUI
 
         private void Update()
         {
-            if (GameManager.Inst.isGameOver)
+            switch (GameManager.Inst.CurrentGameState)
             {
-                _stageClearUI.SetActive(true);
+                case GameState.readyGame:
+                    break;
+                case GameState.inGame:
+                    break;
+                case GameState.bossReady:
+                    break;
+                case GameState.bossStage:
+                    break;
+                case GameState.gameOver:
+                    GameManager.Inst.PauseGame();
+                    if (ReferenceEquals(_stageClearUI, null) == false)
+                        _stageClearUI.SetActive(false); // serialized, public 변수는 null 체크를 이렇게 하면 안됨
+                    if (ReferenceEquals(_stageFailedUI, null) == false) _stageFailedUI.SetActive(true);
+                    break;
+                case GameState.win:
+                    GameManager.Inst.PauseGame();
+                    if (ReferenceEquals(_stageClearUI, null) == false)
+                        _stageClearUI.SetActive(true); // serialized, public 변수는 null 체크를 이렇게 하면 안됨
+                    if (ReferenceEquals(_stageFailedUI, null) == false) _stageFailedUI.SetActive(false);
+                    break;
+                case GameState.resume:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+
+            if (_playerStatus.Level_Up_Require_EXP - _playerStatus.Player_now_EXP <= 0)
+            {
+                GameManager.Inst.PauseGame();
+                _skillSelectUI.SetActive(true);
             }
         }
     }
