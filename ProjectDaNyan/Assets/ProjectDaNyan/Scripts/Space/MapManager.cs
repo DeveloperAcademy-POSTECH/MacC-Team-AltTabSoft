@@ -1,7 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
+using UnityEditor.VersionControl;
+using System.Threading.Tasks;
+using System.Threading;
+using UnityEditor.AI;
 using UnityEngine;
+using Task = System.Threading.Tasks.Task;
 
 public class MapManager : MonoBehaviour
 {   
@@ -46,8 +51,9 @@ public class MapManager : MonoBehaviour
             new Vector3(-UnitSize * 2f, 0, UnitSize * 2f),
             new Vector3(UnitSize * 2f, 0,  -UnitSize * 2f),
         };
-
+        
         SpawnItemOntoMap();
+        myNavMeshSurface.UpdateNavMesh(myNavMeshSurface.navMeshData);
     }
 
     void Update()
@@ -352,8 +358,20 @@ public class MapManager : MonoBehaviour
                 }
                 break;
         }
-        // (MapManager1 -> MapManager) 맵 이동 시 navmeshsurface bake
-        myNavMeshSurface.BuildNavMesh();
+
+        myNavMeshSurface.UpdateNavMesh(myNavMeshSurface.navMeshData);
+
+        //myNavMeshSurface.UpdateNavMesh(myNavMeshSurface.navMeshData);
+        //AsyncBuildNavmesh(myNavMeshSurface);
+        //(MapManager1 -> MapManager) 맵 이동 시 navmeshsurface bake
+        //StartCoroutine(BuildNavmesh(myNavMeshSurface));
+    }
+    
+    async void AsyncBuildNavmesh(NavMeshSurface surface)
+    {
+        Debug.Log("Start");
+        await Task.Run(() => surface.UpdateNavMesh(surface.navMeshData));
+        Debug.Log("End!");
     }
 }
 
