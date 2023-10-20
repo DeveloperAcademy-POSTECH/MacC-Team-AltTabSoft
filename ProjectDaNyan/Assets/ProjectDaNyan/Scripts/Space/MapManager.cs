@@ -78,7 +78,7 @@ public class MapManager : MonoBehaviour
         //     GetTileIndex();
         // }
 
-        if (currentGameState == GameState.inGame && !isFinalStarted)
+        if (currentGameState == GameState.bossReady && !isFinalStarted)
         {
             isFinalStarted = true;
             restrictionPosition = player.transform.position;
