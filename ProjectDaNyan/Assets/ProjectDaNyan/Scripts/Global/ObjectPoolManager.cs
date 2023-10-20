@@ -13,6 +13,9 @@ public class ObjectPoolManager : MonoBehaviour
     private static ObjectPoolManager inst = null;
     public static ObjectPoolManager Inst { get { if (inst == null) { return null; } return inst; } }
 
+    List<string> keyList = new List<string>();
+    string normalTypeMonster = "Normal";
+
     // rename pool name  
     string pattern = @"Prefab";
 
@@ -79,6 +82,8 @@ public class ObjectPoolManager : MonoBehaviour
     void createNewPool(GameObject targetObject)
     {
         string key = targetObject.name.ToString();
+
+        keyList.Add(key);
 
         // create new pool 
         GameObject newPool = Instantiate<GameObject>(gameObjectPool, this.transform);
