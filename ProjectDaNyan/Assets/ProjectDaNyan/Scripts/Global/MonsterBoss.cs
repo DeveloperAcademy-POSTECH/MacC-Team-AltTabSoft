@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
@@ -21,6 +22,7 @@ public class MonsterBoss : MonoBehaviour
         dead
     }
 
+    [Header("Monster Status")]
     // boss monstser status
     [SerializeField] private float _attackPower;
     [SerializeField] private float _monsterHP;
@@ -29,12 +31,20 @@ public class MonsterBoss : MonoBehaviour
     [SerializeField] private float _attackSpeed;
     [SerializeField] private float _dashSpeed = 10;
 
+    [Header("Monster Attack")]
+    [SerializeField] private GameObject _monsterBulletPrefab;
+    [SerializeField] private float _bulletSpeed = 100f;
+
     // boss monster current state 
     [SerializeField] private BossState _currentState;
 
     [SerializeField] private float _readyDashTime = 3;
     [SerializeField] private float _dashAttackTime = 5;
     [SerializeField] private float _normalAttackCount = 3;
+
+    
+    public Transform _attackPoint;
+
 
     private float _dashReady;
     private float _dashTime;
@@ -46,13 +56,13 @@ public class MonsterBoss : MonoBehaviour
     private Vector3 _dashDirection = Vector3.forward;
 
     private NavMeshAgent _navMeshAgent = null;
-    private GameObject _target = null;
+    private Transform _target = null;
 
     private void OnEnable()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         // set target 
-        _target = FindAnyObjectByType<PlayerController>().gameObject;
+        _target = FindAnyObjectByType<PlayerController>().transform;
 
         _currentState = BossState.chasing;
 
@@ -122,16 +132,16 @@ public class MonsterBoss : MonoBehaviour
                 break;
 
             case BossState.readyDashAttack:
-                StartCoroutine(readyDashAttack());
+                StartCoroutine(normalAttack());
                 break;
 
             case BossState.dashAttack:
-                StartCoroutine(dashAttack());
+                StartCoroutine(normalAttack());
                 break;
 
 
             case BossState.wideAttack:
-                StartCoroutine(wideAttack());
+                StartCoroutine(normalAttack());
                 break;
 
         }
@@ -162,12 +172,12 @@ public class MonsterBoss : MonoBehaviour
         }
 
 
-        if (_normalAttackedCount <= _normalAttackCount)
-        {
-            _normalAttackedCount += 1;
-            _currentState = BossState.readyDashAttack;
+        //if (_normalAttackedCount <= _normalAttackCount)
+        //{
+        //    _normalAttackedCount += 1;
+        //    _currentState = BossState.readyDashAttack;
 
-        }
+        //}
 
         _normalAttackedCount = 0;
 
@@ -248,7 +258,14 @@ public class MonsterBoss : MonoBehaviour
     {
         Debug.Log("Boss monster normal attack");
 
-        _target.SendMessage("ApplyDamage", _attackPower, SendMessageOptions.DontRequireReceiver);
+        // attacking player
+        GameObject bullet = ObjectPoolManager.Inst.BringObject(_monsterBulletPrefab);
+        bullet.transform.position = _attackPoint.position;
+        bullet.GetComponent<TempBullet>().Damage = _attackPower;
+        bullet.transform.LookAt(_target);
+
+        Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
+        bulletRB.velocity = _attackPoint.forward * _bulletSpeed;
     }
 
     private void applyDamage(int damage)
@@ -288,7 +305,5 @@ public class MonsterBoss : MonoBehaviour
                 applyDamage(bullet.damage);
             }
         }
-
     }
-
 }
