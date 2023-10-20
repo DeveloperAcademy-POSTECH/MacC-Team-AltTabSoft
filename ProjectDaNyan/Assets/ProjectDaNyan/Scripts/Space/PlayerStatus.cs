@@ -94,6 +94,11 @@ public class PlayerStatus : MonoBehaviour
     {
         
     }
+
+    public void daamge(int damge)
+    {
+        player_Now_HP -= daamge();
+    }
     
     private void OnTriggerEnter(Collider other)
     {
@@ -106,7 +111,7 @@ public class PlayerStatus : MonoBehaviour
         }
         else if (other.CompareTag("boxCat"))
         {
-            other.gameObject.SetActive(false);
+            //other.gameObject.SetActive(false);
             player_now_EXP += 10;
             Debug.Log("고양이를 구했다! 획득한 경험치 : 10");
             if ((level_Up_Require_EXP - player_now_EXP) < 0)
