@@ -59,6 +59,7 @@ public class MapManager : MonoBehaviour
                 int tilePrefabIndex = (row * columnCount + column) % tilePrefabs.Length;
                 Vector3 position = startPosition + new Vector3(column * UnitSize, 0, row * UnitSize);
                 tiles[row * columnCount + column] = Instantiate(tilePrefabs[tilePrefabIndex], position, Quaternion.identity);
+                tiles[row * columnCount + column].transform.parent = transform;
             }
         }
 
