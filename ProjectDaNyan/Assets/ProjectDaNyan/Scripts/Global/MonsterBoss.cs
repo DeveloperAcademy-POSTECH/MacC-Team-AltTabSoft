@@ -116,8 +116,6 @@ public class MonsterBoss : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
-        Debug.Log($"Boss monster current state : {_currentState}");
-
         switch (_currentState)
         {
             case BossState.chasing:
@@ -256,7 +254,6 @@ public class MonsterBoss : MonoBehaviour
 
     private void attackPlayer()
     {
-        Debug.Log("Boss monster normal attack");
 
         // attacking player
         GameObject bullet = ObjectPoolManager.Inst.BringObject(_monsterBulletPrefab);
@@ -282,28 +279,33 @@ public class MonsterBoss : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (other.tag.Equals("Wall"))
-        {
-            Vector3 incidenceVector = this.transform.forward;
-            Vector3 normalVector = other.ClosestPoint(this.transform.position).normalized;
-            //collision.contacts[0].normal;
-
-            Debug.Log($"incidence Vector : {incidenceVector} // normal Vector : {normalVector}");
-
-
-            _dashDirection = Vector3.Reflect(incidenceVector, normalVector);
-        }
-
-   
+        Debug.Log($"detect collision {other.gameObject}");
 
         if (other.tag.Equals("PlayerAttack"))
         {
-            // get bullet damage 
-            if (other.gameObject.TryGetComponent<Bullet>(out Bullet bullet))
+            _monsterHP -= 1;
+
+            // temporary code 
+            if (_monsterHP <= 0)
             {
-                applyDamage(bullet.damage);
+                GameManager.Inst.BossDead();
+                return;
             }
         }
+
+        //if (other.tag.Equals("Wall"))
+        //{
+        //    Vector3 incidenceVector = this.transform.forward;
+        //    Vector3 normalVector = other.ClosestPoint(this.transform.position).normalized;
+        //    //collision.contacts[0].normal;
+
+        //    Debug.Log($"incidence Vector : {incidenceVector} // normal Vector : {normalVector}");
+
+
+        //    _dashDirection = Vector3.Reflect(incidenceVector, normalVector);
+        //}
+
+   
+
     }
 }

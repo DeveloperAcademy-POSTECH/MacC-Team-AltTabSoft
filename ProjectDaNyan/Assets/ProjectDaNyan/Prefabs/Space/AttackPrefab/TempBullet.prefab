@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7922961500712152958}
   - component: {fileID: 2584018847776647205}
   - component: {fileID: 5152640223572884906}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TempBullet
   m_TagString: MonsterAttack
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -151,10 +151,10 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Time: 0.1
-  m_PreviewTimeScale: 1
+  m_PreviewTimeScale: 0
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.4
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -168,8 +168,8 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: 0.07272725
+        time: 0.61153847
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -181,23 +181,23 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.122861385, g: 0.015574946, b: 0.4716981, a: 1}
-      key1: {r: 0.43527937, g: 0, b: 0.6698113, a: 0.22352941}
-      key2: {r: 0.990566, g: 0.988359, b: 0.38781592, a: 0}
+      key0: {r: 0.9529412, g: 0.66132665, b: 0.050980363, a: 0.6901961}
+      key1: {r: 1, g: 0.7162671, b: 0.3820755, a: 0.22352941}
+      key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 5204
-      ctime1: 37008
-      ctime2: 34310
+      ctime0: 5012
+      ctime1: 36430
+      ctime2: 0
       ctime3: 0
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
-      atime0: 42405
+      atime0: 32960
       atime1: 65535
       atime2: 0
       atime3: 0
@@ -243,11 +243,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &5152640223572884906
 MonoBehaviour:
   m_ObjectHideFlags: 0

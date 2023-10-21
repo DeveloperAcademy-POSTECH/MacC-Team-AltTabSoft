@@ -24,7 +24,7 @@ public class MonsterNormal : MonoBehaviour
     [SerializeField] private float _monsterSpeed;
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackinterval;
-    [SerializeField] private float _bulletSpeed = 10f;
+    [SerializeField] private float _bulletSpeed = 5f;
     [SerializeField] private state _currentState;
 
     public Transform _attackPoint;
@@ -177,12 +177,14 @@ public class MonsterNormal : MonoBehaviour
         if (other.tag.Equals("PlayerAttack"))
         {
 
-            // get bullet damage 
-            if(other.gameObject.TryGetComponent(out Bullet bullet))
-            {
-                // apply player attack damage 
-                _monsterHP -= bullet.damage;
-            }
+            _monsterHP -= 1;
+
+            //// get bullet damage 
+            //if (other.gameObject.TryGetComponent(out Bullet bullet))
+            //{
+            //    // apply player attack damage 
+         
+            //}
         }
     }
 }

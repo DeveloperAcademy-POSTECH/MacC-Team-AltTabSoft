@@ -34,14 +34,24 @@ public class TempBullet : MonoBehaviour
 
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnDisable()
     {
-        Debug.Log($"collision : {other.name}");
+        _tR.Clear();
+    }
 
-        if (other.tag.Equals("Player"))
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.gameObject.CompareTag("Player"))
         {
             // apply damage 
-            Debug.Log("Player!");
+            Debug.Log("Collision Player!");
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("Wall"))
+        {
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         }
     }
