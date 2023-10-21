@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
         playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
         dashTimerCount += 1;
             
-        if (dashTimerCount == dashLimitTic1SecondsTo50)
+        if (dashTimerCount >= dashLimitTic1SecondsTo50)
         {
             dashTimerCount = 0;
             _playerState.setPsData(PlayerState.PSData.stop);
@@ -177,7 +177,7 @@ public class PlayerController : MonoBehaviour
     
     void PlayerExitStartFromRock()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y - (rockHeight * 2), transform.position.z);
+        transform.position = new Vector3(transform.position.x, y:transform.position.y - rockHeight, transform.position.z);
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
     void PlayerExitDashFromRock()
@@ -189,7 +189,7 @@ public class PlayerController : MonoBehaviour
         dashTimerCount += 1;
         
         //대시가 1/2 진행된 지점에서 바위에서 탈출하는 대시 > 일반 대시로 판정을 변경 > 추후 미세조정 필요
-        if (dashTimerCount >= (dashLimitTic1SecondsTo50 / 2))
+        if (dashTimerCount >= (dashLimitTic1SecondsTo50/2))
         {
             _playerState.setPsData(PlayerState.PSData.dash);
         }
@@ -209,6 +209,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Rock"))
         {
+            Debug.Log("rock");
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 PlayerMoveOnTheRock(other);
@@ -229,9 +230,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Rock"))
         {
+            Debug.Log("rock");
+            Debug.Log(_playerState.getPsData());
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 PlayerMoveOnTheRock(other);
+                Debug.Log(_playerState.getPsData());
             }
         }
     }
