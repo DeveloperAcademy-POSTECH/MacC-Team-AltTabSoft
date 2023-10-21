@@ -11,6 +11,8 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private int hp_Heal_Amount = 1;
     [SerializeField] private int level_Up_Require_EXP = 100;
 
+    private int player_HitCount = 0;
+
     public int Level_Up_Require_EXP
     {
         get { return level_Up_Require_EXP; }
@@ -50,6 +52,17 @@ public class PlayerStatus : MonoBehaviour
     private void FixedUpdate()
     {
         TimeHealHP();
+        PlayerHit();
+    }
+    
+    void PlayerHit()
+    {
+        player_HitCount += 1;
+        if (player_HitCount == 5)
+        {
+            player_Now_HP -= hitEnemy * 1;
+            player_HitCount = 0;
+        }
     }
 
     void TimeHealHP()
@@ -79,44 +92,50 @@ public class PlayerStatus : MonoBehaviour
     {
         
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("Collide");
+        if (other.gameObject.CompareTag("Monster"))
+        {
+            player_Now_HP -= 10;
+            hitEnemy += 1;
+            Debug.Log("10의 데미지를 입었다.");
+        }
+        else if (other.gameObject.CompareTag("MonsterAttack"))
+        {
+            player_Now_HP -= (int)other.gameObject.GetComponent<TempBullet>().Damage;
+            other.gameObject.SetActive(false);
+            Debug.Log("총에 맞았다! 총 데미지를 입었다.");
+        }
+    }
     
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Monster"))
+        {
+            hitEnemy -= 1;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("boxCat"))
         {
-            Debug.Log("Enter");
-            if (_playerState.getPsData() == PlayerState.PSData.dash)
-            {
-                other.gameObject.SetActive(false);
-                player_now_EXP += 10;
-                Debug.Log("경험치 획득! 획득한 경험치 : 10");
-                Debug.Log("현재 경험치:"+player_now_EXP);
-                Debug.Log("다음 레벨업까지 필요한 경험치:"+(level_Up_Require_EXP-player_now_EXP));
-            }
-            else
-            {
-                hitEnemy += 1;
-                //Debug.Log("으윽! 적에게 맞았다! 10의 데미지를 입었다!");
-                //player_Now_HP -= 10;
-                //Debug.Log("현재 HP :"+player_Now_HP);
-            }
+            other.gameObject.SetActive(false);
+            player_now_EXP += 10;
+            Debug.Log("경험치 획득! 획득한 경험치 : 10");
+            Debug.Log("현재 경험치:"+player_now_EXP);
+            Debug.Log("다음 레벨업까지 필요한 경험치:"+(level_Up_Require_EXP-player_now_EXP));
         }
     }
     
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("boxCat"))
-        {
-            Debug.Log(hitEnemy);
-        }
     }
     
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("boxCat"))
-        {
-            hitEnemy -= 1;
-            Debug.Log("Exit");
-        }
+        
     }
 }
