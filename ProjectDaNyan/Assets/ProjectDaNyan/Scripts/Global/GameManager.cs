@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    // Game state machine 
+    // Game state machine 게임 상태 체크용도
     IEnumerator idle()
     {
         yield return new WaitForSeconds(0.1f);

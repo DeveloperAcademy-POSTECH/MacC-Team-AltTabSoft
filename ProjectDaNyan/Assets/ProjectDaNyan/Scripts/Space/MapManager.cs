@@ -24,7 +24,6 @@ public class MapManager : MonoBehaviour
     public int columnCount;
     public Vector3 startPosition;
     public GameObject[] tiles;
-    public int collectedCats = 0;
     Vector3[] border;
     // int currentTileIndex;
     // Vector3 currentPlayerPosition;
@@ -193,7 +192,9 @@ public class MapManager : MonoBehaviour
 
             Quaternion rotationQuaternion = Quaternion.Euler(0, angleRotation, 0);
             GameObject restriction = Instantiate(transparentObject, wallPosition, rotationQuaternion);
-
+            GameObject bossWall = Instantiate(new GameObject(),transform);
+            bossWall.name = "bossWall";
+            restriction.transform.parent = bossWall.transform;
             currentAngle += angleIncrement;
         }
     }
@@ -232,6 +233,8 @@ public class MapManager : MonoBehaviour
         Quaternion rotationQuaternion = Quaternion.Euler(0, rotation, 0);
         GameObject dust = Instantiate(dustEffect, position, rotationQuaternion);
         GameObject restriction = Instantiate(restrictionPrefab, position, rotationQuaternion);
+        dust.transform.parent = transform.Find("BossWall").transform;
+        restriction.transform.parent = transform.Find("BossWall").transform;
     }
 
     void ShuffleTilePrefabs()
