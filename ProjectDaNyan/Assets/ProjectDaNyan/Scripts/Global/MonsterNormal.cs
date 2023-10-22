@@ -125,7 +125,7 @@ public class MonsterNormal : MonoBehaviour
 
         float distance = Vector3.Distance(this.transform.position, _target.transform.position);
 
-        if (distance >= 45)
+        if (distance >= 45) // 수정 필요
         {
             _currentState = state.dead;
         }

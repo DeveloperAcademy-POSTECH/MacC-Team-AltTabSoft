@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4588849919775718816}
   - component: {fileID: 1372643640380948066}
   - component: {fileID: 7468169035147759276}
-  - component: {fileID: 5242621420793877947}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -86,7 +85,6 @@ MonoBehaviour:
   columnCount: 4
   startPosition: {x: 0, y: 0, z: 0}
   tiles: []
-  collectedCats: 0
 --- !u!114 &7468169035147759276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_CollectObjects: 3
+  m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
@@ -117,35 +115,4 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 8ee19f92633114be481aa50e34b89865, type: 2}
-  m_BuildHeightMesh: 0
---- !u!114 &5242621420793877947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3240628494863968684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
-  m_CollectObjects: 3
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_GenerateLinks: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 8bf7a87498cf54f25b659d33c7dd998e, type: 2}
   m_BuildHeightMesh: 0
