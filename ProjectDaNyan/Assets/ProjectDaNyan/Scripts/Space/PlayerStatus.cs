@@ -42,7 +42,13 @@ public class PlayerStatus : MonoBehaviour
     private int heal_Cooltime = 0;
 
     private int hitEnemy = 0;
-    
+    private int player_collected_box_cat = 0;
+    public int Player_collected_box_cat
+    {
+        get { return player_collected_box_cat; }
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -127,6 +133,8 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("경험치 획득! 획득한 경험치 : 10");
             Debug.Log("현재 경험치:"+player_now_EXP);
             Debug.Log("다음 레벨업까지 필요한 경험치:"+(level_Up_Require_EXP-player_now_EXP));
+
+            player_collected_box_cat += 1;
         }
     }
     

@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 8897927692483491272}
   - component: {fileID: 1831766062199003256}
   - component: {fileID: 7922544236831836353}
-  - component: {fileID: 5579128668396725563}
+  - component: {fileID: 4725872847983078194}
   m_Layer: 0
   m_Name: UIInfoCollecteBoxCat
   m_TagString: Untagged
@@ -497,7 +497,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5579128668396725563
+--- !u!114 &4725872847983078194
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -506,7 +506,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2818590741197303922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e60aadf240764695945ace0f3210b5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a6730d818774fdc849eda1ee2b623f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2853887313213750435
@@ -716,7 +716,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 0}
+  m_SizeDelta: {x: 300, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3210597209081708785
 CanvasRenderer:
@@ -773,10 +773,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 82.6
-  m_fontSizeBase: 80
+  m_fontSize: 75
+  m_fontSizeBase: 75
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 150
   m_fontStyle: 0

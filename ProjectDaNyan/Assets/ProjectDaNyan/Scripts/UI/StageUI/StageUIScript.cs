@@ -59,18 +59,23 @@ namespace ProjectDaNyan.Views.StageUI
 
                         //화면 암전
                         _transitionCanvas.SetActive(true);
-                        _blackScreen.DOFade(1f, duration * 0.8f).OnComplete(() =>
+                        _blackScreen.DOFade(1f, duration * 0.8f)
+                            .SetUpdate(true) // TimeScale 값에 무관하게 동작
+                            .OnComplete(() =>
                         {
+                            GameManager.Inst.ResumeGame();
                             SceneManager.LoadScene("ShelterScene");
+                            
                         });
                     });
                 }
-                else if (buttonName == "Button_Pause")
+                else if (buttonName == "PauseButton")
                 {
                     button.onClick.AddListener(() =>
                     {
                         _pauseUI.SetActive(true);
                         _stageMainUI.SetActive(false);
+                        GameManager.Inst.PauseGame();
                     });
                 }
                 else if (buttonName == "Button_Continue_Stage")
@@ -79,6 +84,16 @@ namespace ProjectDaNyan.Views.StageUI
                     {
                         _pauseUI.SetActive(false);
                         _stageMainUI.SetActive(true);
+                        GameManager.Inst.ResumeGame();
+                    });
+                }
+                
+                else if (buttonName == "Button_Restart_Stage")
+                {
+                    button.onClick.AddListener(() =>
+                    {
+                        GameManager.Inst.ResumeGame();
+                        SceneManager.LoadScene("StageScene");
                     });
                 }
             }

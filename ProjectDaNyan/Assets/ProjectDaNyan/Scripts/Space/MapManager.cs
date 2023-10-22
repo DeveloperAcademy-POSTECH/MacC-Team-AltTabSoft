@@ -24,7 +24,6 @@ public class MapManager : MonoBehaviour
     public int columnCount;
     public Vector3 startPosition;
     public GameObject[] tiles;
-    public int collectedCats = 0;
     Vector3[] border;
     // int currentTileIndex;
     // Vector3 currentPlayerPosition;
@@ -193,7 +192,6 @@ public class MapManager : MonoBehaviour
 
             Quaternion rotationQuaternion = Quaternion.Euler(0, angleRotation, 0);
             GameObject restriction = Instantiate(transparentObject, wallPosition, rotationQuaternion);
-
             currentAngle += angleIncrement;
         }
     }
