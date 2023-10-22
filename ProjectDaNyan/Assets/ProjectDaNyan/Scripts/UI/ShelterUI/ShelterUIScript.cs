@@ -31,6 +31,9 @@ public class ShelterUIScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //GameManager timeScale 호출이 안됨??
+        Time.timeScale = 1;
+        
         _canvasSafeAreaRectMask2D = GetComponentInChildren<CanvasSafeArea>().gameObject.GetComponent<RectMask2D>();
         _upperBar = GetComponentInChildren<UpperBar>().gameObject;
         _lowerBox = GetComponentInChildren<LowerBox>().gameObject;
