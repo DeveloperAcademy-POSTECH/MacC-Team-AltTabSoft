@@ -25,8 +25,6 @@ public class MapManager : MonoBehaviour
     public Vector3 startPosition;
     public GameObject[] tiles;
     Vector3[] border;
-    // int currentTileIndex;
-    // Vector3 currentPlayerPosition;
     Vector3 restrictionPosition;
     bool isFinalStarted = false;
     bool isMapRestricted = false;
@@ -70,14 +68,6 @@ public class MapManager : MonoBehaviour
     {
         GameState currentGameState = GameManager.Inst.CurrentGameState;
 
-        // if (currentGameState == GameState.inGame && !isFinalStarted && !isMapRestricted) {
-        //     isFinalStarted = true;
-
-        //     currentPlayerPosition = player.transform.position;
-
-        //     GetTileIndex();
-        // }
-
         if (currentGameState == GameState.bossReady && !isFinalStarted)
         {
             isFinalStarted = true;
@@ -101,73 +91,6 @@ public class MapManager : MonoBehaviour
 
         CheckBoundary();
     }
-    
-    // void GetTileIndex()
-    // {
-    //     GameObject closestTile = null;
-    //     float closestDistance = float.MaxValue;
-
-    //     foreach (GameObject tile in tiles)
-    //     {
-    //         float distance = Vector3.Distance(currentPlayerPosition, tile.transform.position);
-    //         if (distance < closestDistance)
-    //         {
-    //             closestTile = tile;
-    //             closestDistance = distance;
-    //         }
-    //     }
-    //     // 플레이어의 위치와 가장 가까운 타일의 인덱스를 currentIndex에 저장
-    //     currentTileIndex = System.Array.IndexOf(tilePrefabs, closestTile);
-    //     restrictionPosition = GetCenterPosition();
-    // }
-
-    // Vector3 GetCenterPosition()
-    // {
-    //     float playerX = currentPlayerPosition.x;
-    //     float playerZ = currentPlayerPosition.z;
-
-    //     Vector3 tilePos = tiles[currentTileIndex].transform.position;
-
-    //     float tileX = tiles[currentTileIndex].transform.position.x;
-    //     float tileZ = tiles[currentTileIndex].transform.position.z;
-
-    //     if (playerX < tileX && playerZ >= tileZ)
-    //     {
-    //         Debug.Log("위-왼");
-    //         return tilePos - Vector3.right * (UnitSize / 4f) - Vector3.forward * (UnitSize / 4f);
-    //     }
-    //     else if (playerX < tileX && playerZ < tileZ) 
-    //     {
-    //         Debug.Log("위-오");
-    //         return tilePos - Vector3.right * (UnitSize / 4f) + Vector3.forward * (UnitSize / 4f);
-    //     }
-    //     else if (playerX > tileX && playerZ >= tileZ)
-    //     {
-    //         Debug.Log("아래-왼");
-    //         return tilePos + Vector3.right * (UnitSize / 4f) - Vector3.forward * (UnitSize / 4f);
-    //     }
-    //     else
-    //     {
-    //         Debug.Log("아래-오");
-    //         return tilePos + Vector3.right * (UnitSize / 4f) + Vector3.forward * (UnitSize / 4f);
-    //     }
-    // }
-
-    // void RestrictMap()
-    // {
-    //     if (isFinalStarted)
-    //     {
-    //         if (!isMapRestricted)
-    //         {
-    //             ReadyRestrictions();
-    //             StartCoroutine(MakeResctrictions());
-
-    //             isMapRestricted = true;
-    //         }
-    //         else 
-    //             isFinalStarted = false;
-    //     }
-    // }
 
     void ReadyRestrictions()
     {                                                                                                                       
@@ -264,7 +187,7 @@ public class MapManager : MonoBehaviour
 
     void SpawnItemOntoMap()
     {
-        for (int i = 0; i < tilePrefabs.Length; i++)
+        for (int i = 0; i < tiles.Length; i++)
         {
             SpawnItem(i);
         }
