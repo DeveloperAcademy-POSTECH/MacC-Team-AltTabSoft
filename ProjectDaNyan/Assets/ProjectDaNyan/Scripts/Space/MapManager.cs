@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using Unity.AI.Navigation;
-using UnityEditor.VersionControl;
+// using UnityEditor.VersionControl;
 using System.Threading.Tasks;
 using System.Threading;
-using UnityEditor.AI;
+// using UnityEditor.AI;
 using UnityEngine;
 using Task = System.Threading.Tasks.Task;
 using Vector3 = UnityEngine.Vector3;
@@ -209,7 +209,7 @@ public class MapManager : MonoBehaviour
 
     void RemoveItem(int index)
     {
-        foreach (Transform child in tilePrefabs[index].transform)
+        foreach (Transform child in tiles[index].transform)
         {
             if (child.CompareTag("boxCat"))
             {
