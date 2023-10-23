@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -21,6 +22,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     private void Awake()
     {
+        gameObjectPools.Clear();
         // Singleton Pattern 
         #region Singleton Pattern
         if (inst == null)
@@ -42,7 +44,6 @@ public class ObjectPoolManager : MonoBehaviour
         //// Singleton Pattern
     }
 
-
     public GameObject BringObject(GameObject targetObject)
     {
         string key = targetObject.name.ToString();
@@ -57,8 +58,6 @@ public class ObjectPoolManager : MonoBehaviour
 
         // Bring object from pool by key 
         newObject = gameObjectPools[key].GetComponent<GameObjectPool>().Pool.Get();
-
-
         return newObject;
     }
 
