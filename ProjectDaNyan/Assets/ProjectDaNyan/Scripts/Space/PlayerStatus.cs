@@ -59,6 +59,7 @@ public class PlayerStatus : MonoBehaviour
     {
         TimeHealHP();
         PlayerHit();
+        PlayerDead();
     }
     
     void PlayerHit()
@@ -68,6 +69,14 @@ public class PlayerStatus : MonoBehaviour
         {
             player_Now_HP -= hitEnemy * 1;
             player_HitCount = 0;
+        }
+    }
+
+    void PlayerDead()
+    {
+        if (player_Now_HP <= 0)
+        {
+            GameManager.Inst.PlayerDead();
         }
     }
 
