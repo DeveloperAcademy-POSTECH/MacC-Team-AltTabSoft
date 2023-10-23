@@ -46,10 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mapManager: {fileID: 0}
   isGameOver: 0
-  gameTime: 0
-  monsterReGenTime: 0
-  readyTime: 5
-  stageTime: 10
-  currentTime: 0
-  bossReadyTime: 3
+  _monsterReGenTime: 0
+  _readyTime: 1
+  _stageTime: 60
+  _currentTime: 0
+  _bossReadyTime: 3
+  _currentGameState: 0
   collectedCatBox: 0

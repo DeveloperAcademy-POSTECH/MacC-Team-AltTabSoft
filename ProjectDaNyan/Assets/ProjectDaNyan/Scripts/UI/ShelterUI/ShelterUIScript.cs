@@ -25,11 +25,15 @@ public class ShelterUIScript : MonoBehaviour
     
     private GameObject _characterInfoUI;
     private GameObject _weaponInfoUI;
+    private GameObject _settingUI;
     
 
     // Start is called before the first frame update
     void Start()
     {
+        //GameManager timeScale 호출이 안됨??
+        Time.timeScale = 1;
+        
         _canvasSafeAreaRectMask2D = GetComponentInChildren<CanvasSafeArea>().gameObject.GetComponent<RectMask2D>();
         _upperBar = GetComponentInChildren<UpperBar>().gameObject;
         _lowerBox = GetComponentInChildren<LowerBox>().gameObject;
@@ -39,9 +43,10 @@ public class ShelterUIScript : MonoBehaviour
         
         _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
         
-        // ChildrenUIs
+        // ChildUIs
         _characterInfoUI = GetComponentInChildren<CharacterInfoUI>(includeInactive: true).gameObject;
         _weaponInfoUI = GetComponentInChildren<WeaponInfoUI>(includeInactive: true).gameObject;
+        _settingUI = GetComponentInChildren<SettingUI>(includeInactive: true).gameObject;
         
         //화면 불러올 때
         _transitionCanvas.SetActive(true);
@@ -61,7 +66,20 @@ public class ShelterUIScript : MonoBehaviour
                 {
                     Application.Quit(); 
                 });
-            } else if (buttonName == "Button_Stage") //스테이지 불러오기
+            } else if (buttonName == "Button_Setting") // 설정 창 불러오기
+            {
+                button.onClick.AddListener(() =>
+                {
+                    _settingUI.SetActive(true);
+                });
+            } else if (buttonName == "Button_Exit_SettingUI") // 설정 창 닫기
+            {
+                button.onClick.AddListener(() =>
+                {
+                    _settingUI.SetActive(false);
+                });
+            }
+            else if (buttonName == "Button_Stage") //스테이지 불러오기
             {
                 button.onClick.AddListener(() =>
                 { 

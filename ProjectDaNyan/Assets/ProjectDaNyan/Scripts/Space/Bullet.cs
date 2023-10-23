@@ -19,23 +19,9 @@ public class Bullet : MonoBehaviour
         StartCoroutine(Goodbye());
     }
 
-    private void Update()
-    {
-        //if (type != Type.Laser)
-        //    Destroy(gameObject, 1f);
-
-    }
-
 
     IEnumerator Goodbye()
     {
-
-
-        //while(time > 0)
-        //{
-        //    time -= 1;
-        //    yield return new WaitForSeconds(1);
-        //}
         if (type != Type.Field)
         {
             yield return new WaitForSeconds(1f);
@@ -49,19 +35,18 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Enemy" && type != Type.Piercing && type != Type.Laser) //관통 타입이 아니면 적에 맞을 경우 총알 오브젝트 사라
+        if (other.gameObject.layer == LayerMask.NameToLayer("Monster") && type != Type.Piercing && type != Type.Laser)
         {
-            //적에 닿았을 때 로직
-            Destroy(gameObject);
+            trail.Clear();
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         }
 
-        if (collision.gameObject.tag == "RandomObject" && type != Type.Laser) //태그명은 추후 변경 필요
+        if (other.gameObject.layer == LayerMask.NameToLayer("FieldObject") && type != Type.Laser)
         {
-            //맵에 생성된 랜덤 오브젝트와 닿았을 때 사라
-            Destroy(gameObject);
+            trail.Clear();
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         }
-
     }
 }
