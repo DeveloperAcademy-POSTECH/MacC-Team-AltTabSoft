@@ -74,7 +74,10 @@ public class ObjectPoolManager : MonoBehaviour
         }
 
         // return object to pool by key 
-        gameObjectPools[key].GetComponent<GameObjectPool>().Pool.Release(destroyObject);
+        if (destroyObject.activeSelf == true)
+        {
+            gameObjectPools[key].GetComponent<GameObjectPool>().Pool.Release(destroyObject);
+        }
     }
 
 
