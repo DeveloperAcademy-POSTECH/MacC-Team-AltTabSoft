@@ -7,9 +7,11 @@ using UnityEngine;
 // normal monster type
 public enum Monster_Normal
 {
-    SHORT_RANGE,
-    LONG_RANGE,
-    ELITE
+    NormalShortRange,
+    NormalLongRange,
+    EliteLongRange,
+    EliteShortRange
+
 }
 
 public class MonsterNormalTypeFactory : MonsterFactory<Monster_Normal>
@@ -17,7 +19,9 @@ public class MonsterNormalTypeFactory : MonsterFactory<Monster_Normal>
     // set monster prefabs 
     [SerializeField] private GameObject monsterShortRangePrefab = null;
     [SerializeField] private GameObject monsterLongRangePrefab = null;
-    [SerializeField] private GameObject monsterElitePrefab = null;
+    [SerializeField] private GameObject monsterEliteLongRangePrefab = null;
+    [SerializeField] private GameObject monsterEliteShortRangePrefab = null;
+
 
     // request objectpoolmanager to bring prefab 
     protected override MonsterNormal GenerateMonster(Monster_Normal type)
@@ -27,22 +31,26 @@ public class MonsterNormalTypeFactory : MonsterFactory<Monster_Normal>
 
         switch (type)
         {
-            case Monster_Normal.SHORT_RANGE:
+            case Monster_Normal.NormalShortRange:
                 // bring object from pool
                 monster = ObjectPoolManager.Inst.BringObject(monsterShortRangePrefab).GetComponent<MonsterNormal>();
                 break;
 
-            case Monster_Normal.LONG_RANGE:
+            case Monster_Normal.NormalLongRange:
                 // bring object from pool
                 monster = ObjectPoolManager.Inst.BringObject(monsterLongRangePrefab).GetComponent<MonsterNormal>(); ;
                 break;
 
-            case Monster_Normal.ELITE:
+            case Monster_Normal.EliteLongRange:
                 // bring object from pool
-                monster = ObjectPoolManager.Inst.BringObject(monsterElitePrefab).GetComponent<MonsterNormal>(); ;
+                monster = ObjectPoolManager.Inst.BringObject(monsterEliteLongRangePrefab).GetComponent<MonsterNormal>(); ;
+                break;
+
+            case Monster_Normal.EliteShortRange:
+                // bring object from pool
+                monster = ObjectPoolManager.Inst.BringObject(monsterEliteShortRangePrefab).GetComponent<MonsterNormal>(); ;
                 break;
         }
-
 
         return monster;
 
