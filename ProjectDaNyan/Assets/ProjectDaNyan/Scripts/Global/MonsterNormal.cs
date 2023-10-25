@@ -60,6 +60,11 @@ public class MonsterNormal : MonoBehaviour
 
     private void OnEnable()
     {
+        if(!_navMeshAgent.isOnNavMesh)
+        {
+            return;
+        }
+
         _currentState = state.chasing;
 
         _navMeshAgent.stoppingDistance = _attackRange = _monsterStatus.attackRange;
