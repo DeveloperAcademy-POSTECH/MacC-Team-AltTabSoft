@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "MonsterData", menuName = "Scriptable_Object/MonsterData")]
 public class MonsterStatus : ScriptableObject
 {
     // monster attack power 

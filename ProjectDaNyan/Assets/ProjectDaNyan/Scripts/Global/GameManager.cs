@@ -19,67 +19,40 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
-    //// 코드 확인 후 수정 예정
-    ////===========================================================
-    //#region // need to edit
-
-    [SerializeField] private MapManager _mapManager;
-    public bool isGameOver = false;
-
-    //private void Awake()
-    //{
-    //    _mapManager = FindObjectOfType<MapManager>();
-    //    Application.targetFrameRate = 120;
-    //}
-
-    //void Update()
-    //{
-    //    gameTime += Time.deltaTime;
-    //    collectedCatBox = _mapManager.collectedCats;
-    //    if (gameTime >= 120f) //(테스트용, 2분 뒤 GameOver)
-    //    {
-    //        isGameOver = true;
-    //    }
-    //}
-
-    //#endregion
-    ////===========================================================
-
     private static GameManager inst = null;
     public static GameManager Inst { get { if (inst == null) { return null; } return inst; } }
 
 
+    // delegate chain
+    // share game time 
     public delegate void DelegateTimeCount(float t);
     public DelegateTimeCount delegateTimeCount;
 
-
+    // share game status 
     public delegate void DelegateGameState(GameState currentGameState);
     public DelegateGameState delegateGameState;
 
-    //[SerializeField]private MapManager _mapManager;
-
-
-   
+    // share game time & game status 
     public float GameTime { get { return _currentTime; } }
     public GameState CurrentGameState { get { return _currentGameState; } }
 
 
-
     [Header("# Game Control")]
-    [SerializeField] private float _monsterReGenTime;
-    [SerializeField] private float _readyTime = 3;
-    [SerializeField] private float _stageTime = 180f;
-    [SerializeField] private float _currentTime = 0;
-    [SerializeField] private float _bossReadyTime = 3;
+    [SerializeField] private GameManagerData _gameManagerData;
 
 
     [Header("# Game Status")]
     [SerializeField] private GameState _currentGameState;
 
-
     [Header("# Player Info")]
     public int collectedCatBox;
 
+
+    // game time 
+    private float _gameReadyTime = 3;
+    private float _gameStageTime = 180f;
+    private float _currentTime = 0;
+    private float _bossReadyTime = 3;
 
     private void Awake()
     {
@@ -106,13 +79,15 @@ public class GameManager : MonoBehaviour
 
         Application.targetFrameRate = 120;
 
+        _gameReadyTime = _gameManagerData.GameReadyTime;
+        _gameStageTime = _gameManagerData.GameStageTime;
+        _bossReadyTime = _gameManagerData.BossReadyTime;
     }
 
 
 
     private void Start()
     {
-        Debug.Log("manager start");
         _currentGameState = GameState.readyGame;
         StartCoroutine(idle());
     }
@@ -122,8 +97,6 @@ public class GameManager : MonoBehaviour
     IEnumerator idle()
     {
         yield return new WaitForSeconds(0.1f);
-
-        Debug.Log($"current game state {_currentGameState}");
 
         // notify 
         delegateGameState(_currentGameState);
@@ -147,11 +120,9 @@ public class GameManager : MonoBehaviour
             break;
 
             case GameState.gameOver:
-                Debug.Log("Player is dead");
             break;
 
             case GameState.win:
-                Debug.Log("Boss is dead");
             break;
         }
     }
@@ -159,18 +130,15 @@ public class GameManager : MonoBehaviour
     // do something before game start 
     IEnumerator readyGame()
     {
-        while (_readyTime > 0)
+        while (_gameReadyTime > 0)
         {
             // UI show game start countdown 
 
             if (delegateTimeCount != null)
             {
-                delegateTimeCount(_readyTime);
+                delegateTimeCount(_gameReadyTime);
             }
-
-            Debug.Log($"ready : {_readyTime}");
-
-            _readyTime -= 1;
+            _gameReadyTime -= 1;
 
             // wait for 1 second 
             yield return new WaitForSeconds(1);
@@ -181,7 +149,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-
     // do something during game playing 
     IEnumerator inGame()
     {
@@ -190,7 +157,7 @@ public class GameManager : MonoBehaviour
         _currentTime += 1;
         delegateTimeCount(_currentTime);
 
-        if (_currentTime == _stageTime)
+        if (_currentTime == _gameStageTime)
         {
             _currentGameState = GameState.bossReady;
         }
@@ -204,9 +171,6 @@ public class GameManager : MonoBehaviour
         // wait until boss stage ready time 
         while (_bossReadyTime > 0)
         {
-            Debug.Log("GameManager_Boss ready!");
-
-
             _bossReadyTime -= 1;
             yield return new WaitForSeconds(1);
         }
@@ -226,7 +190,6 @@ public class GameManager : MonoBehaviour
     // boss is dead, player win
     public void BossDead()
     {
-        Debug.Log($"boss dead {_currentGameState}");
         _currentGameState = GameState.win;
     }
 
