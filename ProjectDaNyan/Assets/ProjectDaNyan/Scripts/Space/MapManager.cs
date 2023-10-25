@@ -1,215 +1,208 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+<<<<<<< Updated upstream
 using Unity.AI.Navigation;
 // using UnityEditor.VersionControl;
 using System.Threading.Tasks;
 using System.Threading;
 // using UnityEditor.AI;
+=======
+using UnityEditor.VersionControl;
+using System.Threading.Tasks;
+using System.Threading;
+>>>>>>> Stashed changes
 using UnityEngine;
+using UnityEngine.Serialization;
+using Unity.AI.Navigation;
 using Task = System.Threading.Tasks.Task;
 using Vector3 = UnityEngine.Vector3;
 using Quaternion = UnityEngine.Quaternion;
 
 public class MapManager : MonoBehaviour
 {   
-    [SerializeField] public GameObject[] tilePrefabs;
-    [SerializeField] public GameObject player;
+    [SerializeField] private GameObject player;
+    [SerializeField] private float tileSize;
+    [SerializeField] private int tileRowCount;
+    [SerializeField] private int tileColumnCount;
+    [SerializeField] public GameObject[] tilePrefabsArray;
     [SerializeField] private GameObject boxCatPrefab;
-    [SerializeField] public float UnitSize;
-    [SerializeField] public GameObject restrictionPrefab;
-    [SerializeField] public GameObject dustEffect;
-    [SerializeField] public GameObject transparentObject;
-    public int rowCount;
-    public int columnCount;
-    public Vector3 startPosition;
-    public GameObject[] tiles;
-    Vector3[] border;
-    Vector3 restrictionPosition;
-    bool isFinalStarted = false;
-    bool isMapRestricted = false;
+    [SerializeField] private int boxCatCounts;
+    [SerializeField] private GameObject restrictionPrefab;
+    [SerializeField] private GameObject transparentRestrictionPrefab;
+    private GameObject _mapTiles;
+    private GameObject _transparentRestrictions;
+    private GameObject _restrictions;
+    private GameObject[] _tilesArray;
+    private int _tileTotalCount;
+    private Vector3 _tileSetPosition;
+    private Vector3[] _tileBorderRange;
+    private Vector3 _restrictionSetPosition;
+    private bool _isMapRestricted = false;
     
-    NavMeshSurface myNavMeshSurface; // (개선 필요) Floor 갱신시 Re-Bake 하기 위한 컴포넌트 
+    NavMeshSurface _myNavMeshSurface; // (개선 필요) Floor 갱신시 Re-Bake 하기 위한 컴포넌트 
     
     private void Awake()
     {
-        myNavMeshSurface = GetComponent<NavMeshSurface>();
+        SetBorderRange();
+        _tileTotalCount = tileRowCount * tileColumnCount;
+        _tilesArray = new GameObject[tileRowCount * tileColumnCount];
+        _tileSetPosition = new Vector3(tileSize * -1.5f, 0, tileSize * -1.5f);
+        
+        _mapTiles = GameObject.Find("MapTiles");
+        _transparentRestrictions = GameObject.Find("TransparentRestrictions");
+        _restrictions = GameObject.Find("Restrictions");
+        _myNavMeshSurface = GetComponent<NavMeshSurface>();
     }
     
-    void Start()
+    private void Start()
     {
-        border = new Vector3[]
-        {
-            new Vector3(-UnitSize * rowCount / 2, 0, UnitSize * rowCount / 2),
-            new Vector3(UnitSize * columnCount / 2, 0,  -UnitSize * columnCount / 2),
-        };
-
-        tiles = new GameObject[rowCount * columnCount];
-        startPosition = new Vector3(UnitSize * -1.5f, 0, UnitSize * -1.5f);
-
         ShuffleTilePrefabs();
 
-        for (int row = 0; row < rowCount; row++)
-        {
-            for (int column = 0; column < columnCount; column++)
-            {
-                int tilePrefabIndex = (row * columnCount + column) % tilePrefabs.Length;
-                Vector3 position = startPosition + new Vector3(column * UnitSize, 0, row * UnitSize);
-                tiles[row * columnCount + column] = Instantiate(tilePrefabs[tilePrefabIndex], position, Quaternion.identity);
-                tiles[row * columnCount + column].transform.parent = transform;
-            }
-        }
+        SetRandomMap();
 
-        SpawnItemOntoMap();
-        myNavMeshSurface.UpdateNavMesh(myNavMeshSurface.navMeshData);
+        SpawnBoxCatsOntoMap();
+
+        StartCoroutine(MakeRestrictions());
+        
+        _myNavMeshSurface.UpdateNavMesh(_myNavMeshSurface.navMeshData);
     }
 
-    void Update()
+    private void Update()
     {
-        GameState currentGameState = GameManager.Inst.CurrentGameState;
-
-        if (currentGameState == GameState.bossReady && !isFinalStarted)
-        {
-            isFinalStarted = true;
-            restrictionPosition = player.transform.position;
-
-            if (isFinalStarted)
-            {
-                if (!isMapRestricted)
-                {
-                    ReadyRestrictions();
-                    StartCoroutine(MakeResctrictions());
-
-                    isMapRestricted = true;
-                }
-                else 
-                    isFinalStarted = false;
-            }
-        }
-
         // 보스 킬 -> 제한 해제 추가 필요
 
         CheckBoundary();
     }
-
-    void ReadyRestrictions()
-    {                                                                                                                       
-        float radius = UnitSize;
-        float angleIncrement = 360f / 8;
-        float currentAngle = 45f;
-
-        for (int i = 0; i < 8; i++)
-        {
-            float angleInRadius = currentAngle * Mathf.Deg2Rad;
-
-            float x = restrictionPosition.x + radius * Mathf.Cos(angleInRadius);
-            float z = restrictionPosition.z + radius * Mathf.Sin(angleInRadius);
-
-            Vector3 wallPosition = new Vector3(x, 0, z);
-
-            float angleRotation = currentAngle;
-            if (angleRotation % 90 == 0)
-            {
-                angleRotation += 90;
-            }
-
-            Quaternion rotationQuaternion = Quaternion.Euler(0, angleRotation, 0);
-            GameObject restriction = Instantiate(transparentObject, wallPosition, rotationQuaternion);
-            currentAngle += angleIncrement;
-        }
-    }
-
-    IEnumerator MakeResctrictions()
-    {                                                                                                                     
-        float radius = UnitSize;
-        float angleIncrement = 360f / 8;
-        float currentAngle = 45f;
-
-        for (int i = 0; i < 8; i++)
-        {
-            float angleInRadius = currentAngle * Mathf.Deg2Rad;
-
-            float x = restrictionPosition.x + radius * Mathf.Cos(angleInRadius);
-            float z = restrictionPosition.z + radius * Mathf.Sin(angleInRadius);
-
-            Vector3 wallPosition = new Vector3(x, 0, z);
-
-            float angleRotation = currentAngle;
-            if (angleRotation % 90 == 0)
-            {
-                angleRotation += 90;
-            }
-
-            InstallRestriction(wallPosition, angleRotation);
-
-            currentAngle += angleIncrement;
-
-            yield return new WaitForSeconds(0.2f);
-        }
-    }
-
-    void InstallRestriction(Vector3 position, float rotation = 0)
+    
+    private void SetBorderRange()
     {
-        Quaternion rotationQuaternion = Quaternion.Euler(0, rotation, 0);
-        GameObject dust = Instantiate(dustEffect, position, rotationQuaternion);
-        GameObject restriction = Instantiate(restrictionPrefab, position, rotationQuaternion);
-    }
-
-    void ShuffleTilePrefabs()
-    {
-        for (int i = 0; i < tilePrefabs.Length; i++)
+        _tileBorderRange = new Vector3[]
         {
-            int randomIndex = Random.Range(i, tilePrefabs.Length);
-            GameObject temp = tilePrefabs[i];
-            tilePrefabs[i] = tilePrefabs[randomIndex];
-            tilePrefabs[randomIndex] = temp;
-        }
+            new Vector3(-tileSize * (tileRowCount / 2f), 0, tileSize * (tileRowCount / 2f)),
+            new Vector3(tileSize * (tileColumnCount / 2f), 0,  -tileSize * (tileColumnCount / 2f)),
+        };
     }
-
-    void ShuffleMovingTiles(List<int> movingTiles, GameObject[] tiles)
+    
+    private void ShuffleTilePrefabs()
     {
-        int n = movingTiles.Count;
-
-        for (int i = 0; i < n; i++)
+        for (var idx = 0; idx < _tileTotalCount; idx++)
         {
-            int randomIdx = Random.Range(i, n);
-        
-            Vector3 tempPosition = tiles[movingTiles[i]].transform.position;
-            GameObject temp = tiles[movingTiles[i]];
+            var randomIndex = Random.Range(idx, _tileTotalCount);
+            var tempTilePrefab = tilePrefabsArray[idx];
             
-            tiles[movingTiles[i]].transform.position = tiles[movingTiles[randomIdx]].transform.position;
-            tiles[movingTiles[randomIdx]].transform.position = tempPosition;
-
-            tiles[movingTiles[i]] = tiles[movingTiles[randomIdx]];
-            tiles[movingTiles[randomIdx]] = temp;
+            tilePrefabsArray[idx] = tilePrefabsArray[randomIndex];
+            tilePrefabsArray[randomIndex] = tempTilePrefab;
+        }
+    }
+    
+    private void SetRandomMap()
+    {
+        for (var row = 0; row < tileRowCount; row++)
+        {
+            for (var column = 0; column < tileColumnCount; column++)
+            {
+                int tilePrefabIndex = (row * tileColumnCount + column) % _tileTotalCount;
+                Vector3 tilePrefabPosition = _tileSetPosition + new Vector3(column * tileSize, 0, row * tileSize);
+                
+                _tilesArray[row * tileColumnCount + column] = Instantiate(tilePrefabsArray[tilePrefabIndex], tilePrefabPosition, Quaternion.identity);
+                _tilesArray[row * tileColumnCount + column].transform.parent = _mapTiles.transform;
+            }
         }
     }
 
-    void SpawnItemOntoMap()
+    IEnumerator MakeRestrictions()
     {
-        for (int i = 0; i < tiles.Length; i++)
+        while (true)
         {
-            SpawnItem(i);
+            var currentGameState = GameManager.Inst.CurrentGameState;
+
+            if (currentGameState == GameState.inGame && !_isMapRestricted)
+            {
+                _restrictionSetPosition = player.transform.position;
+                yield return InstallRestrictions(false);
+                yield return InstallRestrictions(true);
+
+                _isMapRestricted = true;
+
+                yield break;
+            }
+            
+            yield return new WaitForSeconds(1.0f);
         }
     }
 
-    void SpawnItem(int index)
+    IEnumerator InstallRestrictions(bool hasDustEffect)
     {
-        for (int j = 0; j < 5; j++)
+        var radius = tileSize;
+        var angleIncrement = 360f / 8;
+        var currentAngle = 45f;
+
+        for (var i = 0; i < 8; i++)
         {
-            float randomX = Random.Range(tiles[index].transform.position.x - UnitSize / 2, tiles[index].transform.position.x + UnitSize / 2);
-            float randomZ = Random.Range(tiles[index].transform.position.z - UnitSize / 2, tiles[index].transform.position.z + UnitSize / 2); 
+            var angleInRadius = currentAngle * Mathf.Deg2Rad;
+
+            var positionX = _restrictionSetPosition.x + radius * Mathf.Cos(angleInRadius);
+            var positionZ = _restrictionSetPosition.z + radius * Mathf.Sin(angleInRadius);
+
+            var wallPosition = new Vector3(positionX, 0, positionZ);
+            var angleRotation = currentAngle;
+
+            if (angleRotation % 90 == 0)
+            {
+                angleRotation += 90;
+            }
+
+            var rotationQuaternion = Quaternion.Euler(0, angleRotation, 0);
+
+            if (hasDustEffect)
+            {
+                var restriction = Instantiate(restrictionPrefab, wallPosition, rotationQuaternion);
+                restriction.transform.parent = _restrictions.transform;
+
+                currentAngle += angleIncrement;
+
+                yield return new WaitForSeconds(0.2f);
+            }
+            else
+            {
+                var transparentRestriction = Instantiate(transparentRestrictionPrefab, wallPosition, rotationQuaternion);
+                transparentRestriction.transform.parent = _transparentRestrictions.transform;
+                
+                yield return null;
+            }
+        }
+    }
+
+    private void SpawnBoxCatsOntoMap()
+    {
+        for (var idx = 0; idx < _tileTotalCount; idx++)
+        {
+            SpawnBoxCats(idx);
+        }
+    }
+
+    private void SpawnBoxCats(int index)
+    {
+        for (var i = 0; i < boxCatCounts; i++)
+        {
+            var randomX = Random.Range(_tilesArray[index].transform.position.x - (tileSize / 2), _tilesArray[index].transform.position.x + (tileSize / 2));
+            var randomZ = Random.Range(_tilesArray[index].transform.position.z - (tileSize / 2), _tilesArray[index].transform.position.z + (tileSize / 2)); 
         
-            Vector3 randomPosition = new Vector3(randomX, 1, randomZ);
+            var randomPosition = new Vector3(randomX, 1, randomZ);
 
-            GameObject _boxCat = Instantiate(boxCatPrefab, randomPosition, Quaternion.identity);
-            _boxCat.transform.parent = tiles[index].transform;
+            var boxCat = Instantiate(boxCatPrefab, randomPosition, Quaternion.identity);
+            boxCat.transform.parent = _tilesArray[index].transform;
         }
     }
 
-    void RemoveItem(int index)
+    private void RemoveBoxCats(int index)
     {
+<<<<<<< Updated upstream
         foreach (Transform child in tiles[index].transform)
+=======
+        foreach (Transform child in _tilesArray[index].transform)
+>>>>>>> Stashed changes
         {
             if (child.CompareTag("boxCat"))
             {
@@ -217,151 +210,176 @@ public class MapManager : MonoBehaviour
             }
         }
     }
-
-    void CheckBoundary()
+    
+    private void ShuffleMovingTiles(List<int> movingTiles, GameObject[] tilesArray)
     {
+        var movingTilesCount = movingTiles.Count;
+
+        for (var idx = 0; idx < movingTilesCount; idx++)
+        {
+            var randomIdx = Random.Range(idx, movingTilesCount);
+        
+            var tempPosition = tilesArray[movingTiles[idx]].transform.position;
+            var tempTile = tilesArray[movingTiles[idx]];
+            
+            tilesArray[movingTiles[idx]].transform.position = tilesArray[movingTiles[randomIdx]].transform.position;
+            tilesArray[movingTiles[randomIdx]].transform.position = tempPosition;
+
+            tilesArray[movingTiles[idx]] = tilesArray[movingTiles[randomIdx]];
+            tilesArray[movingTiles[randomIdx]] = tempTile;
+        }
+    }
+
+    private void CheckBoundary()
+    {
+        // 위쪽에 타일이 없을 경우
+        if (_tileBorderRange[0].z < player.transform.position.z + tileSize)
+        {
+            _tileBorderRange[0] += Vector3.forward * tileSize;
+            _tileBorderRange[1] += Vector3.forward * tileSize;
+
+            MoveWorld(0);
+        }
+        
+        // 아래쪽에 타일이 없을 경우
+        else if (_tileBorderRange[1].z > player.transform.position.z - tileSize)
+        {
+            _tileBorderRange[0] -= Vector3.forward * tileSize;
+            _tileBorderRange[1] -= Vector3.forward * tileSize;
+
+            MoveWorld(1);
+        }
+        
+        // 왼쪽에 타일이 없을 경우
+        else if (_tileBorderRange[0].x > player.transform.position.x - tileSize)
+        {
+            _tileBorderRange[0] -= Vector3.right * tileSize;
+            _tileBorderRange[1] -= Vector3.right * tileSize;
+
+            MoveWorld(2);
+        }
+        
         // 오른쪽에 타일이 없을 경우
-        if (border[1].x < player.transform.position.x + UnitSize)
+        else if (_tileBorderRange[1].x < player.transform.position.x + tileSize)
         {
             // 타일 영역을 타일 하나 사이즈만큼 오른쪽으로 이동 
-            border[0] += Vector3.right * UnitSize;
-            border[1] += Vector3.right * UnitSize;
+            _tileBorderRange[0] += Vector3.right * tileSize;
+            _tileBorderRange[1] += Vector3.right * tileSize;
 
             // 타일을 실제로 오른쪽으로 움직임
             MoveWorld(3);
         }
-
-        // 왼쪽에 타일이 없을 경우
-        else if (border[0].x > player.transform.position.x - UnitSize)
-        {
-            border[0] -= Vector3.right * UnitSize;
-            border[1] -= Vector3.right * UnitSize;
-
-            MoveWorld(1);
-        }
-
-        // 위쪽에 타일이 없을 경우
-        else if (border[0].z < player.transform.position.z + UnitSize)
-        {
-            border[0] += Vector3.forward * UnitSize;
-            border[1] += Vector3.forward * UnitSize;
-
-            MoveWorld(0);
-        }
-
-        // 아래쪽에 타일이 없을 경우
-        else if (border[1].z > player.transform.position.z - UnitSize)
-        {
-            border[0] -= Vector3.forward * UnitSize;
-            border[1] -= Vector3.forward * UnitSize;
-
-            MoveWorld(2);
-        }
     }
 
-    void MoveWorld(int dir)
+    private void MoveWorld(int dir)
     {
         // 기존 배열 복사
-        GameObject[] _tiles = new GameObject[tilePrefabs.Length];
-        System.Array.Copy(tiles, _tiles, tilePrefabs.Length);
-        List<int> temp = new List<int>();
+        var tiles = new GameObject[tilePrefabsArray.Length];
+        System.Array.Copy(_tilesArray, tiles, _tileTotalCount);
+        
+        // 랜덤 재배치해야 하는 타일들 임시 저장
+        var movingTiles = new List<int>();
 
        switch (dir)
         {
+            // 위쪽에 타일이 없을 경우
             case 0:
-                for(int i = 0; i < tiles.Length; i++)
+                for(var idx = 0; idx < _tileTotalCount; idx++)
                 {
-                    int revise = i - rowCount;
+                    var revise = idx - tileRowCount;
 
                     if (revise < 0)
                     {
-                        RemoveItem(i);
-                        SpawnItem(i);
+                        RemoveBoxCats(idx);
+                        SpawnBoxCats(idx);
                         
-                        tiles[tiles.Length + revise] = _tiles[i];
-                        tiles[tiles.Length + revise].transform.position += Vector3.forward * UnitSize * rowCount;
+                        _tilesArray[_tileTotalCount + revise] = tiles[idx];
+                        _tilesArray[_tileTotalCount + revise].transform.position += Vector3.forward * (tileSize * tileRowCount);
 
-                        temp.Add(tiles.Length + revise);
+                        movingTiles.Add(_tileTotalCount + revise);
                     }
                     else 
-                        tiles[revise] = _tiles[i];
+                        _tilesArray[revise] = tiles[idx];
                 }
 
-                ShuffleMovingTiles(temp, tiles);
+                ShuffleMovingTiles(movingTiles, _tilesArray);
 
                 break;
             
+            // 아래쪽에 타일이 없을 경우
             case 1:
-                for(int i = 0; i < 16; i++)
+                for (var idx = 0; idx < _tileTotalCount; idx++)
                 {
-                    int revise = i % 4;
+                    var revise = idx + tileRowCount;
 
-                    if (revise == 3)
+                    if (revise > (_tileTotalCount - 1))
                     {
-                        RemoveItem(i);
-                        SpawnItem(i);
+                        RemoveBoxCats(idx);
+                        SpawnBoxCats(idx);
 
-                        tiles[i - 3] = _tiles[i];
-                        tiles[i - 3].transform.position -= Vector3.right * UnitSize * 4;
+                        _tilesArray[revise - _tileTotalCount] = tiles[idx];
+                        _tilesArray[revise - _tileTotalCount].transform.position -= Vector3.forward * (tileSize * tileRowCount); 
 
-                        temp.Add(i - 3);
-                    }
-                    else   
-                        tiles[i + 1] = _tiles[i];
-                }
-
-                ShuffleMovingTiles(temp, tiles);
-
-                break;
-            
-            case 2:
-                for (int i = 0; i < tiles.Length; i++)
-                {
-                    int revise = i + rowCount;
-
-                    if (revise > (tiles.Length - 1))
-                    {
-                        RemoveItem(i);
-                        SpawnItem(i);
-
-                        tiles[revise - tiles.Length] = _tiles[i];
-                        tiles[revise - tiles.Length].transform.position -= Vector3.forward * UnitSize * rowCount; 
-
-                        temp.Add(revise - tiles.Length);
+                        movingTiles.Add(revise - _tileTotalCount);
                     }
                     else
-                        tiles[revise] = _tiles[i];
+                        _tilesArray[revise] = tiles[idx];
                 }
 
-                ShuffleMovingTiles(temp, tiles);
+                ShuffleMovingTiles(movingTiles, _tilesArray);
 
                 break;
-
-            case 3:
-                for (int i = 0; i < 16; i++)
+            
+            // 왼쪽에 타일이 없을 경우
+            case 2:
+                for(var idx = 0; idx < _tileTotalCount; idx++)
                 {
-                    int revise = i % 4;
+                    var revise = idx % tileColumnCount;
+
+                    if (revise == tileColumnCount - 1)
+                    {
+                        RemoveBoxCats(idx);
+                        SpawnBoxCats(idx);
+
+                        _tilesArray[idx - (tileColumnCount - 1)] = tiles[idx];
+                        _tilesArray[idx - (tileColumnCount - 1)].transform.position -= Vector3.right * (tileSize * tileColumnCount);
+
+                        movingTiles.Add(idx - (tileColumnCount - 1));
+                    }
+                    else   
+                        _tilesArray[idx + 1] = tiles[idx];
+                }
+
+                ShuffleMovingTiles(movingTiles, _tilesArray);
+
+                break;
+            
+            // 오른쪽에 타일이 없을 경우
+            case 3:
+                for (var idx = 0; idx < _tileTotalCount; idx++)
+                {
+                    var revise = idx % tileColumnCount;
 
                     if (revise == 0)
                     {
-                        RemoveItem(i);
-                        SpawnItem(i);
+                        RemoveBoxCats(idx);
+                        SpawnBoxCats(idx);
 
-                        tiles[i + 3] = _tiles[i];
-                        tiles[i + 3].transform.position += Vector3.right * UnitSize * 4;
+                        _tilesArray[idx + (tileColumnCount - 1)] = tiles[idx];
+                        _tilesArray[idx + (tileColumnCount - 1)].transform.position += Vector3.right * (tileSize * tileColumnCount);
 
-                        temp.Add(i + 3);
+                        movingTiles.Add(idx + (tileColumnCount - 1));
                     } 
                     else 
-                        tiles[i - 1] = _tiles[i];
+                        _tilesArray[idx - 1] = tiles[idx];
                 }
 
-                ShuffleMovingTiles(temp, tiles);
+                ShuffleMovingTiles(movingTiles, _tilesArray);
 
                 break;
         }
 
-        myNavMeshSurface.UpdateNavMesh(myNavMeshSurface.navMeshData);
+        _myNavMeshSurface.UpdateNavMesh(_myNavMeshSurface.navMeshData);
     }
 }
 
