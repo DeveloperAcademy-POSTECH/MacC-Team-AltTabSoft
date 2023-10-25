@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1a41cb457a09435388f3e4de82b5f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUpgrade: 0
+  isUpgrade: 1
   isLaser: 0
   isDrone: 0
   isField: 0
@@ -166,11 +166,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a58a28e3e6e415c965e06061dd6db8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   basicFireLevel: 1
-  basicFireRate: 0.5
-  upgradedFireRate: 0.2
-  basicFireSpeed: 50
-  upgradedFireSpeed: 30
+  _basicFireRate: 0
+  _basicFireSpeed: 0
+  _upgradedFireRate: 0
+  _upgradedFireSpeed: 0
   bulletPositionGroup: {fileID: 6184229383148067845}
   bulletPosition: {fileID: 9112101095602693780}
   upgradeBulletPositions:
@@ -192,8 +193,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0654c54a8d00843e290a6c51a7e7bfc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserFireRate: 2
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   laserBullet: {fileID: 5394473269736259089}
+  _laserFireRate: 0
 --- !u!114 &8391462048624044762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,14 +208,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e487fb0756944755954afb41c555c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   bulletPosition: {fileID: 0}
   dronePosition: {fileID: 4033147051143884980}
   droneBullet: {fileID: 428928217648246688, guid: d3bdf7556752544f296f56570a4d21c3, type: 3}
   drone: {fileID: 4928074925069115387, guid: 5c6239fc42e924a368062afc210a0053, type: 3}
   droneFireLevel: 1
-  droneSpeed: 10
-  droneFireRate: 0.7
-  droneFireSpeed: 25
+  _droneFireRate: 0
+  _droneFireSpeed: 0
   targetCollider: {fileID: 0}
 --- !u!114 &2045052157784040541
 MonoBehaviour:
@@ -227,11 +229,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edb56c2bd403a4f50990a9be4a679c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomFieldLevel: 1
-  fieldFireRate: 5
-  randomRange: 5
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
+  _fieldFireRate: 0
+  _randomRange: 0
   attackField: {fileID: 4199628824798492803, guid: 172c19e524ff14ad38e362dc99fe75a2, type: 3}
   center: {fileID: 7733001885678021187}
+  randomFieldLevel: 1
 --- !u!114 &7263385071762744004
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class PlayerDroneAttack : MonoBehaviour
 {
-    public Transform bulletPosition;
-    public Transform dronePosition;
-    public GameObject droneBullet;
-    public GameObject drone;
+    [SerializeField] private AttackStatus _attackStatus;
+    [SerializeField] private Transform bulletPosition;
+    [SerializeField] private Transform dronePosition;
+    [SerializeField] private GameObject droneBullet;
+    [SerializeField] private GameObject drone;
 
     public int droneFireLevel = 1;
-    public float droneSpeed;
-    public float droneFireRate;
-    public float droneFireSpeed;
-    bool isDroneAppear = false;
 
+    [SerializeField] private float _droneFireRate;
+    [SerializeField] private float _droneFireSpeed;
+
+    bool isDroneAppear = false;
     float droneFireDelay;
     bool droneFireReady;
 
@@ -45,10 +46,12 @@ public class PlayerDroneAttack : MonoBehaviour
             if (isDroneAppear == false && drone != null && dronePosition != null)
             {
                 CreateDrone(drone, dronePosition);
+                _droneFireRate = _attackStatus.droneFireRate;
+                _droneFireSpeed = _attackStatus.droneFireSpeed;
                 bulletPosition = GameObject.Find("DroneBulletPosition").transform;
             }
                 
-            droneFireReady = droneFireRate < droneFireDelay;
+            droneFireReady = _droneFireRate < droneFireDelay;
             droneFireDelay += Time.deltaTime;
             if (droneFireReady)
             {
@@ -80,10 +83,10 @@ public class PlayerDroneAttack : MonoBehaviour
     IEnumerator DroneFire()
     {
         
-        MakeInstantBullet(droneBullet, bulletPosition, false, droneFireSpeed);
+        MakeInstantBullet(droneBullet, bulletPosition, false, _droneFireSpeed);
         yield return new WaitForSeconds(0.05f);
-        MakeInstantBullet(droneBullet, bulletPosition, false, droneFireSpeed);
+        MakeInstantBullet(droneBullet, bulletPosition, false, _droneFireSpeed);
         yield return new WaitForSeconds(0.05f);
-        MakeInstantBullet(droneBullet, bulletPosition, false, droneFireSpeed);
+        MakeInstantBullet(droneBullet, bulletPosition, false, _droneFireSpeed);
     }
 }

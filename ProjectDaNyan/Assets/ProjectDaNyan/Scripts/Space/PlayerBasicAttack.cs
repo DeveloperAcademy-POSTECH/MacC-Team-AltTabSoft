@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class PlayerBasicAttack : MonoBehaviour
 {
-    public int basicFireLevel = 1;
-    public float basicFireRate; //기본공격주기 
-    public float upgradedFireRate; //초월공격주기 
-    public float basicFireSpeed; //기본공격 투사체 속도
-    public float upgradedFireSpeed; //초월공격 투사체 속도
+    [SerializeField] private AttackStatus _attackStatus;
 
-    float basicfireDelay; //기본 공격 딜레이
-    bool isFireReady;
+    public int basicFireLevel = 1;
+    //public float _basicFireRate; //기본공격주기 
+    //public float _upgradedFireRate; //초월공격주기 
+    //public float _basicFireSpeed; //기본공격 투사체 속도
+    //public float _upgradedFireSpeed; //초월공격 투사체 속도
+
+    [SerializeField] private float _basicFireRate;
+    [SerializeField] private float _basicFireSpeed;
+    [SerializeField] private float _upgradedFireRate;
+    [SerializeField] private float _upgradedFireSpeed;
+
+    float _basicfireDelay; //기본 공격 딜레이
+    bool _isFireReady;
     //public bool isUpgrade = true; //초월 여부
 
     public Transform bulletPositionGroup;
@@ -22,28 +29,36 @@ public class PlayerBasicAttack : MonoBehaviour
 
     EnemyScanner scanner; //가까운 적 탐지 스크립트
 
+    private void OnEnable()
+    {
+        _basicFireRate = _attackStatus.basicFireRate;
+        _basicFireSpeed = _attackStatus.basicFireSpeed;
+        _upgradedFireRate = _attackStatus.upgradedFireRate;
+        _upgradedFireSpeed = _attackStatus.upgradedFireSpeed;
+    }
+
     public void UseBasicAttack(bool isUpgrade, Collider enemyCollider)
     {
         bulletPositionGroup.LookAt(enemyCollider.transform);
         if (isUpgrade == false)
         {
             
-            isFireReady = basicFireRate < basicfireDelay;
-            basicfireDelay += Time.deltaTime;
-            if (isFireReady)
+            _isFireReady = _basicFireRate < _basicfireDelay;
+            _basicfireDelay += Time.deltaTime;
+            if (_isFireReady)
             {
                 StartCoroutine("BasicAttack");
-                basicfireDelay = 0;
+                _basicfireDelay = 0;
             }
         }
         else
         {
-            isFireReady = upgradedFireRate < basicfireDelay;
-            basicfireDelay += Time.deltaTime;
-            if (isFireReady)
+            _isFireReady = _upgradedFireRate < _basicfireDelay;
+            _basicfireDelay += Time.deltaTime;
+            if (_isFireReady)
             {
                 StartCoroutine("UpgradeAttack");
-                basicfireDelay = 0;
+                _basicfireDelay = 0;
             }
         }
     }
@@ -59,16 +74,16 @@ public class PlayerBasicAttack : MonoBehaviour
 
     IEnumerator BasicAttack()
     {
-        MakeInstantBullet(basicBullet, bulletPosition, false, basicFireSpeed);
+        MakeInstantBullet(basicBullet, bulletPosition, false, _basicFireSpeed);
         if(basicFireLevel > 1)
         {
-            MakeInstantBullet(basicBullet, upgradeBulletPositions[2], false, basicFireSpeed);
-            MakeInstantBullet(basicBullet, upgradeBulletPositions[3], false, basicFireSpeed);
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[2], false, _basicFireSpeed);
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[3], false, _basicFireSpeed);
         }
         if (basicFireLevel > 2)
         {
-            MakeInstantBullet(basicBullet, upgradeBulletPositions[0], false, basicFireSpeed);
-            MakeInstantBullet(basicBullet, upgradeBulletPositions[1], false, basicFireSpeed);
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[0], false, _basicFireSpeed);
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[1], false, _basicFireSpeed);
         }
         yield return null;
     }
@@ -77,7 +92,7 @@ public class PlayerBasicAttack : MonoBehaviour
     {
         yield return null;
         bulletPosition.Rotate(new Vector3(0, Random.Range(-15f, 15f), 0));
-        MakeInstantBullet(upgradedBullet, bulletPosition, false, upgradedFireSpeed);
+        MakeInstantBullet(upgradedBullet, bulletPosition, false, _upgradedFireSpeed);
         bulletPosition.localRotation = Quaternion.Euler(0, 0, 0);
 
     }
