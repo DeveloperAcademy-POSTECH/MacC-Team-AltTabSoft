@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1022124332221860566}
-  - component: {fileID: 3857333942012257283}
   - component: {fileID: 5472813065106778144}
   - component: {fileID: 657133416048315651}
+  - component: {fileID: 1790176278812915998}
   m_Layer: 8
   m_Name: MonsterLongRangePrefab
   m_TagString: Monster
@@ -35,27 +35,6 @@ Transform:
   - {fileID: 6033182097593601714}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3857333942012257283
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7512927405108858682}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.6, y: 1.06, z: 1}
-  m_Center: {x: 0, y: 0.06, z: 8.9}
 --- !u!195 &5472813065106778144
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -100,6 +79,27 @@ MonoBehaviour:
   _bulletSpeed: 5
   _currentState: 0
   _attackPoint: {fileID: 0}
+--- !u!65 &1790176278812915998
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7512927405108858682}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.33, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &6066509615173822809
 PrefabInstance:
   m_ObjectHideFlags: 0
