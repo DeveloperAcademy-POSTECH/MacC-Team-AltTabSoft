@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
@@ -77,11 +78,21 @@ public class MonsterBoss : MonoBehaviour
         {
             _monsterRigidbody = rb;
         }
-
-
+        
+        // Make Camera Move To Boss //
+        StartCoroutine(CameraFocusOnBoss());
+        
         StartCoroutine(idle());
     }
 
+    IEnumerator CameraFocusOnBoss()
+    {
+        CameraManager cameraManager = GameObject.FindGameObjectWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraManager>();
+        cameraManager.MonsterVCam.Follow = transform;
+        cameraManager.MonsterVCam.Priority = 30;
+        yield return new WaitForSeconds(2);
+        cameraManager.MonsterVCam.Priority = 0;
+    }
 
     private void FixedUpdate()
     {
