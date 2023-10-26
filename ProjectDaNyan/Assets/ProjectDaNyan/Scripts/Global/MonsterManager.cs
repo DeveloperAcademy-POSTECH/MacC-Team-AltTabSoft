@@ -13,18 +13,7 @@ public class MonsterManager : MonoBehaviour
 {
     private static MonsterManager inst = null;
 
-    public static MonsterManager Inst
-    {
-        get
-        {
-            if (inst == null)
-            {
-                return null;
-            }
-
-            return inst;
-        }
-    }
+    public static MonsterManager Inst { get { if (inst == null) { return null; } return inst; } }
 
     [SerializeField] private List<Transform> monsterSpawnPoints;
 
