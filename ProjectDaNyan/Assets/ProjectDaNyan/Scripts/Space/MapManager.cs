@@ -14,6 +14,9 @@ using Quaternion = UnityEngine.Quaternion;
 
 public class MapManager : MonoBehaviour
 {   
+    private static MapManager inst = null;
+    public static MapManager Inst { get { if (inst == null) { return null; } return inst; } }
+    
     [SerializeField] private GameObject player;
     [SerializeField] private float tileSize;
     [SerializeField] private int tileRowCount;
@@ -21,8 +24,11 @@ public class MapManager : MonoBehaviour
     [SerializeField] public GameObject[] tilePrefabsArray;
     [SerializeField] private GameObject boxCatPrefab;
     [SerializeField] private int boxCatCounts;
+    [SerializeField] private GameObject hiddenBoxPrefab;
     [SerializeField] private GameObject restrictionPrefab;
     [SerializeField] private GameObject transparentRestrictionPrefab;
+    [SerializeField] private float _hiddenBoxDropTime;
+    
     private GameObject _mapTiles;
     private GameObject _transparentRestrictions;
     private GameObject _restrictions;
@@ -32,6 +38,7 @@ public class MapManager : MonoBehaviour
     private Vector3[] _tileBorderRange;
     private Vector3 _restrictionSetPosition;
     private bool _isMapRestricted = false;
+    
     
     NavMeshSurface _myNavMeshSurface; // (개선 필요) Floor 갱신시 Re-Bake 하기 위한 컴포넌트 
     
@@ -51,11 +58,11 @@ public class MapManager : MonoBehaviour
     private void Start()
     {
         ShuffleTilePrefabs();
-
         SetRandomMap();
 
         SpawnBoxCatsOntoMap();
 
+        StartCoroutine(SetHiddenBox());
         StartCoroutine(MakeRestrictions());
         
         _myNavMeshSurface.UpdateNavMesh(_myNavMeshSurface.navMeshData);
@@ -198,6 +205,32 @@ public class MapManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
         }
+    }
+    
+    IEnumerator SetHiddenBox()
+    {
+        while (_hiddenBoxDropTime > 0)
+        {
+            _hiddenBoxDropTime -= 1;
+            yield return new WaitForSeconds(1f);
+        }
+
+        DropHiddenBox();
+    }
+
+    void DropHiddenBox()
+    {
+        var randomIndex = Random.Range(0, _tileTotalCount);
+        var randomX = Random.Range(_tilesArray[randomIndex].transform.position.x - (tileSize / 2), _tilesArray[randomIndex].transform.position.x + (tileSize / 2));
+        var randomZ = Random.Range(_tilesArray[randomIndex].transform.position.z - (tileSize / 2),
+            _tilesArray[randomIndex].transform.position.z + (tileSize / 2));
+
+        var randomPosition = new Vector3(randomX, 1, randomZ);
+        
+        var hiddenBox = Instantiate(hiddenBoxPrefab, randomPosition, Quaternion.identity);
+        hiddenBox.transform.parent = _tilesArray[randomIndex].transform;
+        
+        Debug.Log("hiddenBox dropped!");
     }
     
     private void ShuffleMovingTiles(List<int> movingTiles, GameObject[] tilesArray)
