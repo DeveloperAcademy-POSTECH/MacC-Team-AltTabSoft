@@ -208,14 +208,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e487fb0756944755954afb41c555c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPosition: {fileID: 5737468087886339377}
-  dronePosition: {fileID: 0}
-  droneBullet: {fileID: 428928217648246688, guid: d3bdf7556752544f296f56570a4d21c3, type: 3}
-  drone: {fileID: 4928074925069115387}
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
+  _bulletPosition: {fileID: 0}
+  _droneBullet: {fileID: 428928217648246688, guid: d3bdf7556752544f296f56570a4d21c3, type: 3}
+  _drone: {fileID: 4928074925069115387}
+  _droneFireRate: 0
+  _droneFireSpeed: 0
   droneFireLevel: 1
-  droneSpeed: 10
-  droneFireRate: 0.7
-  droneFireSpeed: 25
   targetCollider: {fileID: 0}
 --- !u!1001 &301971508307439228
 PrefabInstance:

@@ -20,6 +20,10 @@ public class AttackStatus : ScriptableObject
     //Speed of Drone
     public float droneSpeed;
 
+    //Scan Range
+    public int playerScanRange;
+    public int droneScanRange;
+
     //Range of Random Field Attack
     public float randomRange;
 }

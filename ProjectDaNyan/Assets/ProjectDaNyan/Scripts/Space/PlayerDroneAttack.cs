@@ -5,19 +5,16 @@ using UnityEngine;
 public class PlayerDroneAttack : MonoBehaviour
 {
     [SerializeField] private AttackStatus _attackStatus;
-    [SerializeField] private Transform bulletPosition;
-    [SerializeField] private Transform dronePosition;
-    [SerializeField] private GameObject droneBullet;
-    [SerializeField] private GameObject drone;
-
-    public int droneFireLevel = 1;
-
+    [SerializeField] private Transform _bulletPosition;
+    //[SerializeField] private Transform dronePosition;
+    [SerializeField] private GameObject _droneBullet;
+    [SerializeField] private GameObject _drone;
     [SerializeField] private float _droneFireRate;
     [SerializeField] private float _droneFireSpeed;
 
-    bool isDroneAppear = false;
-    float droneFireDelay;
-    bool droneFireReady;
+    public int droneFireLevel = 1;
+    private float _droneFireDelay;
+    private bool _droneFireReady;
 
     DroneChaseMonster droneChasing;
     EnemyScanner scanner;
@@ -27,7 +24,7 @@ public class PlayerDroneAttack : MonoBehaviour
     {
         scanner = GetComponent<EnemyScanner>();
         droneChasing = GetComponent<DroneChaseMonster>();
-        dronePosition = GameObject.Find("DronePosition").transform;
+        //dronePosition = GameObject.Find("DronePosition").transform;
 
     }
 
@@ -43,32 +40,19 @@ public class PlayerDroneAttack : MonoBehaviour
     {
         if (isDrone)
         {
-            if (isDroneAppear == false && drone != null && dronePosition != null)
+            _droneFireRate = _attackStatus.droneFireRate;
+            _droneFireSpeed = _attackStatus.droneFireSpeed;
+            _bulletPosition = GameObject.Find("DroneBulletPosition").transform;
+            _droneFireReady = _droneFireRate < _droneFireDelay;
+            _droneFireDelay += Time.deltaTime;
+            _drone.transform.RotateAround(enemyCollider.transform.position,Vector3.up, 30 * Time.deltaTime) ;
+            if (_droneFireReady)
             {
-                CreateDrone(drone, dronePosition);
-                _droneFireRate = _attackStatus.droneFireRate;
-                _droneFireSpeed = _attackStatus.droneFireSpeed;
-                bulletPosition = GameObject.Find("DroneBulletPosition").transform;
-            }
-                
-            droneFireReady = _droneFireRate < droneFireDelay;
-            droneFireDelay += Time.deltaTime;
-            if (droneFireReady)
-            {
-                bulletPosition.LookAt(enemyCollider.transform);
+                _bulletPosition.LookAt(enemyCollider.transform);
                 StartCoroutine("DroneFire");
-                droneFireDelay = 0;
+                _droneFireDelay = 0;
             }
         }
-    }
-
-    void CreateDrone(GameObject droneObject, Transform droneObjectPosition)
-    {
-        
-        GameObject createdDrone = ObjectPoolManager.Inst.BringObject(droneObject);
-        createdDrone.transform.position = droneObjectPosition.position;
-        isDroneAppear = true;
-
     }
 
     void MakeInstantBullet(GameObject bulletObject, Transform bulletObjectPosition, bool isGravity, float fireSpeed)
@@ -82,11 +66,10 @@ public class PlayerDroneAttack : MonoBehaviour
 
     IEnumerator DroneFire()
     {
-        
-        MakeInstantBullet(droneBullet, bulletPosition, false, _droneFireSpeed);
+        MakeInstantBullet(_droneBullet, _bulletPosition, false, _droneFireSpeed);
         yield return new WaitForSeconds(0.05f);
-        MakeInstantBullet(droneBullet, bulletPosition, false, _droneFireSpeed);
+        MakeInstantBullet(_droneBullet, _bulletPosition, false, _droneFireSpeed);
         yield return new WaitForSeconds(0.05f);
-        MakeInstantBullet(droneBullet, bulletPosition, false, _droneFireSpeed);
+        MakeInstantBullet(_droneBullet, _bulletPosition, false, _droneFireSpeed);
     }
 }

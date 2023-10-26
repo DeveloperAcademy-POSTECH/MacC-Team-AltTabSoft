@@ -110,7 +110,6 @@ GameObject:
   - component: {fileID: 2180998302867330008}
   - component: {fileID: 5238146470352652433}
   - component: {fileID: 224263451203325955}
-  - component: {fileID: 8391462048624044762}
   - component: {fileID: 2045052157784040541}
   - component: {fileID: 7263385071762744004}
   m_Layer: 0
@@ -154,6 +153,8 @@ MonoBehaviour:
   isLaser: 0
   isDrone: 0
   isField: 0
+  _drone: {fileID: 0}
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
 --- !u!114 &5238146470352652433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,27 +197,6 @@ MonoBehaviour:
   _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   laserBullet: {fileID: 5394473269736259089}
   _laserFireRate: 0
---- !u!114 &8391462048624044762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2012497629165759939}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e487fb0756944755954afb41c555c7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
-  bulletPosition: {fileID: 0}
-  dronePosition: {fileID: 4033147051143884980}
-  droneBullet: {fileID: 428928217648246688, guid: d3bdf7556752544f296f56570a4d21c3, type: 3}
-  drone: {fileID: 4928074925069115387, guid: 5c6239fc42e924a368062afc210a0053, type: 3}
-  droneFireLevel: 1
-  _droneFireRate: 0
-  _droneFireSpeed: 0
-  targetCollider: {fileID: 0}
 --- !u!114 &2045052157784040541
 MonoBehaviour:
   m_ObjectHideFlags: 0
