@@ -9,23 +9,17 @@ public class EXPBox : MonoBehaviour
 
 
     Rigidbody _rigidbody = null;
-
-
-
-
+    
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
 
     }
-
-
+    
     private void OnEnable()
     {
         _rigidbody.velocity = Vector3.up * popForce;
     }
-
-
 
     private void OnTriggerExit(Collider other)
     {
