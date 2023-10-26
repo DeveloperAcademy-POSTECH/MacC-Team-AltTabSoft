@@ -20,9 +20,25 @@ public class EXPBox : MonoBehaviour
     }
 
 
-
     private void OnEnable()
     {
         _rigidbody.velocity = Vector3.up * popForce;
+    }
+
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        // if possible, check by layer 
+        if (other.gameObject.layer == 10)
+        {
+            Debug.Log("layer 10");
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
+
+        if(other.name == "MapFloor")
+        {
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
     }
 }
