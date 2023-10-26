@@ -53,6 +53,9 @@ public class GameManager : MonoBehaviour
     private float _gameStageTime = 180f;
     private float _currentTime = 0;
     private float _bossReadyTime = 3;
+    
+    // hiddenBox Drop
+    private float _hiddenBoxDropTime;
 
     private void Awake()
     {
@@ -164,7 +167,6 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(idle());
     }
-
 
     IEnumerator bossReady()
     {
