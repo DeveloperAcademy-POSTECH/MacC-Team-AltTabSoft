@@ -4,26 +4,30 @@ using UnityEngine;
 
 public class PlayerRandomFieldAttack : MonoBehaviour
 {
+    [SerializeField] private AttackStatus _attackStatus;
+    [SerializeField] private float _fieldFireRate;
+    [SerializeField] private float _randomRange;
+    [SerializeField] private GameObject attackField;
+    [SerializeField] private Transform center;
     public int randomFieldLevel = 1;
-    public float fieldFireRate;
-    public float randomRange;
+    private float _randomFieldDelay;
 
-    float randomFieldDelay;
-    bool isRandomFieldReady;
-
-    public GameObject attackField;
-    public Transform center;
+    private void OnEnable()
+    {
+        _fieldFireRate = _attackStatus.fieldFireRate;
+        _randomRange = _attackStatus.randomRange;
+    }
 
     public void UseRandomFieldAttack(bool isRandomField)
     {
         if (isRandomField)
         {
-            isRandomField = fieldFireRate < randomFieldDelay;
-            randomFieldDelay += Time.deltaTime;
+            isRandomField = _fieldFireRate < _randomFieldDelay;
+            _randomFieldDelay += Time.deltaTime;
             if (isRandomField)
             {
                 StartCoroutine("RandomFieldAttack");
-                randomFieldDelay = 0;
+                _randomFieldDelay = 0;
             }
             
         }
@@ -32,7 +36,7 @@ public class PlayerRandomFieldAttack : MonoBehaviour
     void MakeRandomAttackField(GameObject fieldObject, Transform fieldCenter)
     {
         GameObject attackField = ObjectPoolManager.Inst.BringObject(fieldObject);
-        Vector3 randomVector = new Vector3(Random.Range(-randomRange, randomRange),0, Random.Range(-randomRange, randomRange));
+        Vector3 randomVector = new Vector3(Random.Range(-_randomRange, _randomRange),0, Random.Range(-_randomRange, _randomRange));
         attackField.transform.position = fieldCenter.position + randomVector;
 
     }

@@ -4,22 +4,28 @@ using UnityEngine;
 
 public class PlayerLaserAttack : MonoBehaviour
 {
-    public float laserFireRate; //관통공격주기 
-    public GameObject laserBullet; //레이저 관통 공격 오브젝트 프리펩
-    float laserFireDelay; //레이저 딜레이 
-    bool isLaserReady;
+    [SerializeField] private AttackStatus _attackStatus;
+    [SerializeField] private GameObject laserBullet; //레이저 관통 공격 오브젝트 프리펩
+    [SerializeField] private float _laserFireRate;
 
+    private float _laserFireDelay; //레이저 딜레이 
+    private bool _isLaserReady;
+
+    private void OnEnable()
+    {
+        _laserFireRate = _attackStatus.laserFireRate;
+    }
 
     public void UseLaserAttack(bool isLaser)
     {
         if (isLaser)
         {
-            isLaserReady = laserFireRate < laserFireDelay;
-            laserFireDelay += Time.deltaTime;
-            if (isLaserReady)
+            _isLaserReady = _laserFireRate < _laserFireDelay;
+            _laserFireDelay += Time.deltaTime;
+            if (_isLaserReady)
             {
                 StartCoroutine("LaserAttack");
-                laserFireDelay = 0;
+                _laserFireDelay = 0;
             }
         }
     }
