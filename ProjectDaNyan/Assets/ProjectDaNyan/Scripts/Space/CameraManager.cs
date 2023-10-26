@@ -1,18 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private CinemachineVirtualCamera _playerVCam;
+    private CinemachineVirtualCamera _monsterVCam;
+    public CinemachineVirtualCamera MonsterVCam
     {
-        
+        get { return _monsterVCam; }
+        set { _monsterVCam = value; }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        CinemachineVirtualCamera[] cinemachineVirtualCameras = GetComponentsInChildren<CinemachineVirtualCamera>();
+        foreach (CinemachineVirtualCamera virtualCamera in cinemachineVirtualCameras)
+        {
+            // Debug.Log($"{virtualCamera.name}");
+            // Debug.Log($"{virtualCamera.name.Contains("Boss")}");
+            if (virtualCamera.name.Contains("Boss"))
+            {
+                _monsterVCam = virtualCamera;
+            }
+            else
+            {
+                _playerVCam = virtualCamera;
+            }
+        }
     }
 }
