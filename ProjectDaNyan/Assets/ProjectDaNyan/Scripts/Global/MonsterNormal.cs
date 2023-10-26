@@ -17,6 +17,7 @@ public class MonsterNormal : MonoBehaviour
     [Header("Attack Range Setting")]
 
     [SerializeField] private GameObject _monsterBulletPrefab;
+    [SerializeField] private GameObject _expBox;
 
     // attack range
     [SerializeField] private float _attackPower;
@@ -120,6 +121,10 @@ public class MonsterNormal : MonoBehaviour
     IEnumerator dead()
     {
         GameManager.Inst.delegateGameState -= PrepareBossStage;
+
+        // drop exp 
+        GameObject expBox = ObjectPoolManager.Inst.BringObject(_expBox);
+        expBox.transform.position = this.transform.position;
 
         ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         yield return null;

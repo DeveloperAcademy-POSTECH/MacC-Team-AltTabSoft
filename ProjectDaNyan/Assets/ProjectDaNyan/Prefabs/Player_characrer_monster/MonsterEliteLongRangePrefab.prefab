@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1022124332221860566}
+  - component: {fileID: 3857333942012257283}
   - component: {fileID: 5472813065106778144}
-  - component: {fileID: 657133416048315651}
-  - component: {fileID: 1790176278812915998}
+  - component: {fileID: 1592630744727539676}
   m_Layer: 8
-  m_Name: MonsterLongRangePrefab
+  m_Name: MonsterEliteLongRangePrefab
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,57 +30,12 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 6033182097593601714}
+  - {fileID: 5822529579433592139}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!195 &5472813065106778144
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7512927405108858682}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 20
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 2
---- !u!114 &657133416048315651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7512927405108858682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c57ced2339e748958ba038a7236a510, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _monsterStatus: {fileID: 11400000, guid: f99acaac83ac145d995537371eb46671, type: 2}
-  _monsterBulletPrefab: {fileID: 7166173530311184209, guid: e4b033856683549f4b7be586af6d418a, type: 3}
-  _expBox: {fileID: 7703086083745402384, guid: d4e304cf3b1f049619280b63ac734983, type: 3}
-  _attackPower: 0
-  _monsterHP: 0
-  _monsterSpeed: 0
-  _attackRange: 0
-  _attackinterval: 0
-  _bulletSpeed: 5
-  _currentState: 0
-  _attackPoint: {fileID: 0}
---- !u!65 &1790176278812915998
+--- !u!65 &3857333942012257283
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,9 +54,54 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.33, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!1001 &6066509615173822809
+  m_Size: {x: 3.35, y: 2.15, z: 1.8318763}
+  m_Center: {x: 0, y: 1.1000001, z: 0}
+--- !u!195 &5472813065106778144
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7512927405108858682}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 10
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 2
+--- !u!114 &1592630744727539676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7512927405108858682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c57ced2339e748958ba038a7236a510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _monsterStatus: {fileID: 11400000, guid: 41bf33f2833a142a4a5d5d18f6825b55, type: 2}
+  _monsterBulletPrefab: {fileID: 7166173530311184209, guid: e4b033856683549f4b7be586af6d418a, type: 3}
+  _expBox: {fileID: 7703086083745402384, guid: d4e304cf3b1f049619280b63ac734983, type: 3}
+  _attackPower: 0
+  _monsterHP: 0
+  _monsterSpeed: 0
+  _attackRange: 0
+  _attackinterval: 0
+  _bulletSpeed: 5
+  _currentState: 0
+  _attackPoint: {fileID: 0}
+--- !u!1001 &6289134702563779232
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -111,15 +111,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2606796
+      value: 0.52
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2606796
+      value: 0.52
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2606796
+      value: 0.52
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -127,11 +127,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.522
+      value: -2.07
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.147
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -161,6 +161,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
       propertyPath: m_Name
       value: Monster_type_B
@@ -170,8 +174,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
---- !u!4 &6033182097593601714 stripped
+--- !u!4 &5822529579433592139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1f8cc79be3eeb43e08f2c67ea1566e4f, type: 3}
-  m_PrefabInstance: {fileID: 6066509615173822809}
+  m_PrefabInstance: {fileID: 6289134702563779232}
   m_PrefabAsset: {fileID: 0}

@@ -221,7 +221,9 @@ MonoBehaviour:
   - {fileID: 5197511860445037114}
   - {fileID: 8365360019841480773}
   - {fileID: 3128953194732964171}
-  monsterBossPrefab: {fileID: 6605220832193410020, guid: 47e4983e170f84e1fa797c19bfafb4c5, type: 3}
+  monsterBossAPrefab: {fileID: 6605220832193410020, guid: 47e4983e170f84e1fa797c19bfafb4c5, type: 3}
+  monsterBossBPrefab: {fileID: 6605220832193410020, guid: 4f020b514b9ee4bedad36514223d6c7d, type: 3}
+  _monsterManagerData: {fileID: 11400000, guid: 650d4b4ab55f341d683a826c95e5433b, type: 2}
 --- !u!114 &5491885684386713319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,9 +249,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e992bf17a5643b5a63a1e37a8ce6c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterShortRangePrefab: {fileID: 7512927405108858682, guid: be5be81a5cf3b4aa080bcc1a1c37a50e, type: 3}
+  monsterShortRangePrefab: {fileID: 1794225786178493336, guid: caf8f7305f12d4dd1b3d907daecb3f2b, type: 3}
   monsterLongRangePrefab: {fileID: 7512927405108858682, guid: 7c6f5fe8d840147d18baa4c35a4faf41, type: 3}
-  monsterElitePrefab: {fileID: 7512927405108858682, guid: f2c087bf808f3466f8c33ac37ab59a51, type: 3}
+  monsterEliteLongRangePrefab: {fileID: 7512927405108858682, guid: f2c087bf808f3466f8c33ac37ab59a51, type: 3}
+  monsterEliteShortRangePrefab: {fileID: 4650249157541409608, guid: ab083073d7cb941eba5466117f0098d3, type: 3}
 --- !u!1 &6783350786848118465
 GameObject:
   m_ObjectHideFlags: 0
