@@ -10,7 +10,7 @@ public class MonsterBoss : MonoBehaviour
 {
     public IObjectPool<GameObject> myPool { get; set; }
 
-    [SerializeField] private MonsterStatus monsterStatus;
+    [SerializeField] private MonsterData _monsterData;
 
     // Boss Monster state
     private enum BossState
@@ -29,6 +29,7 @@ public class MonsterBoss : MonoBehaviour
     [SerializeField] private float _monsterHP;
     [SerializeField] private float _monsterSpeed;
     [SerializeField] private float _attackRange;
+    [SerializeField] private float _attackInterval;
     [SerializeField] private float _attackSpeed;
     [SerializeField] private float _dashSpeed = 10;
 
@@ -61,20 +62,26 @@ public class MonsterBoss : MonoBehaviour
 
     private void OnEnable()
     {
+        _target = FindAnyObjectByType<PlayerController>().transform;
+
+        this.transform.position = _target.position;
+
+
         _navMeshAgent = GetComponent<NavMeshAgent>();
         // set target 
         _target = FindAnyObjectByType<PlayerController>().transform;
 
         _currentState = BossState.chasing;
 
-        _attackPower = monsterStatus.attackPower;
-        _monsterHP = monsterStatus.hp;
-        _monsterSpeed = monsterStatus.speed;
-        _attackRange = monsterStatus.attackRange;
-        _attackSpeed = monsterStatus.attackSpeed;
+        _attackPower = _monsterData.attackPower;
+        _monsterHP = _monsterData.hp;
+        _monsterSpeed = _monsterData.speed;
+        _attackRange = _monsterData.attackRange;
+        _attackInterval = _monsterData.attackInterval;
+        _attackSpeed = _monsterData.attackSpeed;
 
 
-        if(TryGetComponent<Rigidbody>(out Rigidbody rb))
+        if (TryGetComponent<Rigidbody>(out Rigidbody rb))
         {
             _monsterRigidbody = rb;
         }
@@ -174,7 +181,7 @@ public class MonsterBoss : MonoBehaviour
 
         _attackTime += 0.1f;
 
-        if(_attackTime >= _attackSpeed)
+        if(_attackTime >= _attackInterval)
         {
             _attackTime = 0;
             attackPlayer();
