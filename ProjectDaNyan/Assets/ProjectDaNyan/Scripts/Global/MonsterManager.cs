@@ -12,6 +12,7 @@ public enum BossType
 public class MonsterManager : MonoBehaviour
 {
     private static MonsterManager inst = null;
+
     public static MonsterManager Inst { get { if (inst == null) { return null; } return inst; } }
 
     [SerializeField] private List<Transform> monsterSpawnPoints;
@@ -62,29 +63,13 @@ public class MonsterManager : MonoBehaviour
     }
 
 
-
     private void generateMonster()
     {
-
-        if(timePasses >= _spawnInterval)
+        if (timePasses >= _spawnInterval)
         {
             timePasses = 0;
-
-
-
-
-
-
-
         }
-
-
-
-
     }
-
-
-
 
 
     public void CheckGameState(GameState gameState)
@@ -129,10 +114,7 @@ public class MonsterManager : MonoBehaviour
                 GameObject boss = ObjectPoolManager.Inst.BringObject(monsterBossAPrefab);
                 Vector3 genPos = monsterSpawnPoints[1].transform.position;
                 boss.transform.position = new Vector3(genPos.x, 1.5f, genPos.z);
-
-
-            break;
-
+                break;
         }
     }
 
@@ -142,5 +124,4 @@ public class MonsterManager : MonoBehaviour
         currentTime = t;
         timePasses++;
     }
-
 }
