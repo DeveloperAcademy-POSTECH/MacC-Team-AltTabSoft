@@ -7,29 +7,25 @@ public class EXPBox : MonoBehaviour
 
     [SerializeField] private float popForce = 5f;
 
+    // depends on monster's exp value 
+    public float exp;
+
+    public Vector3 parentsVector;
 
     Rigidbody _rigidbody = null;
     
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-
     }
     
     private void OnEnable()
     {
-        _rigidbody.velocity = Vector3.up * popForce;
+        _rigidbody.AddForce((Vector3.up + parentsVector) * popForce, ForceMode.Impulse);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // if possible, check by layer 
-        if (other.gameObject.layer == 10)
-        {
-            Debug.Log("layer 10");
-            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
-        }
-
         if(other.name == "MapFloor")
         {
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
