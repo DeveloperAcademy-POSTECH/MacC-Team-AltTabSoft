@@ -203,11 +203,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76b45acd68d0744789cec5d397f39f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterStatus: {fileID: 11400000, guid: 47ad1b783956144978e2457eb0e1060d, type: 2}
+  _monsterData: {fileID: 11400000, guid: 47ad1b783956144978e2457eb0e1060d, type: 2}
   _attackPower: 0
   _monsterHP: 0
   _monsterSpeed: 0
   _attackRange: 0
+  _attackInterval: 0
   _attackSpeed: 0
   _dashSpeed: 100
   _monsterBulletPrefab: {fileID: 7166173530311184209, guid: e4b033856683549f4b7be586af6d418a, type: 3}

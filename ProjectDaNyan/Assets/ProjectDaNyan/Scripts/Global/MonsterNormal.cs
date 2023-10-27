@@ -8,13 +8,13 @@ public class MonsterNormal : MonoBehaviour
 {
     public IObjectPool<GameObject> myPool { get; set; }
 
-    [SerializeField] private MonsterStatus _monsterStatus;
+    [SerializeField] private MonsterData _monsterData;
 
     // nav mesh related variables 
     private NavMeshAgent _navMeshAgent = null;
     private Transform _target = null;
 
-    [Header("Attack Range Setting")]
+    [Header("Monster Data")]
 
     [SerializeField] private GameObject _monsterBulletPrefab;
     [SerializeField] private GameObject _expBox;
@@ -25,12 +25,15 @@ public class MonsterNormal : MonoBehaviour
     [SerializeField] private float _monsterSpeed;
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackinterval;
-    [SerializeField] private float _bulletSpeed = 5f;
+    [SerializeField] private float _attackSpeed;
+    [SerializeField] private float _exp;
+
+
     [SerializeField] private state _currentState;
+
 
     public Transform _attackPoint;
     private float _attacktime;
-
 
     // Monster state
     public enum state
@@ -68,13 +71,15 @@ public class MonsterNormal : MonoBehaviour
 
         _currentState = state.chasing;
 
-        _navMeshAgent.stoppingDistance = _attackRange = _monsterStatus.attackRange;
+        _navMeshAgent.stoppingDistance = _attackRange = _monsterData.attackRange;
 
-        _attackPower = _monsterStatus.attackPower;
-        _monsterHP = _monsterStatus.hp;
-        _monsterSpeed = _monsterStatus.speed;
-        _attackRange = _monsterStatus.attackRange;
-        _attackinterval = _monsterStatus.attackSpeed;
+        _attackPower = _monsterData.attackPower;
+        _monsterHP = _monsterData.hp;
+        _monsterSpeed = _monsterData.speed;
+        _attackRange = _monsterData.attackRange;
+        _attackinterval = _monsterData.attackInterval;
+        _attackSpeed = _monsterData.attackSpeed;
+
 
         _navMeshAgent.speed = _monsterSpeed;
         _navMeshAgent.SetDestination(_target.position);
@@ -118,13 +123,32 @@ public class MonsterNormal : MonoBehaviour
         yield return null;
     }
 
+    private void attackPlayer()
+    {
+        // attacking player
+        GameObject bullet = ObjectPoolManager.Inst.BringObject(_monsterBulletPrefab);
+        bullet.transform.position = _attackPoint.position;
+        bullet.GetComponent<TempBullet>().Damage = _attackPower;
+        bullet.transform.LookAt(_target);
+
+        Vector3 bulletDir = _target.position - this.transform.position;
+
+        Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
+        bulletRB.velocity = bulletDir * _attackSpeed;
+    }
+
     IEnumerator dead()
     {
         GameManager.Inst.delegateGameState -= PrepareBossStage;
 
-        // drop exp 
         GameObject expBox = ObjectPoolManager.Inst.BringObject(_expBox);
-        expBox.transform.position = this.transform.position;
+        EXPBox expBoxData = expBox.GetComponent<EXPBox>();
+
+        // drop exp 
+        expBoxData.exp = _exp;
+        expBoxData.parentsVector = this.transform.forward * _monsterSpeed;
+
+        expBox.transform.position = this.transform.position + Vector3.up * 2f;
 
         ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         yield return null;
@@ -155,19 +179,6 @@ public class MonsterNormal : MonoBehaviour
     }
 
 
-    private void attackPlayer()
-    {
-        // attacking player
-        GameObject bullet = ObjectPoolManager.Inst.BringObject(_monsterBulletPrefab);
-        bullet.transform.position = _attackPoint.position;
-        bullet.GetComponent<TempBullet>().Damage = _attackPower;
-        bullet.transform.LookAt(_target);
-
-        Vector3 bulletDir = _target.position - this.transform.position;
-
-        Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
-        bulletRB.velocity = bulletDir * _bulletSpeed;
-    }
 
 
     public void PrepareBossStage(GameState gameState)
@@ -186,15 +197,16 @@ public class MonsterNormal : MonoBehaviour
 
         if (other.tag.Equals("PlayerAttack"))
         {
-
-            _monsterHP -= 1;
-
-            //// get bullet damage 
-            //if (other.gameObject.TryGetComponent(out Bullet bullet))
-            //{
-            //    // apply player attack damage 
-         
-            //}
+            // get bullet damage 
+            if (other.gameObject.TryGetComponent(out Bullet bullet))
+            {
+                // apply player attack damage 
+                _monsterHP -= bullet.damage;
+            }
+            else
+            {
+                _monsterHP -= 1;
+            }
         }
     }
 }
