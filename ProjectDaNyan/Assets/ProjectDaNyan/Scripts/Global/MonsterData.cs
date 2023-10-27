@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MonsterData", menuName = "Scriptable_Object/MonsterData")]
-public class MonsterStatus : ScriptableObject
+public class MonsterData : ScriptableObject
 {
     // monster attack power 
     public float attackPower;
@@ -17,7 +17,10 @@ public class MonsterStatus : ScriptableObject
     // monster attack distance 
     public float attackRange;
 
-    // monster attack speed 
+    // monster attack interval 
+    public float attackInterval;
+
+    // monster attack speed;
     public float attackSpeed;
 
     // monster exp
