@@ -8,13 +8,10 @@ public class DroneChaseMonster : MonoBehaviour
     public Transform thisPosition;
     UnityEngine.AI.NavMeshAgent agent;
 
-    bool isReturn = false;
-    
     void Awake()
     {
         player = GameObject.Find("PlayerAttackPosition");
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        //enemyScanner = GetComponent<EnemyScanner>();
     }
 
     public void DroneMoving(Transform target)
@@ -22,7 +19,7 @@ public class DroneChaseMonster : MonoBehaviour
         float distance = Vector3.Distance(player.transform.position, thisPosition.position);
         StartCoroutine(FollowEnemy(target));
 
-        if (distance > 10)
+        if (distance > 10 || target == null)
         {
             StartCoroutine(ReturnToPlayer());
         }
@@ -30,8 +27,6 @@ public class DroneChaseMonster : MonoBehaviour
         {
             StartCoroutine(FollowEnemy(target));
         }
-
-
     }
 
     IEnumerator FollowEnemy(Transform target)
