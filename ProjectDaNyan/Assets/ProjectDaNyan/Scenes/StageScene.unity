@@ -2252,33 +2252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0244b16b517bd48db89ff691186b0f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &2110752910
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2110752888}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 3
 --- !u!1 &2120482533
 GameObject:
   m_ObjectHideFlags: 0
@@ -2549,26 +2522,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 602527080}
     m_Modifications:
-    - target: {fileID: 994791542760820693, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: _attackStatus
-      value: 
-      objectReference: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
-    - target: {fileID: 1195421675565517838, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: _drone
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1195421675565517838, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: isDrone
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1195421675565517838, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: isField
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1195421675565517838, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: isLaser
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1682354257764922857, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2609,30 +2562,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4212278155795712472, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: hp_Heal_Amount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5071943504525498183, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: basicFireSpeed
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 5792001150830992708, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5792001150830992708, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 8291193343499632279, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5792001150830992708, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2110752910}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8729196913a624e68a0f58a1242b4fea, type: 3}
 --- !u!4 &8694636629277493342 stripped
 Transform:
