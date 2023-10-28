@@ -18,9 +18,18 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float rockHeight;
     
+    [SerializeField] private Animator playerAnim;
+    
+    private enum AnimatorStateName
+    {
+        isStop = 0,
+        isWalk = 1,
+        isDash = 2,
+        isDeath = 3
+    }
+    
     private Rigidbody playerRigid;
     private TrailRenderer playerTrailRenderer;
-    private Animator playerAnim;
     private CharacterController playerCharacterController;
     private Transform playerTransform;
 
@@ -41,7 +50,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerTrailRenderer = playerObject.GetComponent<TrailRenderer>();
-        playerAnim = playerObject.GetComponent<Animator>();
         playerCharacterController = playerObject.GetComponent<CharacterController>();
         playerTransform = playerObject.GetComponent<Transform>();
 
@@ -107,6 +115,7 @@ public class PlayerController : MonoBehaviour
     }
     void PlayerWalk()
     {
+        playerAnim.SetInteger("State",1);
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
         movePosition = normalized * (Time.deltaTime * playerSpeed);
         playerCharacterController.Move(new Vector3(movePosition.x,_floatingPosition,movePosition.z));
@@ -126,6 +135,8 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
+        playerAnim.SetInteger("State",2);
+
         playerTrailRenderer.emitting = true;
         
         this.gameObject.layer = 7;
@@ -138,6 +149,7 @@ public class PlayerController : MonoBehaviour
             _playerState.setPsData(PlayerState.PSData.stop);
             this.gameObject.layer = 6;
             playerTrailRenderer.emitting = false;
+            playerAnim.SetInteger("State",0);
         }
         playerDashDirectionObject.SetActive(false);
     }
@@ -177,6 +189,7 @@ public class PlayerController : MonoBehaviour
     
     void PlayerExitStartFromRock()
     {
+        playerAnim.SetInteger("State",2);
         transform.position = new Vector3(transform.position.x, y:transform.position.y - rockHeight, transform.position.z);
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
@@ -202,6 +215,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall"))
         {
+            playerAnim.SetInteger("State",0);
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 PlayerWallReflection(other);
@@ -209,7 +223,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Rock"))
         {
-            Debug.Log("rock");
+            playerAnim.SetInteger("State",0);
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 PlayerMoveOnTheRock(other);
@@ -223,6 +237,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Wall")
         {
+            playerAnim.SetInteger("State",0);
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 PlayerWallReflection(other);
@@ -230,7 +245,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Rock"))
         {
-            Debug.Log("rock");
+            playerAnim.SetInteger("State",0);
             Debug.Log(_playerState.getPsData());
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
