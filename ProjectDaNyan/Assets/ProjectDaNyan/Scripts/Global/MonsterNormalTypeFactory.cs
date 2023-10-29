@@ -11,7 +11,6 @@ public enum Monster_Normal
     NormalLongRange,
     EliteLongRange,
     EliteShortRange
-
 }
 
 public class MonsterNormalTypeFactory : MonsterFactory<Monster_Normal>

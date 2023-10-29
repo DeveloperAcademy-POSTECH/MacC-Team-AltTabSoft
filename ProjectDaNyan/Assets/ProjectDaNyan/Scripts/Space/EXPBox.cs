@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class EXPBox : MonoBehaviour
 {
-
     [SerializeField] private float popForce = 5f;
 
     // depends on monster's exp value 
     public float exp;
 
-    public Vector3 parentsVector;
+    public Vector3 parentsVelocity;
 
     Rigidbody _rigidbody = null;
     
@@ -21,7 +20,8 @@ public class EXPBox : MonoBehaviour
     
     private void OnEnable()
     {
-        _rigidbody.AddForce((Vector3.up + parentsVector) * popForce, ForceMode.Impulse);
+        _rigidbody.AddForce(parentsVelocity * popForce, ForceMode.Impulse);
+        _rigidbody.AddForce(Vector3.up * popForce, ForceMode.Impulse);
     }
 
     private void OnTriggerExit(Collider other)
