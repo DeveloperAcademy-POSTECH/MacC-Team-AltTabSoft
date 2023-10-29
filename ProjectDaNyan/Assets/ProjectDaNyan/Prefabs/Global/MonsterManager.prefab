@@ -48,7 +48,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308379560689721546}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2785148470940044182, guid: 0aefdd890d8f147c08eee9d9b6bbae1b, type: 3}
+  - {fileID: 2100000, guid: 36a557a60b9234a56a2c1b98ffc657b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -131,7 +131,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3945117894262289009}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -144,7 +144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2785148470940044182, guid: 0aefdd890d8f147c08eee9d9b6bbae1b, type: 3}
+  - {fileID: 2100000, guid: 36a557a60b9234a56a2c1b98ffc657b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -198,6 +198,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2397412528260611861}
   - {fileID: 2859591362753765699}
   - {fileID: 5197511860445037114}
   - {fileID: 8365360019841480773}
@@ -216,14 +217,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f616073a0884c44a0d450d4fbf0f5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterSpawnPoints:
+  _monsterSpawnPoints:
   - {fileID: 2859591362753765699}
   - {fileID: 5197511860445037114}
   - {fileID: 8365360019841480773}
   - {fileID: 3128953194732964171}
-  monsterBossAPrefab: {fileID: 6605220832193410020, guid: 47e4983e170f84e1fa797c19bfafb4c5, type: 3}
-  monsterBossBPrefab: {fileID: 6605220832193410020, guid: 4f020b514b9ee4bedad36514223d6c7d, type: 3}
+  _monsterBossAPrefab: {fileID: 6605220832193410020, guid: 47e4983e170f84e1fa797c19bfafb4c5, type: 3}
+  _monsterBossBPrefab: {fileID: 6605220832193410020, guid: 4f020b514b9ee4bedad36514223d6c7d, type: 3}
   _monsterManagerData: {fileID: 11400000, guid: 650d4b4ab55f341d683a826c95e5433b, type: 2}
+  _spawnInterval: 0
+  _totalSpawnQty: 0
+  _normalShortRangeQty: 0
+  _normalLongRangeQty: 0
+  _eliteShortRangeQty: 0
+  _eliteLongRangeQty: 0
+  _bossMonsterType: 0
 --- !u!114 &5491885684386713319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,7 +309,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6783350786848118465}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -314,7 +322,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2785148470940044182, guid: 0aefdd890d8f147c08eee9d9b6bbae1b, type: 3}
+  - {fileID: 2100000, guid: 36a557a60b9234a56a2c1b98ffc657b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -384,7 +392,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8796618607492476119}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -397,7 +405,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2785148470940044182, guid: 0aefdd890d8f147c08eee9d9b6bbae1b, type: 3}
+  - {fileID: 2100000, guid: 36a557a60b9234a56a2c1b98ffc657b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -419,3 +427,65 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &4920747443148165628
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8374344308667646995}
+    m_Modifications:
+    - target: {fileID: 7088386828038039352, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_Name
+      value: MonsterFactory
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+--- !u!4 &2397412528260611861 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7282127377571344105, guid: 5d109baea83d340b0acc27c443ee63ac, type: 3}
+  m_PrefabInstance: {fileID: 4920747443148165628}
+  m_PrefabAsset: {fileID: 0}

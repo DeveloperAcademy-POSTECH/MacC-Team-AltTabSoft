@@ -13,29 +13,30 @@ public class MonsterManager : MonoBehaviour
 {
     private static MonsterManager inst = null;
 
-    public static MonsterManager Inst { get { if (inst == null) { return null; } return inst; } }
+    public static MonsterManager Inst { get { return inst; } }
 
-    [SerializeField] private List<Transform> monsterSpawnPoints;
+    [SerializeField] private List<Transform> _monsterSpawnPoints;
 
-    [SerializeField] private GameObject monsterBossAPrefab;
-    [SerializeField] private GameObject monsterBossBPrefab;
+    [SerializeField] private GameObject _monsterBossAPrefab;
+    [SerializeField] private GameObject _monsterBossBPrefab;
 
     [SerializeField] private MonsterManagerData _monsterManagerData;
     private MonsterNormalTypeFactory _monsterNormalTypeFactory = null;
 
 
-    private float timePasses;
-    private float currentTime;
-    private GameState currentGameState;
+    private int _spawnPosition;
+    private float _timePasses;
+    private float _currentTime;
+    private GameState _currentGameState;
 
     // monster manage data;
-    private float _spawnInterval;
-    private float _totalSpawnQty;
-    private float _normalShortRangeQty;
-    private float _normalLongRangeQty;
-    private float _eliteShortRangeQty;
-    private float _eliteLongRangeQty;
-    private BossType _bossMonsterType;
+    [SerializeField] private float _spawnInterval;
+    [SerializeField] private int _totalSpawnQty;
+    [SerializeField] private int _normalShortRangeQty;
+    [SerializeField] private int _normalLongRangeQty;
+    [SerializeField] private int _eliteShortRangeQty;
+    [SerializeField] private int _eliteLongRangeQty;
+    [SerializeField] private BossType _bossMonsterType;
 
 
     private void Awake()
@@ -55,73 +56,172 @@ public class MonsterManager : MonoBehaviour
     {
         Debug.Log("monster on enable");
 
-        _monsterNormalTypeFactory = GetComponentInChildren<MonsterNormalTypeFactory>();
+        _monsterNormalTypeFactory = GetComponent<MonsterNormalTypeFactory>();
 
         // delegate chain, add time and game state observer 
         GameManager.Inst.delegateTimeCount += OnCalledEverySecond;
+
         GameManager.Inst.delegateGameState += CheckGameState;
     }
 
 
     private void generateMonster()
     {
-        if (timePasses >= _spawnInterval)
+        if (_timePasses >= _spawnInterval)
         {
-            timePasses = 0;
+            _timePasses = 0;
         }
     }
 
 
     public void CheckGameState(GameState gameState)
     {
-        currentGameState = gameState;
+        _currentGameState = gameState;
 
-        switch (currentGameState)
+        //switch (_currentGameState)
+        //{
+        //    case GameState.inGame:
+
+        //        int spawnPosition = Random.Range(0, 4);
+
+        //        MonsterNormal monster = null;
+
+        //        // nornal short range type 
+        //        if (_currentTime % 3 == 0)
+        //        {
+        //            monster = _monsterNormalTypeFactory.Spawn(Monster_Normal.NormalShortRange);
+        //            monster.transform.position = _monsterSpawnPoints[spawnPosition].transform.position;
+        //        }
+
+        //        // normal long range type
+        //        if (_currentTime % 6 == 0)
+        //        {
+        //            monster = _monsterNormalTypeFactory.Spawn(Monster_Normal.NormalLongRange);
+        //            monster.transform.position = _monsterSpawnPoints[spawnPosition].transform.position;
+        //        }
+
+
+        //        // elite type 
+        //        if (_currentTime % 20 == 0)
+        //        {
+        //            monster = _monsterNormalTypeFactory.Spawn(Monster_Normal.EliteLongRange);
+        //            monster.transform.position = _monsterSpawnPoints[spawnPosition].transform.position;
+        //        }
+
+        //        break;
+
+
+        //    case GameState.bossStage:
+        //        // do something
+        //        GameObject boss = ObjectPoolManager.Inst.BringObject(_monsterBossAPrefab);
+        //        Vector3 genPos = _monsterSpawnPoints[1].transform.position;
+        //        boss.transform.position = new Vector3(genPos.x, 1.5f, genPos.z);
+        //        break;
+        //}
+    }
+
+
+
+    private void spawnMonsters()
+    {
+
+        if (_currentGameState != GameState.inGame)
+        { return; }
+
+
+        if (_timePasses >= _spawnInterval)
         {
-            case GameState.inGame:
+            _timePasses = 0;
 
-                int spawnPosition = Random.Range(0, 4);
-
-                MonsterNormal monster = null;
-
-                // nornal short range type 
-                if (currentTime % 3 == 0)
-                {
-                    monster = _monsterNormalTypeFactory.Spawn(Monster_Normal.NormalShortRange);
-                    monster.transform.position = monsterSpawnPoints[spawnPosition].transform.position;
-                }
-
-                // normal long range type
-                if (currentTime % 6 == 0)
-                {
-                    monster = _monsterNormalTypeFactory.Spawn(Monster_Normal.NormalLongRange);
-                    monster.transform.position = monsterSpawnPoints[spawnPosition].transform.position;
-                }
+            _spawnPosition = Random.Range(0, 4);
 
 
-                // elite type 
-                if (currentTime % 20 == 0)
-                {
-                    monster = _monsterNormalTypeFactory.Spawn(Monster_Normal.EliteLongRange);
-                    monster.transform.position = monsterSpawnPoints[spawnPosition].transform.position;
-                }
+            // total monster spanw quantity 
+            _totalSpawnQty = _normalLongRangeQty + _normalShortRangeQty + _eliteLongRangeQty + _eliteShortRangeQty;
 
-                break;
+            StartCoroutine(spawnNormalShortMonster(_normalShortRangeQty));
+            StartCoroutine(spawnNormalLongMonster(_normalLongRangeQty));
 
-
-            case GameState.bossStage:
-                // do something
-                GameObject boss = ObjectPoolManager.Inst.BringObject(monsterBossAPrefab);
-                Vector3 genPos = monsterSpawnPoints[1].transform.position;
-                boss.transform.position = new Vector3(genPos.x, 1.5f, genPos.z);
-                break;
+            StartCoroutine(spawnEliteShortMonster(_eliteShortRangeQty));
+            StartCoroutine(spawnEliteLongMonster(_eliteLongRangeQty));
         }
     }
+
+
+    IEnumerator spawnNormalShortMonster(int qty)
+    {
+        MonsterNormal monster = null;
+
+        while (qty > 0)
+        {
+            qty--;
+
+            monster = _monsterNormalTypeFactory.Spawn(Monster_Normal.NormalShortRange);
+
+            monster.transform.position = _monsterSpawnPoints[_spawnPosition].transform.position + Vector3.forward * qty;
+        }
+
+        yield return null;
+    }
+
+    IEnumerator spawnNormalLongMonster(int qty)
+    {
+        MonsterNormal monster = null;
+
+        while (qty > 0)
+        {
+            qty--;
+
+            monster = _monsterNormalTypeFactory.Spawn(Monster_Normal.NormalLongRange);
+
+            monster.transform.position = _monsterSpawnPoints[_spawnPosition].transform.position + Vector3.left * qty;
+        }
+
+        yield return null;
+    }
+
+    IEnumerator spawnEliteShortMonster(int qty)
+    {
+        MonsterNormal monster = null;
+
+        while (qty > 0)
+        {
+            qty--;
+
+            monster = _monsterNormalTypeFactory.Spawn(Monster_Normal.EliteShortRange);
+
+            monster.transform.position = _monsterSpawnPoints[_spawnPosition].transform.position + Vector3.back * qty;
+        }
+
+        yield return null;
+    }
+
+    IEnumerator spawnEliteLongMonster(int qty)
+    {
+        MonsterNormal monster = null;
+
+        while (qty > 0)
+        {
+            qty--;
+
+            monster = _monsterNormalTypeFactory.Spawn(Monster_Normal.EliteLongRange);
+
+            monster.transform.position = _monsterSpawnPoints[_spawnPosition].transform.position + Vector3.right * qty;
+        }
+
+        yield return null;
+    }
+
 
     // get game time from game manager 
     public void OnCalledEverySecond(float t)
     {
-        currentTime = t;
-        timePasses++;
+        if (_currentGameState != GameState.inGame)
+        { return; }
+
+        _currentTime = t;
+        _timePasses++;
+
+        spawnMonsters();
     }
 }
