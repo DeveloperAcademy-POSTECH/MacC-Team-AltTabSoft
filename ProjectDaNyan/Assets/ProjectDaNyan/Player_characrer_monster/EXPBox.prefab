@@ -107,7 +107,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.2, y: 1.2, z: 1.2}
+  m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &-6705851316792511378
 BoxCollider:
@@ -160,6 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popForce: 5
   exp: 0
+  parentsVector: {x: 0, y: 0, z: 0}
 --- !u!54 &5823635119623900107
 Rigidbody:
   m_ObjectHideFlags: 0
