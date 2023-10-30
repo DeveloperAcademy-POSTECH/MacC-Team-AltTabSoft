@@ -146,9 +146,11 @@ public class MonsterNormal : MonoBehaviour
 
         // drop exp 
         expBoxData.exp = _exp;
-        expBoxData.parentsVector = this.transform.forward * _monsterSpeed;
+        expBoxData.parentsVelocity = _navMeshAgent.velocity;
 
         expBox.transform.position = this.transform.position + Vector3.up * 2f;
+
+    
 
         ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         yield return null;
@@ -161,7 +163,7 @@ public class MonsterNormal : MonoBehaviour
 
         if (distance >= 45) // 수정 필요
         {
-            _currentState = state.dead;
+            transform.position = _target.position + _target.forward * 30f; 
         }
 
         else if (_navMeshAgent.remainingDistance <= _attackRange && distance <= _attackRange)

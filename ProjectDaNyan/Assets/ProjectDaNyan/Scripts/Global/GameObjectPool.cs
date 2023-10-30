@@ -29,11 +29,11 @@ public class GameObjectPool : MonoBehaviour
         return myObject;
     }
 
-    private void BringObjectFromPool(GameObject monster)
+    private void BringObjectFromPool(GameObject myObject)
     {
-        prefab = monster;
-        monster.gameObject.SetActive(true);
-        monster.transform.position = transform.parent.position;
+        prefab = myObject;
+        myObject.gameObject.SetActive(true);
+        myObject.transform.position = transform.parent.position;
     }
 
     private void ReturnObjectToPool(GameObject myObject)

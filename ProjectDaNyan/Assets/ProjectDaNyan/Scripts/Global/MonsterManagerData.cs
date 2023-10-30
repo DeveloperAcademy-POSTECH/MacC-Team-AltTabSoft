@@ -10,23 +10,23 @@ public class MonsterManagerData : ScriptableObject
     [Space]
 
     [Header("## Total monster quantity at once ##")]
-    public float TotalSpawnQty;
+    public int TotalSpawnQty;
     [Space]
 
     [Header("## Normal Monster Short Range Spawn Quantity ##")]
-    public float NormalShortRangeQty;
+    public int NormalShortRangeQty;
     [Space]
 
     [Header("## Normal Monster Long Range Spawn Quantity ##")]
-    public float NormalLongRangeQty;
+    public int NormalLongRangeQty;
     [Space]
 
     [Header("## Elite Monster Short Range Spawn Quantity ##")]
-    public float EliteShortRangeQty;
+    public int EliteShortRangeQty;
     [Space]
 
     [Header("## Elite Monster Long Range Spawn Quantity ##")]
-    public float EliteLongRangeQty;
+    public int EliteLongRangeQty;
     [Space]
 
     [Header("## Select Boss Monster Type ##")]
