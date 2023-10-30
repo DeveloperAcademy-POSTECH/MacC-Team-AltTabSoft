@@ -16,7 +16,7 @@ public class PlayerLaserAttack : MonoBehaviour
         _laserFireRate = _attackStatus.laserFireRate;
     }
 
-    public void UseLaserAttack(bool isLaser)
+    public void UseLaserAttack(bool isLaser, int laserLevel)
     {
         if (isLaser)
         {
@@ -24,15 +24,23 @@ public class PlayerLaserAttack : MonoBehaviour
             _laserFireDelay += Time.deltaTime;
             if (_isLaserReady)
             {
-                StartCoroutine("LaserAttack");
+                StartCoroutine(LaserAttack(laserLevel));
                 _laserFireDelay = 0;
             }
         }
     }
-    IEnumerator LaserAttack()
+    IEnumerator LaserAttack(int laserLevel)
     {
         laserBullet.SetActive(true);
         yield return new WaitForSeconds(0.3f);
         laserBullet.SetActive(false);
+        if(laserLevel > 1)
+        {
+            //레이저레벨 2일 경우 활성화 
+        }
+        if(laserLevel > 2)
+        {
+            //레이저레벨 3일 경우 활성화 
+        }
     }
 }
