@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace ProjectDaNyan.Scripts.UI.StageUI
 {
-    public class PlayerHPSlider : MonoBehaviour
+    public class PlayerExpSlider : MonoBehaviour
     {
         private PlayerStatus _playerStatus;
         private Slider _playerHpSlider; 
