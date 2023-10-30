@@ -119,7 +119,6 @@ public class GameManager : MonoBehaviour
             break;
 
             case GameState.bossStage:
-
             break;
 
             case GameState.gameOver:
