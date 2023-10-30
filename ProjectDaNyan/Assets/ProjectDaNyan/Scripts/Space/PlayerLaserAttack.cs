@@ -32,7 +32,7 @@ public class PlayerLaserAttack : MonoBehaviour
     IEnumerator LaserAttack(int laserLevel)
     {
         laserBullet.SetActive(true);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(1.5f);
         laserBullet.SetActive(false);
         if(laserLevel > 1)
         {
