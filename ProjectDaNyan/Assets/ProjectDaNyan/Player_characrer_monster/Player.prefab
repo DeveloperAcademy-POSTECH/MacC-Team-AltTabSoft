@@ -345,7 +345,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!114 &6667353087869614381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,6 +538,10 @@ PrefabInstance:
     - target: {fileID: 4144186864730506863, guid: da8904845b90c6045ab1aa293aca3721, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854082899555295904, guid: da8904845b90c6045ab1aa293aca3721, type: 3}
+      propertyPath: outlineWidth
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
