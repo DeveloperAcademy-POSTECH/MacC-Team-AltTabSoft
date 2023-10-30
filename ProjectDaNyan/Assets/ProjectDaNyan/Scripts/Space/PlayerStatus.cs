@@ -142,6 +142,8 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("경험치 획득! 획득한 경험치 : 10");
             Debug.Log("현재 경험치:"+player_now_EXP);
             Debug.Log("다음 레벨업까지 필요한 경험치:"+(level_Up_Require_EXP-player_now_EXP));
+            
+            ItemController.Inst.DropItem();
 
             player_collected_box_cat += 1;
         }
