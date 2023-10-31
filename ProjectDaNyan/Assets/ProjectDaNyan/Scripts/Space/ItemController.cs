@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class ItemController : MonoBehaviour
 {
+    // PlayerStatus에서 ItemController에 접근할 수 있도록
     private static ItemController inst = null;
     public static ItemController Inst
     {
@@ -13,7 +14,7 @@ public class ItemController : MonoBehaviour
         {
             if (inst == null)
             {
-                // 인스턴스가 없을 경우, 현재 Scene에서 찾아봅니다.
+                // 인스턴스가 없을 경우, 현재 Scene에서 찾기
                 inst = FindObjectOfType<ItemController>();
             }
             return inst;
@@ -24,28 +25,33 @@ public class ItemController : MonoBehaviour
     {
         if (inst == null)
         {
-            inst = this; // 인스턴스를 할당합니다.
+            inst = this; // 인스턴스 할당
         }
     }
 
     public void DropItem()
     {
-        var random = Random.Range(0, 101);
+        // 구조 고양이, 골드, 드링크 등장 확률
+        var randomCat = Random.Range(0, 101);
+        var randomGold = Random.Range(0, 101);
+        var randomDrink = Random.Range(0, 101);
 
+        // 각 확률값에 따른 아이템 드랍
+        DropCat(randomCat);
+        DropGold(randomGold);
+        DropDrink(randomDrink);
+    }
+
+    private void DropCat(int random)
+    {
         if (random <= 75)
         {
-            DropGold();
-        }
-        else
-        {
-            DropEnergy();
+            Debug.Log("구조 고양이 획득");
         }
     }
 
-    private void DropGold()
+    private void DropGold(int random)
     { 
-        var random = Random.Range(0, 101);
-
         if (random <= 20)
         {
             Debug.Log("LargeCoin 획득");
@@ -60,9 +66,12 @@ public class ItemController : MonoBehaviour
         }
     }
 
-    private void DropEnergy()
+    private void DropDrink(int random)
     {
-        Debug.Log("Energy 획득");
+        if (random <= 20)
+        {
+            Debug.Log("Drink 획득");
+        }
     }
 }
 
