@@ -20,7 +20,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject hiddenBoxPrefab;
     [SerializeField] private GameObject restrictionPrefab;
     [SerializeField] private GameObject transparentRestrictionPrefab;
-    [SerializeField] private float _hiddenBoxDropTime;
+    [SerializeField] private float hiddenBoxDropTime;
     
     private GameObject _mapTiles;
     private GameObject _transparentRestrictions;
@@ -207,9 +207,9 @@ public class MapManager : MonoBehaviour
     
     IEnumerator SetHiddenBox()
     {
-        while (_hiddenBoxDropTime > 0)
+        while (hiddenBoxDropTime > 0)
         {
-            _hiddenBoxDropTime -= 1;
+            hiddenBoxDropTime -= 1;
             yield return new WaitForSeconds(1f);
         }
 
