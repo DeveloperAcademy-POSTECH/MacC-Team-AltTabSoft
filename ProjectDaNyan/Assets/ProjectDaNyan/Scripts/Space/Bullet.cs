@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
 
     IEnumerator Goodbye()
     {
-        if (type != Type.Field)
+        if (type != Type.Field && type != Type.Laser)
         {
             yield return new WaitForSeconds(1f);
             trail.Clear();
