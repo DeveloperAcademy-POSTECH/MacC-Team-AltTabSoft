@@ -114,7 +114,7 @@ public class PlayerStatus : MonoBehaviour
         if (other.gameObject.CompareTag("Monster"))
         {
             player_Now_HP -= 10;
-            hitEnemy += 1;
+            //hitEnemy += 1;
             Debug.Log("10의 데미지를 입었다.");
         }
         else if (other.gameObject.CompareTag("MonsterAttack"))
@@ -127,10 +127,12 @@ public class PlayerStatus : MonoBehaviour
     
     private void OnCollisionExit(Collision other)
     {
+        /*
         if (other.gameObject.CompareTag("Monster"))
         {
             hitEnemy -= 1;
         }
+        */
     }
 
     private void OnTriggerEnter(Collider other)
