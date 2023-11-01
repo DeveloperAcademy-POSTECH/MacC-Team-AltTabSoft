@@ -8,6 +8,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using Task = System.Threading.Tasks.Task;
 using Vector3 = UnityEngine.Vector3;
 using Quaternion = UnityEngine.Quaternion;
@@ -134,7 +135,7 @@ public class MapManager : MonoBehaviour
 
     IEnumerator InstallRestrictions(bool hasDustEffect)
     {
-        var radius = tileSize;
+        var radius = tileSize / 2;
         var angleIncrement = 360f / 8;
         var currentAngle = 45f;
 
@@ -158,6 +159,10 @@ public class MapManager : MonoBehaviour
             if (hasDustEffect)
             {
                 var restriction = Instantiate(restrictionPrefab, wallPosition, rotationQuaternion);
+                foreach (Transform child in restriction.transform)
+                {
+                    child.localRotation = restriction.transform.rotation;
+                }
                 restriction.transform.parent = _restrictions.transform;
 
                 currentAngle += angleIncrement;
