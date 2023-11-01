@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerStop()
     {
+        playerAnim.SetInteger("State",0);
         playerCharacterController.Move(new Vector3(0, _floatingPosition, 0));
         
         //이동방향 및 대시방향 표시하는 오브젝트 끄기
