@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
+    [SerializeField] private PlayerData _playerData;
+    
     [SerializeField] private PlayerState _playerState;
     [SerializeField] private int player_Max_HP = 100;
     [SerializeField] private int hp_Heal_Counter_x50 = 50;
