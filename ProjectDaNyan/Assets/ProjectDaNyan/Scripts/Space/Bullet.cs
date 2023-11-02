@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private GameObject _bomb;
-    public enum Type {Default, Piercing, Laser, Field, Bomb};
+    public enum Type {Default, Piercing, Laser, Field, Bomb, BombBlast};
     public Type type;
     public int damage;
     TrailRenderer trail;
@@ -18,7 +18,8 @@ public class Bullet : MonoBehaviour
     {
         if(type != Type.Field)
             trail = GetComponent<TrailRenderer>();
-        StartCoroutine(Goodbye());
+        if(type != Type.BombBlast)
+            StartCoroutine(Goodbye());
     }
 
 
@@ -39,7 +40,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Monster"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Monster") && type != Type.BombBlast)
         {
             if(type != Type.Piercing && type != Type.Laser && type != Type.Bomb)
                 trail.Clear();

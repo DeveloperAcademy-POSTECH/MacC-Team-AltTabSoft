@@ -21,6 +21,7 @@ public class MonsterNormal : MonoBehaviour
 
     //부착된 폭탄이 터질 때 폭발효과
     [SerializeField] private GameObject _boom;
+    [SerializeField] private GameObject _boomCollider;
 
     // attack range
     [SerializeField] private float _attackPower;
@@ -157,10 +158,18 @@ public class MonsterNormal : MonoBehaviour
         {
             GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
             boomEffect.transform.position = this.gameObject.transform.position;
-            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+
+            //터지는 순간 위에서 안보이는 콜리더가 확 떨어지면서 Trigger 발동
+            GameObject boomCollider = ObjectPoolManager.Inst.BringObject(_boomCollider);
+            boomCollider.transform.position = this.gameObject.transform.position + new Vector3(0,10,0);
+            Rigidbody boomColliderRigid = boomCollider.GetComponent<Rigidbody>();
+            boomColliderRigid.velocity = boomCollider.transform.up * -100f;
+
+
             yield return new WaitForSeconds(0.2f);
-            boomEffect.SetActive(false);
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
             ObjectPoolManager.Inst.DestroyObject(boomEffect);
+            ObjectPoolManager.Inst.DestroyObject(boomCollider);
 
         }
         else
@@ -208,6 +217,26 @@ public class MonsterNormal : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"detect collision {other.gameObject}");
+
+
+        if (other.tag.Equals("PlayerAttack"))
+        {
+            // get bullet damage 
+            if (other.gameObject.TryGetComponent(out Bullet bullet))
+            {
+                // apply player attack damage 
+                _monsterHP -= bullet.damage;
+            }
+            else
+            {
+                _monsterHP -= 1;
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
     {
         Debug.Log($"detect collision {other.gameObject}");
 
