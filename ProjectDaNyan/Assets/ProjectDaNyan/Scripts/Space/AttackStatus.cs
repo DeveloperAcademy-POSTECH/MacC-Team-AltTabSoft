@@ -10,12 +10,14 @@ public class AttackStatus : ScriptableObject
     public float upgradedFireRate;
     public float laserFireRate;
     public float droneFireRate;
+    public float bombFireRate;
     public float fieldFireRate;
 
     //Speed of Bullet
     public float basicFireSpeed;
     public float upgradedFireSpeed;
     public float droneFireSpeed;
+    public float bombFireSpeed;
 
     //Speed of Drone
     public float droneSpeed;

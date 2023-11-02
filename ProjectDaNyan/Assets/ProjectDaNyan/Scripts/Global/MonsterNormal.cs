@@ -19,6 +19,9 @@ public class MonsterNormal : MonoBehaviour
     [SerializeField] private GameObject _monsterBulletPrefab;
     [SerializeField] private GameObject _expBox;
 
+    //부착된 폭탄이 터질 때 폭발효과
+    [SerializeField] private GameObject _boom;
+
     // attack range
     [SerializeField] private float _attackPower;
     [SerializeField] private float _monsterHP;
@@ -147,12 +150,24 @@ public class MonsterNormal : MonoBehaviour
         // drop exp 
         expBoxData.exp = _exp;
         expBoxData.parentsVelocity = _navMeshAgent.velocity;
-
         expBox.transform.position = this.transform.position + Vector3.up * 2f;
 
-    
+        //몬스터가 죽을 시 폭탄 터짐
+        if (this.gameObject.transform.Find("BombOnMonster") != null)
+        {
+            GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
+            boomEffect.transform.position = this.gameObject.transform.position;
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+            yield return new WaitForSeconds(0.2f);
+            boomEffect.SetActive(false);
+            ObjectPoolManager.Inst.DestroyObject(boomEffect);
 
-        ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
+        else
+        {
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
+
         yield return null;
     }
 

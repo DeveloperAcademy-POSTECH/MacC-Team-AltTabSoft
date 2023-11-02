@@ -363,57 +363,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2110752892}
     m_Modifications:
-    - target: {fileID: 1341166982266716673, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1721976953259513750, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1721976953259513750, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -9.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1843856483570070447, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 235372021131166838, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_TagString
+      value: PlayerAttack
       objectReference: {fileID: 0}
     - target: {fileID: 2012497629165759939, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_Name
       value: PlayerAttackPosition
       objectReference: {fileID: 0}
-    - target: {fileID: 4680865158200894320, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: TriggerModule.enter
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4680865158200894320, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: TriggerModule.inside
+    - target: {fileID: 2180998302867330008, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: isBomb
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4680865158200894320, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: TriggerModule.enabled
+    - target: {fileID: 2180998302867330008, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: isLaser
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4680865158200894320, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: CollisionModule.enabled
-      value: 0
+    - target: {fileID: 2180998302867330008, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: laserLevel
+      value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 4680865158200894320, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: TriggerModule.primitives.Array.size
-      value: 0
+    - target: {fileID: 5037578027276410629, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_TagString
+      value: PlayerAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181504209515888693, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_TagString
+      value: PlayerAttack
       objectReference: {fileID: 0}
     - target: {fileID: 5488468699372926021, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7733001885678021187, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7733001885678021187, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.1
+    - target: {fileID: 6899230934257166735, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_TagString
+      value: PlayerAttack
       objectReference: {fileID: 0}
     - target: {fileID: 7733001885678021187, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -458,7 +442,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2012497629165759939, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1911397262}
   m_SourcePrefab: {fileID: 100100000, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
 --- !u!1 &830580718
 GameObject:
@@ -664,6 +651,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5283300494453909582, guid: 5bad23e93aff24061a463c6a6508f055, type: 3}
   m_PrefabInstance: {fileID: 1118957057}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1265164329 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9112101095602693780, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+  m_PrefabInstance: {fileID: 816687530}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1368390750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -672,6 +664,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 568594500}
     m_Modifications:
+    - target: {fileID: 1431780648755457263, guid: e7f2d2c4065b5a446a5f11c493e79c23, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431780648755457263, guid: e7f2d2c4065b5a446a5f11c493e79c23, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3903316018544157516, guid: e7f2d2c4065b5a446a5f11c493e79c23, type: 3}
       propertyPath: m_Name
       value: StageUI
@@ -832,6 +832,29 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1709416251585571605, guid: a602d5a4e9671144c99196bd66118769, type: 3}
   m_PrefabInstance: {fileID: 4602633450043319984}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1911397261 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2012497629165759939, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+  m_PrefabInstance: {fileID: 816687530}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1911397262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911397261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b496721c143a54de6b2aea4b36ee842b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
+  _bulletPosition: {fileID: 1265164329}
+  _bombBullet: {fileID: 6785727705511440841, guid: f29b47e4e854749febae57adbc9a900a, type: 3}
+  _bomb: {fileID: 6785727705511440841, guid: bc251c8ff563c499aa7c95b989d827e9, type: 3}
+  _bombFireRate: 0
+  _bombFireSpeed: 0
 --- !u!1 &1957027049
 GameObject:
   m_ObjectHideFlags: 0
