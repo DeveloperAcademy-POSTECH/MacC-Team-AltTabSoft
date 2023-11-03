@@ -66,8 +66,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackStatus: {fileID: 0}
+  _bomb: {fileID: 0}
   type: 2
-  damage: 10
+  _damage: 0
 --- !u!1 &1118577241949465867
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +182,7 @@ GameObject:
   - component: {fileID: 224263451203325955}
   - component: {fileID: 2045052157784040541}
   - component: {fileID: 7263385071762744004}
+  - component: {fileID: 9096562668922114948}
   m_Layer: 0
   m_Name: PlayerAttackPosition
   m_TagString: Untagged
@@ -218,11 +221,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUpgrade: 1
-  isLaser: 1
+  isLaser: 0
   isDrone: 0
+  isBomb: 1
   isField: 0
   basicFireLevel: 1
-  laserLevel: 1
+  laserLevel: 4
+  bombLevel: 1
   _drone: {fileID: 0}
   _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
 --- !u!114 &5238146470352652433
@@ -307,6 +312,24 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   scanRange: 50
+--- !u!114 &9096562668922114948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012497629165759939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b496721c143a54de6b2aea4b36ee842b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
+  _bulletPosition: {fileID: 9112101095602693780}
+  _bombBullet: {fileID: 6785727705511440841, guid: f29b47e4e854749febae57adbc9a900a, type: 3}
+  _bomb: {fileID: 6785727705511440841, guid: bc251c8ff563c499aa7c95b989d827e9, type: 3}
+  _bombFireRate: 0
+  _bombFireSpeed: 0
 --- !u!1 &2806434337795028948
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,8 +427,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackStatus: {fileID: 0}
+  _bomb: {fileID: 0}
   type: 2
-  damage: 10
+  _damage: 0
 --- !u!1 &5181504209515888693
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,8 +497,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackStatus: {fileID: 0}
+  _bomb: {fileID: 0}
   type: 2
-  damage: 10
+  _damage: 0
 --- !u!1 &5420228900582877870
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,8 +633,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackStatus: {fileID: 0}
+  _bomb: {fileID: 0}
   type: 2
-  damage: 10
+  _damage: 0
 --- !u!1 &7835643966455419249
 GameObject:
   m_ObjectHideFlags: 0

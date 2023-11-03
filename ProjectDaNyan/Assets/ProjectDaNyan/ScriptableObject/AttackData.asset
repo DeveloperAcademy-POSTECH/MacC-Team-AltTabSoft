@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AttackData
   m_EditorClassIdentifier: 
   basicFireRate: 0.5
-  upgradedFireRate: 0.02
+  upgradedFireRate: 0.2
   laserFireRate: 2
   droneFireRate: 0.7
   bombFireRate: 2
@@ -26,3 +26,8 @@ MonoBehaviour:
   playerScanRange: 10
   droneScanRange: 10
   randomRange: 5
+  basicFireDamage: 1
+  upgradeFireDamage: 2
+  laserDamage: 10
+  bombDamage: 99
+  droneDamage: 5
