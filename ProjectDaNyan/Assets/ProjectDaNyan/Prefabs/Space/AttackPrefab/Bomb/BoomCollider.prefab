@@ -67,9 +67,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   _bomb: {fileID: 0}
   type: 5
-  damage: 99
+  _damage: 0
 --- !u!54 &633467299577549059
 Rigidbody:
   m_ObjectHideFlags: 0

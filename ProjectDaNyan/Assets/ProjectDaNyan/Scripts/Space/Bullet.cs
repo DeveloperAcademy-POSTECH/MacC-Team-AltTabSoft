@@ -4,18 +4,35 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private AttackStatus _attackStatus;
     [SerializeField] private GameObject _bomb;
-    public enum Type {Default, Piercing, Laser, Field, Bomb, BombBlast};
+
+    public enum Type {Default, Upgrade, Laser, Field, Bomb, BombBlast};
     public Type type;
-    public int damage;
+    public float _damage;
     TrailRenderer trail;
-
-
-
-    int time = 3;
 
     private void OnEnable()
     {
+        switch (type)
+        {
+            case Type.Default:
+                _damage = _attackStatus.basicFireDamage;
+                break;
+            case Type.Upgrade:
+                _damage = _attackStatus.upgradeFireDamage;
+                break;
+            case Type.Laser:
+                _damage = _attackStatus.laserDamage;
+                break;
+            case Type.BombBlast:
+                _damage = _attackStatus.bombDamage;
+                break;
+            default:
+                _damage = 0f;
+                break;
+        }
+
         if(type != Type.Field)
             trail = GetComponent<TrailRenderer>();
         if(type != Type.BombBlast)
@@ -42,7 +59,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Monster") && type != Type.BombBlast)
         {
-            if(type != Type.Piercing && type != Type.Laser && type != Type.Bomb)
+            if(type != Type.Laser && type != Type.Bomb)
                 trail.Clear();
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
 
@@ -55,7 +72,7 @@ public class Bullet : MonoBehaviour
             }
         }
 
-        if (other.gameObject.layer == LayerMask.NameToLayer("FieldObject") && type != Type.Laser)
+        if (other.gameObject.layer == LayerMask.NameToLayer("FieldObject"))
         {
             trail.Clear();
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);

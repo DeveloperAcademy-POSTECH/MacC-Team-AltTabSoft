@@ -227,7 +227,7 @@ public class MonsterNormal : MonoBehaviour
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage 
-                _monsterHP -= bullet.damage;
+                _monsterHP -= bullet._damage;
             }
             else
             {
@@ -247,7 +247,7 @@ public class MonsterNormal : MonoBehaviour
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage 
-                _monsterHP -= bullet.damage;
+                _monsterHP -= bullet._damage;
             }
             else
             {

@@ -28,4 +28,12 @@ public class AttackStatus : ScriptableObject
 
     //Range of Random Field Attack
     public float randomRange;
+
+    //Damage of Bullets
+    public float basicFireDamage;
+    public float upgradeFireDamage;
+    public float laserDamage;
+    public float bombDamage;
+    public float droneDamage;
+
 }
