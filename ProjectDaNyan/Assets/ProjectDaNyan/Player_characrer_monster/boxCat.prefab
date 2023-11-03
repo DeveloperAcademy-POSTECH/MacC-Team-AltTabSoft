@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5006403047893569917}
   - component: {fileID: 7314569192021787651}
   - component: {fileID: 1196910564219426374}
+  - component: {fileID: 6581551003428595646}
   - component: {fileID: 7010662424203766242}
   - component: {fileID: 1865137275303265604}
   m_Layer: 0
@@ -107,6 +108,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6581551003428595646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7703086083745402384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 204269d89adb548f192d8105f3106801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _magnetData: {fileID: 11400000, guid: 8eaa4d1440f404569bc79329fb5c8154, type: 2}
 --- !u!114 &7010662424203766242
 MonoBehaviour:
   m_ObjectHideFlags: 0
