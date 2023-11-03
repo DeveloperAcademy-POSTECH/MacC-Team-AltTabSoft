@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,10 @@ public class JoystickController : FloatingJoystick
 {
     protected internal bool isJoystickPositionGoEnd = false;
     public PlayerState _playerState;
+    public PlayerData _playerData;
+
+    private int dashCharged = 2;
+    private int dashRechargeTimer = 0;
     
     public override void OnPointerUp(PointerEventData eventData)
     {
@@ -22,7 +27,15 @@ public class JoystickController : FloatingJoystick
             }
             else
             {
-                _playerState.setPsData(PlayerState.PSData.dash);
+                if (dashCharged > 0)
+                {
+                    _playerState.setPsData(PlayerState.PSData.dash);
+                    dashCharged -= 1;
+                }
+                else
+                {
+                    _playerState.setPsData(PlayerState.PSData.stop);
+                }
             }
             isJoystickPositionGoEnd = false;
         }
@@ -58,6 +71,22 @@ public class JoystickController : FloatingJoystick
             else
             {
                 isJoystickPositionGoEnd = false;
+            }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (_playerState.getPsData() != PlayerState.PSData.onTheRock)
+        {
+            if (dashCharged < _playerData.maxDashSavings)
+            {
+                dashRechargeTimer += 1;
+                if (dashRechargeTimer >= _playerData.dashRechargeTic)
+                {
+                    dashRechargeTimer = 0;
+                    dashCharged += 1;
+                }
             }
         }
     }
