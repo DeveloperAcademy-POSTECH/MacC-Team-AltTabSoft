@@ -8,16 +8,12 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private PlayerData _playerData;
     
     [SerializeField] private PlayerState _playerState;
-    [SerializeField] private int player_Max_HP = 100;
-    [SerializeField] private int hp_Heal_Counter_x50 = 50;
-    [SerializeField] private int hp_Heal_Amount = 1;
-    [SerializeField] private int level_Up_Require_EXP = 100;
 
     private int player_HitCount = 0;
 
     public int Level_Up_Require_EXP
     {
-        get { return level_Up_Require_EXP; }
+        get { return _playerData.level_Up_Require_EXP; }
     }
 
     public int Player_now_EXP
@@ -28,7 +24,7 @@ public class PlayerStatus : MonoBehaviour
 
     public int Player_Max_HP
     {
-        get { return player_Max_HP; }
+        get { return _playerData.player_Max_HP; }
     }
 
     public int Player_Now_HP
@@ -54,7 +50,7 @@ public class PlayerStatus : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player_Now_HP = player_Max_HP;
+        player_Now_HP = _playerData.player_Max_HP;
     }
 
     private void FixedUpdate()
@@ -84,17 +80,17 @@ public class PlayerStatus : MonoBehaviour
 
     void TimeHealHP()
     {
-        if (player_Now_HP != player_Max_HP)
+        if (player_Now_HP != _playerData.player_Max_HP)
         {
             heal_Cooltime += 1;
-            if (heal_Cooltime == hp_Heal_Counter_x50)
+            if (heal_Cooltime == _playerData.hp_Heal_Counter_x50)
             {
                 heal_Cooltime = 0;
-                player_Now_HP += hp_Heal_Amount;
+                player_Now_HP += _playerData.hp_Heal_Amount;
 
-                if (player_Now_HP > player_Max_HP)
+                if (player_Now_HP > _playerData.player_Max_HP)
                 {
-                    player_Now_HP = player_Max_HP;
+                    player_Now_HP = _playerData.player_Max_HP;
                 }
             }
         }
@@ -145,7 +141,7 @@ public class PlayerStatus : MonoBehaviour
             player_now_EXP += 10;
             Debug.Log("경험치 획득! 획득한 경험치 : 10");
             Debug.Log("현재 경험치:"+player_now_EXP);
-            Debug.Log("다음 레벨업까지 필요한 경험치:"+(level_Up_Require_EXP-player_now_EXP));
+            Debug.Log("다음 레벨업까지 필요한 경험치:"+(_playerData.level_Up_Require_EXP-player_now_EXP));
             
             ItemController.Inst.DropItem();
 
