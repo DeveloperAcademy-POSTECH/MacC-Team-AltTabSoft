@@ -361,10 +361,7 @@ MonoBehaviour:
   playerObject: {fileID: 5792001150830992708}
   playerMoveDirectionObject: {fileID: 2853491861618142130}
   playerDashDirectionObject: {fileID: 4977688364478794824}
-  playerSpeed: 10
-  dashSpeed: 5
-  dashLimitTic1SecondsTo50: 10
-  onTheRockQuitTimer: 25
+  _playerData: {fileID: 11400000, guid: 2f7d25fabc5c945399187fcef0055c2b, type: 2}
   _joy: {fileID: 0}
   _playerState: {fileID: 8053427458890090582}
   rockHeight: 2
@@ -393,6 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c009e0f8424475a85029e1dd299351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerData: {fileID: 11400000, guid: 2f7d25fabc5c945399187fcef0055c2b, type: 2}
   _playerState: {fileID: 8053427458890090582}
   player_Max_HP: 100
   hp_Heal_Counter_x50: 50
