@@ -7,11 +7,13 @@ public class PlayerAttack : MonoBehaviour
     public bool isUpgrade = true; //초월 여부
     public bool isLaser = true; //레이저 공격을 입수했는지 여부 
     public bool isDrone = false; //드론 공격 입수했는지 여부
+    public bool isBomb = false; //폭탄 공격 입수했는지 여부 
     public bool isField = false; //랜덤 필드 공격 입수했는지 여부
 
     public int basicFireLevel = 1;
     public int laserLevel = 1;
     //public int droneLevel = 1;
+    public int bombLevel = 1;
     //public int fieldAttackLevel = 1;
 
     private EnemyScanner _scanner; //가까운 적 탐지 스크립트
@@ -19,6 +21,7 @@ public class PlayerAttack : MonoBehaviour
     PlayerBasicAttack playerBasicAttack;
     PlayerLaserAttack playerLaserAttack;
     PlayerDroneAttack playerDroneAttack;
+    PlayerBombAttack playerBombAttack;
     PlayerRandomFieldAttack playerRandomFieldAttack;
     [SerializeField] private GameObject _drone;
     [SerializeField] private AttackStatus _attackStatus;
@@ -32,6 +35,7 @@ public class PlayerAttack : MonoBehaviour
         _scanner.scanRange = _attackStatus.playerScanRange;
         playerBasicAttack = GetComponent<PlayerBasicAttack>();
         playerLaserAttack = GetComponent<PlayerLaserAttack>();
+        playerBombAttack = GetComponent<PlayerBombAttack>();
         playerRandomFieldAttack = GetComponent<PlayerRandomFieldAttack>();
     }
 
@@ -84,7 +88,10 @@ public class PlayerAttack : MonoBehaviour
             if (_droneScanner.nearCollider != null)
                 playerDroneAttack.UseDroneAttack(isDrone, _droneScanner.nearCollider);
         }
-        
+        //폭탄공격활성화코드
+        if (_scanner.nearCollider != null)
+            playerBombAttack.UseBombAttack(isBomb, _scanner.nearCollider, bombLevel);
+
         //랜덤필드공격활성화코드
         playerRandomFieldAttack.UseRandomFieldAttack(isField);
         
