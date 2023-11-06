@@ -41,6 +41,15 @@ public class PlayerStatus : MonoBehaviour
 
     private int hitEnemy = 0;
     private int player_collected_box_cat = 0;
+    
+    private int dashCharged = 2;
+    public int DashCharged
+    {
+        get { return dashCharged; }
+        set { dashCharged = value; }
+    }
+    private int dashRechargeTimer = 0;
+    
     public int Player_collected_box_cat
     {
         get { return player_collected_box_cat; }
@@ -58,6 +67,23 @@ public class PlayerStatus : MonoBehaviour
         TimeHealHP();
         PlayerHit();
         PlayerDead();
+        PlayerDashRecharge();
+    }
+    
+    void PlayerDashRecharge()
+    {
+        if (_playerState.getPsData() != PlayerState.PSData.onTheRock)
+        {
+            if (dashCharged < _playerData.maxDashSavings)
+            {
+                dashRechargeTimer += 1;
+                if (dashRechargeTimer >= _playerData.dashRechargeTic)
+                {
+                    dashRechargeTimer = 0;
+                    dashCharged += 1;
+                }
+            }
+        }
     }
     
     void PlayerHit()
