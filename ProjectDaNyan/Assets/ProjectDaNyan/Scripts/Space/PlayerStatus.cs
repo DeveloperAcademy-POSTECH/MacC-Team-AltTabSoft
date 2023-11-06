@@ -42,7 +42,7 @@ public class PlayerStatus : MonoBehaviour
     private int hitEnemy = 0;
     private int player_collected_box_cat = 0;
     
-    private int dashCharged = 2;
+    private int dashCharged;
     public int DashCharged
     {
         get { return dashCharged; }
@@ -60,6 +60,7 @@ public class PlayerStatus : MonoBehaviour
     void Start()
     {
         player_Now_HP = _playerData.player_Max_HP;
+        dashCharged = _playerData.maxDashSavings;
     }
 
     private void FixedUpdate()

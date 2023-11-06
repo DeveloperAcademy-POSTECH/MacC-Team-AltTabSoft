@@ -4,6 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerData", menuName = "Scriptable_Object/PlayerData")]
 
+//PlayerData.asset 값이 우선됨
 public class PlayerData: ScriptableObject
 {
     // ======= PlayerController에서 사용될 데이터
