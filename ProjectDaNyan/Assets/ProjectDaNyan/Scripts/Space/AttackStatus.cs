@@ -10,12 +10,14 @@ public class AttackStatus : ScriptableObject
     public float upgradedFireRate;
     public float laserFireRate;
     public float droneFireRate;
+    public float bombFireRate;
     public float fieldFireRate;
 
     //Speed of Bullet
     public float basicFireSpeed;
     public float upgradedFireSpeed;
     public float droneFireSpeed;
+    public float bombFireSpeed;
 
     //Speed of Drone
     public float droneSpeed;
@@ -26,4 +28,12 @@ public class AttackStatus : ScriptableObject
 
     //Range of Random Field Attack
     public float randomRange;
+
+    //Damage of Bullets
+    public float basicFireDamage;
+    public float upgradeFireDamage;
+    public float laserDamage;
+    public float bombDamage;
+    public float droneDamage;
+
 }

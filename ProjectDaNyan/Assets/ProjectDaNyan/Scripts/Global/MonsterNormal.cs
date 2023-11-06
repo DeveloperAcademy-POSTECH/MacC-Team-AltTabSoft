@@ -19,6 +19,10 @@ public class MonsterNormal : MonoBehaviour
     [SerializeField] private GameObject _monsterBulletPrefab;
     [SerializeField] private GameObject _expBox;
 
+    //부착된 폭탄이 터질 때 폭발효과
+    [SerializeField] private GameObject _boom;
+    [SerializeField] private GameObject _boomCollider;
+
     // attack range
     [SerializeField] private float _attackPower;
     [SerializeField] private float _monsterHP;
@@ -147,12 +151,32 @@ public class MonsterNormal : MonoBehaviour
         // drop exp 
         expBoxData.exp = _exp;
         expBoxData.parentsVelocity = _navMeshAgent.velocity;
-
         expBox.transform.position = this.transform.position + Vector3.up * 2f;
 
-    
+        //몬스터가 죽을 시 폭탄 터짐
+        if (this.gameObject.transform.Find("BombOnMonster") != null)
+        {
+            GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
+            boomEffect.transform.position = this.gameObject.transform.position;
 
-        ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+            //터지는 순간 위에서 안보이는 콜리더가 확 떨어지면서 Trigger 발동
+            GameObject boomCollider = ObjectPoolManager.Inst.BringObject(_boomCollider);
+            boomCollider.transform.position = this.gameObject.transform.position + new Vector3(0,10,0);
+            Rigidbody boomColliderRigid = boomCollider.GetComponent<Rigidbody>();
+            boomColliderRigid.velocity = boomCollider.transform.up * -100f;
+
+
+            yield return new WaitForSeconds(0.2f);
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+            ObjectPoolManager.Inst.DestroyObject(boomEffect);
+            ObjectPoolManager.Inst.DestroyObject(boomCollider);
+
+        }
+        else
+        {
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+        }
+
         yield return null;
     }
 
@@ -203,7 +227,27 @@ public class MonsterNormal : MonoBehaviour
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage 
-                _monsterHP -= bullet.damage;
+                _monsterHP -= bullet._damage;
+            }
+            else
+            {
+                _monsterHP -= 1;
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        Debug.Log($"detect collision {other.gameObject}");
+
+
+        if (other.tag.Equals("PlayerAttack"))
+        {
+            // get bullet damage 
+            if (other.gameObject.TryGetComponent(out Bullet bullet))
+            {
+                // apply player attack damage 
+                _monsterHP -= bullet._damage;
             }
             else
             {

@@ -28,7 +28,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
             //현재 가지고 있는 스킬 표시
             //기본은 무조건 가지고 있음
             _skillElements[count].SetImage("basicFire");
-            _skillElements[count].SetLevel(_playerBasicAttack.basicFireLevel);
+            _skillElements[count].SetLevel(_playerAttack.basicFireLevel);
             _skillElements[count].gameObject.SetActive(true);
             count += 1;
 
