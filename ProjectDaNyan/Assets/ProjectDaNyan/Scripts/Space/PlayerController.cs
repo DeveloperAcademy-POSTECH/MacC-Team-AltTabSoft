@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
         if (rockQuitTimerCount >= _playerData.onTheRockQuitTic)
         {
             rockQuitTimerCount = 0;
-            _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
+            _playerState.setPsData(PlayerState.PSData.exitStartFromRock);
         }
     }
 
