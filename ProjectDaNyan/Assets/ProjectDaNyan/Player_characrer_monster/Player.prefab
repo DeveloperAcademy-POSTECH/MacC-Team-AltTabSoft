@@ -215,7 +215,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5792001150830992708}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -392,6 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerData: {fileID: 11400000, guid: 2f7d25fabc5c945399187fcef0055c2b, type: 2}
   _playerState: {fileID: 8053427458890090582}
+  playerRenderer: {fileID: 5160793416454213171}
 --- !u!54 &5664507652802496739
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -545,6 +546,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8681605431478852669}
   m_SourcePrefab: {fileID: 100100000, guid: da8904845b90c6045ab1aa293aca3721, type: 3}
+--- !u!137 &5160793416454213171 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2929624411744091350, guid: da8904845b90c6045ab1aa293aca3721, type: 3}
+  m_PrefabInstance: {fileID: 8013820897108177637}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6248133544190030986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4144186864730506863, guid: da8904845b90c6045ab1aa293aca3721, type: 3}

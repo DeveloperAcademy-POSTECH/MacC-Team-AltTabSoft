@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerStatus : MonoBehaviour
 {
     [SerializeField] private PlayerData _playerData;
-    
     [SerializeField] private PlayerState _playerState;
+    [SerializeField] private Renderer playerRenderer;
 
     private int player_HitCount = 0;
 
@@ -126,6 +126,14 @@ public class PlayerStatus : MonoBehaviour
             heal_Cooltime = 0;
         }
     }
+
+    IEnumerator PlayerHitEffect()
+    { 
+        playerRenderer.material.color = Color.red;
+        yield return new WaitForSeconds(_playerData.hitEffectTime);
+        playerRenderer.material.color = Color.white;
+        yield break;
+    }
     
     // Update is called once per frame
     void Update()
@@ -139,14 +147,16 @@ public class PlayerStatus : MonoBehaviour
         if (other.gameObject.CompareTag("Monster"))
         {
             player_Now_HP -= 10;
-            //hitEnemy += 1;
             Debug.Log("10의 데미지를 입었다.");
+            
+            StartCoroutine(PlayerHitEffect());
         }
         else if (other.gameObject.CompareTag("MonsterAttack"))
         {
             player_Now_HP -= (int)other.gameObject.GetComponent<TempBullet>().Damage;
             other.gameObject.SetActive(false);
             Debug.Log("총에 맞았다! 총 데미지를 입었다.");
+            StartCoroutine(PlayerHitEffect());
         }
     }
     
