@@ -4,6 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerData", menuName = "Scriptable_Object/PlayerData")]
 
+//PlayerData.asset 값이 우선됨
 public class PlayerData: ScriptableObject
 {
     // ======= PlayerController에서 사용될 데이터
@@ -20,5 +21,5 @@ public class PlayerData: ScriptableObject
     
     // ======= JoystickController 에서 사용될 데이터
     [SerializeField] public int dashRechargeTic = 150;
-    [SerializeField] public int maxDashSavings = 2;
+    [SerializeField] public int maxDashSavings = 99; // 개발 중 난이도 고려하여 99로 초기화
 }
