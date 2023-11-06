@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private AttackStatus _attackStatus;
     [SerializeField] private GameObject _bomb;
 
-    public enum Type {Default, Upgrade, Laser, Field, Bomb, BombBlast};
+    public enum Type {Default, Upgrade, Laser, Field, Bomb, BombBlast, Drone};
     public Type type;
     public float _damage;
     TrailRenderer trail;
@@ -27,6 +27,9 @@ public class Bullet : MonoBehaviour
                 break;
             case Type.BombBlast:
                 _damage = _attackStatus.bombDamage;
+                break;
+            case Type.Drone:
+                _damage = _attackStatus.droneDamage;
                 break;
             default:
                 _damage = 0f;
