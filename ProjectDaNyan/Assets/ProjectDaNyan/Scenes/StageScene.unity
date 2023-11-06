@@ -254,7 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 269454219}
   m_Layer: 0
-  m_Name: -------[Global]
+  m_Name: '-------[Global]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -291,7 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 568594500}
   m_Layer: 0
-  m_Name: -------[UI]
+  m_Name: '-------[UI]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -323,7 +323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 602527080}
   m_Layer: 0
-  m_Name: -------[Space]
+  m_Name: '-------[Space]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -562,6 +562,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 568594500}
     m_Modifications:
+    - target: {fileID: 1431780648755457263, guid: e7f2d2c4065b5a446a5f11c493e79c23, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431780648755457263, guid: e7f2d2c4065b5a446a5f11c493e79c23, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 266065580101762976, guid: e7f2d2c4065b5a446a5f11c493e79c23, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -674,6 +682,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StageUI
       objectReference: {fileID: 0}
+    - target: {fileID: 4484182279780964823, guid: e7f2d2c4065b5a446a5f11c493e79c23, type: 3}
+      propertyPath: _playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f7d25fabc5c945399187fcef0055c2b,
+        type: 2}
     - target: {fileID: 4484182279780964823, guid: e7f2d2c4065b5a446a5f11c493e79c23, type: 3}
       propertyPath: _playerState
       value: 
