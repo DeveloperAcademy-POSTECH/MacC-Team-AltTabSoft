@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class MonsterSpawnPoints : MonoBehaviour
 {
-    PlayerController Target;
-
     public GameObject target;
 
     private void Awake()
     {
-        Target = GetComponent<PlayerController>();
-
+        target = GameObject.FindGameObjectWithTag("Player");
     }
 
 

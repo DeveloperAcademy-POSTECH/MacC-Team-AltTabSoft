@@ -37,6 +37,7 @@ public class MapManager : MonoBehaviour
     
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         SetBorderRange();
         _tileTotalCount = tileRowCount * tileColumnCount;
         _tilesArray = new GameObject[tileRowCount * tileColumnCount];
