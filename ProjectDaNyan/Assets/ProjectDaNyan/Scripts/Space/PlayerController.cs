@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 dashMovePosition;
     
     private int dashTimerCount = 0;
+    private int rockQuitTimerCount = 0;
 
     private float movementSpeed = 50f;
     private float jumpForce = 300;
@@ -166,8 +167,19 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMovingControllOnTheRock()
     {
+        rockQuitTimerCount += 1;
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
-        dashMovePosition = normalized * (Time.deltaTime * _playerData.playerSpeed * _playerData.dashSpeed);
+
+        if (normalized.x != 0 || normalized.z != 0)
+        {
+            dashMovePosition = normalized * (Time.deltaTime * _playerData.playerSpeed * _playerData.dashSpeed);
+        }
+
+        if (rockQuitTimerCount >= _playerData.onTheRockQuitTic)
+        {
+            rockQuitTimerCount = 0;
+            _playerState.setPsData(PlayerState.PSData.exitStartFromRock);
+        }
     }
 
     void PlayerWallReflection(Collision wall)
