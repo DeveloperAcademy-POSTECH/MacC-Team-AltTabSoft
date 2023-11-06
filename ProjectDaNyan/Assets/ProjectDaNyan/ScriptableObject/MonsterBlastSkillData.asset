@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07785ce182837404f8672ab6dfdcec98, type: 3}
-  m_Name: GameManagerData
+  m_Script: {fileID: 11500000, guid: 78229cb7dd3674d948c9527a7e9ca463, type: 3}
+  m_Name: MonsterBlastSkillData
   m_EditorClassIdentifier: 
-  GameReadyTime: 1
-  GameStageTime: 2
-  BossReadyTime: 1
+  Damage: 10
+  PositionCount: 50
+  MaxRadius: 5
+  WaveSpeed: 10
+  StartWidth: 2
