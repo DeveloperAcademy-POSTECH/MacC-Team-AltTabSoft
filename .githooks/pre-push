@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # 현재 브랜치 이름 가져오기
 current_branch=$(git symbolic-ref --short HEAD)
 # 정규 표현식을 사용하여 브랜치 네이밍 규칙 체크
