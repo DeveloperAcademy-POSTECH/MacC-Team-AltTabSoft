@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     public Type type;
     public float _damage;
     TrailRenderer trail;
-
+    
     private void OnEnable()
     {
         switch (type)
@@ -41,6 +41,7 @@ public class Bullet : MonoBehaviour
         if(type != Type.BombBlast)
             StartCoroutine(Goodbye());
     }
+
 
 
     IEnumerator Goodbye()
@@ -75,7 +76,7 @@ public class Bullet : MonoBehaviour
             }
         }
 
-        if (other.gameObject.layer == LayerMask.NameToLayer("FieldObject"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Map_Object") && type != Type.Laser)
         {
             trail.Clear();
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);

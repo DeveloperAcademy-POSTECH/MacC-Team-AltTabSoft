@@ -63,6 +63,7 @@ public class PlayerDroneAttack : MonoBehaviour
     {
         GameObject bullet = ObjectPoolManager.Inst.BringObject(bulletObject);
         bullet.transform.position = bulletObjectPosition.position;
+        bullet.transform.LookAt(targetCollider.transform);
         Rigidbody basicBulletRigid = bullet.GetComponent<Rigidbody>();
         basicBulletRigid.useGravity = isGravity;
         basicBulletRigid.velocity = bulletObjectPosition.forward * fireSpeed;
@@ -74,7 +75,7 @@ public class PlayerDroneAttack : MonoBehaviour
         {
             scanner.ScanEnemy();
             MakeInstantBullet(_droneBullet, _bulletPosition, false, _droneFireSpeed);
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.08f);
         }
     }
 }
