@@ -220,7 +220,7 @@ public class MonsterBoss : MonoBehaviour
                 _navMeshAgent.SetDestination(_targetTransform.position);
                 
                 // draw path 
-                StartCoroutine(makePathCoroutine());
+                // StartCoroutine(makePathCoroutine());
 
                 break;
 
@@ -323,7 +323,7 @@ public class MonsterBoss : MonoBehaviour
             case BossState.onDashAttack:
                 agentRotation();
                 dashAttack(_dashDirection);
-                StartCoroutine(makePathCoroutine());
+                // StartCoroutine(makePathCoroutine());
 
                 break;
 
@@ -513,23 +513,23 @@ public class MonsterBoss : MonoBehaviour
 
 
     // draw path 
-    #region Draw navmeshpath with Line Renderer  
-    IEnumerator makePathCoroutine()
-    {
-        _line.SetPosition(0, this.transform.position);
-        _line.enabled = true;
-
-        while (Vector3.Distance(this.transform.position, _navMeshAgent.destination) > 0.1f)
-        {
-            _line.SetPosition(0, this.transform.position);
-
-            drawPath();
-
-            yield return null;
-        }
-
-        _line.enabled = false;
-    }
+    // #region Draw navmeshpath with Line Renderer  
+    // IEnumerator makePathCoroutine()
+    // {
+    //     _line.SetPosition(0, this.transform.position);
+    //     _line.enabled = true;
+    //
+    //     while (Vector3.Distance(this.transform.position, _navMeshAgent.destination) > 0.1f)
+    //     {
+    //         // _line.SetPosition(0, this.transform.position);
+    //         
+    //         drawPath();
+    //         
+    //         yield return null;
+    //     }
+    //
+    //     _line.enabled = false;
+    // }
 
     private void drawPath()
     {
@@ -541,7 +541,7 @@ public class MonsterBoss : MonoBehaviour
             _line.SetPosition(i, _navMeshAgent.path.corners[i]);
         }
     }
-    #endregion
+    // #endregion
 
 
 

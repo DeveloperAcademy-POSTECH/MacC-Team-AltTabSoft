@@ -186,14 +186,14 @@ public class GameManager : MonoBehaviour
     // player is dead, you lose 
     public void PlayerDead()
     {
-        timeDelay(GameState.gameOver, _gameEndTimeDelay);
+        StartCoroutine(timeDelay(GameState.gameOver, _gameEndTimeDelay));
     }
 
 
     // boss is dead, player win
     public void BossDead()
     {
-        timeDelay(GameState.win, _gameEndTimeDelay);
+        StartCoroutine(timeDelay(GameState.win, _gameEndTimeDelay));
     }
 
 
