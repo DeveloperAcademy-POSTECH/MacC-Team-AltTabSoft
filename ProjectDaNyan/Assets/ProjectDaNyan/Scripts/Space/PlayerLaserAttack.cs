@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerLaserAttack : MonoBehaviour
 {
+    [SerializeField] private GameObject _playerAttackPosition;
     [SerializeField] private AttackStatus _attackStatus;
     [SerializeField] private GameObject[] _laserBullets; //레이저 관통 공격 오브젝트 프리펩
     [SerializeField] private GameObject _laserGroup;
@@ -16,6 +17,7 @@ public class PlayerLaserAttack : MonoBehaviour
     private void OnEnable()
     {
         _laserFireRate = _attackStatus.laserFireRate;
+        _laserGroup.transform.SetParent(null);
     }
 
     public void UseLaserAttack(bool isLaser, int laserLevel)
@@ -23,6 +25,7 @@ public class PlayerLaserAttack : MonoBehaviour
         if (isLaser)
         {
             _laserGroup.transform.Rotate(Vector3.up * 30 * Time.deltaTime);
+            _laserGroup.transform.position = _playerAttackPosition.transform.position;
             _isLaserReady = _laserFireRate < _laserFireDelay;
             _laserFireDelay += Time.deltaTime;
             if (_isLaserReady)
