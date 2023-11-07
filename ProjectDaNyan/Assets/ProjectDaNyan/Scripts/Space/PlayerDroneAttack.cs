@@ -24,32 +24,36 @@ public class PlayerDroneAttack : MonoBehaviour
     {
         scanner = GetComponent<EnemyScanner>();
         droneChasing = GetComponent<DroneChaseMonster>();
+        scanner.scanRange = _attackStatus.droneScanRange;
         //dronePosition = GameObject.Find("DronePosition").transform;
 
     }
 
     private void Update()
     {
+        
         droneChasing.StartCoroutine("ReturnToPlayer");
         targetCollider = scanner.nearCollider;
         if(scanner.nearCollider != null)
             droneChasing.DroneMoving(targetCollider.transform);
     }
 
-    public void UseDroneAttack(bool isDrone, Collider enemyCollider)
+    public void UseDroneAttack(bool isDrone, int droneLevel)
     {
-        if (isDrone)
+        
+        scanner.ScanEnemy();
+        if (isDrone && targetCollider != null && targetCollider.gameObject.activeSelf == true)
         {
             _droneFireRate = _attackStatus.droneFireRate;
             _droneFireSpeed = _attackStatus.droneFireSpeed;
             _bulletPosition = GameObject.Find("DroneBulletPosition").transform;
             _droneFireReady = _droneFireRate < _droneFireDelay;
             _droneFireDelay += Time.deltaTime;
-            _drone.transform.RotateAround(enemyCollider.transform.position,Vector3.up, 30 * Time.deltaTime) ;
+            _drone.transform.RotateAround(targetCollider.transform.position,Vector3.up, 30 * Time.deltaTime) ;
             if (_droneFireReady)
             {
-                _bulletPosition.LookAt(enemyCollider.transform);
-                StartCoroutine("DroneFire");
+                _bulletPosition.LookAt(targetCollider.transform);
+                StartCoroutine(DroneFire(droneLevel));
                 _droneFireDelay = 0;
             }
         }
@@ -59,17 +63,19 @@ public class PlayerDroneAttack : MonoBehaviour
     {
         GameObject bullet = ObjectPoolManager.Inst.BringObject(bulletObject);
         bullet.transform.position = bulletObjectPosition.position;
+        bullet.transform.LookAt(targetCollider.transform);
         Rigidbody basicBulletRigid = bullet.GetComponent<Rigidbody>();
         basicBulletRigid.useGravity = isGravity;
         basicBulletRigid.velocity = bulletObjectPosition.forward * fireSpeed;
     }
 
-    IEnumerator DroneFire()
+    IEnumerator DroneFire(int droneLevel)
     {
-        MakeInstantBullet(_droneBullet, _bulletPosition, false, _droneFireSpeed);
-        yield return new WaitForSeconds(0.05f);
-        MakeInstantBullet(_droneBullet, _bulletPosition, false, _droneFireSpeed);
-        yield return new WaitForSeconds(0.05f);
-        MakeInstantBullet(_droneBullet, _bulletPosition, false, _droneFireSpeed);
+        for (int i = 0; i < droneLevel * 2 + 1; i++)
+        {
+            scanner.ScanEnemy();
+            MakeInstantBullet(_droneBullet, _bulletPosition, false, _droneFireSpeed);
+            yield return new WaitForSeconds(0.08f);
+        }
     }
 }

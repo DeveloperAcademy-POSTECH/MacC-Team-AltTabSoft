@@ -12,7 +12,7 @@ public class PlayerAttack : MonoBehaviour
 
     public int basicFireLevel = 1;
     public int laserLevel = 1;
-    //public int droneLevel = 1;
+    public int droneLevel = 1;
     public int bombLevel = 1;
     //public int fieldAttackLevel = 1;
 
@@ -66,17 +66,14 @@ public class PlayerAttack : MonoBehaviour
         if (isGet == false)
         {
             playerDroneAttack = GameObject.Find("Drone").GetComponent<PlayerDroneAttack>();
-            _droneScanner = GameObject.Find("Drone").GetComponent<EnemyScanner>();
-            _droneScanner.scanRange = _attackStatus.droneScanRange;
         }
         isGet = true;
-        _droneScanner.ScanEnemy();
     }
 
     public void AllAttack()
     {
         //기본공격, 초월공격 활성화 코드
-        if(_scanner.nearCollider != null)
+        if(_scanner.nearCollider != null && _scanner.nearCollider.gameObject.activeSelf == true)
             playerBasicAttack.UseBasicAttack(isUpgrade, _scanner.nearCollider, basicFireLevel);
 
         //관통공격활성화코드
@@ -85,8 +82,8 @@ public class PlayerAttack : MonoBehaviour
         //드론공격활성화코드
         if (isDrone)
         {
-            if (_droneScanner.nearCollider != null)
-                playerDroneAttack.UseDroneAttack(isDrone, _droneScanner.nearCollider);
+            //if (_droneScanner.nearCollider != null)
+            playerDroneAttack.UseDroneAttack(isDrone, droneLevel);
         }
         //폭탄공격활성화코드
         if (_scanner.nearCollider != null)
