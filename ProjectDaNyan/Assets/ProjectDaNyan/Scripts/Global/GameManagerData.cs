@@ -13,4 +13,7 @@ public class GameManagerData : ScriptableObject
 
     // time delay before boss shows up 
     public float BossReadyTime;
+
+    // time delay before game over 
+    public float GameEndTimeDelay;
 }

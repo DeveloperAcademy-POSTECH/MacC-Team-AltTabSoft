@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78229cb7dd3674d948c9527a7e9ca463, type: 3}
   m_Name: MonsterBlastSkillData
   m_EditorClassIdentifier: 
-  Damage: 10
+  WaveBlastDamage: 10
+  BigWaveDamage: 5
   PositionCount: 50
-  MaxRadius: 5
-  WaveSpeed: 10
-  StartWidth: 2
+  WaveBlastMaxRadius: 5
+  BigWaveMaxRadius: 20
+  WaveBlastSpeed: 10
+  BigWaveSpeed: 20
+  WaveBlastStartWidth: 2
+  BigWaveStartWidth: 5

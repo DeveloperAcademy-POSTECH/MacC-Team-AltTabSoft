@@ -40,4 +40,10 @@ public class MonsterBossData : ScriptableObject
 
     // idle time
     public float IdleTime;
+
+    // big wave interval
+    public float BigWaveInterval;
+
+    // big wave count
+    public float BigWaveCount;
 }

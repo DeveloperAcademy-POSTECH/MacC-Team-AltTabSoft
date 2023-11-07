@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum SkillType
+{
+    WaveBlast,
+    BigWave
+}
+
 
 public class MonsterSkillWaveBlast : MonoBehaviour
 {
@@ -24,7 +30,7 @@ public class MonsterSkillWaveBlast : MonoBehaviour
     private void Awake()
     {
         // set damage 
-        Damage = _monsterBlastData.Damage;
+        Damage = _monsterBlastData.WaveBlastDamage;
 
         _sphereCollider = GetComponent<SphereCollider>();
         _lineRenderer = GetComponent<LineRenderer>();
@@ -33,24 +39,33 @@ public class MonsterSkillWaveBlast : MonoBehaviour
         _lineRenderer.positionCount = _monsterBlastData.PositionCount + 1;
     }
 
-    public void StartWaveBlastAttack()
+    public void StartWaveBlastAttack(SkillType skill)
     {
-        StartCoroutine(waveblast());
+        switch (skill)
+        {
+            case SkillType.WaveBlast:
+                StartCoroutine(waveblast(_monsterBlastData.WaveBlastMaxRadius,
+                    _monsterBlastData.WaveBlastSpeed, _monsterBlastData.WaveBlastStartWidth));
+                Damage = _monsterBlastData.WaveBlastDamage;
+                break;
+
+            case SkillType.BigWave:
+                StartCoroutine(waveblast(_monsterBlastData.BigWaveMaxRadius,
+                  _monsterBlastData.BigWaveSpeed, _monsterBlastData.BigWaveStartWidth));
+                Damage = _monsterBlastData.BigWaveDamage;
+                break;
+        }
     }
 
-    public void StopWaveBlastAttack()
-    {
-        StopCoroutine(waveblast());
-    }
 
-    private IEnumerator waveblast()
+    private IEnumerator waveblast(float maxRadius, float speed, float startWidth)
     {
         float currentRadius = 0f;
 
-        while(currentRadius < _monsterBlastData.MaxRadius)
+        while(currentRadius < maxRadius)
         {
-            currentRadius += Time.deltaTime * _monsterBlastData.WaveSpeed;
-            drawBlast(currentRadius);
+            currentRadius += Time.deltaTime * speed;
+            drawBlast(currentRadius, startWidth, maxRadius);
             yield return null;
         }
 
@@ -62,7 +77,7 @@ public class MonsterSkillWaveBlast : MonoBehaviour
     }
 
 
-    private void drawBlast(float currentRadius)
+    private void drawBlast(float currentRadius, float startWidth, float maxRadius)
     {
         float angleBetweenPositions = 360f / _monsterBlastData.PositionCount;
 
@@ -77,7 +92,7 @@ public class MonsterSkillWaveBlast : MonoBehaviour
 
         setSphereCollider(currentRadius);
 
-        _lineRenderer.widthMultiplier = Mathf.Lerp(0f, _monsterBlastData.StartWidth, 1f - currentRadius / _monsterBlastData.MaxRadius);
+        _lineRenderer.widthMultiplier = Mathf.Lerp(0f, startWidth, 1f - currentRadius / maxRadius);
     }
 
 
@@ -90,22 +105,22 @@ public class MonsterSkillWaveBlast : MonoBehaviour
 
 
 
-    private void blastDamage(float currentRadius)
-    {
-        Collider[] hitObjects = Physics.OverlapSphere(transform.position, currentRadius);
-        Rigidbody rb;
+    //private void blastDamage(float currentRadius)
+    //{
+    //    Collider[] hitObjects = Physics.OverlapSphere(transform.position, currentRadius);
+    //    Rigidbody rb;
 
 
-        for(int i = 0; i < hitObjects.Length; ++i)
-        {
-            if(hitObjects[i].TryGetComponent<Rigidbody>(out rb))
-            {
-                Vector3 direction = (hitObjects[i].transform.position - this.transform.position).normalized;
+    //    for(int i = 0; i < hitObjects.Length; ++i)
+    //    {
+    //        if(hitObjects[i].TryGetComponent<Rigidbody>(out rb))
+    //        {
+    //            Vector3 direction = (hitObjects[i].transform.position - this.transform.position).normalized;
         
-                rb.AddForce(direction, ForceMode.Impulse);
-            }
-        }
-    }
+    //            rb.AddForce(direction, ForceMode.Impulse);
+    //        }
+    //    }
+    //}
 
     private void OnTriggerEnter(Collider other)
     {

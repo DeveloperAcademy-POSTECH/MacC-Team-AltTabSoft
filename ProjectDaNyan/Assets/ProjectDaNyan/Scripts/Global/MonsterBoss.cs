@@ -7,6 +7,7 @@ using UnityEngine.AI;
 using UnityEngine.Pool;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
+using static UnityEditorInternal.VersionControl.ListControl;
 
 
 public class MonsterBoss : MonoBehaviour
@@ -26,7 +27,9 @@ public class MonsterBoss : MonoBehaviour
         startDashAttack,
         onDashAttack,
         waveBlast,
-        wideAttack,
+        readyBigWave,
+        bigWave,
+        onBigWaveAttack,
         dead
     }
 
@@ -68,9 +71,10 @@ public class MonsterBoss : MonoBehaviour
     private float _attackedCount = 0;
     private float _dashed = 0;
     private Vector3 _dashDirection = Vector3.zero;
-    private float _dashStoppingDistance = 10f;
-
-
+    private float _dashStoppingDistance = 1f;
+    private float _bigWaveTime = 0f;
+    private float _bigWaved = 0f;
+    private BossState _lastState;
 
     // nav mesh agent settings 
     private NavMeshAgent _navMeshAgent = null;
@@ -93,8 +97,6 @@ public class MonsterBoss : MonoBehaviour
     private int _jumpHash = Animator.StringToHash(animtorBaseLayer + ".Jump");
     private int _deathHash = Animator.StringToHash(animtorBaseLayer + ".Death");
     #endregion
-
-
 
 
 
@@ -168,8 +170,6 @@ public class MonsterBoss : MonoBehaviour
 
         // Make Camera Move To Boss //
         StartCoroutine(CameraFocusOnBoss());
-
-        
     }
 
 
@@ -189,7 +189,7 @@ public class MonsterBoss : MonoBehaviour
     // chasing => normal attack * 3 => dash attack => wide attack => chasing 
     private void FixedUpdate()
     {
-
+        Debug.Log($"Boss velocity = {_navMeshAgent.velocity}");
 
 
         switch (_currentState)
@@ -291,7 +291,9 @@ public class MonsterBoss : MonoBehaviour
 
                     _navMeshAgent.stoppingDistance = _attackRange;
                     _navMeshAgent.speed = _monsterSpeed;
-                    _currentState = BossState.chasing;
+
+                    // attack big wave 
+                    _currentState = BossState.readyBigWave;
                     break;
                 }
 
@@ -316,7 +318,6 @@ public class MonsterBoss : MonoBehaviour
                 _animator.SetBool("Dash", true);
                 _animator.speed = 2;
 
-
                 break;
 
             case BossState.onDashAttack:
@@ -328,216 +329,54 @@ public class MonsterBoss : MonoBehaviour
 
             case BossState.waveBlast:
                 lookAtPlayer();
+                break;
+
+            case BossState.readyBigWave:
+                lookAtPlayer();
+                _animator.SetTrigger("Roar");
+
+                _currentState = BossState.bigWave;
+
+                // save state 
+                _lastState = BossState.bigWave;
+                break;
+
+            case BossState.bigWave:
+
+                // change state 
+                if (_bigWaved >= _bossData.BigWaveCount)
+                {
+                    _bigWaved = 0;
+                    _currentState = BossState.chasing;
+                    break;
+                }
+           
+                _bigWaveTime += Time.deltaTime;
+
+                if(_bigWaveTime >= _bossData.BigWaveInterval)
+                {
+                    _bigWaved++;
+
+                    // reset time
+                    _bigWaveTime = 0;
+
+                    // change state 
+                    _currentState = BossState.onBigWaveAttack;
+
+                    // play animation 
+                    _animator.SetTrigger("Jump");
+                }
 
                 break;
 
-
-            case BossState.wideAttack:
-
+            case BossState.onBigWaveAttack:
+                lookAtPlayer();
                 break;
 
             case BossState.dead:
-
                 break;
         }
     }
-
-
-
-
-    //    idle,
-    //    chasing,
-    //    normalAttack,
-    //    readyDashAttack,
-    //    startDashAttack,
-    //    onDashAttack,
-    //    waveBlast,
-    //    wideAttack,
-    //    dead
-    /*
-    IEnumerator monsterState()
-    {
-
-        while (_monsterHP > 0)
-        {
-            yield return new WaitForSeconds(0.1f);
-
-            checkAttackDistance();
-
-            yield return StartCoroutine(_currentState.ToString());
-        }
-
-        StartCoroutine(dead());
-    }
-
-    IEnumerator idle()
-    {
-        // idle animation 
-        _animator.SetBool("Idle", true);
-
-
-        while (_idleTimeCount >= _idleTime)
-        {
-            // time delay 
-            _idleTimeCount += 0.1f;
-
-            // change state 
-            _currentState = BossState.chasing;
-
-            // animation 
-            _animator.SetBool("Idle", false);
-
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
-
-
-    IEnumerator chasing()
-    {
-        _navMeshAgent.speed = _monsterSpeed;
-        _navMeshAgent.stoppingDistance = _attackRange;
-
-        checkAttackDistance();
-
-        _navMeshAgent.SetDestination(_targetTransform.position);
-
-        // walking animation
-        _animator.SetBool("Chase", true);
-
-        // draw path 
-        StartCoroutine(makePathCoroutine());
-
-        yield return null;
-    }
-
-
-    IEnumerator normalAttack()
-    {
-        checkAttackDistance();
-
-        // animation 
-        _animator.SetBool("Chase", false);
-
-
-        // count attack time 
-        _attackTimeCount += Time.deltaTime;
-
-        // look at player 
-        lookAtPlayer();
-
-        // attack interval 
-        if (_attackTimeCount >= _attackInterval)
-        {
-            _attackTimeCount = 0;
-            _attackedCount += 1;
-
-            //if (_attackedCount % 2 == 0)
-            //{
-            //    _animator.SetBool("AttackRH", true);
-            //    yield return StartCoroutine(animationPlay(_animator, AttackRHHash));
-            //}
-            //else
-            //{
-            //    _animator.SetBool("AttackLH", true);
-            //    yield return StartCoroutine(animationPlay(_animator, AttackLHHash));
-            //}
-
-            attackPlayer();
-        }
-
-        // normal attack to dash attack 
-        if (_attackedCount > _normalAttackCount)
-        {
-            _animator.SetBool("AttackRH", false);
-            _animator.SetBool("AttackLH", false);
-
-            _attackedCount = 0;
-            _attackTimeCount = 0;
-            _currentState = BossState.readyDashAttack;
-        }
-
-        yield return null;
-    }
-
-    IEnumerator readyDashAttack()
-    {
-        lookAtPlayer();
-
-        _dashReadyTimeCount += Time.deltaTime;
-
-        if (_dashReadyTimeCount > _readyDashTime)
-        {
-            _dashReadyTimeCount = 0;
-            _currentState = BossState.startDashAttack;
-        }
-
-        yield return null;
-    }
-
-    IEnumerator startDashAttack()
-    {
-
-         //set dash values
-        _navMeshAgent.speed = _dashSpeed;
-        _navMeshAgent.isStopped = false;
-        _navMeshAgent.stoppingDistance = 2;
-
-        // get player speed and normalize 
-        float targetMoveDirLength = _targetCC.velocity.magnitude;
-
-        // set dash direction
-        float dashPoint = targetMoveDirLength * _dashPoint;
-
-        // dash in front of player 
-        _dashDirection = _targetTransform.position + _targetTransform.forward * dashPoint;
-
-        // add dash count 
-        _dashed++;
-
-        // set current state 
-        _currentState = BossState.onDashAttack;
-
-        // if boss dashed more than dash count -> change state 
-        if (_dashed > _dashCount)
-        {
-            _dashed = 0;
-
-            _navMeshAgent.speed = _monsterSpeed;
-            _currentState = BossState.chasing;
-        }
-
-        yield return null;
-    }
-
-
-    IEnumerator onDashAttack()
-    {
-
-        dashAttack(_dashDirection);
-
-        // draw line from boss to dash point 
-        StartCoroutine(makePathCoroutine());
-
-
-        yield return null;
-    }
-
-    IEnumerator waveBlast()
-    {
-        // animation play 
-
-        yield return null;
-    }
-
-
-
-    IEnumerator dead()
-    {
-
-        yield return null;
-    }
-    */
-
 
 
 
@@ -616,39 +455,62 @@ public class MonsterBoss : MonoBehaviour
         {
             if(_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
             {
-                // turn off the dash animation 
-                _animator.SetBool("Dash", false);
-
-                waveBlastStart();
-
-                _navMeshAgent.velocity = Vector3.forward;
-                _navMeshAgent.isStopped = true;
-
-                _currentState = BossState.waveBlast;
+                // stop dash and change boss state to waveBlast 
+                stopDashAndBlastAttack();
             }
         }
     }
 
+    private void stopDashAndBlastAttack()
+    {
+        // turn off the dash animation 
+        _animator.SetBool("Dash", false);
+
+        waveBlastStart();
+
+        _navMeshAgent.velocity = Vector3.zero;
+        _navMeshAgent.isStopped = true;
+
+        _currentState = BossState.waveBlast;
+    }
 
     public void StartWaveBlastAttack()
     {
         // create wave blast 
-        _skillMonsterBlast.StartWaveBlastAttack();
+        _skillMonsterBlast.StartWaveBlastAttack(SkillType.WaveBlast);
     }
-
 
     private void waveBlastStart()
     {
+        // save state to change after wave blast end 
+        _lastState = BossState.readyDashAttack;
+
         // play animation
         _animator.SetTrigger("AttackBothPaws");
     }
 
-   
-    // when wave blast end => change state
+    // when wave blast end => EvenHandler => change state
     private void waveBlastEnd()
     {
-        _currentState = BossState.readyDashAttack;
+        _currentState = _lastState;
     }
+
+
+    public void StartBigWaveAttack()
+    {
+        _skillMonsterBlast.StartWaveBlastAttack(SkillType.BigWave);
+    }
+
+
+
+    // boss is dead
+    public void bossStateChangeToDead()
+    {
+        GameManager.Inst.BossDead();
+    }
+
+
+
 
     // draw path 
     #region Draw navmeshpath with Line Renderer  
@@ -682,6 +544,9 @@ public class MonsterBoss : MonoBehaviour
     #endregion
 
 
+
+
+
     // collision check 
     #region Collision check Code 
     private void OnTriggerEnter(Collider other)
@@ -705,18 +570,9 @@ public class MonsterBoss : MonoBehaviour
 
         if(_currentState == BossState.onDashAttack)
         {
-            if (other.tag.Equals("BossWall"))
+            if (other.tag.Equals("Wall"))
             {
-                // if touches wall, stop moving 
-                _navMeshAgent.velocity = Vector3.zero;
-                _navMeshAgent.isStopped = true;
-     
-                // turn off the dash animation 
-                _animator.SetBool("Dash", false);
-
-                waveBlastStart();
-
-                _currentState = BossState.waveBlast;
+                dashAttack(_targetTransform.position);
             }
         }
     }
@@ -726,11 +582,19 @@ public class MonsterBoss : MonoBehaviour
     // apply damage 
     private void applyDamage(float damage)
     {
+        if(_currentState == BossState.dead)
+        {
+            return;
+        }
+
         _monsterHP -= damage;
 
         if(_monsterHP <= 0)
         {
-            GameManager.Inst.BossDead();
+
+            // play dead animation 
+            _animator.SetBool("Death", true);
+
             _currentState = BossState.dead;
             return;
         }
