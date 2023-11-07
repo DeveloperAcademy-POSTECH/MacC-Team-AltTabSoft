@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# 현재 브랜치 이름 가져오기
+current_branch=$(git symbolic-ref --short HEAD)
+# 정규 표현식을 사용하여 브랜치 네이밍 규칙 체크
+if ! [[ $current_branch =~ ^(main|(santa|ocean|newyork|kihyun|kiyoung|rubik|pine)_[a-z].*$) ]]; then
+    echo "에러: 브랜치 네이밍 규칙을 지켜주세요 (예: kihyun_add-some-awsome-feature)"
+    exit 1
+fi
+exit 0

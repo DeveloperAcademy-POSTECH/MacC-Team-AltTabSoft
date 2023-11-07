@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerStatus : MonoBehaviour
 {
     [SerializeField] private PlayerData _playerData;
-    
     [SerializeField] private PlayerState _playerState;
+    [SerializeField] private Renderer playerRenderer;
 
     private int player_HitCount = 0;
 
@@ -41,6 +41,15 @@ public class PlayerStatus : MonoBehaviour
 
     private int hitEnemy = 0;
     private int player_collected_box_cat = 0;
+    
+    private int dashCharged;
+    public int DashCharged
+    {
+        get { return dashCharged; }
+        set { dashCharged = value; }
+    }
+    private int dashRechargeTimer = 0;
+    
     public int Player_collected_box_cat
     {
         get { return player_collected_box_cat; }
@@ -51,6 +60,7 @@ public class PlayerStatus : MonoBehaviour
     void Start()
     {
         player_Now_HP = _playerData.player_Max_HP;
+        dashCharged = _playerData.maxDashSavings;
     }
 
     private void FixedUpdate()
@@ -58,6 +68,23 @@ public class PlayerStatus : MonoBehaviour
         TimeHealHP();
         PlayerHit();
         PlayerDead();
+        PlayerDashRecharge();
+    }
+    
+    void PlayerDashRecharge()
+    {
+        if (_playerState.getPsData() != PlayerState.PSData.onTheRock)
+        {
+            if (dashCharged < _playerData.maxDashSavings)
+            {
+                dashRechargeTimer += 1;
+                if (dashRechargeTimer >= _playerData.dashRechargeTic)
+                {
+                    dashRechargeTimer = 0;
+                    dashCharged += 1;
+                }
+            }
+        }
     }
     
     void PlayerHit()
@@ -99,6 +126,14 @@ public class PlayerStatus : MonoBehaviour
             heal_Cooltime = 0;
         }
     }
+
+    IEnumerator PlayerHitEffect()
+    { 
+        playerRenderer.material.color = Color.red;
+        yield return new WaitForSeconds(_playerData.hitEffectTime);
+        playerRenderer.material.color = Color.white;
+        yield break;
+    }
     
     // Update is called once per frame
     void Update()
@@ -112,14 +147,16 @@ public class PlayerStatus : MonoBehaviour
         if (other.gameObject.CompareTag("Monster"))
         {
             player_Now_HP -= 10;
-            //hitEnemy += 1;
             Debug.Log("10의 데미지를 입었다.");
+            
+            StartCoroutine(PlayerHitEffect());
         }
         else if (other.gameObject.CompareTag("MonsterAttack"))
         {
             player_Now_HP -= (int)other.gameObject.GetComponent<TempBullet>().Damage;
             other.gameObject.SetActive(false);
             Debug.Log("총에 맞았다! 총 데미지를 입었다.");
+            StartCoroutine(PlayerHitEffect());
         }
     }
     
