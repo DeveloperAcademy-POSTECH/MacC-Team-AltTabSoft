@@ -5,21 +5,31 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
+using UnityEngine.Events;
+using UnityEngine.UIElements;
+using static UnityEditorInternal.VersionControl.ListControl;
+
 
 public class MonsterBoss : MonoBehaviour
 {
     public IObjectPool<GameObject> myPool { get; set; }
 
-    [SerializeField] private MonsterData _monsterData;
+    [SerializeField] private MonsterBossData _bossData = null;
+ 
 
     // Boss Monster state
     private enum BossState
     {
+        idle,
         chasing,
         normalAttack,
-        dashAttack,
         readyDashAttack,
-        wideAttack,
+        startDashAttack,
+        onDashAttack,
+        waveBlast,
+        readyBigWave,
+        bigWave,
+        onBigWaveAttack,
         dead
     }
 
@@ -31,67 +41,140 @@ public class MonsterBoss : MonoBehaviour
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackInterval;
     [SerializeField] private float _attackSpeed;
-    [SerializeField] private float _dashSpeed = 10;
+    [SerializeField] private float _normalAttackCount;
+    [SerializeField] private float _readyDashTime;
+    [SerializeField] private float _dashPoint;
+    [SerializeField] private float _dashSpeed;
+    [SerializeField] private float _dashCount;
+    [SerializeField] private float _idleTime;
 
     [Header("Monster Attack")]
-    [SerializeField] private GameObject _monsterBulletPrefab;
-    [SerializeField] private float _bulletSpeed = 100f;
+    [SerializeField] private GameObject _monsterBulletPrefab = null;
+    [SerializeField] private GameObject skillWaveBlast;
+    private MonsterSkillWaveBlast _skillMonsterBlast;
 
+    [Header("Monster Current State")]
     // boss monster current state 
     [SerializeField] private BossState _currentState;
 
-    [SerializeField] private float _readyDashTime = 3;
-    [SerializeField] private float _dashAttackTime = 5;
-    [SerializeField] private float _normalAttackCount = 3;
 
-    
-    public Transform _attackPoint;
+    [Header("Monster Animation")]
+    [SerializeField] Animator _animator;
 
+    // where bullets are fired 
+    public Transform _attackPoint = null;
 
-    private float _dashReady;
-    private float _dashTime;
-    private float _attackTime;
-    private float _normalAttackedCount = 0;
+    // privates variables 
+    private float _idleTimeCount = 0;
+    private float _dashReadyTimeCount = 0;
+    private float _attackTimeCount = 0;
+    private float _attackedCount = 0;
+    private float _dashed = 0;
+    private Vector3 _dashDirection = Vector3.zero;
+    private float _dashStoppingDistance = 1f;
+    private float _bigWaveTime = 0f;
+    private float _bigWaved = 0f;
+    private BossState _lastState;
 
-
-    private Rigidbody _monsterRigidbody;
-    private Vector3 _dashDirection = Vector3.forward;
-
+    // nav mesh agent settings 
     private NavMeshAgent _navMeshAgent = null;
-    private Transform _target = null;
+    private GameObject _target = null;
+    private Transform _targetTransform;
+    private CharacterController _targetCC;
+    private LineRenderer _line;
+
+    // animation settings
+    #region Animator Hash values 
+    const string animtorBaseLayer = "Base Layer";
+    private int _idleHash = Animator.StringToHash(animtorBaseLayer + ".Idle");
+    private int _combatIdleHash = Animator.StringToHash(animtorBaseLayer + ".Combat_Idle");
+    private int _chaseHash = Animator.StringToHash(animtorBaseLayer + ".Chase");
+    private int dashHash = Animator.StringToHash(animtorBaseLayer + ".Dash");
+    private int _attackRHHash = Animator.StringToHash(animtorBaseLayer + ".AttackRH");
+    private int _attackLHHash = Animator.StringToHash(animtorBaseLayer + ".AttackLH");
+    private int _attackBothPawsHash = Animator.StringToHash(animtorBaseLayer + ".AttackBothPaws");
+    private int _roarHash = Animator.StringToHash(animtorBaseLayer + ".Roar");
+    private int _jumpHash = Animator.StringToHash(animtorBaseLayer + ".Jump");
+    private int _deathHash = Animator.StringToHash(animtorBaseLayer + ".Death");
+    #endregion
+
+
 
     private void OnEnable()
     {
-        _target = FindAnyObjectByType<PlayerController>().transform;
 
-        this.transform.position = _target.position;
+        //get Components
+        #region Get components
 
+        // find target
+        _target = GameObject.FindGameObjectWithTag("Player");
 
+        // get target transform 
+        _targetTransform = _target.GetComponent<PlayerController>().transform;
+
+        // get target rigidbody
+        _targetCC = _target.GetComponent<CharacterController>();
+
+        // boss spawn point 
+        this.transform.position = _targetTransform.position;
+
+        // get NavMeshAgent component 
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        // set target 
-        _target = FindAnyObjectByType<PlayerController>().transform;
 
-        _currentState = BossState.chasing;
+        // get animator
+        _animator = GetComponentInChildren<Animator>();
+      
+        // get line renderer 
+        _line = GetComponent<LineRenderer>();
 
-        _attackPower = _monsterData.attackPower;
-        _monsterHP = _monsterData.hp;
-        _monsterSpeed = _monsterData.speed;
-        _attackRange = _monsterData.attackRange;
-        _attackInterval = _monsterData.attackInterval;
-        _attackSpeed = _monsterData.attackSpeed;
+        // skill wave blast
+        _skillMonsterBlast = skillWaveBlast.GetComponent<MonsterSkillWaveBlast>();
 
+        #endregion
 
-        if (TryGetComponent<Rigidbody>(out Rigidbody rb))
-        {
-            _monsterRigidbody = rb;
-        }
+        // set boss status
+        #region
+        _attackPower = _bossData.AttackPower;
+        _monsterHP = _bossData.HP;
+        _monsterSpeed = _bossData.Speed;
+        _attackRange = _bossData.AttackRange;
+        _attackInterval = _bossData.AttackInterval;
+        _attackSpeed = _bossData.AttackSpeed;
+        _normalAttackCount = _bossData.AttackCount;
+        _readyDashTime = _bossData.ReadyDashTime;
+        _dashPoint = _bossData.DashPoint;
+        _dashSpeed = _bossData.DashSpeed;
+        _dashCount = _bossData.DashCount;
+        _idleTime = _bossData.IdleTime;
+        #endregion
+
+        // get line renderer 
+        _line.startWidth = _line.endWidth = 0.2f;
+        _line.material.color = Color.blue;
+        _line.enabled = false;
+
+        // set boss state 
+        _currentState = BossState.idle;
+
+        // set navmeshagent settings 
+        _navMeshAgent.speed = _monsterSpeed;
+        _attackRange = _bossData.AttackRange;
+        _navMeshAgent.stoppingDistance = _attackRange;
+        //_navMeshAgent.updateRotation = false;   // enable rotation 
+
         
+        //_animator.SetTrigger("Roar");
+
+        // unity event add listener 
+        _skillMonsterBlast.EventHandlerWaveBlastEnd.AddListener(waveBlastEnd);
+
         // Make Camera Move To Boss //
         StartCoroutine(CameraFocusOnBoss());
-        
-        StartCoroutine(idle());
     }
 
+
+    // Camera moving
+    #region Camera Focus on Boss 
     IEnumerator CameraFocusOnBoss()
     {
         CameraManager cameraManager = GameObject.FindGameObjectWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraManager>();
@@ -100,230 +183,420 @@ public class MonsterBoss : MonoBehaviour
         yield return new WaitForSeconds(2);
         cameraManager.MonsterVCam.Priority = 0;
     }
+    #endregion
 
+
+    // chasing => normal attack * 3 => dash attack => wide attack => chasing 
     private void FixedUpdate()
     {
+        Debug.Log($"Boss velocity = {_navMeshAgent.velocity}");
+
+
         switch (_currentState)
         {
+            case BossState.idle:
+
+                // Roar animation 
+                _animator.SetTrigger("Roar");
+
+                // time delay 
+                _idleTimeCount += Time.deltaTime;
+
+                if (_idleTimeCount >= _idleTime)
+                {
+                    _currentState = BossState.chasing;
+                }
+
+                break;
+
+            case BossState.chasing:
+
+                _navMeshAgent.isStopped = false;
+                _navMeshAgent.speed = _monsterSpeed;
+                _navMeshAgent.stoppingDistance = _attackRange;
+
+                checkAttackDistance();
+
+                _navMeshAgent.SetDestination(_targetTransform.position);
+                
+                // draw path 
+                // StartCoroutine(makePathCoroutine());
+
+                break;
+
+            case BossState.normalAttack:
+                // normal attack animation
+            
+
+                // count attack time 
+                _attackTimeCount += Time.deltaTime;
+
+                // look at player 
+                lookAtPlayer();
+
+                // attack interval 
+                if (_attackTimeCount >= _attackInterval)
+                {
+                    _attackTimeCount = 0;
+                    _attackedCount += 1;
+                    attackPlayer();
+                }
+
+                // normal attack to dash attack 
+                if (_attackedCount > _normalAttackCount)
+                {
+                    _attackedCount = 0;
+                    _attackTimeCount = 0;
+                    _currentState = BossState.readyDashAttack;
+
+                    // Roar animation 
+                    _animator.SetTrigger("Roar");
+
+                    break;
+                }
+
+                checkAttackDistance();
+
+                break;
+
             // look at target 
             case BossState.readyDashAttack:
 
-                this.transform.LookAt(_target.transform);
+                // don't play dash animation 
+                _animator.SetBool("Dash", false);
+               
+                lookAtPlayer();
+
+                _dashReadyTimeCount += Time.deltaTime;
+
+                if (_dashReadyTimeCount > _readyDashTime)
+                {
+                    _dashReadyTimeCount = 0;
+                    _currentState = BossState.startDashAttack;
+                    break;
+                }
 
                 break;
 
             // dash to target 
-            case BossState.dashAttack:
+            case BossState.startDashAttack:
 
-               // _monsterRigidbody.velocity = _dashDirection * _dashSpeed;
+                // add dash count 
+                _dashed++;
 
-                break;
-
-            // set velocity to zero 
-            default:
-                //monsterRigidbody.velocity = Vector3.zero;
-                break;
-        }
-    }
-
-
-
-    // chasing => normal attack * 3 => dash attack => wide attack => chasing 
-
-    IEnumerator idle()
-    {
-        yield return new WaitForSeconds(0.1f);
-
-        switch (_currentState)
-        {
-            case BossState.chasing:
-            case BossState.normalAttack:
-                if (_navMeshAgent.isActiveAndEnabled == false)
+                // if boss dashed more than dash count -> change state 
+                if (_dashed > _dashCount)
                 {
-                    _navMeshAgent.enabled = true;
+                    _dashed = 0;
+
+                    _navMeshAgent.stoppingDistance = _attackRange;
+                    _navMeshAgent.speed = _monsterSpeed;
+
+                    // attack big wave 
+                    _currentState = BossState.readyBigWave;
+                    break;
                 }
 
-                checkAttackDistance();
-                StartCoroutine(_currentState.ToString());
+                // set dash values  
+                _navMeshAgent.speed = _dashSpeed;
+                _navMeshAgent.isStopped = false;
+                _navMeshAgent.stoppingDistance = _dashStoppingDistance;
+
+                // get player speed and normalize 
+                float targetMoveDirLength = _targetCC.velocity.magnitude;
+
+                // set dash direction
+                float dashPoint = targetMoveDirLength * _dashPoint;
+
+                // dash in front of player 
+                _dashDirection = _targetTransform.position + _targetTransform.forward * dashPoint;
+
+                // set current state 
+                _currentState = BossState.onDashAttack;
+
+                // dash animation
+                _animator.SetBool("Dash", true);
+                _animator.speed = 2;
+
                 break;
 
-            case BossState.readyDashAttack:
-                StartCoroutine(normalAttack());
+            case BossState.onDashAttack:
+                agentRotation();
+                dashAttack(_dashDirection);
+                // StartCoroutine(makePathCoroutine());
+
                 break;
 
-            case BossState.dashAttack:
-                StartCoroutine(normalAttack());
+            case BossState.waveBlast:
+                lookAtPlayer();
                 break;
 
+            case BossState.readyBigWave:
+                lookAtPlayer();
+                _animator.SetTrigger("Roar");
 
-            case BossState.wideAttack:
-                StartCoroutine(normalAttack());
+                _currentState = BossState.bigWave;
+
+                // save state 
+                _lastState = BossState.bigWave;
                 break;
 
+            case BossState.bigWave:
+
+                // change state 
+                if (_bigWaved >= _bossData.BigWaveCount)
+                {
+                    _bigWaved = 0;
+                    _currentState = BossState.chasing;
+                    break;
+                }
+           
+                _bigWaveTime += Time.deltaTime;
+
+                if(_bigWaveTime >= _bossData.BigWaveInterval)
+                {
+                    _bigWaved++;
+
+                    // reset time
+                    _bigWaveTime = 0;
+
+                    // change state 
+                    _currentState = BossState.onBigWaveAttack;
+
+                    // play animation 
+                    _animator.SetTrigger("Jump");
+                }
+
+                break;
+
+            case BossState.onBigWaveAttack:
+                lookAtPlayer();
+                break;
+
+            case BossState.dead:
+                break;
         }
-    }
-
-
-
-    IEnumerator chasing()
-    {
-        _navMeshAgent.SetDestination(_target.transform.position);
-        yield return null;
-
-        StartCoroutine(idle());
-    }
-
-    IEnumerator normalAttack()
-    {
-        // normal attack animation
-        //**** need to edit, animation required! **** 
-        // apply damage to player
-
-        _attackTime += 0.1f;
-
-        if(_attackTime >= _attackInterval)
-        {
-            _attackTime = 0;
-            attackPlayer();
-        }
-
-
-        //if (_normalAttackedCount <= _normalAttackCount)
-        //{
-        //    _normalAttackedCount += 1;
-        //    _currentState = BossState.readyDashAttack;
-
-        //}
-
-        _normalAttackedCount = 0;
-
-        yield return null;
-
-        StartCoroutine(idle());
-    }
-
-    IEnumerator readyDashAttack()
-    {
-       if(_navMeshAgent.isActiveAndEnabled == true)
-       {
-            _navMeshAgent.enabled = false;
-       }
-
-
-        while (_dashReady >= _readyDashTime)
-        {
-            _dashReady += 1;
-
-            yield return new WaitForSeconds(1);
-        }
-
-        _dashReady = 0f;
-        _currentState = BossState.dashAttack;
-
-        yield return null;
-
-        StartCoroutine(idle());
-    }
-
-    IEnumerator dashAttack()
-    {
-        _dashTime += 1f;
-
-        while (_dashTime <= _dashAttackTime)
-        {
-            yield return new WaitForSeconds(1);
-        }
-
-        _currentState = BossState.chasing;
-
-        StartCoroutine(idle());
-    }
-
-    IEnumerator wideAttack()
-    {
-        Debug.Log("boss wide attack");
-
-        _currentState = BossState.chasing;
-
-        yield return null;
-
-        StartCoroutine(idle());
     }
 
 
 
     // check distance between boss and player 
+
+    private void agentRotation()
+    {
+        // agent moving direction
+        Vector3 direction = _navMeshAgent.desiredVelocity;
+        // calculate quaternion 
+        Quaternion targetAngle = Quaternion.LookRotation(direction);
+        // smooth rotation 
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, Time.deltaTime);
+    }
+
+
+
     private void checkAttackDistance()
     {
         float distance = Vector3.Distance(this.transform.position, _target.transform.position);
 
         if (_navMeshAgent.remainingDistance <= _attackRange && distance <= _attackRange)
         {
-            _navMeshAgent.isStopped = true;
+            // player is within attack range 
+            _animator.SetBool("Chase", false);
             _currentState = BossState.normalAttack;
         }
         else
         {
-            _navMeshAgent.isStopped = false;
+            // not within attack range
+            // walking animation
+            _animator.SetBool("Chase", true);
+            _animator.speed = 2f;
             _currentState = BossState.chasing;
         }
     }
 
-
-    private void attackPlayer()
+    private void lookAtPlayer()
     {
-
-        // attacking player
-        GameObject bullet = ObjectPoolManager.Inst.BringObject(_monsterBulletPrefab);
-        bullet.transform.position = _attackPoint.position;
-        bullet.GetComponent<TempBullet>().Damage = _attackPower;
-        bullet.transform.LookAt(_target);
-
-        Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
-        bulletRB.velocity = _attackPoint.forward * _bulletSpeed;
+        Vector3 targetPos = new Vector3(_targetTransform.position.x, this.transform.position.y, _targetTransform.position.z);
+        this.transform.LookAt(targetPos);
     }
 
-    private void applyDamage(int damage)
+    // normal attack
+    private void attackPlayer()
     {
-        if(_monsterHP <= 0)
+        if (_attackedCount % 2 == 0)
         {
-            GameManager.Inst.BossDead();
+            _animator.SetTrigger("AttackRH");
+        }
+        else
+        {
+            _animator.SetTrigger("AttackLH");
+        }
+
+
+        //// attacking player
+        //GameObject bullet = ObjectPoolManager.Inst.BringObject(_monsterBulletPrefab);
+        //bullet.transform.position = _attackPoint.position;
+        //bullet.GetComponent<TempBullet>().Damage = _attackPower;
+        //bullet.transform.LookAt(_targetTransform);
+
+        //Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
+        //bulletRB.velocity = _attackPoint.forward * _attackSpeed;
+    }
+
+
+    // attack dash 
+    private void dashAttack(Vector3 dashPos)
+    {
+
+        // dash to current target position 
+        _navMeshAgent.SetDestination(dashPos);
+
+        if (!_navMeshAgent.pathPending)
+        {
+            if(_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+            {
+                // stop dash and change boss state to waveBlast 
+                stopDashAndBlastAttack();
+            }
+        }
+    }
+
+    private void stopDashAndBlastAttack()
+    {
+        // turn off the dash animation 
+        _animator.SetBool("Dash", false);
+
+        waveBlastStart();
+
+        _navMeshAgent.velocity = Vector3.zero;
+        _navMeshAgent.isStopped = true;
+
+        _currentState = BossState.waveBlast;
+    }
+
+    public void StartWaveBlastAttack()
+    {
+        // create wave blast 
+        _skillMonsterBlast.StartWaveBlastAttack(SkillType.WaveBlast);
+    }
+
+    private void waveBlastStart()
+    {
+        // save state to change after wave blast end 
+        _lastState = BossState.readyDashAttack;
+
+        // play animation
+        _animator.SetTrigger("AttackBothPaws");
+    }
+
+    // when wave blast end => EvenHandler => change state
+    private void waveBlastEnd()
+    {
+        _currentState = _lastState;
+    }
+
+
+    public void StartBigWaveAttack()
+    {
+        _skillMonsterBlast.StartWaveBlastAttack(SkillType.BigWave);
+    }
+
+
+
+    // boss is dead
+    public void bossStateChangeToDead()
+    {
+        GameManager.Inst.BossDead();
+    }
+
+
+
+
+    // draw path 
+    // #region Draw navmeshpath with Line Renderer  
+    // IEnumerator makePathCoroutine()
+    // {
+    //     _line.SetPosition(0, this.transform.position);
+    //     _line.enabled = true;
+    //
+    //     while (Vector3.Distance(this.transform.position, _navMeshAgent.destination) > 0.1f)
+    //     {
+    //         // _line.SetPosition(0, this.transform.position);
+    //         
+    //         drawPath();
+    //         
+    //         yield return null;
+    //     }
+    //
+    //     _line.enabled = false;
+    // }
+
+    private void drawPath()
+    {
+        int length = _navMeshAgent.path.corners.Length;
+        _line.positionCount = length;
+
+        for (int i = 0; i < length; ++i)
+        {
+            _line.SetPosition(i, _navMeshAgent.path.corners[i]);
+        }
+    }
+    // #endregion
+
+
+
+
+
+    // collision check 
+    #region Collision check Code 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"Boss touches {other.name}");
+
+        if (other.tag.Equals("PlayerAttack"))
+        {
+            // get bullet damage 
+            if (other.gameObject.TryGetComponent(out Bullet bullet))
+            {
+                // apply player attack damage 
+                applyDamage(bullet._damage);
+            }
+            // if bullet doens't have damage 
+            else
+            {
+                applyDamage(1);
+            }
+        }
+
+        if(_currentState == BossState.onDashAttack)
+        {
+            if (other.tag.Equals("Wall"))
+            {
+                dashAttack(_targetTransform.position);
+            }
+        }
+    }
+    #endregion
+
+
+    // apply damage 
+    private void applyDamage(float damage)
+    {
+        if(_currentState == BossState.dead)
+        {
             return;
         }
 
         _monsterHP -= damage;
-    }
 
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log($"detect collision {other.gameObject}");
-
-        if (other.tag.Equals("PlayerAttack"))
+        if(_monsterHP <= 0)
         {
-            _monsterHP -= 1;
 
-            // temporary code 
-            if (_monsterHP <= 0)
-            {
-                GameManager.Inst.BossDead();
-                return;
-            }
+            // play dead animation 
+            _animator.SetBool("Death", true);
+
+            _currentState = BossState.dead;
+            return;
         }
-
-        //if (other.tag.Equals("Wall"))
-        //{
-        //    Vector3 incidenceVector = this.transform.forward;
-        //    Vector3 normalVector = other.ClosestPoint(this.transform.position).normalized;
-        //    //collision.contacts[0].normal;
-
-        //    Debug.Log($"incidence Vector : {incidenceVector} // normal Vector : {normalVector}");
-
-
-        //    _dashDirection = Vector3.Reflect(incidenceVector, normalVector);
-        //}
-
-   
-
     }
 }

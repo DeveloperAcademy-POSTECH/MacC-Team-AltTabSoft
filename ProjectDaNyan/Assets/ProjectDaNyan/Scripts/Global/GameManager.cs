@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     private float _gameStageTime = 180f;
     private float _currentTime = 0;
     private float _bossReadyTime = 3;
+    private float _gameEndTimeDelay = 3f;
     
     // hiddenBox Drop
     private float _hiddenBoxDropTime;
@@ -85,6 +86,7 @@ public class GameManager : MonoBehaviour
         _gameReadyTime = _gameManagerData.GameReadyTime;
         _gameStageTime = _gameManagerData.GameStageTime;
         _bossReadyTime = _gameManagerData.BossReadyTime;
+        _gameEndTimeDelay = _gameManagerData.GameEndTimeDelay;
     }
 
 
@@ -184,15 +186,26 @@ public class GameManager : MonoBehaviour
     // player is dead, you lose 
     public void PlayerDead()
     {
-        _currentGameState = GameState.gameOver;
+        StartCoroutine(timeDelay(GameState.gameOver, _gameEndTimeDelay));
     }
 
 
     // boss is dead, player win
     public void BossDead()
     {
-        _currentGameState = GameState.win;
+        StartCoroutine(timeDelay(GameState.win, _gameEndTimeDelay));
     }
+
+
+    // time delay before changing game state
+    IEnumerator timeDelay(GameState changeState, float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        _currentGameState = changeState;
+    }
+
+
 
     // pause game
     public void PauseGame()
