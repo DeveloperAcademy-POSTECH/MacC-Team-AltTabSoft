@@ -40,7 +40,7 @@ public class MonsterBoss : MonoBehaviour
     [SerializeField] private float _monsterSpeed;
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackInterval;
-    [SerializeField] private float _attackSpeed;
+    //[SerializeField] private float _attackSpeed;
     [SerializeField] private float _normalAttackCount;
     [SerializeField] private float _readyDashTime;
     [SerializeField] private float _dashPoint;
@@ -49,7 +49,6 @@ public class MonsterBoss : MonoBehaviour
     [SerializeField] private float _idleTime;
 
     [Header("Monster Attack")]
-    [SerializeField] private GameObject _monsterBulletPrefab = null;
     [SerializeField] private GameObject skillWaveBlast;
     private MonsterSkillWaveBlast _skillMonsterBlast;
 
@@ -60,9 +59,6 @@ public class MonsterBoss : MonoBehaviour
 
     [Header("Monster Animation")]
     [SerializeField] Animator _animator;
-
-    // where bullets are fired 
-    public Transform _attackPoint = null;
 
     // privates variables 
     private float _idleTimeCount = 0;
@@ -75,6 +71,7 @@ public class MonsterBoss : MonoBehaviour
     private float _bigWaveTime = 0f;
     private float _bigWaved = 0f;
     private BossState _lastState;
+    private MonsterDamage _monsterDamage;
 
     // nav mesh agent settings 
     private NavMeshAgent _navMeshAgent = null;
@@ -83,23 +80,7 @@ public class MonsterBoss : MonoBehaviour
     private CharacterController _targetCC;
     private LineRenderer _line;
 
-    // animation settings
-    #region Animator Hash values 
-    const string animtorBaseLayer = "Base Layer";
-    private int _idleHash = Animator.StringToHash(animtorBaseLayer + ".Idle");
-    private int _combatIdleHash = Animator.StringToHash(animtorBaseLayer + ".Combat_Idle");
-    private int _chaseHash = Animator.StringToHash(animtorBaseLayer + ".Chase");
-    private int dashHash = Animator.StringToHash(animtorBaseLayer + ".Dash");
-    private int _attackRHHash = Animator.StringToHash(animtorBaseLayer + ".AttackRH");
-    private int _attackLHHash = Animator.StringToHash(animtorBaseLayer + ".AttackLH");
-    private int _attackBothPawsHash = Animator.StringToHash(animtorBaseLayer + ".AttackBothPaws");
-    private int _roarHash = Animator.StringToHash(animtorBaseLayer + ".Roar");
-    private int _jumpHash = Animator.StringToHash(animtorBaseLayer + ".Jump");
-    private int _deathHash = Animator.StringToHash(animtorBaseLayer + ".Death");
-    #endregion
-
-
-
+   
     private void OnEnable()
     {
 
@@ -130,16 +111,18 @@ public class MonsterBoss : MonoBehaviour
         // skill wave blast
         _skillMonsterBlast = skillWaveBlast.GetComponent<MonsterSkillWaveBlast>();
 
+        // get monster damage
+        _monsterDamage = GetComponent<MonsterDamage>();
+
         #endregion
 
         // set boss status
         #region
-        _attackPower = _bossData.AttackPower;
+        _monsterDamage.Damage = _bossData.AttackPower;
         _monsterHP = _bossData.HP;
         _monsterSpeed = _bossData.Speed;
         _attackRange = _bossData.AttackRange;
         _attackInterval = _bossData.AttackInterval;
-        _attackSpeed = _bossData.AttackSpeed;
         _normalAttackCount = _bossData.AttackCount;
         _readyDashTime = _bossData.ReadyDashTime;
         _dashPoint = _bossData.DashPoint;
@@ -160,16 +143,23 @@ public class MonsterBoss : MonoBehaviour
         _navMeshAgent.speed = _monsterSpeed;
         _attackRange = _bossData.AttackRange;
         _navMeshAgent.stoppingDistance = _attackRange;
-        //_navMeshAgent.updateRotation = false;   // enable rotation 
-
-        
-        //_animator.SetTrigger("Roar");
 
         // unity event add listener 
         _skillMonsterBlast.EventHandlerWaveBlastEnd.AddListener(waveBlastEnd);
 
         // Make Camera Move To Boss //
         StartCoroutine(CameraFocusOnBoss());
+        
+    }
+
+    IEnumerator bossAppear()
+    {
+        _navMeshAgent.enabled = false;
+        this.transform.LookAt(_targetTransform);
+        _navMeshAgent.enabled = true;
+
+        _animator.SetTrigger("Roar");
+        yield return null;
     }
 
 
@@ -180,8 +170,12 @@ public class MonsterBoss : MonoBehaviour
         CameraManager cameraManager = GameObject.FindGameObjectWithTag("MainCamera").gameObject.transform.parent.GetComponent<CameraManager>();
         cameraManager.MonsterVCam.Follow = transform;
         cameraManager.MonsterVCam.Priority = 30;
+
+        StartCoroutine(bossAppear());
+
         yield return new WaitForSeconds(2);
         cameraManager.MonsterVCam.Priority = 0;
+
     }
     #endregion
 
@@ -218,9 +212,9 @@ public class MonsterBoss : MonoBehaviour
                 checkAttackDistance();
 
                 _navMeshAgent.SetDestination(_targetTransform.position);
-                
+
                 // draw path 
-                // StartCoroutine(makePathCoroutine());
+                StartCoroutine(makePathCoroutine());
 
                 break;
 
@@ -402,6 +396,7 @@ public class MonsterBoss : MonoBehaviour
         {
             // player is within attack range 
             _animator.SetBool("Chase", false);
+            _navMeshAgent.velocity = Vector3.zero;
             _currentState = BossState.normalAttack;
         }
         else
@@ -495,13 +490,10 @@ public class MonsterBoss : MonoBehaviour
         _currentState = _lastState;
     }
 
-
     public void StartBigWaveAttack()
     {
         _skillMonsterBlast.StartWaveBlastAttack(SkillType.BigWave);
     }
-
-
 
     // boss is dead
     public void bossStateChangeToDead()
@@ -511,25 +503,24 @@ public class MonsterBoss : MonoBehaviour
 
 
 
+    //draw path
+     #region Draw navmeshpath with Line Renderer  
+     IEnumerator makePathCoroutine()
+    {
+        _line.SetPosition(0, this.transform.position);
+        _line.enabled = true;
 
-    // draw path 
-    // #region Draw navmeshpath with Line Renderer  
-    // IEnumerator makePathCoroutine()
-    // {
-    //     _line.SetPosition(0, this.transform.position);
-    //     _line.enabled = true;
-    //
-    //     while (Vector3.Distance(this.transform.position, _navMeshAgent.destination) > 0.1f)
-    //     {
-    //         // _line.SetPosition(0, this.transform.position);
-    //         
-    //         drawPath();
-    //         
-    //         yield return null;
-    //     }
-    //
-    //     _line.enabled = false;
-    // }
+        while (Vector3.Distance(this.transform.position, _navMeshAgent.destination) > 0.1f)
+        {
+             _line.SetPosition(0, this.transform.position);
+
+            drawPath();
+
+            yield return null;
+        }
+
+        _line.enabled = false;
+    }
 
     private void drawPath()
     {
@@ -541,9 +532,7 @@ public class MonsterBoss : MonoBehaviour
             _line.SetPosition(i, _navMeshAgent.path.corners[i]);
         }
     }
-    // #endregion
-
-
+    #endregion
 
 
 

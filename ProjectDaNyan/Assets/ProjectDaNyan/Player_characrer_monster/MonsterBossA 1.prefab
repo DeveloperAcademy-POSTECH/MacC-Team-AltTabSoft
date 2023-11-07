@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5515195499590642270}
   - component: {fileID: 4932307794772716138}
+  - component: {fileID: 7497842637721108545}
   m_Layer: 0
   m_Name: Wrist_R
   m_TagString: MonsterAttack
@@ -82,10 +83,33 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1.3, z: 0.6}
   m_Center: {x: 0, y: -0.5, z: 0}
+--- !u!136 &7497842637721108545
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423266893540703330}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 0
+  m_Center: {x: 0.3, y: -0.25, z: 0}
 --- !u!1 &440002541584741798
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,6 +439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2108836451222228758}
   - component: {fileID: 1689890584681465908}
+  - component: {fileID: 4973479117853686831}
   m_Layer: 0
   m_Name: Wrist_L
   m_TagString: MonsterAttack
@@ -455,10 +480,33 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1.3, z: 0.6}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!136 &4973479117853686831
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931024541165082287}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 0
+  m_Center: {x: -0.3, y: 0.25, z: 0}
 --- !u!1 &2130278008101486073
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,6 +1603,7 @@ GameObject:
   - component: {fileID: 6165384852456143335}
   - component: {fileID: 78200397569372440}
   - component: {fileID: 1662812835783018009}
+  - component: {fileID: 7974748331016331057}
   m_Layer: 8
   m_Name: MonsterBossA 1
   m_TagString: Monster
@@ -1798,7 +1847,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1806,6 +1855,19 @@ CapsuleCollider:
   m_Height: 2.5
   m_Direction: 2
   m_Center: {x: 0, y: 0.87, z: 0.08}
+--- !u!114 &7974748331016331057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6605220832193410020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967f0567408594043a6754b4d358d04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 0
 --- !u!1 &6674492965230850257
 GameObject:
   m_ObjectHideFlags: 0

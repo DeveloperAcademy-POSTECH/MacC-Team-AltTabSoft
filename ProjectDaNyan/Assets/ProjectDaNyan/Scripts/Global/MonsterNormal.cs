@@ -36,8 +36,12 @@ public class MonsterNormal : MonoBehaviour
     [SerializeField] private state _currentState;
 
 
+
     public Transform _attackPoint;
     private float _attacktime;
+    private MonsterDamage _monsterDamage;
+
+
 
     // Monster state
     public enum state
@@ -77,7 +81,6 @@ public class MonsterNormal : MonoBehaviour
 
         _navMeshAgent.stoppingDistance = _attackRange = _monsterData.attackRange;
 
-        _attackPower = _monsterData.attackPower;
         _monsterHP = _monsterData.hp;
         _monsterSpeed = _monsterData.speed;
         _attackRange = _monsterData.attackRange;
@@ -132,7 +135,7 @@ public class MonsterNormal : MonoBehaviour
         // attacking player
         GameObject bullet = ObjectPoolManager.Inst.BringObject(_monsterBulletPrefab);
         bullet.transform.position = _attackPoint.position;
-        bullet.GetComponent<TempBullet>().Damage = _attackPower;
+        bullet.GetComponent<MonsterDamage>().Damage = _attackPower;
         bullet.transform.LookAt(_target);
 
         Vector3 bulletDir = _target.position - this.transform.position;
