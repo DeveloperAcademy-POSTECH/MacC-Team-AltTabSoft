@@ -10,7 +10,7 @@ public class GlobalLights : MonoBehaviour //GloabalLights 는 Player와 같은 �
     private Vector3 initPosition; 
     void Awake()
     {
-        player = transform.parent.GetComponentInChildren<PlayerController>().gameObject;
+        player = GameObject.FindGameObjectWithTag("Player");
         initPosition = transform.position - player.transform.position;
     }
 
