@@ -76,7 +76,7 @@ public class Bullet : MonoBehaviour
             }
         }
 
-        if (other.gameObject.layer == LayerMask.NameToLayer("Map_Object") && type != Type.Laser)
+        if ((other.gameObject.layer == LayerMask.NameToLayer("Map_Object") || other.gameObject.layer == LayerMask.NameToLayer("Map_Floor")) && type != Type.Laser)
         {
             trail.Clear();
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
