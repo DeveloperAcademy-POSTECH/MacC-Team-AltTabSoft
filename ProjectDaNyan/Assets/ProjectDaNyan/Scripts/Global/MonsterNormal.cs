@@ -156,10 +156,11 @@ public class MonsterNormal : MonoBehaviour
         //몬스터가 죽을 시 폭탄 터짐
         if (this.gameObject.transform.Find("BombOnMonster") != null)
         {
+            //폭발 파티클 이펙트
             GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
             boomEffect.transform.position = this.gameObject.transform.position;
 
-            //터지는 순간 위에서 안보이는 콜리더가 확 떨어지면서 Trigger 발동
+            //터지는 순간 위에서 안보이는 Collider가 떨어지면서 Trigger 발동
             GameObject boomCollider = ObjectPoolManager.Inst.BringObject(_boomCollider);
             boomCollider.transform.position = this.gameObject.transform.position + new Vector3(0,10,0);
             Rigidbody boomColliderRigid = boomCollider.GetComponent<Rigidbody>();
@@ -227,7 +228,7 @@ public class MonsterNormal : MonoBehaviour
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage 
-                _monsterHP -= bullet._damage;
+                _monsterHP -= bullet.damage;
             }
             else
             {
@@ -247,7 +248,7 @@ public class MonsterNormal : MonoBehaviour
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage 
-                _monsterHP -= bullet._damage;
+                _monsterHP -= bullet.damage;
             }
             else
             {
