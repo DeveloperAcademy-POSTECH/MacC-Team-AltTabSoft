@@ -1,14 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
-using UnityEngine.Events;
-using UnityEngine.UIElements;
-using static UnityEditorInternal.VersionControl.ListControl;
-
 
 public class MonsterBoss : MonoBehaviour
 {
@@ -50,6 +43,7 @@ public class MonsterBoss : MonoBehaviour
 
     [Header("Monster Attack")]
     [SerializeField] private GameObject skillWaveBlast;
+    [SerializeField] private CapsuleCollider[] _pawsColliers;
     private MonsterSkillWaveBlast _skillMonsterBlast;
 
     [Header("Monster Current State")]
@@ -71,7 +65,7 @@ public class MonsterBoss : MonoBehaviour
     private float _bigWaveTime = 0f;
     private float _bigWaved = 0f;
     private BossState _lastState;
-    private MonsterDamage _monsterDamage;
+    private MonsterAttack _monsterAttack;
 
     // nav mesh agent settings 
     private NavMeshAgent _navMeshAgent = null;
@@ -112,13 +106,13 @@ public class MonsterBoss : MonoBehaviour
         _skillMonsterBlast = skillWaveBlast.GetComponent<MonsterSkillWaveBlast>();
 
         // get monster damage
-        _monsterDamage = GetComponent<MonsterDamage>();
-
+        _monsterAttack = GetComponent<MonsterAttack>();
+        
         #endregion
 
         // set boss status
         #region
-        _monsterDamage.Damage = _bossData.AttackPower;
+        _monsterAttack.Damage = _bossData.AttackPower;
         _monsterHP = _bossData.HP;
         _monsterSpeed = _bossData.Speed;
         _attackRange = _bossData.AttackRange;
@@ -131,6 +125,10 @@ public class MonsterBoss : MonoBehaviour
         _idleTime = _bossData.IdleTime;
         #endregion
 
+        // set capsule collider = off 
+        pawsColliderControl(false);
+        
+        
         // get line renderer 
         _line.startWidth = _line.endWidth = 0.2f;
         _line.material.color = Color.blue;
@@ -183,9 +181,6 @@ public class MonsterBoss : MonoBehaviour
     // chasing => normal attack * 3 => dash attack => wide attack => chasing 
     private void FixedUpdate()
     {
-        Debug.Log($"Boss velocity = {_navMeshAgent.velocity}");
-
-
         switch (_currentState)
         {
             case BossState.idle:
@@ -205,6 +200,8 @@ public class MonsterBoss : MonoBehaviour
 
             case BossState.chasing:
 
+                pawsColliderControl(false);
+                
                 _navMeshAgent.isStopped = false;
                 _navMeshAgent.speed = _monsterSpeed;
                 _navMeshAgent.stoppingDistance = _attackRange;
@@ -220,7 +217,8 @@ public class MonsterBoss : MonoBehaviour
 
             case BossState.normalAttack:
                 // normal attack animation
-            
+
+                pawsColliderControl(true);
 
                 // count attack time 
                 _attackTimeCount += Time.deltaTime;
@@ -442,7 +440,6 @@ public class MonsterBoss : MonoBehaviour
     // attack dash 
     private void dashAttack(Vector3 dashPos)
     {
-
         // dash to current target position 
         _navMeshAgent.SetDestination(dashPos);
 
@@ -458,13 +455,13 @@ public class MonsterBoss : MonoBehaviour
 
     private void stopDashAndBlastAttack()
     {
+        _navMeshAgent.velocity = Vector3.zero;
+        _navMeshAgent.isStopped = true;
+        
         // turn off the dash animation 
         _animator.SetBool("Dash", false);
 
         waveBlastStart();
-
-        _navMeshAgent.velocity = Vector3.zero;
-        _navMeshAgent.isStopped = true;
 
         _currentState = BossState.waveBlast;
     }
@@ -536,12 +533,19 @@ public class MonsterBoss : MonoBehaviour
 
 
 
+    // capsule collider on/off 
+    private void pawsColliderControl(bool isOn)
+    {
+        foreach (CapsuleCollider cc in _pawsColliers)
+        {
+            cc.enabled = isOn;
+        }
+    }
+    
     // collision check 
     #region Collision check Code 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Boss touches {other.name}");
-
         if (other.tag.Equals("PlayerAttack"))
         {
             // get bullet damage 
@@ -550,7 +554,7 @@ public class MonsterBoss : MonoBehaviour
                 // apply player attack damage 
                 applyDamage(bullet._damage);
             }
-            // if bullet doens't have damage 
+            // if bullet doesn't have damage 
             else
             {
                 applyDamage(1);
@@ -561,7 +565,7 @@ public class MonsterBoss : MonoBehaviour
         {
             if (other.tag.Equals("Wall"))
             {
-                dashAttack(_targetTransform.position);
+                stopDashAndBlastAttack();
             }
         }
     }
@@ -580,7 +584,6 @@ public class MonsterBoss : MonoBehaviour
 
         if(_monsterHP <= 0)
         {
-
             // play dead animation 
             _animator.SetBool("Death", true);
 

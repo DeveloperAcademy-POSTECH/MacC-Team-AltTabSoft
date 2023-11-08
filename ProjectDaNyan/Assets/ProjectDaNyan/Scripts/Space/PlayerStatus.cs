@@ -143,25 +143,22 @@ public class PlayerStatus : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log($"Player detect {other.gameObject.name}");
-
         Debug.Log("Collide");
-        if (other.gameObject.CompareTag("Monster"))
+        if (other.collider.gameObject.CompareTag("Monster"))
         {
             player_Now_HP -= 10;
             Debug.Log("10의 데미지를 입었다.");
             
             StartCoroutine(PlayerHitEffect());
         }
-        else if (other.gameObject.CompareTag("MonsterAttack"))
+        else if (other.collider.gameObject.CompareTag("MonsterAttack"))
         {
-            player_Now_HP -= (int)other.gameObject.GetComponent<MonsterDamage>().Damage;
+            player_Now_HP -= (int)other.gameObject.GetComponent<MonsterAttack>().Damage;
             //other.gameObject.SetActive(false);
             Debug.Log("총에 맞았다! 총 데미지를 입었다.");
             StartCoroutine(PlayerHitEffect());
         }
     }
-    
     private void OnCollisionExit(Collision other)
     {
         /*

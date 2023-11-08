@@ -39,7 +39,7 @@ public class MonsterNormal : MonoBehaviour
 
     public Transform _attackPoint;
     private float _attacktime;
-    private MonsterDamage _monsterDamage;
+    private MonsterAttack _monsterAttack;
 
 
 
@@ -135,7 +135,7 @@ public class MonsterNormal : MonoBehaviour
         // attacking player
         GameObject bullet = ObjectPoolManager.Inst.BringObject(_monsterBulletPrefab);
         bullet.transform.position = _attackPoint.position;
-        bullet.GetComponent<MonsterDamage>().Damage = _attackPower;
+        bullet.GetComponent<MonsterAttack>().Damage = _attackPower;
         bullet.transform.LookAt(_target);
 
         Vector3 bulletDir = _target.position - this.transform.position;
