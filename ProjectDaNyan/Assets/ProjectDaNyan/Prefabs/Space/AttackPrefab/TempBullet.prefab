@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7922961500712152958}
   - component: {fileID: 2584018847776647205}
   - component: {fileID: 5152640223572884906}
+  - component: {fileID: 3296331709467260354}
   m_Layer: 9
   m_Name: TempBullet
   m_TagString: MonsterAttack
@@ -262,3 +263,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 0
   _destroyTime: 3
+--- !u!114 &3296331709467260354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7166173530311184209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967f0567408594043a6754b4d358d04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 0
