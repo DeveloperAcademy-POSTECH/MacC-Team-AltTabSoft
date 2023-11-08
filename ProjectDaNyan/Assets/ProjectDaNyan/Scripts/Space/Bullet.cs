@@ -61,6 +61,14 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    IEnumerator BulletExplosion()
+    {
+        GameObject afterExplosion = ObjectPoolManager.Inst.BringObject(_explosion);
+        afterExplosion.transform.position = this.gameObject.transform.position;
+        yield return new WaitForSeconds(0.3f);
+        ObjectPoolManager.Inst.DestroyObject(afterExplosion);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Monster") && type != Type.BombBlast)
@@ -69,8 +77,10 @@ public class Bullet : MonoBehaviour
                 trail.Clear();
             if(type == Type.Upgrade) //몬스터 피격시 폭발 효과낼 총알 타입 조건 추가 필
             {
-                GameObject afterExplosion = ObjectPoolManager.Inst.BringObject(_explosion);
-                afterExplosion.transform.position = this.gameObject.transform.position;
+                StartCoroutine(BulletExplosion());
+                //GameObject afterExplosion = ObjectPoolManager.Inst.BringObject(_explosion);
+                //afterExplosion.transform.position = this.gameObject.transform.position;
+                //ObjectPoolManager.Inst.DestroyObject(afterExplosion);
             }
             
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
