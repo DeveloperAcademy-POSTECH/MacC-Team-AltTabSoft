@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackStatus: {fileID: 0}
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   _bomb: {fileID: 0}
   type: 2
   _damage: 0
@@ -227,6 +227,7 @@ MonoBehaviour:
   isField: 0
   basicFireLevel: 1
   laserLevel: 4
+  droneLevel: 1
   bombLevel: 1
   _drone: {fileID: 0}
   _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
@@ -268,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0654c54a8d00843e290a6c51a7e7bfc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerAttackPosition: {fileID: 2012497629165759939}
   _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   _laserBullets:
   - {fileID: 1341166982266716673}
@@ -427,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackStatus: {fileID: 0}
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   _bomb: {fileID: 0}
   type: 2
   _damage: 0
@@ -497,7 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackStatus: {fileID: 0}
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   _bomb: {fileID: 0}
   type: 2
   _damage: 0
@@ -633,7 +635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackStatus: {fileID: 0}
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   _bomb: {fileID: 0}
   type: 2
   _damage: 0

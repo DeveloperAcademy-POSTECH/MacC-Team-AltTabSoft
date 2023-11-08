@@ -54,6 +54,15 @@ public class MonsterBoss : MonoBehaviour
     [Header("Monster Animation")]
     [SerializeField] Animator _animator;
 
+    //Bomb explosion objects
+    [Header("Bomb Explosion")]
+    [SerializeField] GameObject _boom;
+    [SerializeField] GameObject _boomCollider;
+    [SerializeField] GameObject _bomb;//Bomb on the Boss Monster
+
+    // where bullets are fired 
+    public Transform _attackPoint = null;
+
     // privates variables 
     private float _idleTimeCount = 0;
     private float _dashReadyTimeCount = 0;
@@ -552,7 +561,20 @@ public class MonsterBoss : MonoBehaviour
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage 
-                applyDamage(bullet._damage);
+                applyDamage(bullet.damage);
+                
+                if (this.gameObject.transform.Find("BombOnMonster") != null && this.gameObject.transform.Find("BombOnMonster").gameObject.activeSelf == true)
+                {
+                    _bomb = this.gameObject.transform.Find("BombOnMonster").gameObject;
+                    bullet.bombStack += 1;
+                    Debug.Log($"bomb Stack is : {bullet.bombStack}");
+                    StartCoroutine(bombExplosion(bullet,_bomb));
+                }
+
+                if (bullet.type == Bullet.Type.Bomb && this.gameObject.transform.Find("BombOnMonster") != null && this.gameObject.transform.Find("BombOnMonster").gameObject.activeSelf == false)
+                {
+                    _bomb.SetActive(true);
+                }
             }
             // if bullet doesn't have damage 
             else
@@ -571,6 +593,28 @@ public class MonsterBoss : MonoBehaviour
     }
     #endregion
 
+    IEnumerator bombExplosion(Bullet bullet, GameObject bomb)
+    {
+        if (bullet.bombStack > 20)
+        {
+            bullet.bombStack = 0;
+            //몬스터 위에 있는 폭탄 비활성
+            ObjectPoolManager.Inst.DestroyObject(bomb);
+            //폭발 파티클 이펙트
+            GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
+            boomEffect.transform.position = this.gameObject.transform.position + new Vector3(0,1f,0);
+
+            //터지는 순간 위에서 안보이는 Collider가 떨어지면서 Trigger 발동
+            GameObject boomCollider = ObjectPoolManager.Inst.BringObject(_boomCollider);
+            boomCollider.transform.position = this.gameObject.transform.position + new Vector3(0, 10, 0);
+            Rigidbody boomColliderRigid = boomCollider.GetComponent<Rigidbody>();
+            boomColliderRigid.velocity = boomCollider.transform.up * -100f;
+
+            yield return new WaitForSeconds(0.2f);
+            ObjectPoolManager.Inst.DestroyObject(boomEffect);
+            ObjectPoolManager.Inst.DestroyObject(boomCollider);
+        }
+    }
 
     // apply damage 
     private void applyDamage(float damage)

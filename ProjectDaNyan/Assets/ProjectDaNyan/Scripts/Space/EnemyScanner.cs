@@ -22,7 +22,7 @@ public class EnemyScanner : MonoBehaviour
         foreach (Collider objectCollider in colliders)
         {
             float distance = Vector3.Distance(transform.position, objectCollider.transform.position);
-            if (distance < maxRange)
+            if (distance < maxRange && objectCollider.gameObject.activeSelf == true)
             {
                 nearCollider = objectCollider;
                 maxRange = distance;
