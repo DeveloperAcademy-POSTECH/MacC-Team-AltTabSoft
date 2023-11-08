@@ -79,7 +79,7 @@ public class ShelterUIScript : MonoBehaviour
                     _settingUI.SetActive(false);
                 });
             }
-            else if (buttonName == "Button_Stage") //스테이지 불러오기
+            else if (buttonName == "StageButton") //스테이지 불러오기
             {
                 button.onClick.AddListener(() =>
                 { 
@@ -100,7 +100,7 @@ public class ShelterUIScript : MonoBehaviour
                         SceneManager.LoadScene("StageScene");
                     });
                 });
-            } else if (buttonName == "Button_Player") // 캐릭터 정보창 열기
+            } else if (buttonName == "CharacterInfoButton") // 캐릭터 정보창 열기
             {
                 button.onClick.AddListener(() =>
                 {
