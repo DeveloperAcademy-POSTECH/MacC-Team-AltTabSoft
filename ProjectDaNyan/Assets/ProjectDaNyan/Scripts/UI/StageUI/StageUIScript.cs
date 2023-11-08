@@ -10,11 +10,11 @@ namespace ProjectDaNyan.Views.StageUI
 {
     public class StageUIScript : MonoBehaviour
     {
-        private Button _buttonGoToShelter;
-        private Button _buttonPause;
+        private Button _shelterButton;
+        private Button _pauseButton;
         private GameObject _pauseUI;
         private GameObject _stageMainUI;
-        private Button _buttonContinueStage;
+        private Button _continueButton;
 
         private Image _blackScreen;
         private GameObject _transitionCanvas;
@@ -51,7 +51,7 @@ namespace ProjectDaNyan.Views.StageUI
             foreach (var button in buttons)
             {
                 var buttonName = button.transform.name;
-                if (buttonName == "Button_GoTo_Shelter")
+                if (buttonName == "ShelterButton")
                 {
                     button.onClick.AddListener(() =>
                     {
@@ -88,7 +88,7 @@ namespace ProjectDaNyan.Views.StageUI
                     });
                 }
                 
-                else if (buttonName == "Button_Restart_Stage")
+                else if (buttonName == "RetryButton")
                 {
                     button.onClick.AddListener(() =>
                     {
