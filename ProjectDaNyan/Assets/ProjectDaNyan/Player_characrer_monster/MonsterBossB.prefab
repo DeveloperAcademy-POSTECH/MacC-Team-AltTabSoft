@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 677074576532632155}
   - component: {fileID: 4620219823476964048}
   - component: {fileID: 8094538252406000092}
+  - component: {fileID: -8750377774634069533}
   m_Layer: 8
   m_Name: MonsterBossB
   m_TagString: Monster
@@ -203,20 +204,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76b45acd68d0744789cec5d397f39f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monsterData: {fileID: 11400000, guid: 47ad1b783956144978e2457eb0e1060d, type: 2}
+  _bossData: {fileID: 0}
   _attackPower: 0
   _monsterHP: 0
   _monsterSpeed: 0
   _attackRange: 0
   _attackInterval: 0
   _attackSpeed: 0
-  _dashSpeed: 100
-  _monsterBulletPrefab: {fileID: 7166173530311184209, guid: e4b033856683549f4b7be586af6d418a, type: 3}
-  _bulletSpeed: 5
-  _currentState: 0
-  _readyDashTime: 3
-  _dashAttackTime: 5
   _normalAttackCount: 3
+  _readyDashTime: 3
+  _dashPoint: 0
+  _dashSpeed: 100
+  _dashCount: 0
+  _idleTime: 0
+  _monsterBulletPrefab: {fileID: 7166173530311184209, guid: e4b033856683549f4b7be586af6d418a, type: 3}
+  skillWaveBlast: {fileID: 0}
+  _currentState: 0
+  _animator: {fileID: 0}
   _attackPoint: {fileID: 4711483581931276058}
 --- !u!195 &8094538252406000092
 NavMeshAgent:
@@ -240,3 +244,16 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-8750377774634069533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6605220832193410020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967f0567408594043a6754b4d358d04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 0
