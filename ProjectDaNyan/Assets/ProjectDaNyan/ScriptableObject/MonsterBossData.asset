@@ -9,12 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4305be8c4517d4ed3b553ad3866e980e, type: 3}
+  m_Script: {fileID: 11500000, guid: a790b530a65db4cc893c56511f5a39d9, type: 3}
   m_Name: MonsterBossData
   m_EditorClassIdentifier: 
-  attackPower: 1
-  hp: 15
-  speed: 3
-  attackRange: 5
-  attackSpeed: 2
-  exp: 1
+  AttackPower: 1
+  HP: 100000
+  Speed: 15
+  AttackRange: 7
+  AttackInterval: 0.5
+  AttackSpeed: 5
+  AttackCount: 4
+  ReadyDashTime: 1.5
+  DashPoint: 1
+  DashSpeed: 80
+  DashCount: 3
+  IdleTime: 3
+  BigWaveInterval: 0.5
+  BigWaveCount: 3

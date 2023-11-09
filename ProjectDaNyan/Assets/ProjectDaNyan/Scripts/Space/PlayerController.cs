@@ -8,11 +8,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject playerMoveDirectionObject;
     [SerializeField] private GameObject playerDashDirectionObject;
     
-    [SerializeField] private int playerSpeed = 10;
-    [SerializeField] private int dashSpeed = 10;
-    [SerializeField] private int dashLimitTic1SecondsTo50 = 10; //50틱 = 1초, 대시가 지속될 시간 설정
-    [SerializeField] private int onTheRockQuitTimer = 25; //50틱 = 1초, 이 시간 안에 조이스틱 미조작 시 바위에서 강제사출
-
+    [SerializeField] private PlayerData _playerData;
+    
     [SerializeField] private JoystickController _joy;
     [SerializeField] private PlayerState _playerState;
 
@@ -37,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 dashMovePosition;
     
     private int dashTimerCount = 0;
+    private int rockQuitTimerCount = 0;
 
     private float movementSpeed = 50f;
     private float jumpForce = 300;
@@ -107,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerStop()
     {
+        playerAnim.SetInteger("State",0);
         playerCharacterController.Move(new Vector3(0, _floatingPosition, 0));
         
         //이동방향 및 대시방향 표시하는 오브젝트 끄기
@@ -117,9 +116,9 @@ public class PlayerController : MonoBehaviour
     {
         playerAnim.SetInteger("State",1);
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
-        movePosition = normalized * (Time.deltaTime * playerSpeed);
+        movePosition = normalized * (Time.deltaTime * _playerData.playerSpeed);
         playerCharacterController.Move(new Vector3(movePosition.x,_floatingPosition,movePosition.z));
-        dashMovePosition = movePosition * dashSpeed;
+        dashMovePosition = movePosition * _playerData.dashSpeed;
         //대시 준비 상태가 아니라면 현재 이동방향을 표시
         if (!_joy.isJoystickPositionGoEnd)
         {
@@ -143,7 +142,7 @@ public class PlayerController : MonoBehaviour
         playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
         dashTimerCount += 1;
             
-        if (dashTimerCount >= dashLimitTic1SecondsTo50)
+        if (dashTimerCount >= _playerData.dashLimitTic1SecondsTo50)
         {
             dashTimerCount = 0;
             _playerState.setPsData(PlayerState.PSData.stop);
@@ -168,8 +167,19 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMovingControllOnTheRock()
     {
+        rockQuitTimerCount += 1;
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
-        dashMovePosition = normalized * (Time.deltaTime * playerSpeed * dashSpeed);
+
+        if (normalized.x != 0 || normalized.z != 0)
+        {
+            dashMovePosition = normalized * (Time.deltaTime * _playerData.playerSpeed * _playerData.dashSpeed);
+        }
+
+        if (rockQuitTimerCount >= _playerData.onTheRockQuitTic)
+        {
+            rockQuitTimerCount = 0;
+            _playerState.setPsData(PlayerState.PSData.exitStartFromRock);
+        }
     }
 
     void PlayerWallReflection(Collision wall)
@@ -202,7 +212,7 @@ public class PlayerController : MonoBehaviour
         dashTimerCount += 1;
         
         //대시가 1/2 진행된 지점에서 바위에서 탈출하는 대시 > 일반 대시로 판정을 변경 > 추후 미세조정 필요
-        if (dashTimerCount >= (dashLimitTic1SecondsTo50/2))
+        if (dashTimerCount >= (_playerData.dashLimitTic1SecondsTo50/2))
         {
             _playerState.setPsData(PlayerState.PSData.dash);
         }

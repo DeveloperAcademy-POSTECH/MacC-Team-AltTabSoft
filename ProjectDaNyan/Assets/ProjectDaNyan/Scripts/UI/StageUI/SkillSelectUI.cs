@@ -32,7 +32,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
             //현재 가지고 있는 스킬 표시
             //기본은 무조건 가지고 있음
             _skillElements[count].SetImage("basicFire");
-            _skillElements[count].SetLevel(_playerBasicAttack.basicFireLevel);
+            _skillElements[count].SetLevel(_playerAttack.basicFireLevel);
             _skillElements[count].gameObject.SetActive(true);
             count += 1;
 
@@ -50,11 +50,11 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
                 //일단 베이직 only
                 SkillElement element = selectButton.GetComponentInChildren<SkillElement>();
                 element.SetImage("basicFire");
-                element.SetLevel(_playerBasicAttack.basicFireLevel + 1);
+                element.SetLevel(_playerAttack.basicFireLevel + 1);
                 selectButton.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     selectButton.SelectSkillBox();
-                    _playerBasicAttack.basicFireLevel += 1;
+                    _playerAttack.basicFireLevel += 1;
                 });
             }
         }
