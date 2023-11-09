@@ -75,7 +75,7 @@ public class Bullet : MonoBehaviour
         {
             if(type != Type.Laser)
                 trail.Clear();
-            if(type == Type.Upgrade) //몬스터 피격시 폭발 효과낼 총알 타입 조건 추가 필
+            if(type == Type.Upgrade && type == Type.Default) //몬스터 피격시 폭발 효과낼 총알 타입 조건 추가 필
             {
                 StartCoroutine(BulletExplosion());
                 //GameObject afterExplosion = ObjectPoolManager.Inst.BringObject(_explosion);
