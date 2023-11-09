@@ -35,11 +35,13 @@ public class ItemController : MonoBehaviour
         var randomCat = Random.Range(0, 101);
         var randomGold = Random.Range(0, 101);
         var randomDrink = Random.Range(0, 101);
+        var randomMagnet = Random.Range(0, 101);
 
         // 각 확률값에 따른 아이템 드랍
         DropCat(randomCat);
         DropGold(randomGold);
         DropDrink(randomDrink);
+        DropMagnet(randomMagnet);
     }
 
     private void DropCat(int random)
@@ -68,9 +70,17 @@ public class ItemController : MonoBehaviour
 
     private void DropDrink(int random)
     {
-        if (random <= 20)
+        if (random <= 25)
         {
             Debug.Log("Drink 획득");
+        }
+    }
+
+    private void DropMagnet(int random)
+    {
+        if (random <= 10)
+        {
+            Debug.Log("Magnet 획득");
         }
     }
 }

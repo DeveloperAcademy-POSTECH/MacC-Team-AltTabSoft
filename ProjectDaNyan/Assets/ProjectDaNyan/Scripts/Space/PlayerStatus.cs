@@ -180,7 +180,8 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("다음 레벨업까지 필요한 경험치:"+(_playerData.level_Up_Require_EXP-player_now_EXP));
             
             ItemController.Inst.DropItem();
-
+            
+            // TODO: 드랍 아이템별 카운트 구현
             player_collected_box_cat += 1;
         }
     }
