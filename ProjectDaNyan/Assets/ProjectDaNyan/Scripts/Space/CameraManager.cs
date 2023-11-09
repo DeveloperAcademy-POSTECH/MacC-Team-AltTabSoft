@@ -30,7 +30,5 @@ public class CameraManager : MonoBehaviour
                 _playerVCam = virtualCamera;
             }
         }
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        _playerVCam.Follow = player.transform;
     }
 }

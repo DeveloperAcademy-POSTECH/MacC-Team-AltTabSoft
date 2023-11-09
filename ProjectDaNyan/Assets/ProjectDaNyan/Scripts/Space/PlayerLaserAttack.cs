@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class PlayerLaserAttack : MonoBehaviour
 {
-    [SerializeField] private GameObject _playerAttackPosition;
     [SerializeField] private AttackStatus _attackStatus;
-    [SerializeField] private GameObject[] _laserBullets; //레이저 관통 공격 오브젝트 프리펩
-    [SerializeField] private GameObject _laserGroup;
+    [SerializeField] private GameObject laserBullet; //레이저 관통 공격 오브젝트 프리펩
     [SerializeField] private float _laserFireRate;
-    
 
     private float _laserFireDelay; //레이저 딜레이 
     private bool _isLaserReady;
@@ -17,52 +14,25 @@ public class PlayerLaserAttack : MonoBehaviour
     private void OnEnable()
     {
         _laserFireRate = _attackStatus.laserFireRate;
-        _laserGroup.transform.SetParent(null);
     }
 
-    public void UseLaserAttack(bool isLaser, int laserLevel)
+    public void UseLaserAttack(bool isLaser)
     {
         if (isLaser)
         {
-            _laserGroup.transform.Rotate(Vector3.up * 30 * Time.deltaTime);
-            _laserGroup.transform.position = _playerAttackPosition.transform.position;
             _isLaserReady = _laserFireRate < _laserFireDelay;
             _laserFireDelay += Time.deltaTime;
             if (_isLaserReady)
             {
-                StartCoroutine(LaserAttack(laserLevel));
+                StartCoroutine("LaserAttack");
                 _laserFireDelay = 0;
             }
         }
     }
-    IEnumerator LaserAttack(int laserLevel)
+    IEnumerator LaserAttack()
     {
-        
-        _laserBullets[0].SetActive(true);
-        if(laserLevel > 1)
-        {
-            //레이저레벨 2일 경우 활성화
-            _laserBullets[1].SetActive(true);
-         
-        }
-        if(laserLevel > 2)
-        {
-            //레이저레벨 3일 경우 활성화
-            _laserBullets[2].SetActive(true);
-           
-        }
-        if (laserLevel > 3)
-        {
-            //레이저레벨 4일 경우 활성화
-            _laserBullets[3].SetActive(true);
-            
-        }
-
-        yield return new WaitForSeconds(1.5f);
-
-        for(int laserCount = 0; laserCount < _laserBullets.Length; laserCount++)
-        {
-            _laserBullets[laserCount].SetActive(false);
-        }
+        laserBullet.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        laserBullet.SetActive(false);
     }
 }

@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 1865137275303265604}
   - component: {fileID: 847780073295936240}
   - component: {fileID: 5823635119623900107}
-  - component: {fileID: 7727609116909889756}
   m_Layer: 0
   m_Name: EXPBox
   m_TagString: boxCat
@@ -161,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popForce: 5
   exp: 0
-  parentsVelocity: {x: 0, y: 0, z: 0}
+  parentsVector: {x: 0, y: 0, z: 0}
 --- !u!54 &5823635119623900107
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -189,16 +188,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &7727609116909889756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7703086083745402384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 204269d89adb548f192d8105f3106801, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _magnetData: {fileID: 11400000, guid: 8eaa4d1440f404569bc79329fb5c8154, type: 2}

@@ -59,6 +59,8 @@ public class MonsterManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("monster on enable");
+
         _monsterNormalTypeFactory = GetComponent<MonsterNormalTypeFactory>();
 
         // delegate chain, add time and game state observer 

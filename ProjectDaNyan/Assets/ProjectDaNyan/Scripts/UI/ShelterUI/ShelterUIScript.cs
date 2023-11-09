@@ -17,8 +17,8 @@ public class ShelterUIScript : MonoBehaviour
     private GameObject _lowerBar;
     private GameObject _lowerBox;
     private GameObject _upperBar;
-    // private GameObject _extraBottom;
-    // private GameObject _extraTop;
+    private GameObject _extraBottom;
+    private GameObject _extraTop;
     private Image _blackScreen;
     private GameObject _transitionCanvas;
     private RectMask2D _canvasSafeAreaRectMask2D;
@@ -37,8 +37,8 @@ public class ShelterUIScript : MonoBehaviour
         _canvasSafeAreaRectMask2D = GetComponentInChildren<CanvasSafeArea>().gameObject.GetComponent<RectMask2D>();
         _upperBar = GetComponentInChildren<UpperBar>().gameObject;
         _lowerBox = GetComponentInChildren<LowerBox>().gameObject;
-        // _extraBottom = GetComponentInChildren<ExtraBottom>().gameObject;
-        // _extraTop = GetComponentInChildren<ExtraTop>().gameObject;
+        _extraTop = GetComponentInChildren<ExtraTop>().gameObject;
+        _extraBottom = GetComponentInChildren<ExtraBottom>().gameObject;
         _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive:true).gameObject.GetComponent<Image>();
         
         _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive:true).gameObject;
@@ -79,7 +79,7 @@ public class ShelterUIScript : MonoBehaviour
                     _settingUI.SetActive(false);
                 });
             }
-            else if (buttonName == "StageButton") //스테이지 불러오기
+            else if (buttonName == "Button_Stage") //스테이지 불러오기
             {
                 button.onClick.AddListener(() =>
                 { 
@@ -92,15 +92,15 @@ public class ShelterUIScript : MonoBehaviour
             
                     //UI 바깥으로 이동
                     _canvasSafeAreaRectMask2D.enabled = false;
-                    // _extraBottom.transform.DOMoveY(_extraBottom.transform.position.y + endValue, duration);
-                    // _extraTop.transform.DOMoveY(_extraTop.transform.position.y - endValue, duration);
+                    _extraTop.transform.DOMoveY(_extraTop.transform.position.y + endValue, duration);
+                    _extraBottom.transform.DOMoveY(_extraBottom.transform.position.y - endValue, duration);
                     _upperBar.transform.DOMoveY(_upperBar.transform.position.y + endValue, duration);
                     _lowerBox.transform.DOMoveY(_lowerBox.transform.position.y - endValue, duration).OnComplete(() =>
                     {
                         SceneManager.LoadScene("StageScene");
                     });
                 });
-            } else if (buttonName == "CharacterInfoButton") // 캐릭터 정보창 열기
+            } else if (buttonName == "Button_Player") // 캐릭터 정보창 열기
             {
                 button.onClick.AddListener(() =>
                 {

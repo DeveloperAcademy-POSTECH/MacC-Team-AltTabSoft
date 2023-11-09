@@ -5,12 +5,17 @@ using UnityEngine;
 public class PlayerBasicAttack : MonoBehaviour
 {
     [SerializeField] private AttackStatus _attackStatus;
+
+    public int basicFireLevel = 1;
+    //public float _basicFireRate; //기본공격주기 
+    //public float _upgradedFireRate; //초월공격주기 
+    //public float _basicFireSpeed; //기본공격 투사체 속도
+    //public float _upgradedFireSpeed; //초월공격 투사체 속도
+
     [SerializeField] private float _basicFireRate;
     [SerializeField] private float _basicFireSpeed;
     [SerializeField] private float _upgradedFireRate;
     [SerializeField] private float _upgradedFireSpeed;
-
-    //public int basicFireLevel = 1;
 
     float _basicfireDelay; //기본 공격 딜레이
     bool _isFireReady;
@@ -22,6 +27,8 @@ public class PlayerBasicAttack : MonoBehaviour
     public GameObject basicBullet; //기본 공격 총알로 쓸 오브젝트 프리펩
     public GameObject upgradedBullet; //초월 공격 여러갈래로 퍼져나갈 총알들 프리펩
 
+    EnemyScanner scanner; //가까운 적 탐지 스크립트
+
     private void OnEnable()
     {
         _basicFireRate = _attackStatus.basicFireRate;
@@ -30,7 +37,7 @@ public class PlayerBasicAttack : MonoBehaviour
         _upgradedFireSpeed = _attackStatus.upgradedFireSpeed;
     }
 
-    public void UseBasicAttack(bool isUpgrade, Collider enemyCollider, int basicFireLevel)
+    public void UseBasicAttack(bool isUpgrade, Collider enemyCollider)
     {
         bulletPositionGroup.LookAt(enemyCollider.transform);
         if (isUpgrade == false)
@@ -40,7 +47,7 @@ public class PlayerBasicAttack : MonoBehaviour
             _basicfireDelay += Time.deltaTime;
             if (_isFireReady)
             {
-                StartCoroutine(BasicAttack(basicFireLevel));
+                StartCoroutine("BasicAttack");
                 _basicfireDelay = 0;
             }
         }
@@ -65,7 +72,7 @@ public class PlayerBasicAttack : MonoBehaviour
         basicBulletRigid.velocity = bulletObjectPosition.forward * fireSpeed;
     }
 
-    IEnumerator BasicAttack(int basicFireLevel)
+    IEnumerator BasicAttack()
     {
         MakeInstantBullet(basicBullet, bulletPosition, false, _basicFireSpeed);
         if(basicFireLevel > 1)

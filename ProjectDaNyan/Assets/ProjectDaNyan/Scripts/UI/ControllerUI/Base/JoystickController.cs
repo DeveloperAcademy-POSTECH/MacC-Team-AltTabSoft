@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,17 +7,7 @@ using UnityEngine.Serialization;
 public class JoystickController : FloatingJoystick
 {
     protected internal bool isJoystickPositionGoEnd = false;
-    
-    private PlayerState _playerState;
-    private PlayerStatus _playerStatus;
-
-    protected override void Start()
-    {
-        base.Start();
-        GameObject player = GameObject.FindGameObjectWithTag("Player").gameObject;
-        _playerState = player.GetComponent<PlayerState>();
-        _playerStatus = player.GetComponent<PlayerStatus>();
-    }
+    public PlayerState _playerState;
     
     public override void OnPointerUp(PointerEventData eventData)
     {
@@ -33,15 +22,7 @@ public class JoystickController : FloatingJoystick
             }
             else
             {
-                if (_playerStatus.DashCharged > 0)
-                {
-                    _playerState.setPsData(PlayerState.PSData.dash);
-                    _playerStatus.DashCharged -= 1;
-                }
-                else
-                {
-                    _playerState.setPsData(PlayerState.PSData.stop);
-                }
+                _playerState.setPsData(PlayerState.PSData.dash);
             }
             isJoystickPositionGoEnd = false;
         }
