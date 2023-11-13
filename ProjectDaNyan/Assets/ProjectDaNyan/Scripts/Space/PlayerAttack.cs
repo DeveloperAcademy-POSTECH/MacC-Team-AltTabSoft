@@ -29,14 +29,21 @@ public class PlayerAttack : MonoBehaviour
 
     private void Awake()
     {
-        _drone = GameObject.Find("Drone");
-        _drone.SetActive(false);
+
+        //캐릭터의 적 스캔
         _scanner = GetComponent<EnemyScanner>();
         _scanner.scanRange = _attackStatus.playerScanRange;
+
+        //각 공격들 컴포넌트 가져오기
         playerBasicAttack = GetComponent<PlayerBasicAttack>();
         playerLaserAttack = GetComponent<PlayerLaserAttack>();
         playerBombAttack = GetComponent<PlayerBombAttack>();
         playerRandomFieldAttack = GetComponent<PlayerRandomFieldAttack>();
+        playerDroneAttack = GameObject.Find("Drone").GetComponent<PlayerDroneAttack>();
+
+        //필드에 생성된 드론 찾기
+        _drone = GameObject.Find("Drone");
+        _drone.SetActive(false);
     }
 
     private void Update()
@@ -52,23 +59,24 @@ public class PlayerAttack : MonoBehaviour
             {
                 _drone.transform.position = this.transform.position + new Vector3(0, 1.9f, 0);
             }
-
-            GetDroneScanner();
         }
+
         _scanner.ScanEnemy();
+
         AllAttack();
         
     }
 
-    void GetDroneScanner()
-    {
-        bool isGet = false;
-        if (isGet == false)
-        {
-            playerDroneAttack = GameObject.Find("Drone").GetComponent<PlayerDroneAttack>();
-        }
-        isGet = true;
-    }
+    //드론 컴포넌트 Get -> 수정 예정
+    //void GetDroneScanner()
+    //{
+    //    bool isGet = false;
+    //    if (isGet == false)
+    //    {
+    //        playerDroneAttack = GameObject.Find("Drone").GetComponent<PlayerDroneAttack>();
+    //    }
+    //    isGet = true;
+    //}
 
     public void AllAttack()
     {

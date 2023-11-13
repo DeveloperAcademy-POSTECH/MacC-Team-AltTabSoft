@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3986179179329749341}
   - component: {fileID: 4596544553357837919}
   - component: {fileID: 3005581896905022112}
+  - component: {fileID: -5747190426229859853}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 358637981425055526}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0.014168471}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4897,6 +4898,24 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-5747190426229859853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358637981425055526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
+  _bomb: {fileID: 0}
+  _explosion: {fileID: 0}
+  type: 7
+  damage: 0
+  bombStack: 0
 --- !u!1 &5669424765666512365
 GameObject:
   m_ObjectHideFlags: 0

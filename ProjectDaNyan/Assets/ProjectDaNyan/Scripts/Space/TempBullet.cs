@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TempBullet : MonoBehaviour
+public class TempBullet : MonsterAttack
 {
     TrailRenderer _tR;
 
-    [SerializeField] public float Damage;
-    [SerializeField] private float _destroyTime = 3f;
-
+    [SerializeField] private GameObject _explosion;
+    
+    // disappear bullet after 3 seconds  
+    private float _destroyTime = 3f;
     private float _isShootingTime = 0f;
-
+    
 
     // Start is called before the first frame update
      private void Awake()
@@ -32,8 +33,6 @@ public class TempBullet : MonoBehaviour
         }
     }
 
-
-
     private void OnDisable()
     {
         _tR.Clear();
@@ -47,7 +46,8 @@ public class TempBullet : MonoBehaviour
         {
             // apply damage 
             Debug.Log("Collision Player!");
-            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
+            GameObject afterExplosion = ObjectPoolManager.Inst.BringObject(_explosion);
+            afterExplosion.transform.position = this.gameObject.transform.position;
         }
 
         if (collision.gameObject.CompareTag("Wall"))
