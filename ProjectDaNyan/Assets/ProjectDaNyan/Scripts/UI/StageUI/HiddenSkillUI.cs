@@ -18,7 +18,7 @@ public class HiddenSkillUI : MonoBehaviour
 
     [SerializeField] private Collider[] _enemyColliders;
 
-    private void Start()
+    private void OnEnable()
     {
         //Debug.Log($"present HP: {_monsterBoss.HP}");
         _enemyColliders = Physics.OverlapSphere(_playerAttackPosition.transform.position, 100, layer);
@@ -29,11 +29,13 @@ public class HiddenSkillUI : MonoBehaviour
     {
         hiddenUI.SetActive(true);
         //mainUI.SetActive(false);
-        GameManager.Inst.PauseGame();
+        if(Time.timeScale != 0)
+            GameManager.Inst.PauseGame();
         yield return new WaitForSecondsRealtime(0.5f);
         hiddenUI.SetActive(false);
         //mainUI.SetActive(true);
-        GameManager.Inst.ResumeGame();
+        if(Time.timeScale == 0)
+            GameManager.Inst.ResumeGame();
 
     }
 
@@ -47,9 +49,11 @@ public class HiddenSkillUI : MonoBehaviour
             {
                 case MonsterType.Normal:
                     enemyCollider.gameObject.GetComponent<MonsterNormal>().monsterHP -= _monsterNormalLong.hp;
+                    Debug.Log($"{enemyCollider.gameObject.GetComponent<MonsterNormal>().monsterHP}");
                     break;
                 case MonsterType.Elite:
-                    enemyCollider.gameObject.GetComponent<MonsterNormal>().monsterHP -= _monsterEliteLong.hp * 0.5f;
+                    enemyCollider.gameObject.GetComponent<MonsterNormal>().monsterHP -= _monsterEliteLong.hp;
+                    Debug.Log($"{enemyCollider.gameObject.GetComponent<MonsterNormal>().monsterHP}");
                     break;
                 case MonsterType.Boss:
                     if(enemyCollider.gameObject.TryGetComponent(out MonsterBossA monsterBossA))
