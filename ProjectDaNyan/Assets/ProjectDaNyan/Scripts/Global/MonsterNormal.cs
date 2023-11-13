@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
 
-public class MonsterNormal : MonoBehaviour
+public class MonsterNormal : Monster
 {
     public IObjectPool<GameObject> myPool { get; set; }
 
@@ -24,7 +24,6 @@ public class MonsterNormal : MonoBehaviour
     [SerializeField] private GameObject _boomCollider;
 
     // attack range
-    [SerializeField] private float _attackPower;
     [SerializeField] private float _monsterHP;
     [SerializeField] private float _monsterSpeed;
     [SerializeField] private float _attackRange;
@@ -54,6 +53,9 @@ public class MonsterNormal : MonoBehaviour
 
     private void Awake()
     {
+        // set monster type
+        myType = _monsterData.monsterType;
+        
         _navMeshAgent = GetComponent<NavMeshAgent>();
         // set target 
         _target = FindAnyObjectByType<PlayerStatus>().transform;
@@ -135,7 +137,7 @@ public class MonsterNormal : MonoBehaviour
         // attacking player
         GameObject bullet = ObjectPoolManager.Inst.BringObject(_monsterBulletPrefab);
         bullet.transform.position = _attackPoint.position;
-        bullet.GetComponent<MonsterAttack>().Damage = _attackPower;
+        bullet.GetComponent<MonsterAttack>().Damage = _monsterData.attackPower;
         bullet.transform.LookAt(_target);
 
         Vector3 bulletDir = _target.position - this.transform.position;
