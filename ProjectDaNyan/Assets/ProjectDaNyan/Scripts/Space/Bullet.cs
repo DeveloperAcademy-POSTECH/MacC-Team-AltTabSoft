@@ -27,6 +27,7 @@ public class Bullet : MonoBehaviour
         BulletExplosion
     }
 
+
     public Type type;
     public float damage;
     //폭탄 공격 보스에게 적용시 폭발 스택
@@ -86,7 +87,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
+
     //총알이 몬스터에 닿았을 경우 폭발 이펙트를 오브젝트풀로 생성 
+
     IEnumerator BulletExplosion()
     {
         GameObject BulletFire = ObjectPoolManager.Inst.BringObject(_explosion);
