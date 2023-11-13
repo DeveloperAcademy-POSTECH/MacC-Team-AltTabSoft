@@ -21,6 +21,7 @@ namespace ProjectDaNyan.Views.StageUI
         private GameObject _stageClearUI;
         private GameObject _stageFailedUI;
         private GameObject _skillSelectUI;
+        private GameObject _hiddenSkillUI;
 
         public GameObject SkillSelectUI
         {
@@ -45,6 +46,7 @@ namespace ProjectDaNyan.Views.StageUI
             _stageFailedUI = transform.Find("StageFailedUI").gameObject;
             _stageMainUI = transform.Find("StageMainUI").gameObject;
             _skillSelectUI = transform.Find("SkillSelectUI").gameObject;
+            _hiddenSkillUI = transform.Find("TestHiddenSkill").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
 
             var buttons = GetComponentsInChildren<Button>(includeInactive: true); // 버튼별 역할 할당, 각 버튼별로 스크립트 편집 예정
@@ -94,6 +96,15 @@ namespace ProjectDaNyan.Views.StageUI
                     {
                         GameManager.Inst.ResumeGame();
                         SceneManager.LoadScene("StageScene");
+                    });
+                }
+
+                else if (buttonName == "HiddenSkill1")
+                {
+                    button.onClick.AddListener(() =>
+                    {
+                        StartCoroutine(_hiddenSkillUI.GetComponent<HiddenSkillUI>().activeHiddenSkill(_hiddenSkillUI, this.gameObject));
+                        Debug.Log("HIDDENSKILL");
                     });
                 }
             }

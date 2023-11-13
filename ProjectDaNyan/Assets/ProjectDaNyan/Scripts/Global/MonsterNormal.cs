@@ -24,12 +24,12 @@ public class MonsterNormal : Monster
     [SerializeField] private GameObject _boomCollider;
 
     // attack range
-    [SerializeField] private float _monsterHP;
     [SerializeField] private float _monsterSpeed;
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackinterval;
     [SerializeField] private float _attackSpeed;
     [SerializeField] private float _exp;
+    public float monsterHP;
 
 
     [SerializeField] private state _currentState;
@@ -83,7 +83,7 @@ public class MonsterNormal : Monster
 
         _navMeshAgent.stoppingDistance = _attackRange = _monsterData.attackRange;
 
-        _monsterHP = _monsterData.hp;
+        monsterHP = _monsterData.hp;
         _monsterSpeed = _monsterData.speed;
         _attackRange = _monsterData.attackRange;
         _attackinterval = _monsterData.attackInterval;
@@ -101,7 +101,7 @@ public class MonsterNormal : Monster
     IEnumerator monsterState()
     {
 
-        while (_monsterHP > 0)
+        while (monsterHP > 0)
         {
             yield return new WaitForSeconds(0.1f);
 
@@ -233,11 +233,11 @@ public class MonsterNormal : Monster
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage 
-                _monsterHP -= bullet.damage;
+                monsterHP -= bullet.damage;
             }
             else
             {
-                _monsterHP -= 1;
+                monsterHP -= 1;
             }
         }
     }
@@ -253,11 +253,11 @@ public class MonsterNormal : Monster
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage 
-                _monsterHP -= bullet.damage;
+                monsterHP -= bullet.damage;
             }
             else
             {
-                _monsterHP -= 1;
+                monsterHP -= 1;
             }
         }
     }

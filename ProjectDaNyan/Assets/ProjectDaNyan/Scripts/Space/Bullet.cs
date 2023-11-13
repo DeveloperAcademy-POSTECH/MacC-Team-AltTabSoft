@@ -24,7 +24,8 @@ public class Bullet : MonoBehaviour
         //드론공격 총알 
         Drone,
         //총알 피격 후 폭발 이펙트 
-        BulletExplosion}
+        BulletExplosion
+    }
 
     public Type type;
     public float damage;
@@ -85,7 +86,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    //총알이 몬스터에 닿았을 경우 폭발 이펙트를 오브젝트풀로 생성
+    //총알이 몬스터에 닿았을 경우 폭발 이펙트를 오브젝트풀로 생성 
     IEnumerator BulletExplosion()
     {
         GameObject BulletFire = ObjectPoolManager.Inst.BringObject(_explosion);
