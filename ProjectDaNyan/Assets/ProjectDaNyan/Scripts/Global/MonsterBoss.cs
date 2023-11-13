@@ -562,12 +562,13 @@ public class MonsterBoss : MonoBehaviour
             {
                 // apply player attack damage 
                 applyDamage(bullet.damage);
-                
+
+                // bomb explosion 
                 if (this.gameObject.transform.Find("BombOnMonster") != null && this.gameObject.transform.Find("BombOnMonster").gameObject.activeSelf == true)
                 {
                     _bomb = this.gameObject.transform.Find("BombOnMonster").gameObject;
                     bullet.bombStack += 1;
-                    Debug.Log($"bomb Stack is : {bullet.bombStack}");
+                    //Debug.Log($"bomb Stack is : {bullet.bombStack}");
                     if(bullet.bombStack > 20)
                         StartCoroutine(bombExplosion(bullet,_bomb));
                 }
@@ -594,6 +595,7 @@ public class MonsterBoss : MonoBehaviour
     }
     #endregion
 
+    // bomb explosion
     IEnumerator bombExplosion(Bullet bullet, GameObject bomb)
     {
         //몬스터 위에 있는 폭탄 비활성
