@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Diagnostics;
 using DG.Tweening;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace ProjectDaNyan.Views.StageUI
         private GameObject _stageClearUI;
         private GameObject _stageFailedUI;
         private GameObject _skillSelectUI;
+        private GameObject _bossWarning;
 
         public GameObject SkillSelectUI
         {
@@ -46,6 +48,7 @@ namespace ProjectDaNyan.Views.StageUI
             _stageMainUI = transform.Find("StageMainUI").gameObject;
             _skillSelectUI = transform.Find("SkillSelectUI").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
+            _bossWarning = transform.Find("BossWarning").gameObject.transform.Find("Warning").gameObject;
 
             var buttons = GetComponentsInChildren<Button>(includeInactive: true); // 버튼별 역할 할당, 각 버튼별로 스크립트 편집 예정
             foreach (var button in buttons)
@@ -62,11 +65,11 @@ namespace ProjectDaNyan.Views.StageUI
                         _blackScreen.DOFade(1f, duration * 0.8f)
                             .SetUpdate(true) // TimeScale 값에 무관하게 동작
                             .OnComplete(() =>
-                        {
-                            GameManager.Inst.ResumeGame();
-                            SceneManager.LoadScene("ShelterScene");
-                            
-                        });
+                            {
+                                GameManager.Inst.ResumeGame();
+                                SceneManager.LoadScene("ShelterScene");
+
+                            });
                     });
                 }
                 else if (buttonName == "PauseButton")
@@ -87,7 +90,7 @@ namespace ProjectDaNyan.Views.StageUI
                         GameManager.Inst.ResumeGame();
                     });
                 }
-                
+
                 else if (buttonName == "RetryButton")
                 {
                     button.onClick.AddListener(() =>
@@ -111,6 +114,7 @@ namespace ProjectDaNyan.Views.StageUI
                 case GameState.inGame:
                     break;
                 case GameState.bossReady:
+                    WarnBoss();
                     break;
                 case GameState.bossStage:
                     break;
@@ -138,6 +142,23 @@ namespace ProjectDaNyan.Views.StageUI
                 GameManager.Inst.PauseGame();
                 _skillSelectUI.SetActive(true);
             }
+        }
+
+        private void WarnBoss()
+        {
+            AppearBossWarning();
+            Invoke("DisappearBossWaning", 2.3f);
+        }
+
+        private void AppearBossWarning()
+        {
+            _bossWarning.SetActive(true);
+            _bossWarning.transform.DOLocalMoveX(180, 2f).SetEase(Ease.Linear);
+        }
+
+        private void DisappearBossWaning()
+        {   
+            _bossWarning.SetActive(false);
         }
     }
 }
