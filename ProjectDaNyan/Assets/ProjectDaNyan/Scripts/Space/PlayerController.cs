@@ -5,8 +5,6 @@ public class PlayerController : MonoBehaviour
 {
 
     [SerializeField] private GameObject playerObject;
-    [SerializeField] private GameObject playerMoveDirectionObject;
-    [SerializeField] private GameObject playerDashDirectionObject;
     
     [SerializeField] private PlayerData _playerData;
     
@@ -28,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRigid;
     private TrailRenderer playerTrailRenderer;
     private CharacterController playerCharacterController;
-    private Transform playerTransform;
+    private LineRenderer playerLineRenderer;
 
     private Vector3 movePosition;
     private Vector3 dashMovePosition;
@@ -49,14 +47,14 @@ public class PlayerController : MonoBehaviour
     {
         playerTrailRenderer = playerObject.GetComponent<TrailRenderer>();
         playerCharacterController = playerObject.GetComponent<CharacterController>();
-        playerTransform = playerObject.GetComponent<Transform>();
+        playerLineRenderer = playerObject.GetComponent<LineRenderer>();
 
         // 게임이 시작될 때 캐릭터의 머리가 카메라를 바라보도록 회전각을 설정
         playerRotationPositionX = 1;
         playerRotationPositionY = -1;
 
         _joy = GameObject.FindGameObjectWithTag("JoyStick").gameObject.GetComponent<JoystickController>();
-    }
+        }
 
     private void FixedUpdate()
     {
@@ -109,8 +107,7 @@ public class PlayerController : MonoBehaviour
         playerCharacterController.Move(new Vector3(0, _floatingPosition, 0));
         
         //이동방향 및 대시방향 표시하는 오브젝트 끄기
-        playerMoveDirectionObject.SetActive(false);
-        playerDashDirectionObject.SetActive(false);
+        playerLineRenderer.enabled = false;
     }
     void PlayerWalk()
     {
@@ -122,13 +119,15 @@ public class PlayerController : MonoBehaviour
         //대시 준비 상태가 아니라면 현재 이동방향을 표시
         if (!_joy.isJoystickPositionGoEnd)
         {
-            playerMoveDirectionObject.SetActive(true);
-            playerDashDirectionObject.SetActive(false);
+            playerLineRenderer.enabled = true;
+            playerLineRenderer.SetPosition(0,this.transform.position);
+            playerLineRenderer.SetPosition(1, this.transform.position + movePosition * _playerData.playerSpeed);
         }
         else
         {
-            playerMoveDirectionObject.SetActive(false);
-            playerDashDirectionObject.SetActive(true);
+            playerLineRenderer.enabled = true;
+            playerLineRenderer.SetPosition(0,this.transform.position);
+            playerLineRenderer.SetPosition(1, this.transform.position + (dashMovePosition * _playerData.dashLimitTic1SecondsTo50));
         }
     }
 
@@ -137,6 +136,7 @@ public class PlayerController : MonoBehaviour
         playerAnim.SetInteger("State",2);
 
         playerTrailRenderer.emitting = true;
+        playerLineRenderer.enabled = false;
         
         this.gameObject.layer = 7;
         playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
@@ -150,7 +150,6 @@ public class PlayerController : MonoBehaviour
             playerTrailRenderer.emitting = false;
             playerAnim.SetInteger("State",0);
         }
-        playerDashDirectionObject.SetActive(false);
     }
 
     void PlayerFall()
@@ -169,6 +168,10 @@ public class PlayerController : MonoBehaviour
     {
         rockQuitTimerCount += 1;
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
+
+        playerLineRenderer.enabled = true;
+        playerLineRenderer.SetPosition(0,this.transform.position);
+        playerLineRenderer.SetPosition(1, this.transform.position + (dashMovePosition * _playerData.dashLimitTic1SecondsTo50));
 
         if (normalized.x != 0 || normalized.z != 0)
         {
@@ -200,6 +203,7 @@ public class PlayerController : MonoBehaviour
     void PlayerExitStartFromRock()
     {
         playerAnim.SetInteger("State",2);
+        playerLineRenderer.enabled = false;
         transform.position = new Vector3(transform.position.x, y:transform.position.y - rockHeight, transform.position.z);
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
@@ -209,7 +213,6 @@ public class PlayerController : MonoBehaviour
 
         this.gameObject.layer = 7;
         playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
-        dashTimerCount += 1;
         
         //대시가 1/2 진행된 지점에서 바위에서 탈출하는 대시 > 일반 대시로 판정을 변경 > 추후 미세조정 필요
         if (dashTimerCount >= (_playerData.dashLimitTic1SecondsTo50/2))
@@ -217,7 +220,7 @@ public class PlayerController : MonoBehaviour
             _playerState.setPsData(PlayerState.PSData.dash);
         }
         
-        playerDashDirectionObject.SetActive(false);
+        dashTimerCount += 1;
     }
 
     //충돌 시 뚫고 나갈 수 없는 물체에 닿았을 때 작동 (벽, 돌 등)

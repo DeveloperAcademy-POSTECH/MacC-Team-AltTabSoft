@@ -155,7 +155,7 @@ public class PlayerStatus : MonoBehaviour
         {
             player_Now_HP -= (int)other.gameObject.GetComponent<MonsterAttack>().Damage;
             //other.gameObject.SetActive(false);
-            Debug.Log("총에 맞았다! 총 데미지를 입었다.");
+            Debug.Log($"총에 맞았다! 총 데미지를 입었다. {other.gameObject.GetComponent<MonsterAttack>().Damage}");
             StartCoroutine(PlayerHitEffect());
         }
     }
@@ -180,7 +180,8 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("다음 레벨업까지 필요한 경험치:"+(_playerData.level_Up_Require_EXP-player_now_EXP));
             
             ItemController.Inst.DropItem();
-
+            
+            // TODO: 드랍 아이템별 카운트 구현
             player_collected_box_cat += 1;
         }
     }

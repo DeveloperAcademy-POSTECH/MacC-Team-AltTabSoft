@@ -10,7 +10,7 @@ public enum SkillType
 }
 
 
-public class MonsterSkillWaveBlast : MonoBehaviour
+public class MonsterSkillWaveBlast : MonsterAttack
 {
     // unity event handler 
     public UnityEvent EventHandlerWaveBlastEnd;
@@ -21,12 +21,7 @@ public class MonsterSkillWaveBlast : MonoBehaviour
 
     private SphereCollider _sphereCollider;
     private LineRenderer _lineRenderer;
-
-    // Wave blast damage value 
-    public float Damage;
-
-
-
+    
     private void Awake()
     {
         // set damage 
