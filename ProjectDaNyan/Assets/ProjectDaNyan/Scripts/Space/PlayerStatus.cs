@@ -155,7 +155,7 @@ public class PlayerStatus : MonoBehaviour
         {
             player_Now_HP -= (int)other.gameObject.GetComponent<MonsterAttack>().Damage;
             //other.gameObject.SetActive(false);
-            Debug.Log("총에 맞았다! 총 데미지를 입었다.");
+            Debug.Log($"총에 맞았다! 총 데미지를 입었다. {other.gameObject.GetComponent<MonsterAttack>().Damage}");
             StartCoroutine(PlayerHitEffect());
         }
     }

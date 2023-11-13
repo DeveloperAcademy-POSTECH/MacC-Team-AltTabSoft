@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MonsterData", menuName = "Scriptable_Object/MonsterData")]
 public class MonsterData : ScriptableObject
 {
+    // monster type 
+    public MonsterType monsterType;
+    
     // monster attack power 
     public float attackPower;
 
