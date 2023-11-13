@@ -21,6 +21,7 @@ public class HiddenSkillUI : MonoBehaviour
     private void OnEnable()
     {
         //Debug.Log($"present HP: {_monsterBoss.HP}");
+        _playerAttackPosition = GameObject.Find("PlayerAttackPosition");
         _enemyColliders = Physics.OverlapSphere(_playerAttackPosition.transform.position, 100, layer);
 
     }
