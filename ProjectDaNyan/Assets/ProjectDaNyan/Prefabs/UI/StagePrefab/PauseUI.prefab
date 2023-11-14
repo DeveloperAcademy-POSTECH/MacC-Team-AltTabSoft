@@ -1522,7 +1522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 380, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &588985235245307024
@@ -3147,7 +3147,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 380, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4703883039824234351
@@ -4444,7 +4444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7759678290200816142
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4961,10 +4961,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseBackground
       objectReference: {fileID: 0}
-    - target: {fileID: 4959149331295491396, guid: 7c813ca9017d42e4185b8836e2c38d21, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 5321923045679513800, guid: 7c813ca9017d42e4185b8836e2c38d21, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5043,22 +5039,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5321923045679513800, guid: 7c813ca9017d42e4185b8836e2c38d21, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7931588917417742354, guid: 7c813ca9017d42e4185b8836e2c38d21, type: 3}
-      propertyPath: m_Color.a
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7931588917417742354, guid: 7c813ca9017d42e4185b8836e2c38d21, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7931588917417742354, guid: 7c813ca9017d42e4185b8836e2c38d21, type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7931588917417742354, guid: 7c813ca9017d42e4185b8836e2c38d21, type: 3}
-      propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
