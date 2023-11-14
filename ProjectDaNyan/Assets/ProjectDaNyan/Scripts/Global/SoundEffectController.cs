@@ -17,7 +17,6 @@ public class SoundEffectController : MonoBehaviour
     
     public enum StageSoundTypes
     {
-        stop = -1,
         Boss_Approach = 0,
         Boss_Clear = 1,
         Boss_Dash_Attack = 2,
@@ -50,15 +49,11 @@ public class SoundEffectController : MonoBehaviour
 
     public enum ShelterUISoundTypes
     {
-        stop = -1,
         Shelter_Player_Interaction = 0,
         Shelter_UI_Battle_Start = 1,
         UI_Menu_Button = 2
     }
     
-    private StageSoundTypes stageSoundType = StageSoundTypes.stop;
-    private ShelterUISoundTypes shelterUISoundType = ShelterUISoundTypes.stop;
-
     private void Start()
     {
         StageSoundEffects = Resources.LoadAll<AudioClip>("Effect_Stage");
@@ -71,13 +66,8 @@ public class SoundEffectController : MonoBehaviour
         {
             return;
         }
-        
-        if (_type != stageSoundType)
-        {
-            stageSoundType = _type;
-            audioSource.volume = effectVolume * sampleVolumeSettingValue;
-            audioSource.PlayOneShot(StageSoundEffects[(int)_type]);
-        }
+        audioSource.volume = effectVolume * sampleVolumeSettingValue;
+        audioSource.PlayOneShot(StageSoundEffects[(int)_type]);
     }
     
     public void playShelterUISoundEffects(float effectVolume, ShelterUISoundTypes _type)
@@ -86,16 +76,7 @@ public class SoundEffectController : MonoBehaviour
         {
             return;
         }
-        
-        if (_type != shelterUISoundType)
-        {
-            shelterUISoundType = _type;
-            audioSource.volume = effectVolume * sampleVolumeSettingValue;
-            audioSource.PlayOneShot(ShelterUISoundEffects[(int)_type]);
-        }
-    }
-
-    private void FixedUpdate()
-    {
+        audioSource.volume = effectVolume * sampleVolumeSettingValue;
+        audioSource.PlayOneShot(ShelterUISoundEffects[(int)_type]);
     }
 }

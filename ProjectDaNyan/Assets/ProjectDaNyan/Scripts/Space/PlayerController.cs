@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rockHeight;
     
     [SerializeField] private Animator playerAnim;
+
+    [SerializeField] private SoundEffectController _soundEffectController;
     
     private enum AnimatorStateName
     {
@@ -42,6 +44,9 @@ public class PlayerController : MonoBehaviour
     private float playerRotationPositionX;
     private float playerRotationPositionY;
     private float _floatingPosition;
+
+    private bool dashEffectToggle = true;
+    private bool isWallReflectDash = false;
     
     void Start()
     {
@@ -133,6 +138,10 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
+        if (dashTimerCount == 0)
+        {
+            PlayDashSound();
+        }
         playerAnim.SetInteger("State",2);
 
         playerTrailRenderer.emitting = true;
@@ -154,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerFall()
     {
-        if (playerCharacterController.isGrounded == false)
+        if (playerCharacterController.isGrounded == false && _floatingPosition >= 0f)
         {
             _floatingPosition += -9.81f * Time.deltaTime;
         }
@@ -188,6 +197,7 @@ public class PlayerController : MonoBehaviour
     void PlayerWallReflection(Collision wall)
     {
         dashTimerCount = 0;
+        isWallReflectDash = true;
         Vector3 normal = wall.contacts[0].normal; //법선벡터
         playerCharacterController.Move(new Vector3(-dashMovePosition.x,0,-dashMovePosition.z));
         dashMovePosition = Vector3.Reflect(dashMovePosition, normal);
@@ -205,6 +215,7 @@ public class PlayerController : MonoBehaviour
         playerAnim.SetInteger("State",2);
         playerLineRenderer.enabled = false;
         transform.position = new Vector3(transform.position.x, y:transform.position.y - rockHeight, transform.position.z);
+        PlayDashSound();
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
     void PlayerExitDashFromRock()
@@ -221,6 +232,28 @@ public class PlayerController : MonoBehaviour
         }
         
         dashTimerCount += 1;
+    }
+
+    void PlayDashSound()
+    {
+        if (!isWallReflectDash)
+        {
+            if (dashEffectToggle)
+            {
+                _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_0);
+            }
+            else
+            {
+                _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_1);
+            }
+            dashEffectToggle = !dashEffectToggle;
+        }
+        else
+        {
+            _soundEffectController.playStageSoundEffect(2f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
+            isWallReflectDash = false;
+        }
+
     }
 
     //충돌 시 뚫고 나갈 수 없는 물체에 닿았을 때 작동 (벽, 돌 등)
