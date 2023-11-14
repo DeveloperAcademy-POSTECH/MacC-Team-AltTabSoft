@@ -1,48 +1,63 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class SoundEffectController : MonoBehaviour
+public class StageSoundEffectController : MonoBehaviour
 {
     [SerializeField] public AudioClip[] soundEffects;
     [SerializeField] public AudioSource audioSource;
-    private int audiocounter = 0;
+
+    private bool isSoundEffectPlayTemp = true;
+    private float sampleVolumeSettingValue = 1f;
 
     public enum SoundTypes
     {
-        sample = 0
+        stop = -1,
+        Boss_Approach = 0,
+        Boss_Clear = 1,
+        Boss_Dash_Attack = 2,
+        Boss_Entire_Attack = 3,
+        Boss_Fight_Area = 4,
+        Boss_Normal_Attack = 5,
+        Boxcat_Destroy = 6,
+        Boxcat_Drink = 7,
+        Boxcat_Gold = 8,
+        Boxcat_Rescue = 9,
+        Level_Up = 10,
+        Monster_Die = 11,
+        Monster_Hit = 12,
+        Player_Attack = 13,
+        Player_Blackhole_Attack = 14,
+        Player_Bombboom_Attack = 15,
+        Player_Bombplant_Attack = 16,
+        Player_Dash_0 = 17,
+        Player_Dash_1 = 18,
+        Player_Dash_Attack = 19,
+        Player_Drone_Attack = 20,
+        Player_Hidden_Allattack = 21,
+        Player_Hidden_Hacking = 22,
+        Player_Hidden_Heal = 23,
+        Player_Hidden_Laser  = 24,
+        Player_Object_Dash = 25,
+        Player_Water_Walk = 26,
+        Stage_Clear = 27
     }
-    private int _soundTypes; // 필요하다면 _score = 123; 꼴로 초깃값 직접 설정
+    private SoundTypes soundType = SoundTypes.stop;
 
-    public int soundTypes
+    public void playSoundEffect(float effectVolume, SoundTypes _type)
     {
-        get
+        if (!isSoundEffectPlayTemp)
         {
-            return soundTypes;
+            return;
         }
-        // Setter 블록
-        set
+        
+        if (_type != soundType)
         {
-            if(_soundTypes != value)
-            {
-                audioSource.PlayOneShot(soundEffects[0]);
-            }
-            _soundTypes = value;
-        }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        audiocounter += 1;
-        if (audiocounter >= 5)
-        {
-            audioSource.PlayOneShot(soundEffects[0]);
-            audiocounter = 0;
+            soundType = _type;
+            audioSource.volume = effectVolume * sampleVolumeSettingValue;
+            audioSource.PlayOneShot(soundEffects[(int)soundType]);
         }
     }
 }
