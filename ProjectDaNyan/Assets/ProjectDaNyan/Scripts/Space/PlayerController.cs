@@ -196,11 +196,9 @@ public class PlayerController : MonoBehaviour
 
     void PlayerWallReflection(Collision wall)
     {
+        dashMovePosition = Vector3.Reflect(dashMovePosition, wall.contacts[0].normal);
         dashTimerCount = 0;
         isWallReflectDash = true;
-        Vector3 normal = wall.contacts[0].normal; //법선벡터
-        playerCharacterController.Move(new Vector3(-dashMovePosition.x,0,-dashMovePosition.z));
-        dashMovePosition = Vector3.Reflect(dashMovePosition, normal);
     }
 
     void PlayerMoveOnTheRock(Collision rock)
@@ -208,6 +206,7 @@ public class PlayerController : MonoBehaviour
         _playerState.setPsData(PlayerState.PSData.onTheRock);
         dashTimerCount = 0;
         transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
+        _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
     }
     
     void PlayerExitStartFromRock()
@@ -265,6 +264,7 @@ public class PlayerController : MonoBehaviour
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 PlayerWallReflection(other);
+                Debug.Log("wallcollide");
             }
         }
         else if (other.gameObject.CompareTag("Rock"))
@@ -287,6 +287,7 @@ public class PlayerController : MonoBehaviour
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 PlayerWallReflection(other);
+                Debug.Log("wallstay");
             }
         }
         else if (other.gameObject.CompareTag("Rock"))
