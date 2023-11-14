@@ -17,10 +17,7 @@ public class HiddenSkillUI : MonoBehaviour
     [SerializeField] private LayerMask layer;
     [SerializeField] private Collider[] _enemyColliders;
 
-    private float _hiddenSkillRate = 3f;
-    private float _hiddenSkillDelay = 10f;
-    private bool _isHiddenReady;
-    public int _hiddenSkillCount = 0;
+    //public int _hiddenSkillCount = 0;
 
     private void OnEnable()
     {
