@@ -30,6 +30,14 @@ namespace ProjectDaNyan.Views.StageUI
 
         private PlayerStatus _playerStatus;
 
+        //HiddenSkill1 Cool Time
+        private float _hiddenSkillFirstRate = 30f;
+        private float _hiddenSkillFirstDelay = 30f;
+        private bool _isHiddenFirstReady;
+        //HiddenSkill2 Cool time
+        private float _hiddenSkillSecondRate = 30f;
+        private float _hiddenSkillSecondDelay = 30f;
+        private bool _isHiddenSecondReady;
         private void Awake()
         {
             _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive: true).gameObject;
@@ -103,8 +111,28 @@ namespace ProjectDaNyan.Views.StageUI
                 {
                     button.onClick.AddListener(() =>
                     {
-                        StartCoroutine(_hiddenSkillUI.GetComponent<HiddenSkillUI>().activeHiddenSkill(_hiddenSkillUI, this.gameObject));
-                        Debug.Log("HIDDENSKILL");
+                        //_hiddenSkillUI.GetComponent<HiddenSkillUI>().UseHiddenSkill(_hiddenSkillUI);
+                        
+                        if (_isHiddenFirstReady)
+                        {
+                            StartCoroutine(_hiddenSkillUI.GetComponent<HiddenSkillUI>().activeHiddenSkill(_hiddenSkillUI));
+                            _hiddenSkillFirstDelay = 0;
+                        }
+                        
+                        Debug.Log("HIDDENSKILL111111111");
+                    });
+                }
+
+                else if (buttonName == "HiddenSkill2")
+                {
+                    button.onClick.AddListener(() =>
+                    {
+                        //_hiddenSkillUI.GetComponent<HiddenSkillUI>().UseHiddenSkill(_hiddenSkillUI);
+                        if (_isHiddenSecondReady)
+                        {
+                            _hiddenSkillSecondDelay = 0;
+                            Debug.Log("HIDDENSKILL22222222");
+                        }
                     });
                 }
             }
@@ -149,6 +177,13 @@ namespace ProjectDaNyan.Views.StageUI
                 GameManager.Inst.PauseGame();
                 _skillSelectUI.SetActive(true);
             }
+
+            //HiddenSkill CoolTime Update
+            _isHiddenFirstReady = _hiddenSkillFirstRate < _hiddenSkillFirstDelay;
+            _hiddenSkillFirstDelay += Time.deltaTime;
+            //HiddenSkill2 CoolTime Update
+            _isHiddenSecondReady = _hiddenSkillSecondRate < _hiddenSkillSecondDelay;
+            _hiddenSkillSecondDelay += Time.deltaTime;
         }
     }
 }

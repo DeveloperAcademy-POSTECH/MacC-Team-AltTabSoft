@@ -15,8 +15,12 @@ public class HiddenSkillUI : MonoBehaviour
     [SerializeField] private Monster _monster;
     [SerializeField] private float  _monsterHP;
     [SerializeField] private LayerMask layer;
-
     [SerializeField] private Collider[] _enemyColliders;
+
+    private float _hiddenSkillRate = 3f;
+    private float _hiddenSkillDelay = 10f;
+    private bool _isHiddenReady;
+    public int _hiddenSkillCount = 0;
 
     private void OnEnable()
     {
@@ -26,18 +30,30 @@ public class HiddenSkillUI : MonoBehaviour
 
     }
 
-    public IEnumerator activeHiddenSkill(GameObject hiddenUI, GameObject mainUI)
+    //public void UseHiddenSkill(GameObject hiddenUI)
+    //{
+    //    _isHiddenReady = _hiddenSkillRate < _hiddenSkillDelay;
+    //    _hiddenSkillDelay += Time.deltaTime;
+    //    if (_isHiddenReady)
+    //    {
+    //        StartCoroutine(activeHiddenSkill(hiddenUI));
+    //        _hiddenSkillDelay = 0;
+    //    }
+
+    //}
+
+    public IEnumerator activeHiddenSkill(GameObject hiddenUI)
     {
+        //Debug.Log($"hidden SKill Count :{_hiddenSkillCount}");
         hiddenUI.SetActive(true);
         //mainUI.SetActive(false);
-        if(Time.timeScale != 0)
+        if (Time.timeScale != 0)
             GameManager.Inst.PauseGame();
         yield return new WaitForSecondsRealtime(0.5f);
         hiddenUI.SetActive(false);
         //mainUI.SetActive(true);
-        if(Time.timeScale == 0)
+        if (Time.timeScale == 0)
             GameManager.Inst.ResumeGame();
-
     }
 
     private void OnDisable()
