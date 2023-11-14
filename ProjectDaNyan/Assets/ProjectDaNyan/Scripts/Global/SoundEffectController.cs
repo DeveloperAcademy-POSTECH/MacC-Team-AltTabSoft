@@ -1,18 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class StageSoundEffectController : MonoBehaviour
+public class SoundEffectController : MonoBehaviour
 {
-    [SerializeField] public AudioClip[] soundEffects;
     [SerializeField] public AudioSource audioSource;
-
+    
     private bool isSoundEffectPlayTemp = true;
     private float sampleVolumeSettingValue = 1f;
 
-    public enum SoundTypes
+    private AudioClip[] StageSoundEffects;
+    private AudioClip[] ShelterUISoundEffects;
+    
+    public enum StageSoundTypes
     {
         stop = -1,
         Boss_Approach = 0,
@@ -42,22 +45,57 @@ public class StageSoundEffectController : MonoBehaviour
         Player_Hidden_Laser  = 24,
         Player_Object_Dash = 25,
         Player_Water_Walk = 26,
-        Stage_Clear = 27
+        Stage_Clear = 27,
     }
-    private SoundTypes soundType = SoundTypes.stop;
 
-    public void playSoundEffect(float effectVolume, SoundTypes _type)
+    public enum ShelterUISoundTypes
+    {
+        stop = -1,
+        Shelter_Player_Interaction = 0,
+        Shelter_UI_Battle_Start = 1,
+        UI_Menu_Button = 2
+    }
+    
+    private StageSoundTypes stageSoundType = StageSoundTypes.stop;
+    private ShelterUISoundTypes shelterUISoundType = ShelterUISoundTypes.stop;
+
+    private void Start()
+    {
+        StageSoundEffects = Resources.LoadAll<AudioClip>("Effect_Stage");
+        ShelterUISoundEffects = Resources.LoadAll<AudioClip>("Effect_Shelter&UI");
+    }
+
+    public void playStageSoundEffect(float effectVolume, StageSoundTypes _type)
     {
         if (!isSoundEffectPlayTemp)
         {
             return;
         }
         
-        if (_type != soundType)
+        if (_type != stageSoundType)
         {
-            soundType = _type;
+            stageSoundType = _type;
             audioSource.volume = effectVolume * sampleVolumeSettingValue;
-            audioSource.PlayOneShot(soundEffects[(int)soundType]);
+            audioSource.PlayOneShot(StageSoundEffects[(int)_type]);
         }
+    }
+    
+    public void playShelterUISoundEffects(float effectVolume, ShelterUISoundTypes _type)
+    {
+        if (!isSoundEffectPlayTemp)
+        {
+            return;
+        }
+        
+        if (_type != shelterUISoundType)
+        {
+            shelterUISoundType = _type;
+            audioSource.volume = effectVolume * sampleVolumeSettingValue;
+            audioSource.PlayOneShot(ShelterUISoundEffects[(int)_type]);
+        }
+    }
+
+    private void FixedUpdate()
+    {
     }
 }
