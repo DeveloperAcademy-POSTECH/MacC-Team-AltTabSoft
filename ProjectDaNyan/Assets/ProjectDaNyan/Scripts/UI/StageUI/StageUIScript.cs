@@ -61,7 +61,7 @@ namespace ProjectDaNyan.Views.StageUI
             _stageFailedUI = transform.Find("StageFailedUI").gameObject;
             _stageMainUI = transform.Find("StageMainUI").gameObject;
             _skillSelectUI = transform.Find("SkillSelectUI").gameObject;
-            _hiddenSkillUI = transform.Find("TestHiddenSkill").gameObject;
+            //_hiddenSkillUI = transform.Find("TestHiddenSkill").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
 
             //LaserAttack Hidden Skill
@@ -119,29 +119,29 @@ namespace ProjectDaNyan.Views.StageUI
                     });
                 }
 
-                else if (buttonName == "HiddenSkill1")
-                {
-                    button.onClick.AddListener(() =>
-                    {
-                        //_hiddenSkillUI.GetComponent<HiddenSkillUI>().UseHiddenSkill(_hiddenSkillUI);
+                //히든 스킬 UI 생기면 활성화
+                //else if (buttonName == "HiddenSkill1")
+                //{
+                //    button.onClick.AddListener(() =>
+                //    {
+                //        //_hiddenSkillUI.GetComponent<HiddenSkillUI>().UseHiddenSkill(_hiddenSkillUI);
                         
-                        if (_isHiddenFirstReady)
-                        {
-                            StartCoroutine(_hiddenSkillUI.GetComponent<HiddenSkillUI>().activeHiddenSkill(_hiddenSkillUI));
-                            _hiddenSkillFirstDelay = 0;
-                        }
+                //        if (_isHiddenFirstReady)
+                //        {
+                //            StartCoroutine(_hiddenSkillUI.GetComponent<HiddenSkillUI>().activeHiddenSkill(_hiddenSkillUI));
+                //            _hiddenSkillFirstDelay = 0;
+                //        }
                         
-                        Debug.Log("HIDDENSKILL111111111");
-                    });
-                }
+                //        Debug.Log("HIDDENSKILL111111111");
+                //    });
+                //}
 
-                else if (buttonName == "HiddenSkill2")
+                else if (buttonName == "HiddenSkill")
                 {
                     button.onClick.AddListener(() =>
                     {
                         if (_isHiddenSecondReady)
                         {
-                            Debug.Log("되는중인거임 ???");
                             _playerLaserAttack.UseLaserAttack(true, 4);
                             _hiddenSkillSecondDelay = 0;
                         }
