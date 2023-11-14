@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rockHeight;
     
     [SerializeField] private Animator playerAnim;
+
+    [SerializeField] private SoundEffectController _soundEffectController;
     
     private enum AnimatorStateName
     {
@@ -42,6 +44,9 @@ public class PlayerController : MonoBehaviour
     private float playerRotationPositionX;
     private float playerRotationPositionY;
     private float _floatingPosition;
+
+    private bool dashEffectToggle = true;
+    private bool isWallReflectDash = false;
     
     void Start()
     {
@@ -133,6 +138,10 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
+        if (dashTimerCount == 0)
+        {
+            PlayDashSound();
+        }
         playerAnim.SetInteger("State",2);
 
         playerTrailRenderer.emitting = true;
@@ -154,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerFall()
     {
-        if (playerCharacterController.isGrounded == false)
+        if (playerCharacterController.isGrounded == false && _floatingPosition >= 0f)
         {
             _floatingPosition += -9.81f * Time.deltaTime;
         }
@@ -187,10 +196,9 @@ public class PlayerController : MonoBehaviour
 
     void PlayerWallReflection(Collision wall)
     {
+        dashMovePosition = Vector3.Reflect(dashMovePosition, wall.contacts[0].normal);
         dashTimerCount = 0;
-        Vector3 normal = wall.contacts[0].normal; //법선벡터
-        playerCharacterController.Move(new Vector3(-dashMovePosition.x,0,-dashMovePosition.z));
-        dashMovePosition = Vector3.Reflect(dashMovePosition, normal);
+        isWallReflectDash = true;
     }
 
     void PlayerMoveOnTheRock(Collision rock)
@@ -198,6 +206,7 @@ public class PlayerController : MonoBehaviour
         _playerState.setPsData(PlayerState.PSData.onTheRock);
         dashTimerCount = 0;
         transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
+        _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
     }
     
     void PlayerExitStartFromRock()
@@ -205,6 +214,7 @@ public class PlayerController : MonoBehaviour
         playerAnim.SetInteger("State",2);
         playerLineRenderer.enabled = false;
         transform.position = new Vector3(transform.position.x, y:transform.position.y - rockHeight, transform.position.z);
+        PlayDashSound();
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
     void PlayerExitDashFromRock()
@@ -223,6 +233,28 @@ public class PlayerController : MonoBehaviour
         dashTimerCount += 1;
     }
 
+    void PlayDashSound()
+    {
+        if (!isWallReflectDash)
+        {
+            if (dashEffectToggle)
+            {
+                _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_0);
+            }
+            else
+            {
+                _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_1);
+            }
+            dashEffectToggle = !dashEffectToggle;
+        }
+        else
+        {
+            _soundEffectController.playStageSoundEffect(2f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
+            isWallReflectDash = false;
+        }
+
+    }
+
     //충돌 시 뚫고 나갈 수 없는 물체에 닿았을 때 작동 (벽, 돌 등)
     private void OnCollisionEnter(Collision other)
     {
@@ -232,6 +264,7 @@ public class PlayerController : MonoBehaviour
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 PlayerWallReflection(other);
+                Debug.Log("wallcollide");
             }
         }
         else if (other.gameObject.CompareTag("Rock"))
@@ -254,6 +287,7 @@ public class PlayerController : MonoBehaviour
             if (_playerState.getPsData() == PlayerState.PSData.dash)
             {
                 PlayerWallReflection(other);
+                Debug.Log("wallstay");
             }
         }
         else if (other.gameObject.CompareTag("Rock"))
