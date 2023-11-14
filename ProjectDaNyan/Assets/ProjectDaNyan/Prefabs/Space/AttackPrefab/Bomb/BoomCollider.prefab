@@ -53,7 +53,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 10, z: 10}
+  m_Size: {x: 5, y: 5, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8445910412002644119
 MonoBehaviour:
@@ -69,8 +69,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   _bomb: {fileID: 0}
+  _explosion: {fileID: 0}
   type: 5
-  _damage: 0
+  damage: 0
+  bombStack: 0
 --- !u!54 &633467299577549059
 Rigidbody:
   m_ObjectHideFlags: 0

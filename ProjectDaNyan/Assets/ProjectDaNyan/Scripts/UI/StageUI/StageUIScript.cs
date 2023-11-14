@@ -34,10 +34,13 @@ namespace ProjectDaNyan.Views.StageUI
         private float _hiddenSkillFirstRate = 30f;
         private float _hiddenSkillFirstDelay = 30f;
         private bool _isHiddenFirstReady;
-        //HiddenSkill2 Cool time
-        private float _hiddenSkillSecondRate = 30f;
-        private float _hiddenSkillSecondDelay = 30f;
+        //HiddenSkill2 
+        private float _hiddenSkillSecondRate = 10f;
+        private float _hiddenSkillSecondDelay = 10f;
         private bool _isHiddenSecondReady;
+        private PlayerLaserAttack _playerLaserAttack;
+
+
         private void Awake()
         {
             _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive: true).gameObject;
@@ -56,6 +59,9 @@ namespace ProjectDaNyan.Views.StageUI
             _skillSelectUI = transform.Find("SkillSelectUI").gameObject;
             _hiddenSkillUI = transform.Find("TestHiddenSkill").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
+            //LaserAttack Hidden Skill
+            _playerLaserAttack = GameObject.Find("PlayerAttackPosition").GetComponent<PlayerLaserAttack>();
+
 
             var buttons = GetComponentsInChildren<Button>(includeInactive: true); // 버튼별 역할 할당, 각 버튼별로 스크립트 편집 예정
             foreach (var button in buttons)
@@ -127,11 +133,11 @@ namespace ProjectDaNyan.Views.StageUI
                 {
                     button.onClick.AddListener(() =>
                     {
-                        //_hiddenSkillUI.GetComponent<HiddenSkillUI>().UseHiddenSkill(_hiddenSkillUI);
                         if (_isHiddenSecondReady)
                         {
+                            Debug.Log("되는중인거임 ???");
+                            _playerLaserAttack.UseLaserAttack(true, 4);
                             _hiddenSkillSecondDelay = 0;
-                            Debug.Log("HIDDENSKILL22222222");
                         }
                     });
                 }
