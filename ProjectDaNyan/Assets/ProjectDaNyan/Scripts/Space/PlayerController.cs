@@ -138,11 +138,6 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
-        if (dashTimerCount == 1)
-        {
-            PlayDashSound();
-        }
-
         playerAnim.SetInteger("State",2);
 
         playerTrailRenderer.emitting = true;
@@ -216,7 +211,7 @@ public class PlayerController : MonoBehaviour
         playerAnim.SetInteger("State",2);
         playerLineRenderer.enabled = false;
         transform.position = new Vector3(transform.position.x, y:transform.position.y - rockHeight, transform.position.z);
-        PlayDashSound();
+        _joy.PlayDashSound();
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
     void PlayerExitDashFromRock()
@@ -233,19 +228,6 @@ public class PlayerController : MonoBehaviour
         }
         
         dashTimerCount += 1;
-    }
-
-    void PlayDashSound()
-    {
-        if (dashEffectToggle)
-        {
-            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_0);
-        }
-        else
-        {
-            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_1);
-        }
-        dashEffectToggle = !dashEffectToggle;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -269,7 +251,6 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.Log(dashTimerCount+"DashCounter");
                 _playerState.setPsData(PlayerState.PSData.stop);
                 dashTimerCount = 0;
             }
