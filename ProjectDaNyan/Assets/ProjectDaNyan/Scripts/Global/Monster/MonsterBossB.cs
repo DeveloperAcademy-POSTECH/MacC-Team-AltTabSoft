@@ -26,7 +26,7 @@ public class MonsterBossB : Monster
     [Header("Monster Status")]
     public MonsterBossBData _bossData = null;
     // boss monstser status
-    [SerializeField] private float _monsterHP;
+    public float monsterHP;
     [SerializeField] private float _readyMachineGunTime;
 
     [Header("Monster Attack")]
@@ -89,7 +89,7 @@ public class MonsterBossB : Monster
 
         #region
 
-        _monsterHP = _bossData.HP;
+        monsterHP = _bossData.HP;
         
         #endregion
 
@@ -401,9 +401,9 @@ public class MonsterBossB : Monster
             return;
         }
 
-        _monsterHP -= damage;
+        monsterHP -= damage;
 
-        if (_monsterHP <= 0)
+        if (monsterHP <= 0)
         {
             _currentState = BossState.dead;
             GameManager.Inst.BossDead();

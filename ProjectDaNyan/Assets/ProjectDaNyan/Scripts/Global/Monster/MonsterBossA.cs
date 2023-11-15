@@ -25,10 +25,10 @@ public class MonsterBossA : Monster
     public MonsterBossAData _bossData = null;
     // boss monstser status
     [SerializeField] private float _attackPower;
-    [SerializeField] private float _monsterHP;
     [SerializeField] private float _monsterSpeed;
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackInterval;
+    public float monsterHP;
     //[SerializeField] private float _attackSpeed;
     [SerializeField] private float _normalAttackCount;
     [SerializeField] private float _readyDashTime;
@@ -118,7 +118,7 @@ public class MonsterBossA : Monster
         // set boss status
         #region
         _monsterAttack.Damage = _bossData.AttackPower;
-        _monsterHP = _bossData.HP;
+        monsterHP = _bossData.HP;
         _monsterSpeed = _bossData.Speed;
         _attackRange = _bossData.AttackRange;
         _attackInterval = _bossData.AttackInterval;
@@ -614,9 +614,9 @@ public class MonsterBossA : Monster
             return;
         }
 
-        _monsterHP -= damage;
+        monsterHP -= damage;
 
-        if(_monsterHP <= 0)
+        if(monsterHP <= 0)
         {
             // play dead animation 
             _animator.SetBool("Death", true);
