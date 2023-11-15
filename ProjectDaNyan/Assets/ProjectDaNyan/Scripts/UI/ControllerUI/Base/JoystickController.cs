@@ -11,6 +11,9 @@ public class JoystickController : FloatingJoystick
     
     private PlayerState _playerState;
     private PlayerStatus _playerStatus;
+    private SoundEffectController _soundEffectController;
+
+    private bool dashEffectToggle = true;
 
     protected override void Start()
     {
@@ -18,6 +21,7 @@ public class JoystickController : FloatingJoystick
         GameObject player = GameObject.FindGameObjectWithTag("Player").gameObject;
         _playerState = player.GetComponent<PlayerState>();
         _playerStatus = player.GetComponent<PlayerStatus>();
+        _soundEffectController = player.GetComponent<SoundEffectController>();
     }
     
     public override void OnPointerUp(PointerEventData eventData)
@@ -30,6 +34,7 @@ public class JoystickController : FloatingJoystick
             if (_playerState.getPsData() == PlayerState.PSData.onTheRock)
             {
                 _playerState.setPsData(PlayerState.PSData.exitStartFromRock);
+                PlayDashSound();
             }
             else
             {
@@ -37,6 +42,7 @@ public class JoystickController : FloatingJoystick
                 {
                     _playerState.setPsData(PlayerState.PSData.dash);
                     _playerStatus.DashCharged -= 1;
+                    PlayDashSound();
                 }
                 else
                 {
@@ -79,5 +85,18 @@ public class JoystickController : FloatingJoystick
                 isJoystickPositionGoEnd = false;
             }
         }
+    }
+
+    public void PlayDashSound()
+    {
+        if (dashEffectToggle)
+        {
+            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_0);
+        }
+        else
+        {
+            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_1);
+        }
+        dashEffectToggle = !dashEffectToggle;
     }
 }
