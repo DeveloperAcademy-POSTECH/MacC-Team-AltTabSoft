@@ -30,7 +30,7 @@ public class PlayerBombAttack : MonoBehaviour
             _bombFireDelay += Time.deltaTime;
             if (_isFireReady)
             {
-                _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Bombplant_Attack);
+                _soundEffectController.playStageSoundEffect(0.25f,SoundEffectController.StageSoundTypes.Player_Bombplant_Attack);
                 StartCoroutine(BombAttack(bombFireLevel));
                 _bombFireDelay = 0;
             }

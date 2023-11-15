@@ -573,9 +573,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1682354257764922857}
     m_Modifications:
+    - target: {fileID: 224263451203325955, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: _soundEffectController
+      value: 
+      objectReference: {fileID: 5689850269325050876}
     - target: {fileID: 2012497629165759939, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_Name
       value: PlayerAttackPosition
+      objectReference: {fileID: 0}
+    - target: {fileID: 2180998302867330008, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: isDrone
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5238146470352652433, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: _soundEffectController
