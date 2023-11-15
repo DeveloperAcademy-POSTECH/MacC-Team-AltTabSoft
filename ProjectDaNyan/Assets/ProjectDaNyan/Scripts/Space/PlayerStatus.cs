@@ -8,6 +8,7 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private PlayerData _playerData;
     [SerializeField] private PlayerState _playerState;
     [SerializeField] private Renderer playerRenderer;
+    [SerializeField] private SoundEffectController soundEffectController;
 
     private int player_HitCount = 0;
 
@@ -180,6 +181,8 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("다음 레벨업까지 필요한 경험치:"+(_playerData.level_Up_Require_EXP-player_now_EXP));
             
             ItemController.Inst.DropItem();
+            
+            soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Boxcat_Gold);
             
             // TODO: 드랍 아이템별 카운트 구현
             player_collected_box_cat += 1;

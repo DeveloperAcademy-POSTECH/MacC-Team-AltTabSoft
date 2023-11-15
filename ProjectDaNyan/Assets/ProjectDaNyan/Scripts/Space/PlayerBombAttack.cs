@@ -10,6 +10,7 @@ public class PlayerBombAttack : MonoBehaviour
     [SerializeField] private GameObject _bomb;//적의 머리 위에 떠있는 폭탄
     [SerializeField] private float _bombFireRate;
     [SerializeField] private float _bombFireSpeed;
+    [SerializeField] private SoundEffectController _soundEffectController;
 
     float _bombFireDelay;
     bool _isFireReady;
@@ -29,6 +30,7 @@ public class PlayerBombAttack : MonoBehaviour
             _bombFireDelay += Time.deltaTime;
             if (_isFireReady)
             {
+                _soundEffectController.playStageSoundEffect(0.25f,SoundEffectController.StageSoundTypes.Player_Bombplant_Attack);
                 StartCoroutine(BombAttack(bombFireLevel));
                 _bombFireDelay = 0;
             }

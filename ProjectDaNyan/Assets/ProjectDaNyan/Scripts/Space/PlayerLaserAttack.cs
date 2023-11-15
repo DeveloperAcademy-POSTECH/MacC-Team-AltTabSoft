@@ -9,6 +9,7 @@ public class PlayerLaserAttack : MonoBehaviour
     [SerializeField] private GameObject[] _laserBullets; //레이저 관통 공격 오브젝트 프리펩
     [SerializeField] private GameObject _laserGroup;
     [SerializeField] private float _laserFireRate;
+    [SerializeField] private SoundEffectController _soundEffectController;
     
 
     private float _laserFireDelay; //레이저 딜레이 
@@ -33,6 +34,7 @@ public class PlayerLaserAttack : MonoBehaviour
     {
         if (isLaser)
         {
+            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Hidden_Laser);
             _laserGroup.transform.Rotate(Vector3.up * 30 * Time.deltaTime);
             _laserGroup.transform.position = _playerAttackPosition.transform.position;
             StartCoroutine(LaserAttack(laserLevel));
