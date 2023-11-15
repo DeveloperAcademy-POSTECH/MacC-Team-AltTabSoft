@@ -42,13 +42,6 @@ public class MonsterNormal : Monster
     [SerializeField] private float _exp;
     public float monsterHP;
 
-
-    [SerializeField] private state _currentState;
-
-
-
-    public Transform _attackPoint;
- 
     // private variables 
 
     private float _attacktime;
