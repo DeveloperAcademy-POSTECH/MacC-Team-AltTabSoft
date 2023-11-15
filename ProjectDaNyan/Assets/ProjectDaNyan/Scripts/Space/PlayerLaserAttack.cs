@@ -18,21 +18,25 @@ public class PlayerLaserAttack : MonoBehaviour
     {
         _laserFireRate = _attackStatus.laserFireRate;
         _laserGroup.transform.SetParent(null);
+
+
     }
 
-    public void UseLaserAttack(bool isLaser, int laserLevel)
+    private void Update()
+    {
+        _laserGroup.transform.position = _playerAttackPosition.transform.position;
+        _laserGroup.transform.Rotate(Vector3.up * 30 * Time.deltaTime);
+
+    }
+
+    public void UseLaserAttack(bool isLaser ,int laserLevel)
     {
         if (isLaser)
         {
             _laserGroup.transform.Rotate(Vector3.up * 30 * Time.deltaTime);
             _laserGroup.transform.position = _playerAttackPosition.transform.position;
-            _isLaserReady = _laserFireRate < _laserFireDelay;
-            _laserFireDelay += Time.deltaTime;
-            if (_isLaserReady)
-            {
-                StartCoroutine(LaserAttack(laserLevel));
-                _laserFireDelay = 0;
-            }
+            StartCoroutine(LaserAttack(laserLevel));
+            
         }
     }
     IEnumerator LaserAttack(int laserLevel)
@@ -58,11 +62,12 @@ public class PlayerLaserAttack : MonoBehaviour
             
         }
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(10f);
 
         for(int laserCount = 0; laserCount < _laserBullets.Length; laserCount++)
         {
             _laserBullets[laserCount].SetActive(false);
         }
+
     }
 }

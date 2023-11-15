@@ -22,7 +22,10 @@ namespace ProjectDaNyan.Views.StageUI
         private GameObject _stageClearUI;
         private GameObject _stageFailedUI;
         private GameObject _skillSelectUI;
+
+        private GameObject _hiddenSkillUI;
         private GameObject _bossWarning;
+
 
         public GameObject SkillSelectUI
         {
@@ -30,6 +33,17 @@ namespace ProjectDaNyan.Views.StageUI
         }
 
         private PlayerStatus _playerStatus;
+
+        //HiddenSkill1 Cool Time
+        private float _hiddenSkillFirstRate = 30f;
+        private float _hiddenSkillFirstDelay = 30f;
+        private bool _isHiddenFirstReady;
+        //HiddenSkill2 
+        private float _hiddenSkillSecondRate = 10f;
+        private float _hiddenSkillSecondDelay = 10f;
+        private bool _isHiddenSecondReady;
+        private PlayerLaserAttack _playerLaserAttack;
+
 
         private void Awake()
         {
@@ -47,8 +61,13 @@ namespace ProjectDaNyan.Views.StageUI
             _stageFailedUI = transform.Find("StageFailedUI").gameObject;
             _stageMainUI = transform.Find("StageMainUI").gameObject;
             _skillSelectUI = transform.Find("SkillSelectUI").gameObject;
+            //_hiddenSkillUI = transform.Find("TestHiddenSkill").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
+
+            //LaserAttack Hidden Skill
+            _playerLaserAttack = GameObject.Find("PlayerAttackPosition").GetComponent<PlayerLaserAttack>();
             _bossWarning = transform.Find("BossWarning").gameObject.transform.Find("Warning").gameObject;
+
 
             var buttons = GetComponentsInChildren<Button>(includeInactive: true); // 버튼별 역할 할당, 각 버튼별로 스크립트 편집 예정
             foreach (var button in buttons)
@@ -99,6 +118,35 @@ namespace ProjectDaNyan.Views.StageUI
                         SceneManager.LoadScene("StageScene");
                     });
                 }
+
+                //히든 스킬 UI 생기면 활성화
+                //else if (buttonName == "HiddenSkill1")
+                //{
+                //    button.onClick.AddListener(() =>
+                //    {
+                //        //_hiddenSkillUI.GetComponent<HiddenSkillUI>().UseHiddenSkill(_hiddenSkillUI);
+                        
+                //        if (_isHiddenFirstReady)
+                //        {
+                //            StartCoroutine(_hiddenSkillUI.GetComponent<HiddenSkillUI>().activeHiddenSkill(_hiddenSkillUI));
+                //            _hiddenSkillFirstDelay = 0;
+                //        }
+                        
+                //        Debug.Log("HIDDENSKILL111111111");
+                //    });
+                //}
+
+                else if (buttonName == "HiddenSkill")
+                {
+                    button.onClick.AddListener(() =>
+                    {
+                        if (_isHiddenSecondReady)
+                        {
+                            _playerLaserAttack.UseLaserAttack(true, 4);
+                            _hiddenSkillSecondDelay = 0;
+                        }
+                    });
+                }
             }
 
             //화면 불러올 때
@@ -142,6 +190,13 @@ namespace ProjectDaNyan.Views.StageUI
                 GameManager.Inst.PauseGame();
                 _skillSelectUI.SetActive(true);
             }
+
+            //HiddenSkill CoolTime Update
+            _isHiddenFirstReady = _hiddenSkillFirstRate < _hiddenSkillFirstDelay;
+            _hiddenSkillFirstDelay += Time.deltaTime;
+            //HiddenSkill2 CoolTime Update
+            _isHiddenSecondReady = _hiddenSkillSecondRate < _hiddenSkillSecondDelay;
+            _hiddenSkillSecondDelay += Time.deltaTime;
         }
 
         private void WarnBoss()
