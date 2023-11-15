@@ -11,6 +11,7 @@ public class PlayerDroneAttack : MonoBehaviour
     [SerializeField] private GameObject _drone;
     [SerializeField] private float _droneFireRate;
     [SerializeField] private float _droneFireSpeed;
+    [SerializeField] private SoundEffectController _soundEffectController;
 
     public int droneFireLevel = 1;
     private float _droneFireDelay;
@@ -52,6 +53,7 @@ public class PlayerDroneAttack : MonoBehaviour
             _drone.transform.RotateAround(targetCollider.transform.position,Vector3.up, 30 * Time.deltaTime) ;
             if (_droneFireReady)
             {
+                _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Drone_Attack);
                 _bulletPosition.LookAt(targetCollider.transform);
                 StartCoroutine(DroneFire(droneLevel));
                 _droneFireDelay = 0;
