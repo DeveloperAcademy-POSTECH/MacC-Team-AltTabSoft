@@ -31,8 +31,19 @@ public class MonsterNormal : Monster
     [Header("Bomb Effects")]
     [SerializeField] private GameObject _boom;
     [SerializeField] private GameObject _boomCollider;
-    
+    [SerializeField] private PlayerAttack _playerAttack;
+    private int _bombLevel;
+
+    // attack range
+    [SerializeField] private float _monsterSpeed;
+    [SerializeField] private float _attackRange;
+    [SerializeField] private float _attackinterval;
+    [SerializeField] private float _attackSpeed;
+    [SerializeField] private float _exp;
+    public float monsterHP;
+
     // private variables 
+
     private float _attacktime;
     private MonsterAttack _monsterAttack;
     
@@ -65,6 +76,10 @@ public class MonsterNormal : Monster
         }
     }
 
+    private void Update()
+    {
+        _bombLevel = _playerAttack.bombLevel;
+    }
 
     private void OnEnable()
     {
@@ -92,6 +107,8 @@ public class MonsterNormal : Monster
 
         // start coroutine 
         StartCoroutine(monsterState());
+
+        _playerAttack = GameObject.Find("PlayerAttackPosition").GetComponent<PlayerAttack>();
     }
 
     IEnumerator monsterState()
@@ -157,22 +174,7 @@ public class MonsterNormal : Monster
         //몬스터가 죽을 시 폭탄 터짐
         if (this.gameObject.transform.Find("BombOnMonster") != null)
         {
-            //폭발 파티클 이펙트
-            GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
-            boomEffect.transform.position = this.gameObject.transform.position;
-
-            //터지는 순간 위에서 안보이는 Collider가 떨어지면서 Trigger 발동
-            GameObject boomCollider = ObjectPoolManager.Inst.BringObject(_boomCollider);
-            boomCollider.transform.position = this.gameObject.transform.position + new Vector3(0,10,0);
-            Rigidbody boomColliderRigid = boomCollider.GetComponent<Rigidbody>();
-            boomColliderRigid.velocity = boomCollider.transform.up * -100f;
-
-
-            yield return new WaitForSeconds(0.2f);
-            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
-            ObjectPoolManager.Inst.DestroyObject(boomEffect);
-            ObjectPoolManager.Inst.DestroyObject(boomCollider);
-
+            StartCoroutine(bombExplosion(_boom, _bombLevel, 1f));
         }
         else
         {
@@ -180,6 +182,30 @@ public class MonsterNormal : Monster
         }
 
         yield return null;
+    }
+
+    IEnumerator bombExplosion(GameObject bomb, int bombLevel, float boomSize)
+    {
+            if (bombLevel > 4)
+                bombLevel = 4;
+            //몬스터 위에 있는 폭탄 비활성
+            ObjectPoolManager.Inst.DestroyObject(bomb);
+            //폭발 파티클 이펙트
+            GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
+            boomEffect.transform.localScale = new Vector3(boomSize + (0.25f * boomSize * bombLevel), boomSize + (0.25f * boomSize * bombLevel), boomSize + (0.25f * boomSize * bombLevel));
+            boomEffect.transform.position = this.gameObject.transform.position + new Vector3(0, 1f, 0);
+
+            //터지는 순간 위에서 안보이는 Collider가 떨어지면서 Trigger 발동
+            GameObject boomCollider = ObjectPoolManager.Inst.BringObject(_boomCollider);
+            boomCollider.transform.localScale = new Vector3(1.2f * boomSize + (0.25f * boomSize * bombLevel), boomSize + (0.25f * boomSize * bombLevel), boomSize + (0.25f * boomSize * bombLevel));
+            boomCollider.transform.position = this.gameObject.transform.position + new Vector3(0, 10, 0);
+            Rigidbody boomColliderRigid = boomCollider.GetComponent<Rigidbody>();
+            boomColliderRigid.velocity = boomCollider.transform.up * -100f;
+
+            yield return new WaitForSeconds(1f);
+            ObjectPoolManager.Inst.DestroyObject(boomEffect);
+            ObjectPoolManager.Inst.DestroyObject(boomCollider);
+        
     }
 
     private void checkAttackDistance()
