@@ -15,11 +15,12 @@ public class MonsterSkillWaveBlast : MonsterAttack
     // unity event handler 
     public UnityEvent EventHandlerWaveBlastEnd;
 
+    public bool isCollided = false;
 
     // skill status data 
     [SerializeField] private MonsterBlastData _monsterBlastData;
 
-    private SphereCollider _sphereCollider;
+    public SphereCollider _sphereCollider;
     private LineRenderer _lineRenderer;
     
     private void Awake()
@@ -30,12 +31,13 @@ public class MonsterSkillWaveBlast : MonsterAttack
         _sphereCollider = GetComponent<SphereCollider>();
         _lineRenderer = GetComponent<LineRenderer>();
 
-
         _lineRenderer.positionCount = _monsterBlastData.PositionCount + 1;
+        
     }
 
     public void StartWaveBlastAttack(SkillType skill)
     {
+        isCollided = false;
         switch (skill)
         {
             case SkillType.WaveBlast:
@@ -55,6 +57,9 @@ public class MonsterSkillWaveBlast : MonsterAttack
 
     private IEnumerator waveblast(float maxRadius, float speed, float startWidth)
     {
+        _lineRenderer.enabled = true;
+        _sphereCollider.enabled = true;
+        
         float currentRadius = 0f;
 
         while(currentRadius < maxRadius)
@@ -67,6 +72,8 @@ public class MonsterSkillWaveBlast : MonsterAttack
         // unity event handler  
         EventHandlerWaveBlastEnd.Invoke();
 
+        _lineRenderer.enabled = false;
+        
         // reset collider radius
         setSphereCollider(0);
     }
@@ -85,7 +92,10 @@ public class MonsterSkillWaveBlast : MonsterAttack
             _lineRenderer.SetPosition(i, position);
         }
 
-        setSphereCollider(currentRadius);
+        if (!isCollided)
+        {
+            setSphereCollider(currentRadius);
+        }
 
         _lineRenderer.widthMultiplier = Mathf.Lerp(0f, startWidth, 1f - currentRadius / maxRadius);
     }
@@ -96,29 +106,5 @@ public class MonsterSkillWaveBlast : MonsterAttack
     {
         // change collider position
         _sphereCollider.radius = currentRadius;
-    }
-
-
-
-    //private void blastDamage(float currentRadius)
-    //{
-    //    Collider[] hitObjects = Physics.OverlapSphere(transform.position, currentRadius);
-    //    Rigidbody rb;
-
-
-    //    for(int i = 0; i < hitObjects.Length; ++i)
-    //    {
-    //        if(hitObjects[i].TryGetComponent<Rigidbody>(out rb))
-    //        {
-    //            Vector3 direction = (hitObjects[i].transform.position - this.transform.position).normalized;
-        
-    //            rb.AddForce(direction, ForceMode.Impulse);
-    //        }
-    //    }
-    //}
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log($"I am wave touchse {other.name}");
     }
 }
