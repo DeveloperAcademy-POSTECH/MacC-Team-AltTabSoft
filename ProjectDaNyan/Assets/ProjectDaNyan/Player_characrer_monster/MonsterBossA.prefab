@@ -85,10 +85,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2.5
+  m_Radius: 1
+  m_Height: 3
   m_Direction: 0
-  m_Center: {x: 0.6, y: -0.25, z: 0}
+  m_Center: {x: 0.8, y: -0.25, z: 0}
 --- !u!1 &440002541584741798
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,10 +461,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2.5
+  m_Radius: 1
+  m_Height: 3
   m_Direction: 0
-  m_Center: {x: -0.6, y: 0.25, z: 0}
+  m_Center: {x: -0.8, y: 0.25, z: 0}
 --- !u!1 &2130278008101486073
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,7 +778,7 @@ Transform:
   m_GameObject: {fileID: 3042379594397861767}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.372, y: 0.508, z: 0.053}
+  m_LocalPosition: {x: -0.411, y: 0.6, z: 0.054}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -826,7 +826,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.4
+  m_Time: 0.5
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -2722,7 +2722,7 @@ Transform:
   m_GameObject: {fileID: 9191920685624030851}
   serializedVersion: 2
   m_LocalRotation: {x: -0.020786462, y: 0.07359649, z: -0.9970715, w: -0.00000013051186}
-  m_LocalPosition: {x: 0.371, y: -0.509, z: -0.048}
+  m_LocalPosition: {x: 0.41, y: -0.6, z: -0.048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2770,7 +2770,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.4
+  m_Time: 0.5
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -2849,21 +2849,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1902684750231621932}
     m_Modifications:
-    - target: {fileID: 1238260566389467890, guid: 06931dfdb61f944a2a67fe3fe9465a45, type: 3}
-      propertyPath: m_ExcludeLayers.m_Bits
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1238260566389467890, guid: 06931dfdb61f944a2a67fe3fe9465a45, type: 3}
-      propertyPath: m_IncludeLayers.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: 4107185044143336145, guid: 06931dfdb61f944a2a67fe3fe9465a45, type: 3}
       propertyPath: m_Name
       value: Blast
-      objectReference: {fileID: 0}
-    - target: {fileID: 7304235812575450845, guid: 06931dfdb61f944a2a67fe3fe9465a45, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8342239469199423288, guid: 06931dfdb61f944a2a67fe3fe9465a45, type: 3}
       propertyPath: m_LocalPosition.x
