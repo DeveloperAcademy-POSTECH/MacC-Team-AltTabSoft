@@ -20,7 +20,8 @@ public class MonsterNormal : Monster
     [SerializeField] private GameObject _expBox;
     
     [Header("Monster Data")]
-    [SerializeField] private float _monsterHP;
+    [SerializeField] public float MonsterHP;
+    
     [SerializeField] private state _currentState;
     [SerializeField] private Renderer _renderer;
     [SerializeField] private Transform _attackPoint;
@@ -76,7 +77,7 @@ public class MonsterNormal : Monster
         _currentState = state.chasing;
 
         // set monster HP 
-        _monsterHP = _monsterData.hp;
+        MonsterHP = _monsterData.hp;
         
         // set material color 
         _renderer.material.color = Color.white;
@@ -96,7 +97,7 @@ public class MonsterNormal : Monster
     IEnumerator monsterState()
     {
 
-        while (_monsterHP > 0)
+        while (MonsterHP > 0)
         {
             yield return new WaitForSeconds(0.1f);
 
@@ -229,11 +230,11 @@ public class MonsterNormal : Monster
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage 
-                _monsterHP -= bullet.damage;
+                MonsterHP -= bullet.damage;
             }
             else
             {
-                _monsterHP -= 1;
+                MonsterHP -= 1;
             }
         }
     }
@@ -248,11 +249,11 @@ public class MonsterNormal : Monster
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage 
-                _monsterHP -= bullet.damage;
+                MonsterHP -= bullet.damage;
             }
             else
             {
-                _monsterHP -= 1;
+                MonsterHP -= 1;
             }
         }
     }
