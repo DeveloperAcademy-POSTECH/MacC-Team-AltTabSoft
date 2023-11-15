@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum BossType
 {
+    Random,
     BossA,
     BossB
 }
@@ -13,7 +14,10 @@ public class MonsterManager : MonoBehaviour
 {
     private static MonsterManager inst = null;
 
-    public static MonsterManager Inst { get { return inst; } }
+    public static MonsterManager Inst
+    {
+        get { return inst; }
+    }
 
     [SerializeField] private List<Transform> _monsterSpawnPoints;
 
@@ -79,8 +83,17 @@ public class MonsterManager : MonoBehaviour
 
     private void spawnBossMonster()
     {
-        Vector3 genPos = _monsterSpawnPoints[1].transform.position;
+        Vector3 genPos = (_monsterSpawnPoints[0].transform.position + _monsterSpawnPoints[1].transform.position
+            + _monsterSpawnPoints[2].transform.position) / 3;
 
+        if (_bossMonsterType == BossType.Random)
+        {
+            int currentTime = (int)Time.time;
+            int ranNum = Random.Range(1, 3);
+            int result = currentTime % ranNum;
+            _bossMonsterType = result == 0 ? BossType.BossA : BossType.BossB;
+        }
+        
         switch (_bossMonsterType)
         {
             case BossType.BossA:
@@ -119,7 +132,9 @@ public class MonsterManager : MonoBehaviour
 
 
     // ================================ monster spawn coroutines
-    #region monster spawn coroutines 
+
+    #region monster spawn coroutines
+
     IEnumerator spawnNormalShortMonster(int qty)
     {
         MonsterNormal monster = null;
@@ -182,7 +197,9 @@ public class MonsterManager : MonoBehaviour
 
         yield return null;
     }
+
     #endregion
+
     // ================================ monster spawn coroutines 
 
 

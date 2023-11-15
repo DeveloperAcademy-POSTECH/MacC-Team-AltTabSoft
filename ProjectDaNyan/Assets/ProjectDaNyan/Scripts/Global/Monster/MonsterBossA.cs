@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
@@ -23,30 +24,21 @@ public class MonsterBossA : Monster
 
     [Header("Monster Status")]
     public MonsterBossAData _bossData = null;
+    
     // boss monstser status
-    [SerializeField] private float _attackPower;
-    [SerializeField] private float _monsterSpeed;
-    [SerializeField] private float _attackRange;
-    [SerializeField] private float _attackInterval;
     public float monsterHP;
-    //[SerializeField] private float _attackSpeed;
-    [SerializeField] private float _normalAttackCount;
-    [SerializeField] private float _readyDashTime;
-    [SerializeField] private float _dashPoint;
-    [SerializeField] private float _dashSpeed;
-    [SerializeField] private float _dashCount;
-    [SerializeField] private float _idleTime;
 
     [Header("Monster Attack")]
     [SerializeField] private GameObject skillWaveBlast;
     [SerializeField] private CapsuleCollider[] _pawsColliers;
+    [SerializeField] private TrailRenderer[] _pawsTrailRenderers;
+    [SerializeField] private SphereCollider _blastCollider;
     private MonsterSkillWaveBlast _skillMonsterBlast;
 
     [Header("Monster Current State")]
     // boss monster current state 
     [SerializeField] private BossState _currentState;
-
-
+    
     [Header("Monster Animation")]
     [SerializeField] Animator _animator;
 
@@ -55,9 +47,6 @@ public class MonsterBossA : Monster
     [SerializeField] GameObject _boom;
     [SerializeField] GameObject _boomCollider;
     [SerializeField] GameObject _bomb;//Bomb on the Boss Monster
-
-    // where bullets are fired 
-    public Transform _attackPoint = null;
 
     // privates variables 
     private float _idleTimeCount = 0;
@@ -119,15 +108,6 @@ public class MonsterBossA : Monster
         #region
         _monsterAttack.Damage = _bossData.AttackPower;
         monsterHP = _bossData.HP;
-        _monsterSpeed = _bossData.Speed;
-        _attackRange = _bossData.AttackRange;
-        _attackInterval = _bossData.AttackInterval;
-        _normalAttackCount = _bossData.AttackCount;
-        _readyDashTime = _bossData.ReadyDashTime;
-        _dashPoint = _bossData.DashPoint;
-        _dashSpeed = _bossData.DashSpeed;
-        _dashCount = _bossData.DashCount;
-        _idleTime = _bossData.IdleTime;
         #endregion
 
         // set monster type 
@@ -136,20 +116,13 @@ public class MonsterBossA : Monster
         
         // set capsule collider = off 
         pawsColliderControl(false);
-        
-        
-        // get line renderer 
-        _line.startWidth = _line.endWidth = 0.2f;
-        _line.material.color = Color.blue;
-        _line.enabled = false;
 
         // set boss state 
         _currentState = BossState.idle;
 
         // set navmeshagent settings 
-        _navMeshAgent.speed = _monsterSpeed;
-        _attackRange = _bossData.AttackRange;
-        _navMeshAgent.stoppingDistance = _attackRange;
+        _navMeshAgent.speed = _bossData.Speed;
+        _navMeshAgent.stoppingDistance = _bossData.AttackRange;
 
         // unity event add listener 
         _skillMonsterBlast.EventHandlerWaveBlastEnd.AddListener(waveBlastEnd);
@@ -200,7 +173,7 @@ public class MonsterBossA : Monster
                 // time delay 
                 _idleTimeCount += Time.deltaTime;
 
-                if (_idleTimeCount >= _idleTime)
+                if (_idleTimeCount >= _bossData.IdleTime)
                 {
                     _currentState = BossState.chasing;
                 }
@@ -212,8 +185,8 @@ public class MonsterBossA : Monster
                 pawsColliderControl(false);
                 
                 _navMeshAgent.isStopped = false;
-                _navMeshAgent.speed = _monsterSpeed;
-                _navMeshAgent.stoppingDistance = _attackRange;
+                _navMeshAgent.speed = _bossData.Speed;
+                _navMeshAgent.stoppingDistance = _bossData.AttackRange;
 
                 checkAttackDistance();
 
@@ -225,8 +198,10 @@ public class MonsterBossA : Monster
                 break;
 
             case BossState.normalAttack:
-                // normal attack animation
 
+                _navMeshAgent.velocity = Vector3.zero;
+                
+                // normal attack animation
                 pawsColliderControl(true);
 
                 // count attack time 
@@ -236,7 +211,7 @@ public class MonsterBossA : Monster
                 lookAtPlayer();
 
                 // attack interval 
-                if (_attackTimeCount >= _attackInterval)
+                if (_attackTimeCount >= _bossData.AttackInterval)
                 {
                     _attackTimeCount = 0;
                     _attackedCount += 1;
@@ -244,10 +219,12 @@ public class MonsterBossA : Monster
                 }
 
                 // normal attack to dash attack 
-                if (_attackedCount > _normalAttackCount)
+                if (_attackedCount > _bossData.AttackCount)
                 {
                     _attackedCount = 0;
                     _attackTimeCount = 0;
+                    // turn off trail renderer 
+                    BearClawTrailRenderer(BearPaw.off);
                     _currentState = BossState.readyDashAttack;
 
                     // Roar animation 
@@ -263,6 +240,8 @@ public class MonsterBossA : Monster
             // look at target 
             case BossState.readyDashAttack:
 
+                _navMeshAgent.velocity = Vector3.zero;
+                
                 // don't play dash animation 
                 _animator.SetBool("Dash", false);
                
@@ -270,7 +249,7 @@ public class MonsterBossA : Monster
 
                 _dashReadyTimeCount += Time.deltaTime;
 
-                if (_dashReadyTimeCount > _readyDashTime)
+                if (_dashReadyTimeCount > _bossData.ReadyDashTime)
                 {
                     _dashReadyTimeCount = 0;
                     _currentState = BossState.startDashAttack;
@@ -282,16 +261,18 @@ public class MonsterBossA : Monster
             // dash to target 
             case BossState.startDashAttack:
 
+                _navMeshAgent.velocity = Vector3.zero;
+                
                 // add dash count 
                 _dashed++;
 
                 // if boss dashed more than dash count -> change state 
-                if (_dashed > _dashCount)
+                if (_dashed > _bossData.DashCount)
                 {
                     _dashed = 0;
 
-                    _navMeshAgent.stoppingDistance = _attackRange;
-                    _navMeshAgent.speed = _monsterSpeed;
+                    _navMeshAgent.stoppingDistance = _bossData.AttackRange;
+                    _navMeshAgent.speed = _bossData.Speed;
 
                     // attack big wave 
                     _currentState = BossState.readyBigWave;
@@ -299,7 +280,7 @@ public class MonsterBossA : Monster
                 }
 
                 // set dash values  
-                _navMeshAgent.speed = _dashSpeed;
+                _navMeshAgent.speed = _bossData.DashSpeed;
                 _navMeshAgent.isStopped = false;
                 _navMeshAgent.stoppingDistance = _dashStoppingDistance;
 
@@ -307,7 +288,7 @@ public class MonsterBossA : Monster
                 float targetMoveDirLength = _targetCC.velocity.magnitude;
 
                 // set dash direction
-                float dashPoint = targetMoveDirLength * _dashPoint;
+                float dashPoint = targetMoveDirLength * _bossData.DashPoint;
 
                 // dash in front of player 
                 _dashDirection = _targetTransform.position + _targetTransform.forward * dashPoint;
@@ -317,15 +298,15 @@ public class MonsterBossA : Monster
 
                 // dash animation
                 _animator.SetBool("Dash", true);
-                _animator.speed = 2;
+                _animator.speed = 1f;
 
+                BearClawTrailRenderer(BearPaw.Both);
+                
                 break;
 
             case BossState.onDashAttack:
                 agentRotation();
                 dashAttack(_dashDirection);
-                // StartCoroutine(makePathCoroutine());
-
                 break;
 
             case BossState.waveBlast:
@@ -333,9 +314,13 @@ public class MonsterBossA : Monster
                 break;
 
             case BossState.readyBigWave:
+                
+                _navMeshAgent.velocity = Vector3.zero;
+                
+                BearClawTrailRenderer(BearPaw.Both);
+                
                 lookAtPlayer();
                 _animator.SetTrigger("Roar");
-
                 _currentState = BossState.bigWave;
 
                 // save state 
@@ -399,7 +384,7 @@ public class MonsterBossA : Monster
     {
         float distance = Vector3.Distance(this.transform.position, _target.transform.position);
 
-        if (_navMeshAgent.remainingDistance <= _attackRange && distance <= _attackRange)
+        if (_navMeshAgent.remainingDistance <= _bossData.AttackRange && distance <= _bossData.AttackRange)
         {
             // player is within attack range 
             _animator.SetBool("Chase", false);
@@ -411,14 +396,15 @@ public class MonsterBossA : Monster
             // not within attack range
             // walking animation
             _animator.SetBool("Chase", true);
-            _animator.speed = 2f;
+            _animator.speed = 1f;
             _currentState = BossState.chasing;
         }
     }
 
     private void lookAtPlayer()
     {
-        Vector3 targetPos = new Vector3(_targetTransform.position.x, this.transform.position.y, _targetTransform.position.z);
+        Vector3 targetPos = new Vector3(_targetTransform.position.x, this.transform.position.y, 
+            _targetTransform.position.z);
         this.transform.LookAt(targetPos);
     }
 
@@ -427,21 +413,46 @@ public class MonsterBossA : Monster
     {
         if (_attackedCount % 2 == 0)
         {
-            _animator.SetTrigger("AttackRH");
+            _animator.SetTrigger("AttackLH");
+            BearClawTrailRenderer(BearPaw.LH);
         }
         else
         {
-            _animator.SetTrigger("AttackLH");
+            _animator.SetTrigger("AttackRH");
+            BearClawTrailRenderer(BearPaw.RH);
         }
     }
 
-
+    public enum BearPaw{
+        LH,
+        RH,
+        Both,
+        off
+    }
+    
+    public void BearClawTrailRenderer(BearPaw paw)
+    {
+        _pawsTrailRenderers[0].emitting = paw == BearPaw.LH | paw == BearPaw.Both;
+        _pawsTrailRenderers[1].emitting = paw == BearPaw.RH | paw == BearPaw.Both;
+    }
+    
+    
+    
     // attack dash 
     private void dashAttack(Vector3 dashPos)
     {
         // dash to current target position 
         _navMeshAgent.SetDestination(dashPos);
 
+        float distance = Vector3.Distance(this.transform.position, _target.transform.position);
+
+        if (_navMeshAgent.remainingDistance <= _bossData.AttackRange && distance <= _bossData.AttackRange)
+        {
+            stopDashAndBlastAttack();
+            return;
+        }
+        
+        
         if (!_navMeshAgent.pathPending)
         {
             if(_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
@@ -582,6 +593,17 @@ public class MonsterBossA : Monster
             }
         }
     }
+
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.tag.Equals("Player"))
+        {
+            _skillMonsterBlast.isCollided = true;
+            _skillMonsterBlast._sphereCollider.enabled = false;
+        }
+    }
+    
     #endregion
 
     // bomb explosion
