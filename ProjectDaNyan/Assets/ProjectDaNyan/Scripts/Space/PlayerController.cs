@@ -138,10 +138,11 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
-        if (dashTimerCount == 0)
+        if (dashTimerCount == 1)
         {
             PlayDashSound();
         }
+
         playerAnim.SetInteger("State",2);
 
         playerTrailRenderer.emitting = true;
@@ -168,7 +169,7 @@ public class PlayerController : MonoBehaviour
             _floatingPosition += -9.81f * Time.deltaTime;
         }
         else
-        {
+        { 
             _floatingPosition = 0f;
         }
     }
@@ -194,15 +195,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void PlayerWallReflection(Collision wall)
-    {
-        dashMovePosition = Vector3.Reflect(dashMovePosition, wall.contacts[0].normal);
-        dashTimerCount = 0;
-        isWallReflectDash = true;
-    }
+    // void PlayerWallReflection(Collision wall)
+    // {
+    //     dashMovePosition = Vector3.Reflect(dashMovePosition, wall.contacts[0].normal);
+    //     dashTimerCount = 0;
+    //     isWallReflectDash = true;
+    // }
 
-    void PlayerMoveOnTheRock(Collision rock)
+    void PlayerMoveOnTheRock(GameObject rock)
     {
+        playerAnim.SetInteger("State",0);
         _playerState.setPsData(PlayerState.PSData.onTheRock);
         dashTimerCount = 0;
         transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
@@ -235,69 +237,41 @@ public class PlayerController : MonoBehaviour
 
     void PlayDashSound()
     {
-        if (!isWallReflectDash)
+        if (dashEffectToggle)
         {
-            if (dashEffectToggle)
-            {
-                _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_0);
-            }
-            else
-            {
-                _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_1);
-            }
-            dashEffectToggle = !dashEffectToggle;
+            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_0);
         }
         else
         {
-            _soundEffectController.playStageSoundEffect(2f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
-            isWallReflectDash = false;
+            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_1);
         }
-
+        dashEffectToggle = !dashEffectToggle;
     }
 
-    //충돌 시 뚫고 나갈 수 없는 물체에 닿았을 때 작동 (벽, 돌 등)
-    private void OnCollisionEnter(Collision other)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (other.gameObject.CompareTag("Wall"))
+        if (_playerState.getPsData() == PlayerState.PSData.dash)
         {
-            playerAnim.SetInteger("State",0);
-            if (_playerState.getPsData() == PlayerState.PSData.dash)
+            if (hit.gameObject.CompareTag("Wall"))
             {
-                PlayerWallReflection(other);
-                Debug.Log("wallcollide");
+                //playerwallrefelection 코드를 여기에만 사용하게 됨 > 그냥 코드 여기에 넣음
+                dashMovePosition = Vector3.Reflect(dashMovePosition, hit.normal);
+                _soundEffectController.playStageSoundEffect(2f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
+                dashTimerCount = 0;
             }
-        }
-        else if (other.gameObject.CompareTag("Rock"))
-        {
-            playerAnim.SetInteger("State",0);
-            if (_playerState.getPsData() == PlayerState.PSData.dash)
+            else if (hit.gameObject.CompareTag("Rock"))
             {
-                PlayerMoveOnTheRock(other);
+                PlayerMoveOnTheRock(hit.gameObject);
             }
-        }
-    }
-    
-    //충돌 시 뚫고 나갈 수 없는 물체에 닿은 상태를 유지할 때 작동 (벽, 돌 등)
-    //이게 없으면 캐릭터가 벽이랑 붙은 상태에서 벽으로 대시할 때 대시 판정이 발생하지 않을 수 있음
-    private void OnCollisionStay(Collision other)
-    {
-        if (other.gameObject.tag == "Wall")
-        {
-            playerAnim.SetInteger("State",0);
-            if (_playerState.getPsData() == PlayerState.PSData.dash)
+            else if (hit.gameObject.layer == 11)
             {
-                PlayerWallReflection(other);
-                Debug.Log("wallstay");
+                return;
             }
-        }
-        else if (other.gameObject.CompareTag("Rock"))
-        {
-            playerAnim.SetInteger("State",0);
-            Debug.Log(_playerState.getPsData());
-            if (_playerState.getPsData() == PlayerState.PSData.dash)
+            else
             {
-                PlayerMoveOnTheRock(other);
-                Debug.Log(_playerState.getPsData());
+                Debug.Log(dashTimerCount+"DashCounter");
+                _playerState.setPsData(PlayerState.PSData.stop);
+                dashTimerCount = 0;
             }
         }
     }

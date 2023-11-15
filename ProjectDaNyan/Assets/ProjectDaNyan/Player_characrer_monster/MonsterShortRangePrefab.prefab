@@ -69,20 +69,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c57ced2339e748958ba038a7236a510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myType: 0
   _monsterData: {fileID: 11400000, guid: 3aa1443949a284997b8f1cccf1c1387c, type: 2}
-  _monsterBulletPrefab: {fileID: 7166173530311184209, guid: e4b033856683549f4b7be586af6d418a, type: 3}
+  _monsterBulletPrefab: {fileID: 4130157634977493257, guid: 7b3fc1aa656114442acfa51848a40af6, type: 3}
   _expBox: {fileID: 7703086083745402384, guid: d4e304cf3b1f049619280b63ac734983, type: 3}
+  MonsterHP: 0
+  _currentState: 0
+  _renderer: {fileID: 5885082883639157140}
+  _attackPoint: {fileID: 7568059509539987083}
   _boom: {fileID: 6516240114102030008, guid: 37e7401034c044df0918e1f181bf72e4, type: 3}
   _boomCollider: {fileID: 7107076862786558208, guid: 1fc2125f6450945478dfe55bc1575004, type: 3}
-  _attackPower: 0
-  _monsterHP: 0
-  _monsterSpeed: 0
-  _attackRange: 0
-  _attackinterval: 0
-  _attackSpeed: 0
-  _exp: 0
-  _currentState: 0
-  _attackPoint: {fileID: 7568059509539987083}
 --- !u!65 &6483792415486631229
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -177,6 +173,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d77abcd0a9227442b8235508035e3210, type: 3}
+--- !u!23 &5885082883639157140 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4683669308469848369, guid: d77abcd0a9227442b8235508035e3210, type: 3}
+  m_PrefabInstance: {fileID: 7974819580680501083}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7577017590203486384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d77abcd0a9227442b8235508035e3210, type: 3}
