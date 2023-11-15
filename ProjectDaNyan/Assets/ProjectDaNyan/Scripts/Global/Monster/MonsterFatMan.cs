@@ -48,7 +48,6 @@ public class MonsterFatMan : MonsterAttack
         yield return new WaitForSeconds(0.2f);
         
         ObjectPoolManager.Inst.DestroyObject(afterExplosion);
-        
         ObjectPoolManager.Inst.DestroyObject(this.gameObject);
     }
 }

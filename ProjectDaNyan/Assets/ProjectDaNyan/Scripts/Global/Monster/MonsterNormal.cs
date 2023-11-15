@@ -226,6 +226,7 @@ public class MonsterNormal : Monster
     {
         if (other.tag.Equals("PlayerAttack"))
         {
+            StartCoroutine(monsterHit());
             // get bullet damage 
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
@@ -244,7 +245,6 @@ public class MonsterNormal : Monster
         if (other.tag.Equals("PlayerAttack"))
         {
             StartCoroutine(monsterHit());
-            
             // get bullet damage 
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
