@@ -174,24 +174,7 @@ public class MonsterNormal : Monster
         //몬스터가 죽을 시 폭탄 터짐
         if (this.gameObject.transform.Find("BombOnMonster") != null)
         {
-            ////폭발 파티클 이펙트
-            //GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
-            //boomEffect.transform.position = this.gameObject.transform.position;
-
-            ////터지는 순간 위에서 안보이는 Collider가 떨어지면서 Trigger 발동
-            //GameObject boomCollider = ObjectPoolManager.Inst.BringObject(_boomCollider);
-            //boomCollider.transform.position = this.gameObject.transform.position + new Vector3(0,10,0);
-            //Rigidbody boomColliderRigid = boomCollider.GetComponent<Rigidbody>();
-            //boomColliderRigid.velocity = boomCollider.transform.up * -100f;
-
-
-            //yield return new WaitForSeconds(0.2f);
-            //ObjectPoolManager.Inst.DestroyObject(this.gameObject);
-            //ObjectPoolManager.Inst.DestroyObject(boomEffect);
-            //ObjectPoolManager.Inst.DestroyObject(boomCollider);
-
             StartCoroutine(bombExplosion(_boom, _bombLevel, 1f));
-
         }
         else
         {
