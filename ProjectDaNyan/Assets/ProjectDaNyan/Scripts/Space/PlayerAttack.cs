@@ -21,9 +21,11 @@ public class PlayerAttack : MonoBehaviour
     PlayerBasicAttack playerBasicAttack;
     PlayerLaserAttack playerLaserAttack;
     PlayerDroneAttack playerDroneAttack;
+    PlayerDroneAttack playerDrone2Attack;
     PlayerBombAttack playerBombAttack;
     PlayerRandomFieldAttack playerRandomFieldAttack;
     [SerializeField] private GameObject _drone;
+    [SerializeField] private GameObject _drone2;
     [SerializeField] private AttackStatus _attackStatus;
     
 
@@ -40,10 +42,12 @@ public class PlayerAttack : MonoBehaviour
         playerBombAttack = GetComponent<PlayerBombAttack>();
         playerRandomFieldAttack = GetComponent<PlayerRandomFieldAttack>();
         playerDroneAttack = GameObject.Find("Drone").GetComponent<PlayerDroneAttack>();
-
+        playerDrone2Attack = GameObject.Find("Drone2").GetComponent<PlayerDroneAttack>();
         //필드에 생성된 드론 찾기
         _drone = GameObject.Find("Drone");
         _drone.SetActive(false);
+        _drone2 = GameObject.Find("Drone2");
+        _drone2.SetActive(false);
     }
 
     private void Update()
@@ -60,6 +64,18 @@ public class PlayerAttack : MonoBehaviour
                 _drone.transform.position = this.transform.position + new Vector3(0, 1.9f, 0);
             }
 
+            if(droneLevel > 4)
+            {
+                if (_drone2.activeSelf == false)
+                {
+                    _drone2.SetActive(true);
+                }
+
+                if (Vector3.Distance(_drone2.transform.position, this.transform.position) > 30)
+                {
+                    _drone2.transform.position = this.transform.position + new Vector3(0, 1.9f, 0);
+                }
+            }
    
         }
 
@@ -102,6 +118,10 @@ public class PlayerAttack : MonoBehaviour
         {
             //if (_droneScanner.nearCollider != null)
             playerDroneAttack.UseDroneAttack(isDrone, droneLevel);
+            if(_drone2.activeSelf == true)
+            {
+                playerDrone2Attack.UseDroneAttack(isDrone, 4);
+            }
         }
         //폭탄공격활성화코드
         if (_scanner.nearCollider != null)

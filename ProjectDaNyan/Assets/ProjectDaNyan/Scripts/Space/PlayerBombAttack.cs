@@ -10,14 +10,24 @@ public class PlayerBombAttack : MonoBehaviour
     [SerializeField] private GameObject _bomb;//적의 머리 위에 떠있는 폭탄
     [SerializeField] private float _bombFireRate;
     [SerializeField] private float _bombFireSpeed;
+    private PlayerAttack _playerAttack;
+    private int _bombLevel;
 
     float _bombFireDelay;
     bool _isFireReady;
 
     private void OnEnable()
     {
+        _playerAttack = GameObject.Find("PlayerAttackPosition").GetComponent<PlayerAttack>();
         _bombFireRate = _attackStatus.bombFireRate;
         _bombFireSpeed = _attackStatus.bombFireSpeed;
+    }
+
+    private void Update()
+    {
+        _bombLevel = _playerAttack.bombLevel;
+        if (_bombLevel > 4)
+            _bombFireRate = _attackStatus.bombFireRate * 0.5f;
     }
 
     public void UseBombAttack(bool isBomb,Collider enemyCollider, int bombFireLevel)

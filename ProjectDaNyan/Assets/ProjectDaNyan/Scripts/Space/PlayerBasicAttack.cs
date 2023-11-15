@@ -33,27 +33,15 @@ public class PlayerBasicAttack : MonoBehaviour
     public void UseBasicAttack(Collider enemyCollider, int basicFireLevel)
     {
         bulletPositionGroup.LookAt(enemyCollider.transform);
-        if (basicFireLevel < 4)
+
+        _isFireReady = _basicFireRate < _basicfireDelay;
+        _basicfireDelay += Time.deltaTime;
+        if (_isFireReady)
         {
-            
-            _isFireReady = _basicFireRate < _basicfireDelay;
-            _basicfireDelay += Time.deltaTime;
-            if (_isFireReady)
-            {
-                StartCoroutine(BasicAttack(basicFireLevel));
-                _basicfireDelay = 0;
-            }
+            StartCoroutine(BasicAttack(basicFireLevel));
+            _basicfireDelay = 0;
         }
-        else
-        {
-            _isFireReady = _upgradedFireRate < _basicfireDelay;
-            _basicfireDelay += Time.deltaTime;
-            if (_isFireReady)
-            {
-                StartCoroutine("UpgradeAttack");
-                _basicfireDelay = 0;
-            }
-        }
+
     }
 
     void MakeInstantBullet(GameObject bulletObject, Transform bulletObjectPosition, bool isGravity, float fireSpeed)
@@ -70,13 +58,23 @@ public class PlayerBasicAttack : MonoBehaviour
         MakeInstantBullet(basicBullet, bulletPosition, false, _basicFireSpeed);
         if(basicFireLevel > 1)
         {
-            MakeInstantBullet(basicBullet, upgradeBulletPositions[2], false, _basicFireSpeed);
-            MakeInstantBullet(basicBullet, upgradeBulletPositions[3], false, _basicFireSpeed);
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[0], false, _basicFireSpeed);
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[1], false, _basicFireSpeed);
         }
         if (basicFireLevel > 2)
         {
-            MakeInstantBullet(basicBullet, upgradeBulletPositions[0], false, _basicFireSpeed);
-            MakeInstantBullet(basicBullet, upgradeBulletPositions[1], false, _basicFireSpeed);
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[2], false, _basicFireSpeed);
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[3], false, _basicFireSpeed);
+        }
+        if (basicFireLevel > 3)
+        {
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[4], false, _basicFireSpeed);
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[5], false, _basicFireSpeed);
+        }
+        if (basicFireLevel > 4)
+        {
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[6], false, _basicFireSpeed);
+            MakeInstantBullet(basicBullet, upgradeBulletPositions[7], false, _basicFireSpeed);
         }
         yield return null;
     }
