@@ -93,7 +93,7 @@ public class PlayerAttack : MonoBehaviour
     {
         //기본공격, 초월공격 활성화 코드
         if(_scanner.nearCollider != null && _scanner.nearCollider.gameObject.activeSelf == true)
-            playerBasicAttack.UseBasicAttack(isUpgrade, _scanner.nearCollider, basicFireLevel);
+            playerBasicAttack.UseBasicAttack(_scanner.nearCollider, basicFireLevel);
 
         
 

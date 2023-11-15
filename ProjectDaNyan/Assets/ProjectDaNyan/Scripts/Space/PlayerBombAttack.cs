@@ -46,10 +46,6 @@ public class PlayerBombAttack : MonoBehaviour
 
     IEnumerator BombAttack(int bombFireLevel)
     {
-
-        //_bombFireEffect.SetActive(true);
-        //yield return new WaitForSeconds(0.3f);
-        //_bombFireEffect.SetActive(false);
         yield return null;
         MakeInstantBullet(_bombBullet, _bulletPosition, false, _bombFireSpeed);
     }

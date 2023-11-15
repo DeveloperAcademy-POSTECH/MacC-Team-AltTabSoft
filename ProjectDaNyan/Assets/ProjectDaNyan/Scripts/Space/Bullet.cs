@@ -122,7 +122,7 @@ public class Bullet : MonoBehaviour
             {
                 GameObject InstantBomb = ObjectPoolManager.Inst.BringObject(_bomb);         
                 InstantBomb.transform.parent = other.transform;
-                InstantBomb.transform.position = other.transform.position + new Vector3(0, 2.5f, 0);
+                InstantBomb.transform.position = other.transform.position + new Vector3(0, 4f, 0);
             }
         }
 

@@ -30,10 +30,10 @@ public class PlayerBasicAttack : MonoBehaviour
         _upgradedFireSpeed = _attackStatus.upgradedFireSpeed;
     }
 
-    public void UseBasicAttack(bool isUpgrade, Collider enemyCollider, int basicFireLevel)
+    public void UseBasicAttack(Collider enemyCollider, int basicFireLevel)
     {
         bulletPositionGroup.LookAt(enemyCollider.transform);
-        if (isUpgrade == false)
+        if (basicFireLevel < 4)
         {
             
             _isFireReady = _basicFireRate < _basicfireDelay;
