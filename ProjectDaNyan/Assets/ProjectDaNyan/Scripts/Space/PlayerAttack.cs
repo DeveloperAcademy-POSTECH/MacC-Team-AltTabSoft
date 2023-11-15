@@ -59,6 +59,8 @@ public class PlayerAttack : MonoBehaviour
             {
                 _drone.transform.position = this.transform.position + new Vector3(0, 1.9f, 0);
             }
+
+   
         }
 
         _scanner.ScanEnemy();
@@ -78,14 +80,22 @@ public class PlayerAttack : MonoBehaviour
     //    isGet = true;
     //}
 
+    //public IEnumerator LaserAttack()
+    //{
+    //    //관통공격활성화코드
+    //    isLaser = true;
+    //    playerLaserAttack.UseLaserAttack(isLaser, laserLevel);
+    //    yield return new WaitForSeconds(10f);
+    //    isLaser = false;
+    //}
+
     public void AllAttack()
     {
         //기본공격, 초월공격 활성화 코드
         if(_scanner.nearCollider != null && _scanner.nearCollider.gameObject.activeSelf == true)
             playerBasicAttack.UseBasicAttack(isUpgrade, _scanner.nearCollider, basicFireLevel);
 
-        //관통공격활성화코드
-        playerLaserAttack.UseLaserAttack(isLaser, laserLevel);
+        
 
         //드론공격활성화코드
         if (isDrone)
