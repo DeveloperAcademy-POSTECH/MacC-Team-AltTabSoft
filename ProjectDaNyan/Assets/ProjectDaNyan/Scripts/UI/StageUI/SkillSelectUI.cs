@@ -13,7 +13,8 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
         private PlayerRandomFieldAttack _playerRandomFieldAttack;
         [SerializeField] private List<SkillSelectButton> _skillLevelUpButtons;
         private Dictionary<string, int> _skillDict;
-        private int _skillCount = 0;
+        //private int _skillCount = 0;
+        private int _randomNumber;
 
         private void Awake()
         {
@@ -24,20 +25,22 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
 
         private void OnEnable()
         {
+            
             _skillDict = new Dictionary<string, int>()
             {
                 {"Basic Fire", _playerAttack.basicFireLevel},
                 {"Drone Attack", _playerAttack.droneLevel},
                 {"Bomb Attack", _playerAttack.bombLevel}
             };
-            _skillCount = 0;
+            //_skillCount = 0;
             var _skillList = new List<string>(_skillDict.Keys);
+            _randomNumber = Random.Range(0,_skillList.Count);
 
             // 스킬 선택하기
             foreach (SkillSelectButton selectButton in _skillLevelUpButtons)
             {
                 
-                string _skillName = _skillList[_skillCount];
+                string _skillName = _skillList[_randomNumber];
                 int _skillLevel = _skillDict[_skillName];
                 SkillElement element = selectButton.GetComponentInChildren<SkillElement>();
                 element.SetImage(_skillName);
@@ -89,7 +92,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
                             
                     }
                 });
-                _skillCount += 1;
+                //_skillCount += 1;
             }
         }
     }
