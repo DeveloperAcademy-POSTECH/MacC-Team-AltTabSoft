@@ -175,6 +175,7 @@ public class MonsterNormal : Monster
         if (this.gameObject.transform.Find("BombOnMonster") != null)
         {
             StartCoroutine(bombExplosion(_boom, _bombLevel, 1f));
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         }
         else
         {
