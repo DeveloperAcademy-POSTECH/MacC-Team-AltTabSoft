@@ -46,7 +46,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
                 selectButton.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     selectButton.SelectSkillBox();
-                    //_playerAttack.basicFireLevel += 1;
+                    //선택한 스킬 이름에 따라서 스킬 레벨업
                     switch (_skillName)
                     {
                         case "Basic Fire":
