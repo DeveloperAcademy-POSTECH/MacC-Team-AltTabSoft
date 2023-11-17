@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using DG.Tweening;
+using ProjectDaNyan.Scripts.UI.StageUI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ namespace ProjectDaNyan.Views.StageUI
         private Button _shelterButton;
         private Button _pauseButton;
         private GameObject _pauseUI;
+        private GameObject _skillInfoUI;
         private GameObject _stageMainUI;
         private Button _continueButton;
 
@@ -57,6 +59,7 @@ namespace ProjectDaNyan.Views.StageUI
         void Start()
         {
             _pauseUI = transform.Find("PauseUI").gameObject;
+            _skillInfoUI = transform.Find("SkillInfoUI").gameObject;
             _stageClearUI = transform.Find("StageClearUI").gameObject;
             _stageFailedUI = transform.Find("StageFailedUI").gameObject;
             _stageMainUI = transform.Find("StageMainUI").gameObject;
@@ -116,6 +119,15 @@ namespace ProjectDaNyan.Views.StageUI
                     {
                         GameManager.Inst.ResumeGame();
                         SceneManager.LoadScene("StageScene");
+                    });
+                }
+                
+                else if (buttonName == "SkillInfoButton")
+                {
+                    button.onClick.AddListener(() =>
+                    {
+                        _pauseUI.SetActive(false);
+                        _skillInfoUI.SetActive(true);
                     });
                 }
 
