@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
 
     [SerializeField] private GameObject playerObject;
+    [SerializeField] private GameObject playerBodyBullet;
     
     [SerializeField] private PlayerData _playerData;
     
@@ -138,22 +139,21 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
-        playerAnim.SetInteger("State",2);
-
-        playerTrailRenderer.emitting = true;
-        playerLineRenderer.enabled = false;
+        if (dashTimerCount == 0)
+        {
+            playerAnim.SetInteger("State",2);
+            playerBodyBullet.SetActive(true);
+            playerTrailRenderer.emitting = true;
+            playerLineRenderer.enabled = false;
+            this.gameObject.layer = 7;
+        }
         
-        this.gameObject.layer = 7;
         playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
         dashTimerCount += 1;
             
         if (dashTimerCount >= _playerData.dashLimitTic1SecondsTo50)
         {
-            dashTimerCount = 0;
-            _playerState.setPsData(PlayerState.PSData.stop);
-            this.gameObject.layer = 6;
-            playerTrailRenderer.emitting = false;
-            playerAnim.SetInteger("State",0);
+            PlayerDashEnds();
         }
     }
 
@@ -197,6 +197,16 @@ public class PlayerController : MonoBehaviour
     //     isWallReflectDash = true;
     // }
 
+    private void PlayerDashEnds()
+    {
+        dashTimerCount = 0;
+        _playerState.setPsData(PlayerState.PSData.stop);
+        this.gameObject.layer = 6;
+        playerTrailRenderer.emitting = false;
+        playerAnim.SetInteger("State",0);
+        playerBodyBullet.SetActive(false);
+    }
+
     void PlayerMoveOnTheRock(GameObject rock)
     {
         playerAnim.SetInteger("State",0);
@@ -204,6 +214,7 @@ public class PlayerController : MonoBehaviour
         dashTimerCount = 0;
         transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
         _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
+        playerBodyBullet.SetActive(true);
     }
     
     void PlayerExitStartFromRock()
@@ -239,6 +250,7 @@ public class PlayerController : MonoBehaviour
                 //playerwallrefelection 코드를 여기에만 사용하게 됨 > 그냥 코드 여기에 넣음
                 dashMovePosition = Vector3.Reflect(dashMovePosition, hit.normal);
                 _soundEffectController.playStageSoundEffect(2f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
+                playerBodyBullet.SetActive(true);
                 dashTimerCount = 0;
             }
             else if (hit.gameObject.CompareTag("Rock"))
@@ -251,9 +263,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                _playerState.setPsData(PlayerState.PSData.stop);
-                playerTrailRenderer.emitting = false;
-                dashTimerCount = 0;
+                PlayerDashEnds();
             }
         }
     }
