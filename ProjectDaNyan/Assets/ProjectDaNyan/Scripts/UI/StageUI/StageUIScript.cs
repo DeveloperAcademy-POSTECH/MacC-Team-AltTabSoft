@@ -103,7 +103,7 @@ namespace ProjectDaNyan.Views.StageUI
                         GameManager.Inst.PauseGame();
                     });
                 }
-                else if (buttonName == "Button_Continue_Stage")
+                else if (buttonName == "ContinueButton")
                 {
                     button.onClick.AddListener(() =>
                     {

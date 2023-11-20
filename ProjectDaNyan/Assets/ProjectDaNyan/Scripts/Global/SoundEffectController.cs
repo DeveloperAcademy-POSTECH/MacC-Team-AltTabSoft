@@ -9,7 +9,7 @@ public class SoundEffectController : MonoBehaviour
 {
     [SerializeField] public AudioSource audioSource;
     
-    private bool isSoundEffectPlayTemp = true;
+    public bool isSoundEffectPlayTemp = true;
     private float sampleVolumeSettingValue = 1f;
 
     private AudioClip[] StageSoundEffects;
