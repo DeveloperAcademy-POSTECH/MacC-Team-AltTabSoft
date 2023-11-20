@@ -117,6 +117,8 @@ namespace ProjectDaNyan.Views.StageUI
                 {
                     button.onClick.AddListener(() =>
                     {
+                        _stageClearUI.SetActive(false);
+                        _stageFailedUI.SetActive(false);
                         GameManager.Inst.ResumeGame();
                         SceneManager.LoadScene("StageScene");
                     });
