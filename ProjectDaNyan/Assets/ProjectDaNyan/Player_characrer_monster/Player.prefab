@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 5792001150830992708}
+  playerBodyBullet: {fileID: 5321906846377244750}
   _playerData: {fileID: 11400000, guid: 2f7d25fabc5c945399187fcef0055c2b, type: 2}
   _joy: {fileID: 0}
   _playerState: {fileID: 8053427458890090582}
@@ -654,6 +655,14 @@ PrefabInstance:
       propertyPath: _soundEffectController
       value: 
       objectReference: {fileID: 5689850269325050876}
+    - target: {fileID: 956935976895439317, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 956935976895439317, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 43062f191c7c9423b96996d3de02071e, type: 2}
     - target: {fileID: 2012497629165759939, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_Name
       value: PlayerAttackPosition
@@ -686,6 +695,14 @@ PrefabInstance:
       propertyPath: _soundEffectController
       value: 
       objectReference: {fileID: 5689850269325050876}
+    - target: {fileID: 5320146824890894315, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6252089698506109771, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7733001885678021187, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.0050000004
@@ -735,6 +752,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+--- !u!1 &5321906846377244750 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6252089698506109771, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+  m_PrefabInstance: {fileID: 2240774324159843077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8379492869393523014 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7733001885678021187, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
