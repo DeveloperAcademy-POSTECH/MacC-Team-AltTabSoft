@@ -37,13 +37,25 @@ namespace ProjectDaNyan.Views.StageUI
         private PlayerStatus _playerStatus;
 
         //HiddenSkill1 Cool Time
-        private float _hiddenSkillFirstRate = 30f;
-        private float _hiddenSkillFirstDelay = 30f;
-        private bool _isHiddenFirstReady;
-        //HiddenSkill2 
-        private float _hiddenSkillSecondRate = 10f;
-        private float _hiddenSkillSecondDelay = 10f;
-        private bool _isHiddenSecondReady;
+        //private float _hiddenSkillFirstRate = 30f;
+        //private float _hiddenSkillFirstDelay = 30f;
+        //private bool _isHiddenFirstReady;
+
+        //HiddenSkill
+        public enum HiddenSkillType
+        {
+            //전체 화면 공격 
+            WideAreaAttack,
+            //레이저 공격
+            LaserAttack
+        }
+
+        public HiddenSkillType[] hiddenSkillTypes = { HiddenSkillType.WideAreaAttack, HiddenSkillType.LaserAttack };
+        private HiddenSkillType _hiddenSkillType;
+        private int _randomNumber;
+        private float _hiddenSkillRate = 10f;
+        private float _hiddenSkillDelay = 10f;
+        private bool _isHiddenReady;
         private PlayerLaserAttack _playerLaserAttack;
 
 
@@ -67,7 +79,9 @@ namespace ProjectDaNyan.Views.StageUI
             //_hiddenSkillUI = transform.Find("TestHiddenSkill").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
 
-            //LaserAttack Hidden Skill
+            //Hidden Skill
+            _randomNumber = UnityEngine.Random.Range(0, hiddenSkillTypes.Length);
+            _hiddenSkillType = hiddenSkillTypes[_randomNumber];
             _playerLaserAttack = GameObject.Find("PlayerAttackPosition").GetComponent<PlayerLaserAttack>();
             _bossWarning = transform.Find("BossWarning").gameObject.transform.Find("Warning").gameObject;
 
@@ -152,11 +166,28 @@ namespace ProjectDaNyan.Views.StageUI
                 {
                     button.onClick.AddListener(() =>
                     {
-                        if (_isHiddenSecondReady)
+                        switch (_hiddenSkillType)
                         {
-                            _playerLaserAttack.UseLaserAttack(true, 4);
-                            _hiddenSkillSecondDelay = 0;
+                            case HiddenSkillType.WideAreaAttack:
+                                if (_isHiddenReady)
+                                { //추후 전체 공격 관련 로직 들어가야함
+                                    Debug.Log("Wide Area Attack");
+                                    _playerLaserAttack.UseLaserAttack(true, 4);
+                                    _hiddenSkillDelay = 0;
+                                }
+                                break;
+
+                            case HiddenSkillType.LaserAttack:
+                                if (_isHiddenReady)
+                                {
+                                    Debug.Log("Laser HIdden Attack");
+                                    _playerLaserAttack.UseLaserAttack(true, 4);
+                                    _hiddenSkillDelay = 0;
+                                }
+                                break;
                         }
+
+                        
                     });
                 }
             }
@@ -204,11 +235,12 @@ namespace ProjectDaNyan.Views.StageUI
             }
 
             //HiddenSkill CoolTime Update
-            _isHiddenFirstReady = _hiddenSkillFirstRate < _hiddenSkillFirstDelay;
-            _hiddenSkillFirstDelay += Time.deltaTime;
+            //_isHiddenFirstReady = _hiddenSkillFirstRate < _hiddenSkillFirstDelay;
+            //_hiddenSkillFirstDelay += Time.deltaTime;
+
             //HiddenSkill2 CoolTime Update
-            _isHiddenSecondReady = _hiddenSkillSecondRate < _hiddenSkillSecondDelay;
-            _hiddenSkillSecondDelay += Time.deltaTime;
+            _isHiddenReady = _hiddenSkillRate < _hiddenSkillDelay;
+            _hiddenSkillDelay += Time.deltaTime;
         }
 
         private void WarnBoss()
