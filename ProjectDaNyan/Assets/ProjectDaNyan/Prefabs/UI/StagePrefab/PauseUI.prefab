@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 1868667305463362767}
   - component: {fileID: 5239452110448853513}
   m_Layer: 5
-  m_Name: RefreshRate60Text
+  m_Name: Frame60Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 60Hz
+  m_text: 60
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd5b6997ea388834585bf0b7ed60e9a6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: cf43ccc2bc7d7488cba2680d6925a0c7, type: 2}
@@ -486,7 +486,7 @@ GameObject:
   - component: {fileID: 1881065490547212930}
   - component: {fileID: 3820694935084691300}
   m_Layer: 5
-  m_Name: RefreshRate60Button
+  m_Name: Frame60Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1134,7 +1134,6 @@ RectTransform:
   m_Children:
   - {fileID: 2198862504742161892}
   - {fileID: 6538680498612875861}
-  - {fileID: 8727197207975364230}
   m_Father: {fileID: 8404700634320243253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2127,7 +2126,7 @@ GameObject:
   - component: {fileID: 9060407795222523750}
   - component: {fileID: 6663635683531177150}
   m_Layer: 5
-  m_Name: RefreshRateText
+  m_Name: FrameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2180,7 +2179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC8FC\uC0AC\uC728"
+  m_text: "\uD504\uB808\uC784"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd5b6997ea388834585bf0b7ed60e9a6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: cf43ccc2bc7d7488cba2680d6925a0c7, type: 2}
@@ -2647,7 +2646,7 @@ GameObject:
   - component: {fileID: 6538680498612875861}
   - component: {fileID: 3309383602786968926}
   m_Layer: 0
-  m_Name: SettingCenterClass
+  m_Name: SettingBottomClass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2666,6 +2665,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5283807865006856616}
+  - {fileID: 3492006588871667860}
   m_Father: {fileID: 9183042834420626912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2691,7 +2691,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 3
-  m_Spacing: 0
+  m_Spacing: -100
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -3051,7 +3051,7 @@ GameObject:
   - component: {fileID: 6957858041187093268}
   - component: {fileID: 2287854936883117821}
   m_Layer: 5
-  m_Name: RefreshRate120Text
+  m_Name: Frame120Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3104,7 +3104,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 120Hz
+  m_text: 120
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd5b6997ea388834585bf0b7ed60e9a6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: cf43ccc2bc7d7488cba2680d6925a0c7, type: 2}
@@ -3394,7 +3394,7 @@ GameObject:
   - component: {fileID: 2310553585084129734}
   - component: {fileID: 2600951087726582576}
   m_Layer: 0
-  m_Name: RefreshRateButtons
+  m_Name: FrameButtons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3439,7 +3439,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 3
-  m_Spacing: -72
+  m_Spacing: -140
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -3470,7 +3470,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6698254449102147728}
   - component: {fileID: 5355807916972573297}
-  - component: {fileID: 3621710820420108119}
+  - component: {fileID: 3200008637983135645}
   m_Layer: 0
   m_Name: EffectSoundButton
   m_TagString: Untagged
@@ -3543,8 +3543,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3621710820420108119}
-        m_TargetAssemblyTypeName: SwitchHandler, Assembly-CSharp
+      - m_Target: {fileID: 3200008637983135645}
+        m_TargetAssemblyTypeName: EffectSwitchHandler, Assembly-CSharp
         m_MethodName: OnSwitchClicked
         m_Mode: 1
         m_Arguments:
@@ -3555,7 +3555,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3621710820420108119
+--- !u!114 &3200008637983135645
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3564,7 +3564,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4703722276782893343}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e66f97307b4db475388f7e855366e0bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a91d7d92084446d69f94bbc141a07ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   on: {fileID: 6310834084508278389}
@@ -3656,7 +3656,7 @@ GameObject:
   - component: {fileID: 1383124723012692781}
   - component: {fileID: 3188869595784338769}
   m_Layer: 5
-  m_Name: RefreshRate120Button
+  m_Name: Frame120Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3874,7 +3874,7 @@ GameObject:
   - component: {fileID: 1756903811381054532}
   - component: {fileID: 6741991808860034723}
   m_Layer: 5
-  m_Name: Button_Restart_Stage
+  m_Name: RetryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4037,7 +4037,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 3
-  m_Spacing: 0
+  m_Spacing: -100
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -4208,9 +4208,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3492006588871667860}
-  - component: {fileID: 2914503299660834245}
+  - component: {fileID: 8137674657610090718}
   m_Layer: 0
-  m_Name: RefreshRate
+  m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4230,14 +4230,14 @@ RectTransform:
   m_Children:
   - {fileID: 1710850279420409020}
   - {fileID: 7633059221397267498}
-  m_Father: {fileID: 8727197207975364230}
+  m_Father: {fileID: 6538680498612875861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 360, y: 100}
+  m_SizeDelta: {x: 240, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2914503299660834245
+--- !u!114 &8137674657610090718
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4246,7 +4246,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5754342329163623319}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -4276,7 +4276,7 @@ GameObject:
   - component: {fileID: 4445599246095811337}
   - component: {fileID: 1873162081677576902}
   m_Layer: 5
-  m_Name: Button_GoTo_Shelter
+  m_Name: ShelterButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4488,7 +4488,7 @@ GameObject:
   - component: {fileID: 3696049017527949519}
   - component: {fileID: 4140645431919156080}
   m_Layer: 5
-  m_Name: Button_Continue_Stage
+  m_Name: ContinueButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5899,69 +5899,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &8773973362015211068
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8727197207975364230}
-  - component: {fileID: 6400937410914061921}
-  m_Layer: 0
-  m_Name: SettingBottomClass
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &8727197207975364230
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8773973362015211068}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3492006588871667860}
-  m_Father: {fileID: 9183042834420626912}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 760, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6400937410914061921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8773973362015211068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 3
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!1 &8848413790563334064
 GameObject:
   m_ObjectHideFlags: 0
