@@ -7,21 +7,21 @@ public class SwitchHandler : MonoBehaviour
 {
     [SerializeField] private Image on;
     [SerializeField] private Image off;
-    private int _index = 0;
+    private int _switchIndex = 0;
 
     public void OnSwitchClicked()
     {
-        if (_index == 0)
+        if (_switchIndex == 0)
         {
             on.gameObject.SetActive(false);
             off.gameObject.SetActive(true);
-            _index = 1;
+            _switchIndex = 1;
         }
         else
         {
             on.gameObject.SetActive(true);
             off.gameObject.SetActive(false);
-            _index = 0;
+            _switchIndex = 0;
         }
     }
 }
