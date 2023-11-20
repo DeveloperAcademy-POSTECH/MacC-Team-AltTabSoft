@@ -252,6 +252,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 _playerState.setPsData(PlayerState.PSData.stop);
+                playerTrailRenderer.emitting = false;
                 dashTimerCount = 0;
             }
         }
