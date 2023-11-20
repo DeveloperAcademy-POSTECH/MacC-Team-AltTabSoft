@@ -178,6 +178,7 @@ Transform:
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2698069484473750891}
   - {fileID: 1721976953259513750}
   - {fileID: 4033147051143884980}
   - {fileID: 6184229383148067845}
@@ -205,6 +206,7 @@ MonoBehaviour:
   droneLevel: 1
   bombLevel: 1
   _drone: {fileID: 0}
+  _drone2: {fileID: 0}
   _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
 --- !u!114 &5238146470352652433
 MonoBehaviour:
@@ -223,6 +225,7 @@ MonoBehaviour:
   _basicFireSpeed: 0
   _upgradedFireRate: 0
   _upgradedFireSpeed: 0
+  _soundEffectController: {fileID: 0}
   bulletPositionGroup: {fileID: 6184229383148067845}
   bulletPosition: {fileID: 9112101095602693780}
   upgradeBulletPositions:
@@ -257,6 +260,7 @@ MonoBehaviour:
   - {fileID: 1843856483570070447}
   _laserGroup: {fileID: 5596707124292945394}
   _laserFireRate: 0
+  _soundEffectController: {fileID: 0}
 --- !u!114 &2045052157784040541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,6 +315,7 @@ MonoBehaviour:
   _bomb: {fileID: 6785727705511440841, guid: bc251c8ff563c499aa7c95b989d827e9, type: 3}
   _bombFireRate: 0
   _bombFireSpeed: 0
+  _soundEffectController: {fileID: 0}
 --- !u!1 &2806434337795028948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,4 +1389,66 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
   m_PrefabInstance: {fileID: 5458396492774220433}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8039670838710403650
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7733001885678021187}
+    m_Modifications:
+    - target: {fileID: 4130157634977493257, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_Name
+      value: BodyBullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+--- !u!4 &2698069484473750891 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
+  m_PrefabInstance: {fileID: 8039670838710403650}
   m_PrefabAsset: {fileID: 0}

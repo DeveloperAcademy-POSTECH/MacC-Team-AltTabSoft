@@ -35,5 +35,6 @@ public class AttackStatus : ScriptableObject
     public float laserDamage;
     public float bombDamage;
     public float droneDamage;
+    public float dashDamage;
 
 }

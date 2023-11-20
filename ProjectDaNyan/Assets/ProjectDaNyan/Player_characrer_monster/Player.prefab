@@ -242,6 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 5432781030662005881}
+  isSoundEffectPlayTemp: 1
 --- !u!54 &5664507652802496739
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -658,8 +659,28 @@ PrefabInstance:
       value: PlayerAttackPosition
       objectReference: {fileID: 0}
     - target: {fileID: 2180998302867330008, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: isBomb
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2180998302867330008, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: isDrone
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2180998302867330008, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: bombLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2180998302867330008, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: droneLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698069484473750891, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465743582876711410, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_Radius
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5238146470352652433, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: _soundEffectController
