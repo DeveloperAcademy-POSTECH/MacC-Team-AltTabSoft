@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     private CharacterController playerCharacterController;
     private LineRenderer playerLineRenderer;
 
+    private PlayerAttack _playerAttack;
+
     private Vector3 movePosition;
     private Vector3 dashMovePosition;
     
@@ -55,6 +57,8 @@ public class PlayerController : MonoBehaviour
         playerCharacterController = playerObject.GetComponent<CharacterController>();
         playerLineRenderer = playerObject.GetComponent<LineRenderer>();
 
+        //Player attack script for dash level
+        _playerAttack = FindObjectOfType<PlayerAttack>();
         // 게임이 시작될 때 캐릭터의 머리가 카메라를 바라보도록 회전각을 설정
         playerRotationPositionX = 1;
         playerRotationPositionY = -1;
@@ -142,7 +146,8 @@ public class PlayerController : MonoBehaviour
         if (dashTimerCount == 0)
         {
             playerAnim.SetInteger("State",2);
-            playerBodyBullet.SetActive(true);
+            if(_playerAttack.dashLevel > 4)
+                playerBodyBullet.SetActive(true);
             playerTrailRenderer.emitting = true;
             playerLineRenderer.enabled = false;
             this.gameObject.layer = 7;
