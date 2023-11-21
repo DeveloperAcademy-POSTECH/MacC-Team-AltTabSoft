@@ -9,7 +9,7 @@ public class PlayerBasicAttack : MonoBehaviour
     [SerializeField] private float _basicFireSpeed;
     [SerializeField] private float _upgradedFireRate;
     [SerializeField] private float _upgradedFireSpeed;
-    
+
     [SerializeField] private SoundEffectController _soundEffectController;
 
     //public int basicFireLevel = 1;
@@ -36,14 +36,29 @@ public class PlayerBasicAttack : MonoBehaviour
     {
         bulletPositionGroup.LookAt(enemyCollider.transform);
 
-        _isFireReady = _basicFireRate < _basicfireDelay;
-        _basicfireDelay += Time.deltaTime;
-        if (_isFireReady)
+        if (basicFireLevel < 6)
         {
-            _soundEffectController.playStageSoundEffect(0.2f,SoundEffectController.StageSoundTypes.Player_Attack);
-            StartCoroutine(BasicAttack(basicFireLevel));
-            _basicfireDelay = 0;
+            _isFireReady = _basicFireRate < _basicfireDelay;
+            _basicfireDelay += Time.deltaTime;
+            if (_isFireReady)
+            {
+                _soundEffectController.playStageSoundEffect(0.2f, SoundEffectController.StageSoundTypes.Player_Attack);
+                StartCoroutine(BasicAttack(basicFireLevel));
+                _basicfireDelay = 0;
+            }
         }
+        else
+        {
+            _isFireReady = _upgradedFireRate < _basicfireDelay;
+            _basicfireDelay += Time.deltaTime;
+            if (_isFireReady)
+            {
+                _soundEffectController.playStageSoundEffect(0.2f, SoundEffectController.StageSoundTypes.Player_Attack);
+                StartCoroutine(UpgradeAttack());
+                _basicfireDelay = 0;
+            }
+        }
+        
 
     }
 
@@ -59,7 +74,7 @@ public class PlayerBasicAttack : MonoBehaviour
     IEnumerator BasicAttack(int basicFireLevel)
     {
         MakeInstantBullet(basicBullet, bulletPosition, false, _basicFireSpeed);
-        if(basicFireLevel > 1)
+        if (basicFireLevel > 1)
         {
             MakeInstantBullet(basicBullet, upgradeBulletPositions[0], false, _basicFireSpeed);
             MakeInstantBullet(basicBullet, upgradeBulletPositions[1], false, _basicFireSpeed);
@@ -85,7 +100,7 @@ public class PlayerBasicAttack : MonoBehaviour
     IEnumerator UpgradeAttack()
     {
         yield return null;
-        bulletPosition.Rotate(new Vector3(0, Random.Range(-15f, 15f), 0));
+        bulletPosition.Rotate(new Vector3(0, Random.Range(-30f, 30f), 0));
         MakeInstantBullet(upgradedBullet, bulletPosition, false, _upgradedFireSpeed);
         bulletPosition.localRotation = Quaternion.Euler(0, 0, 0);
     }

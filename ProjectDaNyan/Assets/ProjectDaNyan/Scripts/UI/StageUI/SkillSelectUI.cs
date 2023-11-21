@@ -44,7 +44,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
             {
 
                 string _skillName = _skillList[_randomNumber];
-                //string _skillName = _skillList[3];
+                //string _skillName = _skillList[0];
                 int _skillLevel = _skillDict[_skillName];
                 SkillElement element = selectButton.GetComponentInChildren<SkillElement>();
                 element.SetImage(_skillName);
@@ -58,7 +58,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
                     {
                         case "Basic Fire":
                             if(_skillLevel == _playerAttack.basicFireLevel &&
-                               _playerAttack.basicFireLevel < 5)
+                               _playerAttack.basicFireLevel < 6)
                                _playerAttack.basicFireLevel += 1;
                             break;
 
