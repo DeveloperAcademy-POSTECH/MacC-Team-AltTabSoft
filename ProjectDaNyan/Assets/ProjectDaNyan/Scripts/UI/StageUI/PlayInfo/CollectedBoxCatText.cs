@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using System;
 
 namespace ProjectDaNyan.Scripts.UI.StageUI
 {
@@ -16,7 +17,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
 
         private void LateUpdate()
         {
-            _text.text = _playerStatus.Player_collected_box_cat.ToString();
+            _text.text = String.Format("{0:D2}", _playerStatus.Player_collected_box_cat);
         }
     }
 }
