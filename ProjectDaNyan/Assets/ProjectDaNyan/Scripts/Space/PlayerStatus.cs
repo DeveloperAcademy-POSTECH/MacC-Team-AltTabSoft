@@ -144,7 +144,6 @@ public class PlayerStatus : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Collide");
         if (other.collider.gameObject.CompareTag("Monster"))
         {
             player_Now_HP -= 10;
