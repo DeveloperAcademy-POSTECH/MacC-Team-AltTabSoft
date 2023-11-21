@@ -595,14 +595,7 @@ public class MonsterBossA : Monster
     }
 
 
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.collider.tag.Equals("Player"))
-        {
-            _skillMonsterBlast.isCollided = true;
-            _skillMonsterBlast._sphereCollider.enabled = false;
-        }
-    }
+
     
     #endregion
 

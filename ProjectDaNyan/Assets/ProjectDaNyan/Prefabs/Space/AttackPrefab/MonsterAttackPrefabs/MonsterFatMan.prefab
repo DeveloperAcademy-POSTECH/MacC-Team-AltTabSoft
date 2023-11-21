@@ -33,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8228343925386272637}
+  - {fileID: 4845989347873993115}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5606135563906372181
@@ -49,9 +50,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 0
   _explosion: {fileID: 6516240114102030008, guid: d65f9f4cda7c9448cabfba8d0c7b33b5, type: 3}
-  _fatManCollider: {fileID: 2779599013170744533, guid: 7b0259390a32641c6a30ac2276bb3bf6, type: 3}
   _fatManBody: {fileID: 8753629439701812679}
-  _explosionDamageDecrease: 0
+  _waveBlast: {fileID: 4107185044143336145, guid: 06931dfdb61f944a2a67fe3fe9465a45, type: 3}
+  _blastPoint: {fileID: 4845989347873993115}
+  _explosionDamageDecrease: 0.7
+  _fatManTargetCircle: {fileID: 1807440127185595247, guid: 225689983e993447ba6ff08814827e87, type: 3}
 --- !u!136 &8419726640148636982
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -73,7 +76,7 @@ CapsuleCollider:
   serializedVersion: 2
   m_Radius: 1.5
   m_Height: 6.5
-  m_Direction: 0
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8070554199240180437
 Rigidbody:
@@ -102,6 +105,37 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!1 &712059614806798199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4845989347873993115}
+  m_Layer: 12
+  m_Name: BlastPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4845989347873993115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712059614806798199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -3.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4329869949707673916}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8483174526117034134
 PrefabInstance:
   m_ObjectHideFlags: 0

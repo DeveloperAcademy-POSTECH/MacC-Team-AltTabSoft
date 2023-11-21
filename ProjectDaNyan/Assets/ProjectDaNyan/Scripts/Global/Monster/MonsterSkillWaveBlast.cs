@@ -101,10 +101,18 @@ public class MonsterSkillWaveBlast : MonsterAttack
     }
 
 
-    
     private void setSphereCollider(float currentRadius)
     {
         // change collider position
         _sphereCollider.radius = currentRadius;
+    }
+    
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.tag.Equals("Player"))
+        {
+            this.isCollided = true;
+            this._sphereCollider.enabled = false;
+        }
     }
 }
