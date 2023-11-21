@@ -45,6 +45,5 @@ public class PlayerRandomFieldAttack : MonoBehaviour
     {
         yield return null;
         MakeRandomAttackField(attackField, center);
-
     }
 }

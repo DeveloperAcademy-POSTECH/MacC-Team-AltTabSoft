@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1022124332221860566}
+  - component: {fileID: 1592630744727539676}
   - component: {fileID: 3857333942012257283}
   - component: {fileID: 5472813065106778144}
-  - component: {fileID: 1592630744727539676}
   m_Layer: 8
   m_Name: MonsterEliteLongRangePrefab
   m_TagString: Monster
@@ -35,6 +35,35 @@ Transform:
   - {fileID: 6818537091248078869}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1592630744727539676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7512927405108858682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c57ced2339e748958ba038a7236a510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myType: 0
+  _monsterData: {fileID: 11400000, guid: 41bf33f2833a142a4a5d5d18f6825b55, type: 2}
+  _monsterBulletPrefab: {fileID: 4130157634977493257, guid: 7b3fc1aa656114442acfa51848a40af6, type: 3}
+  _expBox: {fileID: 7703086083745402384, guid: d4e304cf3b1f049619280b63ac734983, type: 3}
+  MonsterHP: 0
+  _currentState: 0
+  _renderer: {fileID: 7361896321199305009}
+  _attackPoint: {fileID: 1022124332221860566}
+  _boom: {fileID: 6516240114102030008, guid: 37e7401034c044df0918e1f181bf72e4, type: 3}
+  _boomCollider: {fileID: 7107076862786558208, guid: 1fc2125f6450945478dfe55bc1575004, type: 3}
+  _playerAttack: {fileID: 0}
+  _monsterSpeed: 0
+  _attackRange: 0
+  _attackinterval: 0
+  _attackSpeed: 0
+  _exp: 0
+  monsterHP: 0
 --- !u!65 &3857333942012257283
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78,32 +107,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 2
---- !u!114 &1592630744727539676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7512927405108858682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c57ced2339e748958ba038a7236a510, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _monsterData: {fileID: 11400000, guid: 41bf33f2833a142a4a5d5d18f6825b55, type: 2}
-  _monsterBulletPrefab: {fileID: 7166173530311184209, guid: e4b033856683549f4b7be586af6d418a, type: 3}
-  _expBox: {fileID: 7703086083745402384, guid: d4e304cf3b1f049619280b63ac734983, type: 3}
-  _boom: {fileID: 6516240114102030008, guid: 37e7401034c044df0918e1f181bf72e4, type: 3}
-  _boomCollider: {fileID: 7107076862786558208, guid: 1fc2125f6450945478dfe55bc1575004, type: 3}
-  _attackPower: 0
-  _monsterHP: 0
-  _monsterSpeed: 0
-  _attackRange: 0
-  _attackinterval: 0
-  _attackSpeed: 0
-  _exp: 0
-  _currentState: 0
-  _attackPoint: {fileID: 1022124332221860566}
 --- !u!1001 &6425218464773285886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -164,10 +167,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ba37fa56140d74b7f8fb83997fc407aa, type: 2}
     - target: {fileID: 919132149155446097, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
       propertyPath: m_Name
       value: Monster_type_C
       objectReference: {fileID: 0}
+    - target: {fileID: 7202271454713460447, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 76e9400210d1a463db04e292cbdb048e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -176,5 +187,10 @@ PrefabInstance:
 --- !u!4 &6818537091248078869 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+  m_PrefabInstance: {fileID: 6425218464773285886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7361896321199305009 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4683669308469848369, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
   m_PrefabInstance: {fileID: 6425218464773285886}
   m_PrefabAsset: {fileID: 0}

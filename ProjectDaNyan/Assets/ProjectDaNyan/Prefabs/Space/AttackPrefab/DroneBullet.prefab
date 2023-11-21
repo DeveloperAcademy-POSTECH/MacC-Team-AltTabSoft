@@ -214,8 +214,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
   _bomb: {fileID: 0}
+  _explosion: {fileID: 358637981425055526, guid: 59c11ad9a19474a05a3754e0157c3f41, type: 3}
   type: 6
-  _damage: 0
+  damage: 0
+  bombStack: 0
 --- !u!1 &1209488007954112458
 GameObject:
   m_ObjectHideFlags: 0

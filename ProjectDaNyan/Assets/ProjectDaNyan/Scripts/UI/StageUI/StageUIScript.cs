@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using DG.Tweening;
+using ProjectDaNyan.Scripts.UI.StageUI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ namespace ProjectDaNyan.Views.StageUI
         private Button _shelterButton;
         private Button _pauseButton;
         private GameObject _pauseUI;
+        private GameObject _skillInfoUI;
         private GameObject _stageMainUI;
         private Button _continueButton;
 
@@ -35,13 +37,25 @@ namespace ProjectDaNyan.Views.StageUI
         private PlayerStatus _playerStatus;
 
         //HiddenSkill1 Cool Time
-        private float _hiddenSkillFirstRate = 30f;
-        private float _hiddenSkillFirstDelay = 30f;
-        private bool _isHiddenFirstReady;
-        //HiddenSkill2 
-        private float _hiddenSkillSecondRate = 10f;
-        private float _hiddenSkillSecondDelay = 10f;
-        private bool _isHiddenSecondReady;
+        //private float _hiddenSkillFirstRate = 30f;
+        //private float _hiddenSkillFirstDelay = 30f;
+        //private bool _isHiddenFirstReady;
+
+        //HiddenSkill
+        public enum HiddenSkillType
+        {
+            //전체 화면 공격 
+            WideAreaAttack,
+            //레이저 공격
+            LaserAttack
+        }
+
+        public HiddenSkillType[] hiddenSkillTypes = { HiddenSkillType.WideAreaAttack, HiddenSkillType.LaserAttack };
+        private HiddenSkillType _hiddenSkillType;
+        private int _randomNumber; //To Change Hidden Skill Types Randomly at Start Point
+        private float _hiddenSkillRate = 10f;
+        private float _hiddenSkillDelay = 10f;
+        private bool _isHiddenReady;
         private PlayerLaserAttack _playerLaserAttack;
 
 
@@ -57,6 +71,7 @@ namespace ProjectDaNyan.Views.StageUI
         void Start()
         {
             _pauseUI = transform.Find("PauseUI").gameObject;
+            _skillInfoUI = transform.Find("SkillInfoUI").gameObject;
             _stageClearUI = transform.Find("StageClearUI").gameObject;
             _stageFailedUI = transform.Find("StageFailedUI").gameObject;
             _stageMainUI = transform.Find("StageMainUI").gameObject;
@@ -64,7 +79,9 @@ namespace ProjectDaNyan.Views.StageUI
             //_hiddenSkillUI = transform.Find("TestHiddenSkill").gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
 
-            //LaserAttack Hidden Skill
+            //Hidden Skill
+            _randomNumber = UnityEngine.Random.Range(0, hiddenSkillTypes.Length);
+            _hiddenSkillType = hiddenSkillTypes[_randomNumber];
             _playerLaserAttack = GameObject.Find("PlayerAttackPosition").GetComponent<PlayerLaserAttack>();
             _bossWarning = transform.Find("BossWarning").gameObject.transform.Find("Warning").gameObject;
 
@@ -100,7 +117,7 @@ namespace ProjectDaNyan.Views.StageUI
                         GameManager.Inst.PauseGame();
                     });
                 }
-                else if (buttonName == "Button_Continue_Stage")
+                else if (buttonName == "ContinueButton")
                 {
                     button.onClick.AddListener(() =>
                     {
@@ -114,8 +131,19 @@ namespace ProjectDaNyan.Views.StageUI
                 {
                     button.onClick.AddListener(() =>
                     {
+                        _stageClearUI.SetActive(false);
+                        _stageFailedUI.SetActive(false);
                         GameManager.Inst.ResumeGame();
                         SceneManager.LoadScene("StageScene");
+                    });
+                }
+                
+                else if (buttonName == "SkillInfoButton")
+                {
+                    button.onClick.AddListener(() =>
+                    {
+                        _pauseUI.SetActive(false);
+                        _skillInfoUI.SetActive(true);
                     });
                 }
 
@@ -140,10 +168,25 @@ namespace ProjectDaNyan.Views.StageUI
                 {
                     button.onClick.AddListener(() =>
                     {
-                        if (_isHiddenSecondReady)
+                        switch (_hiddenSkillType)
                         {
-                            _playerLaserAttack.UseLaserAttack(true, 4);
-                            _hiddenSkillSecondDelay = 0;
+                            case HiddenSkillType.WideAreaAttack:
+                                if (_isHiddenReady)
+                                { //추후 전체 공격 관련 로직 들어가야함
+                                    Debug.Log("Wide Area Attack");
+                                    _playerLaserAttack.UseLaserAttack(true, 4);
+                                    _hiddenSkillDelay = 0;
+                                }
+                                break;
+
+                            case HiddenSkillType.LaserAttack:
+                                if (_isHiddenReady)
+                                {
+                                    Debug.Log("Laser HIdden Attack");
+                                    _playerLaserAttack.UseLaserAttack(true, 4);
+                                    _hiddenSkillDelay = 0;
+                                }
+                                break;
                         }
                     });
                 }
@@ -192,11 +235,12 @@ namespace ProjectDaNyan.Views.StageUI
             }
 
             //HiddenSkill CoolTime Update
-            _isHiddenFirstReady = _hiddenSkillFirstRate < _hiddenSkillFirstDelay;
-            _hiddenSkillFirstDelay += Time.deltaTime;
+            //_isHiddenFirstReady = _hiddenSkillFirstRate < _hiddenSkillFirstDelay;
+            //_hiddenSkillFirstDelay += Time.deltaTime;
+
             //HiddenSkill2 CoolTime Update
-            _isHiddenSecondReady = _hiddenSkillSecondRate < _hiddenSkillSecondDelay;
-            _hiddenSkillSecondDelay += Time.deltaTime;
+            _isHiddenReady = _hiddenSkillRate < _hiddenSkillDelay;
+            _hiddenSkillDelay += Time.deltaTime;
         }
 
         private void WarnBoss()

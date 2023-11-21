@@ -11,10 +11,13 @@ public class PlayerDroneAttack : MonoBehaviour
     [SerializeField] private GameObject _drone;
     [SerializeField] private float _droneFireRate;
     [SerializeField] private float _droneFireSpeed;
+    [SerializeField] private SoundEffectController _soundEffectController;
 
     public int droneFireLevel = 1;
     private float _droneFireDelay;
     private bool _droneFireReady;
+    private int _enemyNumber;
+    private int _randomNumber;
 
     DroneChaseMonster droneChasing;
     EnemyScanner scanner;
@@ -33,7 +36,7 @@ public class PlayerDroneAttack : MonoBehaviour
     {
         
         droneChasing.StartCoroutine("ReturnToPlayer");
-        targetCollider = scanner.nearCollider;
+        //targetCollider = scanner.nearCollider;
         if(scanner.nearCollider != null)
             droneChasing.DroneMoving(targetCollider.transform);
     }
@@ -42,20 +45,38 @@ public class PlayerDroneAttack : MonoBehaviour
     {
         
         scanner.ScanEnemy();
+
+        if(scanner.colliders.Length > 0)
+        {
+            _enemyNumber = scanner.colliders.Length;
+            _randomNumber = Random.Range(0, _enemyNumber);
+            targetCollider = scanner.colliders[_randomNumber];
+        }
+        
+        
         if (isDrone && targetCollider != null && targetCollider.gameObject.activeSelf == true)
         {
             _droneFireRate = _attackStatus.droneFireRate;
             _droneFireSpeed = _attackStatus.droneFireSpeed;
-            _bulletPosition = GameObject.Find("DroneBulletPosition").transform;
+            //_bulletPosition = GameObject.Find("DroneBulletPosition").transform;
+            _bulletPosition = gameObject.transform.GetChild(0);
             _droneFireReady = _droneFireRate < _droneFireDelay;
             _droneFireDelay += Time.deltaTime;
-            _drone.transform.RotateAround(targetCollider.transform.position,Vector3.up, 30 * Time.deltaTime) ;
+            _drone.transform.RotateAround(targetCollider.transform.position, Vector3.up, 30 * Time.deltaTime);
+
             if (_droneFireReady)
             {
+                if (droneLevel > 4)
+                    droneLevel = 4;
                 _bulletPosition.LookAt(targetCollider.transform);
+
+                //사운드 오류 떠서 잠시 비활성화
+                //_soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Drone_Attack);
                 StartCoroutine(DroneFire(droneLevel));
                 _droneFireDelay = 0;
             }
+
+
         }
     }
 
@@ -71,7 +92,7 @@ public class PlayerDroneAttack : MonoBehaviour
 
     IEnumerator DroneFire(int droneLevel)
     {
-        for (int i = 0; i < droneLevel * 2 + 1; i++)
+        for (int i = 0; i < droneLevel; i++)
         {
             scanner.ScanEnemy();
             MakeInstantBullet(_droneBullet, _bulletPosition, false, _droneFireSpeed);
