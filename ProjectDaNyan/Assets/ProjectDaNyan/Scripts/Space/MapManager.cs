@@ -17,10 +17,10 @@ public class MapManager : MonoBehaviour
     [SerializeField] public GameObject[] tilePrefabsArray;
     [SerializeField] private GameObject boxCatPrefab;
     [SerializeField] private int boxCatCounts;
-    [SerializeField] private GameObject hiddenBoxPrefab;
+    // [SerializeField] private GameObject hiddenBoxPrefab;
     [SerializeField] private GameObject restrictionPrefab;
     [SerializeField] private GameObject transparentRestrictionPrefab;
-    [SerializeField] private float hiddenBoxDropTime;
+    // [SerializeField] private float hiddenBoxDropTime;
     
     private GameObject _mapTiles;
     private GameObject _transparentRestrictions;
@@ -56,7 +56,7 @@ public class MapManager : MonoBehaviour
 
         SpawnBoxCatsOntoMap();
 
-        StartCoroutine(SetHiddenBox());
+        // StartCoroutine(SetHiddenBox());
         StartCoroutine(MakeRestrictions());
         
         _myNavMeshSurface.UpdateNavMesh(_myNavMeshSurface.navMeshData);
@@ -205,31 +205,31 @@ public class MapManager : MonoBehaviour
         }
     }
     
-    IEnumerator SetHiddenBox()
-    {
-        while (hiddenBoxDropTime > 0)
-        {
-            hiddenBoxDropTime -= 1;
-            yield return new WaitForSeconds(1f);
-        }
+    // IEnumerator SetHiddenBox()
+    // {
+    //     while (hiddenBoxDropTime > 0)
+    //     {
+    //         hiddenBoxDropTime -= 1;
+    //         yield return new WaitForSeconds(1f);
+    //     }
 
-        DropHiddenBox();
-    }
+    //     DropHiddenBox();
+    // }
 
-    void DropHiddenBox()
-    {
-        var randomIndex = Random.Range(0, _tileTotalCount);
-        var randomX = Random.Range(_tilesArray[randomIndex].transform.position.x - (tileSize / 2), _tilesArray[randomIndex].transform.position.x + (tileSize / 2));
-        var randomZ = Random.Range(_tilesArray[randomIndex].transform.position.z - (tileSize / 2),
-            _tilesArray[randomIndex].transform.position.z + (tileSize / 2));
+    // void DropHiddenBox()
+    // {
+    //     var randomIndex = Random.Range(0, _tileTotalCount);
+    //     var randomX = Random.Range(_tilesArray[randomIndex].transform.position.x - (tileSize / 2), _tilesArray[randomIndex].transform.position.x + (tileSize / 2));
+    //     var randomZ = Random.Range(_tilesArray[randomIndex].transform.position.z - (tileSize / 2),
+    //         _tilesArray[randomIndex].transform.position.z + (tileSize / 2));
 
-        var randomPosition = new Vector3(randomX, 1, randomZ);
+    //     var randomPosition = new Vector3(randomX, 1, randomZ);
         
-        var hiddenBox = Instantiate(hiddenBoxPrefab, randomPosition, Quaternion.identity);
-        hiddenBox.transform.parent = _tilesArray[randomIndex].transform;
+    //     var hiddenBox = Instantiate(hiddenBoxPrefab, randomPosition, Quaternion.identity);
+    //     hiddenBox.transform.parent = _tilesArray[randomIndex].transform;
         
-        Debug.Log("hiddenBox dropped!");
-    }
+    //     Debug.Log("hiddenBox dropped!");
+    // }
     
     private void ShuffleMovingTiles(List<int> movingTiles, GameObject[] tilesArray)
     {

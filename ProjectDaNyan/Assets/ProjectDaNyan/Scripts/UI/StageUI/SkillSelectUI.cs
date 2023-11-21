@@ -8,6 +8,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
 {
     public class SkillSelectUI : MonoBehaviour
     {
+        private SkillSelectUI _skillSelectUI;
         private PlayerAttack _playerAttack;
         private PlayerBasicAttack _playerBasicAttack;
         private PlayerRandomFieldAttack _playerRandomFieldAttack;
@@ -18,14 +19,20 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
 
         private void Awake()
         {
+            _skillSelectUI = FindObjectOfType<SkillSelectUI>();
             _playerAttack = FindObjectOfType<PlayerAttack>();
             _playerBasicAttack = FindObjectOfType<PlayerBasicAttack>();
             
         }
 
+        public void GoToGameStage()
+        {
+            _skillSelectUI.gameObject.SetActive(false);
+            GameManager.Inst.ResumeGame();
+        }
+
         private void OnEnable()
         {
-            
             _skillDict = new Dictionary<string, int>()
             {
                 {"Basic Fire", _playerAttack.basicFireLevel},
