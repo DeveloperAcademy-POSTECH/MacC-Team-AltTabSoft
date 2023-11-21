@@ -33,7 +33,7 @@ public class PlayerStatus : MonoBehaviour
         get { return player_Now_HP; }
     }
 
-    private int player_Level = 1;
+    public int player_Level = 1;
 
     private int player_now_EXP = 0;
     private int player_Now_HP = 100;
@@ -42,6 +42,7 @@ public class PlayerStatus : MonoBehaviour
 
     private int hitEnemy = 0;
     private int player_collected_box_cat = 0;
+    private int player_collected_gold = 0;
     
     private int dashCharged;
     public int DashCharged
@@ -54,8 +55,14 @@ public class PlayerStatus : MonoBehaviour
     public int Player_collected_box_cat
     {
         get { return player_collected_box_cat; }
+        set { player_collected_box_cat = value; }
     }
-
+    
+    public int Player_collected_gold
+    {
+        get { return player_collected_gold; }
+        set { player_collected_gold = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -190,9 +197,6 @@ public class PlayerStatus : MonoBehaviour
             ItemController.Inst.DropItem();
             
             soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Boxcat_Gold);
-            
-            // TODO: 드랍 아이템별 카운트 구현
-            player_collected_box_cat += 1;
         }
     }
     

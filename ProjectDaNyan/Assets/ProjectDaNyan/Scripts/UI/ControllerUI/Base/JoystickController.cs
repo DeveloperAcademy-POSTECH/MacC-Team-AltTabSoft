@@ -8,9 +8,11 @@ using UnityEngine.Serialization;
 public class JoystickController : FloatingJoystick
 {
     protected internal bool isJoystickPositionGoEnd = false;
-    
+
+    private GameObject player;
     private PlayerState _playerState;
     private PlayerStatus _playerStatus;
+    private PlayerController _playerController;
     private SoundEffectController _soundEffectController;
 
     private bool dashEffectToggle = true;
@@ -18,9 +20,10 @@ public class JoystickController : FloatingJoystick
     protected override void Start()
     {
         base.Start();
-        GameObject player = GameObject.FindGameObjectWithTag("Player").gameObject;
+        player = GameObject.FindGameObjectWithTag("Player").gameObject;
         _playerState = player.GetComponent<PlayerState>();
         _playerStatus = player.GetComponent<PlayerStatus>();
+        _playerController = player.GetComponent<PlayerController>();
         _soundEffectController = player.GetComponent<SoundEffectController>();
     }
     
@@ -40,6 +43,7 @@ public class JoystickController : FloatingJoystick
             {
                 if (_playerStatus.DashCharged > 0)
                 {
+                    player.gameObject.layer = 7;
                     _playerState.setPsData(PlayerState.PSData.dash);
                     _playerStatus.DashCharged -= 1;
                     PlayDashSound();

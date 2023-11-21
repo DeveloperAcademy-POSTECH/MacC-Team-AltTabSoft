@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,8 +12,6 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private JoystickController _joy;
     [SerializeField] private PlayerState _playerState;
-
-    [SerializeField] private float rockHeight;
     
     [SerializeField] private Animator playerAnim;
 
@@ -43,6 +42,7 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 300;
     private float timeBeforeNextJump = 1.2f;
     private float canJump = 0f;
+    private float rockHeight = 4.0f;
 
     private float playerRotationPositionX;
     private float playerRotationPositionY;
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerRotate();
         PlayerFall();
-        
+
         switch (_playerState.getPsData())
         {
             case PlayerState.PSData.walk:
@@ -150,33 +150,44 @@ public class PlayerController : MonoBehaviour
                 playerBodyBullet.SetActive(true);
             playerTrailRenderer.emitting = true;
             playerLineRenderer.enabled = false;
+        }
+
+        if (this.gameObject.layer == 7)
+        {
+            playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
+        }
+        else
+        {
             this.gameObject.layer = 7;
+            playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
         }
         
-        playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
-        dashTimerCount += 1;
-            
         if (dashTimerCount >= _playerData.dashLimitTic1SecondsTo50)
         {
             PlayerDashEnds();
+            return;
         }
+        
+        dashTimerCount += 1;
     }
 
     void PlayerFall()
     {
-        if (playerCharacterController.isGrounded == false && _floatingPosition >= 0f)
+        if (playerCharacterController.isGrounded == false)
         {
-            _floatingPosition += -9.81f * Time.deltaTime;
+            if (this.transform.position.y > 0f)
+            { 
+                _floatingPosition += -9.81f * Time.deltaTime; 
+            }
         }
         else
-        { 
+        {
             _floatingPosition = 0f;
         }
     }
 
     void PlayerMovingControllOnTheRock()
     {
-        rockQuitTimerCount += 1;
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
 
         playerLineRenderer.enabled = true;
@@ -192,7 +203,9 @@ public class PlayerController : MonoBehaviour
         {
             rockQuitTimerCount = 0;
             _playerState.setPsData(PlayerState.PSData.exitStartFromRock);
+            return;
         }
+        rockQuitTimerCount += 1;
     }
 
     // void PlayerWallReflection(Collision wall)
@@ -204,12 +217,13 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerDashEnds()
     {
-        dashTimerCount = 0;
         _playerState.setPsData(PlayerState.PSData.stop);
         this.gameObject.layer = 6;
         playerTrailRenderer.emitting = false;
         playerAnim.SetInteger("State",0);
         playerBodyBullet.SetActive(false);
+        dashTimerCount = 0;
+        Debug.Log(dashTimerCount+"대시종료");
     }
 
     void PlayerMoveOnTheRock(GameObject rock)
@@ -224,9 +238,10 @@ public class PlayerController : MonoBehaviour
     
     void PlayerExitStartFromRock()
     {
+        playerBodyBullet.SetActive(true);
         playerAnim.SetInteger("State",2);
         playerLineRenderer.enabled = false;
-        transform.position = new Vector3(transform.position.x, y:transform.position.y - rockHeight, transform.position.z);
+        transform.position = new Vector3(transform.position.x, y:1.3f, transform.position.z);
         _joy.PlayDashSound();
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
@@ -262,13 +277,14 @@ public class PlayerController : MonoBehaviour
             {
                 PlayerMoveOnTheRock(hit.gameObject);
             }
-            else if (hit.gameObject.layer == 11)
+            else if (hit.gameObject.layer == 11 || hit.gameObject.layer == 8)
             {
                 return;
             }
             else
             {
                 PlayerDashEnds();
+                dashTimerCount -= 1;
             }
         }
     }
