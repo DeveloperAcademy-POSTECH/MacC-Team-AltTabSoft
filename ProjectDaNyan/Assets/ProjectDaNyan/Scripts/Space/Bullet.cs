@@ -66,11 +66,13 @@ public class Bullet : MonoBehaviour
         }
 
         if (type != Type.BulletExplosion &&
-            type != Type.DashBullet)
+            type != Type.DashBullet &&
+            type != Type.Laser)
             trail = GetComponent<TrailRenderer>();
 
         if (type != Type.BombBlast &&
-            type != Type.DashBullet)
+            type != Type.DashBullet &&
+            type != Type.Laser)
             StartCoroutine(Goodbye());
     }
 
@@ -79,7 +81,6 @@ public class Bullet : MonoBehaviour
     IEnumerator Goodbye()
     {
         if (type != Type.BulletExplosion &&
-            type != Type.Laser &&
             type != Type.BombBlast)
         {
             yield return new WaitForSeconds(1f);
@@ -130,7 +131,8 @@ public class Bullet : MonoBehaviour
 
             //총알 오브젝트풀로 회수 
             if (type != Type.BulletExplosion &&
-                type != Type.DashBullet)
+                type != Type.DashBullet &&
+                type != Type.Laser)
                 ObjectPoolManager.Inst.DestroyObject(this.gameObject);
 
 

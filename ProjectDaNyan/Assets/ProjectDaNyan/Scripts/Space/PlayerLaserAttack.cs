@@ -19,14 +19,19 @@ public class PlayerLaserAttack : MonoBehaviour
     {
         _laserFireRate = _attackStatus.laserFireRate;
         _laserGroup.transform.SetParent(null);
+        for (int laserCount = 0; laserCount < _laserBullets.Length; laserCount++)
+        {
+            _laserBullets[laserCount].SetActive(false);
+        }
 
 
     }
 
     private void Update()
     {
-        _laserGroup.transform.position = _playerAttackPosition.transform.position;
+        _laserGroup.transform.position = _playerAttackPosition.transform.position + new Vector3(0, -1.3f, 0); 
         _laserGroup.transform.Rotate(Vector3.up * 30 * Time.deltaTime);
+
 
     }
 
