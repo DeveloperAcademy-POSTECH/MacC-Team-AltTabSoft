@@ -14,6 +14,7 @@ public class PlayerAttack : MonoBehaviour
     public int laserLevel = 1;
     public int droneLevel = 1;
     public int bombLevel = 1;
+    public int dashLevel = 1;
     //public int fieldAttackLevel = 1;
 
     private EnemyScanner _scanner; //가까운 적 탐지 스크립트

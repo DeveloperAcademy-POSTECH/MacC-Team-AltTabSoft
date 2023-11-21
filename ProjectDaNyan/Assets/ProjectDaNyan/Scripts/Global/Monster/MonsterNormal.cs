@@ -46,7 +46,11 @@ public class MonsterNormal : Monster
 
     private float _attacktime;
     private MonsterAttack _monsterAttack;
-    
+    private float _laserHitRate = 0.7f;
+    private float _laserHitDelay;
+    private bool _isLaserHit;
+    private bool _isLaserOn;
+
     // Monster state
     public enum state
     {
@@ -182,6 +186,7 @@ public class MonsterNormal : Monster
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         }
 
+        ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         yield return null;
     }
 
@@ -247,6 +252,7 @@ public class MonsterNormal : Monster
         yield return new WaitForSeconds(0.25f);
         _renderer.material.color = Color.white;
     }
+
     
     
     private void OnTriggerEnter(Collider other)
@@ -257,8 +263,10 @@ public class MonsterNormal : Monster
             // get bullet damage 
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
-                // apply player attack damage 
+                // apply player attack damage
                 MonsterHP -= bullet.damage;
+                Debug.Log($"bullet type is : {bullet.type}");
+               
             }
             else
             {
@@ -275,8 +283,10 @@ public class MonsterNormal : Monster
             // get bullet damage 
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
-                // apply player attack damage 
+                // apply player attack damage
                 MonsterHP -= bullet.damage;
+                Debug.Log($"bullet type is : {bullet.type}");
+
             }
             else
             {
@@ -284,4 +294,6 @@ public class MonsterNormal : Monster
             }
         }
     }
+
+
 }

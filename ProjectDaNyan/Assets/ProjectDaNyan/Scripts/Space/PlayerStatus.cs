@@ -69,6 +69,7 @@ public class PlayerStatus : MonoBehaviour
     {
         player_Now_HP = _playerData.player_Max_HP;
         dashCharged = _playerData.maxDashSavings;
+        _playerData.dashSpeed = 10; //게임 리셋마다 스크립터블에서 지정한 값으로 초기화 필요 
     }
 
     private void FixedUpdate()
