@@ -79,6 +79,13 @@ MonoBehaviour:
   _attackPoint: {fileID: 1022124332221860566}
   _boom: {fileID: 6516240114102030008, guid: 37e7401034c044df0918e1f181bf72e4, type: 3}
   _boomCollider: {fileID: 7107076862786558208, guid: 1fc2125f6450945478dfe55bc1575004, type: 3}
+  _playerAttack: {fileID: 0}
+  _monsterSpeed: 0
+  _attackRange: 0
+  _attackinterval: 0
+  _attackSpeed: 0
+  _exp: 0
+  monsterHP: 0
 --- !u!65 &1790176278812915998
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -160,9 +167,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8391222552659086748, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -3290247662164583081, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
       propertyPath: m_Name
       value: Monster_type_C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
