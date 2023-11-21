@@ -8,6 +8,12 @@ public class ItemController : MonoBehaviour
 {
     // PlayerStatus에서 ItemController에 접근할 수 있도록
     private static ItemController inst = null;
+    private PlayerStatus _playerStatus;
+    private int randomCat;
+    private int randomGold;
+    private int randomDrink;
+    private int randomMagnet;
+    
     public static ItemController Inst
     {
         get
@@ -26,16 +32,17 @@ public class ItemController : MonoBehaviour
         if (inst == null)
         {
             inst = this; // 인스턴스 할당
+            _playerStatus = FindObjectOfType<PlayerStatus>();
         }
     }
 
     public void DropItem()
     {
         // 구조 고양이, 골드, 드링크 등장 확률
-        var randomCat = Random.Range(0, 101);
-        var randomGold = Random.Range(0, 101);
-        var randomDrink = Random.Range(0, 101);
-        var randomMagnet = Random.Range(0, 101);
+        randomCat = Random.Range(0, 101);
+        randomGold = Random.Range(0, 101);
+        randomDrink = Random.Range(0, 101);
+        randomMagnet = Random.Range(0, 101);
 
         // 각 확률값에 따른 아이템 드랍
         DropCat(randomCat);
@@ -49,6 +56,7 @@ public class ItemController : MonoBehaviour
         if (random <= 75)
         {
             Debug.Log("구조 고양이 획득");
+            _playerStatus.Player_collected_box_cat += 1;
         }
     }
 
@@ -57,14 +65,17 @@ public class ItemController : MonoBehaviour
         if (random <= 20)
         {
             Debug.Log("LargeCoin 획득");
+            _playerStatus.Player_collected_gold += 100;
         }
         else if (random <= 50)
         {
             Debug.Log("MiddleCoin 획득");
+            _playerStatus.Player_collected_gold += 50;
         }
         else
         {
             Debug.Log("SmallCoin 획득");
+            _playerStatus.Player_collected_gold += 25;
         }
     }
 

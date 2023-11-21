@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 3594992668101821885}
   - component: {fileID: 2487445232015714369}
   - component: {fileID: 4761055371597899120}
+  - component: {fileID: 9146984386165867696}
   m_Layer: 5
   m_Name: GoldInfoTextBox
   m_TagString: Untagged
@@ -485,6 +486,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9146984386165867696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381814184429668483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 076984707dc47489785cebfc124425d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1808478204281074588
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +648,7 @@ GameObject:
   - component: {fileID: 6368585167168084721}
   - component: {fileID: 4891994762773563757}
   - component: {fileID: 618271495130529495}
+  - component: {fileID: 5665156265409873587}
   m_Layer: 5
   m_Name: TimeInfoTextBox
   m_TagString: Untagged
@@ -700,6 +714,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5665156265409873587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2745207082518848580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad9221a0c7804c9c8cea59ad1b98a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2941958020526386701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,6 +1117,7 @@ GameObject:
   - component: {fileID: 6740809237678154221}
   - component: {fileID: 3491018686829066805}
   - component: {fileID: 6940290605142031718}
+  - component: {fileID: 6968481176787752608}
   m_Layer: 5
   m_Name: GoldInfoText
   m_TagString: Untagged
@@ -1145,7 +1172,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999
+  m_text: 00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd5b6997ea388834585bf0b7ed60e9a6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 76cb5383fad4549369324946a769bb83, type: 2}
@@ -1214,6 +1241,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6968481176787752608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3418857245547222530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 076984707dc47489785cebfc124425d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3591858885470310315
 GameObject:
   m_ObjectHideFlags: 0
@@ -2387,6 +2426,7 @@ GameObject:
   - component: {fileID: 2541447789458258940}
   - component: {fileID: 6962985821517555366}
   - component: {fileID: 1740310265840748948}
+  - component: {fileID: 4644381700605697759}
   m_Layer: 5
   m_Name: CatInfoText
   m_TagString: Untagged
@@ -2441,7 +2481,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999
+  m_text: 00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd5b6997ea388834585bf0b7ed60e9a6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 76cb5383fad4549369324946a769bb83, type: 2}
@@ -2510,6 +2550,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4644381700605697759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8599286337202631856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a6730d818774fdc849eda1ee2b623f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8639401161331627493
 GameObject:
   m_ObjectHideFlags: 0
@@ -2521,6 +2573,7 @@ GameObject:
   - component: {fileID: 119815230061402677}
   - component: {fileID: 9207976773628282871}
   - component: {fileID: 4077597147685863509}
+  - component: {fileID: 5442272896943286317}
   m_Layer: 5
   m_Name: TimeInfoText
   m_TagString: Untagged
@@ -2575,7 +2628,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999
+  m_text: 00:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd5b6997ea388834585bf0b7ed60e9a6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 76cb5383fad4549369324946a769bb83, type: 2}
@@ -2644,6 +2697,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5442272896943286317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8639401161331627493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad9221a0c7804c9c8cea59ad1b98a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8678718376850730292
 GameObject:
   m_ObjectHideFlags: 0
