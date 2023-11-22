@@ -153,10 +153,8 @@ public class PlayerController : MonoBehaviour
         PlayDashSound();
         dashTimerCount = 0;
         playerAnim.SetInteger("State",2);
-        if (_playerAttack.dashLevel > 4)
-        {
+        if (_playerAttack.dashLevel > 4) 
             playerBodyBullet.SetActive(true);
-        }
         playerTrailRenderer.emitting = true;
         playerLineRenderer.enabled = false;
         
@@ -245,10 +243,6 @@ public class PlayerController : MonoBehaviour
     void PlayerExitStartFromRock()
     {
         StartCoroutine(PlayerDashSetting());
-        if (_playerAttack.dashLevel > 4)
-            playerBodyBullet.SetActive(true);
-        playerAnim.SetInteger("State",2);
-        playerLineRenderer.enabled = false;
         transform.position = new Vector3(transform.position.x, y:1.3f, transform.position.z);
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
