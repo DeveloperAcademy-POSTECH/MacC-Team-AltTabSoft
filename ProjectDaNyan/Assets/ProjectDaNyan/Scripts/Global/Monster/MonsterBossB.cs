@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using System.Security.Cryptography.X509Certificates;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using Random = UnityEngine.Random;
+
 
 
 public class MonsterBossB : Monster
@@ -167,7 +164,7 @@ public class MonsterBossB : Monster
 
                 // look at player 
                 lookAtPlayer();
-
+                
                 // attack interval 
                 if (_attackTimeCount >= _bossData.AttackInterval)
                 {
@@ -340,7 +337,7 @@ public class MonsterBossB : Monster
         Rigidbody fatManRigidbody = fatMan.GetComponent<Rigidbody>();
         fatManRigidbody.velocity = fatMan.transform.up * -20f;
     }
-    
+
 
     // boss is dead
     public void bossStateChangeToDead()
