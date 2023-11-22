@@ -24,6 +24,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
 
         private void OnEnable()
         {
+            if (_skillElements.Count <= 0) return; 
             var count = 0;
             //현재 가지고 있는 스킬 표시
             //기본은 무조건 가지고 있음
