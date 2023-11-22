@@ -176,7 +176,7 @@ public class PlayerStatus : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("boxCat"))
+        if (other.CompareTag("boxCat") || other.CompareTag("EXPBox"))
         {
             other.gameObject.SetActive(false);
             player_now_EXP += 10;
