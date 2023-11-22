@@ -384,6 +384,24 @@ public class MonsterBossB : Monster
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag.Equals("PlayerAttack"))
+        {
+            // get bullet damage 
+            if (other.gameObject.TryGetComponent(out Bullet bullet))
+            {
+                // apply player attack damage 
+                applyDamage(bullet.damage);
+            }
+            // if bullet doesn't have damage 
+            else
+            {
+                applyDamage(1);
+            }
+        }
+    }
+
     #endregion
 
     IEnumerator bombExplosion(Bullet bullet, GameObject bomb, int bombLevel, float boomSize)
