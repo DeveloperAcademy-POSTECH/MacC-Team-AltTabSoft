@@ -132,10 +132,18 @@ namespace ProjectDaNyan.Views.StageUI
                 {
                     button.onClick.AddListener(() =>
                     {
-                        _stageClearUI.SetActive(false);
-                        _stageFailedUI.SetActive(false);
-                        GameManager.Inst.ResumeGame();
-                        SceneManager.LoadScene("StageScene");
+                        float duration = 0.5f;
+
+                        //화면 암전
+                        _transitionCanvas.SetActive(true);
+                        _blackScreen.DOFade(1f, duration * 0.8f)
+                            .SetUpdate(true) // TimeScale 값에 무관하게 동작
+                            .OnComplete(() =>
+                            {
+                                GameManager.Inst.ResumeGame();
+                                SceneManager.LoadScene("StageScene");
+
+                            });
                     });
                 }
                 
@@ -212,14 +220,12 @@ namespace ProjectDaNyan.Views.StageUI
                     break;
                 case GameState.gameOver:
                     GameManager.Inst.PauseGame();
-                    if (ReferenceEquals(_stageClearUI, null) == false)
-                        _stageClearUI.SetActive(false); // serialized, public 변수는 null 체크를 이렇게 하면 안됨
+                    if (ReferenceEquals(_stageClearUI, null) == false) _stageClearUI.SetActive(false); // serialized, public 변수는 null 체크를 이렇게 하면 안됨
                     if (ReferenceEquals(_stageFailedUI, null) == false) _stageFailedUI.SetActive(true);
                     break;
                 case GameState.win:
                     GameManager.Inst.PauseGame();
-                    if (ReferenceEquals(_stageClearUI, null) == false)
-                        _stageClearUI.SetActive(true); // serialized, public 변수는 null 체크를 이렇게 하면 안됨
+                    if (ReferenceEquals(_stageClearUI, null) == false)  _stageClearUI.SetActive(true); // serialized, public 변수는 null 체크를 이렇게 하면 안됨
                     if (ReferenceEquals(_stageFailedUI, null) == false) _stageFailedUI.SetActive(false);
                     break;
                 case GameState.resume:
