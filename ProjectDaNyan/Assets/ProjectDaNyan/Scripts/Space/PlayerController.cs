@@ -233,12 +233,14 @@ public class PlayerController : MonoBehaviour
         dashTimerCount = 0;
         transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
         _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
-        playerBodyBullet.SetActive(true);
+        if (_playerAttack.dashLevel > 4)
+            playerBodyBullet.SetActive(true);
     }
     
     void PlayerExitStartFromRock()
     {
-        playerBodyBullet.SetActive(true);
+        if (_playerAttack.dashLevel > 4)
+            playerBodyBullet.SetActive(true);
         playerAnim.SetInteger("State",2);
         playerLineRenderer.enabled = false;
         transform.position = new Vector3(transform.position.x, y:1.3f, transform.position.z);
