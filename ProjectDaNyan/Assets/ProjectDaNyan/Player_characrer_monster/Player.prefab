@@ -196,10 +196,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObject: {fileID: 5792001150830992708}
   playerBodyBullet: {fileID: 5321906846377244750}
+  joystickObject: {fileID: 0}
   _playerData: {fileID: 11400000, guid: 2f7d25fabc5c945399187fcef0055c2b, type: 2}
   _joy: {fileID: 0}
   _playerState: {fileID: 8053427458890090582}
-  rockHeight: 2
   playerAnim: {fileID: 4897326528916399538}
   _soundEffectController: {fileID: 5689850269325050876}
 --- !u!114 &8053427458890090582
@@ -230,6 +230,8 @@ MonoBehaviour:
   _playerState: {fileID: 8053427458890090582}
   playerRenderer: {fileID: 8133638722044627839}
   soundEffectController: {fileID: 5689850269325050876}
+  player_Level: 1
+  player_Now_HP: 100
 --- !u!114 &5689850269325050876
 MonoBehaviour:
   m_ObjectHideFlags: 0

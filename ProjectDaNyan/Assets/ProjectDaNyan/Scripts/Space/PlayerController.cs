@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerState _playerState;
     
     [SerializeField] private Animator playerAnim;
-
+    
     [SerializeField] private SoundEffectController _soundEffectController;
     
     private enum AnimatorStateName
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
             }
             case PlayerState.PSData.dashStart:
             {
-                PlayerDashStart();
+                StartCoroutine(PlayerDashSetting());
                 break;
             }
             case PlayerState.PSData.dash:
@@ -147,10 +147,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void PlayerDashSetting()
+    private IEnumerator PlayerDashSetting()
     {
-        PlayDashSound();
         this.gameObject.layer = 7;
+        PlayDashSound();
         dashTimerCount = 0;
         playerAnim.SetInteger("State",2);
         if (_playerAttack.dashLevel > 4)
@@ -159,14 +159,19 @@ public class PlayerController : MonoBehaviour
         }
         playerTrailRenderer.emitting = true;
         playerLineRenderer.enabled = false;
+        
+        yield return new WaitForFixedUpdate();
+        
+        if (_playerState.getPsData() == PlayerState.PSData.dashStart)
+        {
+            _playerState.setPsData(PlayerState.PSData.dash);
+        }
+        else if (_playerState.getPsData() == PlayerState.PSData.exitStartFromRock)
+        {
+            _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
+        }
     }
-    
-    void PlayerDashStart()
-    {
-        PlayerDashSetting();
-        _playerState.setPsData(PlayerState.PSData.dash);
-    }
-    
+
     void PlayerDash()
     {
         dashTimerCount += 1;
@@ -183,8 +188,8 @@ public class PlayerController : MonoBehaviour
         playerTrailRenderer.emitting = false;
         playerAnim.SetInteger("State",0);
         playerBodyBullet.SetActive(false);
-        
-        yield return new WaitForSeconds(0.02f); //대시가 끝나도 추가 1틱 무적시간 (유체화 속성) 유지
+
+        yield return new WaitForSeconds(0.05f);
         this.gameObject.layer = 6;
     }
 
@@ -218,7 +223,6 @@ public class PlayerController : MonoBehaviour
 
         if (rockQuitTimerCount >= _playerData.onTheRockQuitTic)
         {
-            rockQuitTimerCount = 0;
             _playerState.setPsData(PlayerState.PSData.exitStartFromRock);
             return;
         }
@@ -227,17 +231,16 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMoveOnTheRock(GameObject rock)
     {
-        playerAnim.SetInteger("State",0);
-        _playerState.setPsData(PlayerState.PSData.onTheRock);
-        dashTimerCount = 0;
-        transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
+        rockQuitTimerCount = 0;
         _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
-        playerBodyBullet.SetActive(true);
+        playerAnim.SetInteger("State",0);
+        transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
+        _playerState.setPsData(PlayerState.PSData.onTheRock);
     }
     
     void PlayerExitStartFromRock()
     {
-        PlayerDashSetting();
+        StartCoroutine(PlayerDashSetting());
         transform.position = new Vector3(transform.position.x, y:1.3f, transform.position.z);
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
@@ -274,13 +277,13 @@ public class PlayerController : MonoBehaviour
             if (hit.gameObject.CompareTag("Wall"))
             {
                 dashMovePosition = Vector3.Reflect(dashMovePosition, hit.normal);
-                PlayerDashStart();
+                StartCoroutine(PlayerDashSetting());
             }
             else if (hit.gameObject.CompareTag("Rock"))
             {
                 PlayerMoveOnTheRock(hit.gameObject);
             }
-            else if (hit.gameObject.layer == 11 || hit.gameObject.layer == 8)
+            else if (hit.gameObject.layer == 11)
             {
                 return;
             }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1592630744727539676}
   - component: {fileID: 3857333942012257283}
   - component: {fileID: 5472813065106778144}
+  - component: {fileID: 6804289446639036155}
   m_Layer: 8
   m_Name: MonsterEliteLongRangePrefab
   m_TagString: Monster
@@ -107,6 +108,33 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 2
+--- !u!54 &6804289446639036155
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7512927405108858682}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &6425218464773285886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -171,6 +199,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: -8391222552659086748, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
     - target: {fileID: -5568371526223589888, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -190,6 +222,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+      propertyPath: m_TagString
+      value: Monster
       objectReference: {fileID: 0}
     - target: {fileID: 7202271454713460447, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
       propertyPath: m_Materials.Array.data[0]

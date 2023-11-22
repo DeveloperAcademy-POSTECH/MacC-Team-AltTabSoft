@@ -15,7 +15,18 @@ public class JoystickController : FloatingJoystick
     private PlayerController _playerController;
     private SoundEffectController _soundEffectController;
 
-    private bool dashEffectToggle = true;
+    private bool isTriggerDown = false;
+
+    void FixedUpdate()
+    {
+        if (isTriggerDown)
+        {
+            if (_playerState.getPsData() == PlayerState.PSData.stop)
+            {
+                _playerState.setPsData(PlayerState.PSData.walk);
+            }
+        }
+    }
 
     protected override void Start()
     {
@@ -29,6 +40,7 @@ public class JoystickController : FloatingJoystick
     
     public override void OnPointerUp(PointerEventData eventData)
     {
+        isTriggerDown = false;
         background.gameObject.SetActive(false);
         base.OnPointerUp(eventData);
 
@@ -42,6 +54,7 @@ public class JoystickController : FloatingJoystick
             {
                 if (_playerStatus.DashCharged > 0)
                 {
+                    _playerStatus.DashCharged -= 1;
                     _playerState.setPsData(PlayerState.PSData.dashStart);
                 }
                 else
@@ -62,10 +75,7 @@ public class JoystickController : FloatingJoystick
     
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if (_playerState.getPsData() != PlayerState.PSData.onTheRock)
-        {
-            _playerState.setPsData(PlayerState.PSData.walk);
-        }
+        isTriggerDown = true;
         background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
         background.gameObject.SetActive(true);
         base.OnPointerDown(eventData);
