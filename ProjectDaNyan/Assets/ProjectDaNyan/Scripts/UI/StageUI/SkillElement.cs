@@ -9,10 +9,8 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
 {
     public class SkillElement : MonoBehaviour
     {
-        [SerializeField]
-        private List<Image> _levels;
-        [SerializeField]
-        private TextMeshProUGUI _skillElementText;
+        [SerializeField] private List<Image> _levels;
+        // [SerializeField] private TextMeshProUGUI _skillElementText;
         
         public void SetLevel(int level)
         {
@@ -27,9 +25,9 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
             }
         }
 
-        public void SetImage(String skillName)
-        {
-            _skillElementText.text = skillName;
-        }
+        // public void SetImage(String skillName)
+        // {
+        //     _skillElementText.text = skillName;
+        // }
     }
 }

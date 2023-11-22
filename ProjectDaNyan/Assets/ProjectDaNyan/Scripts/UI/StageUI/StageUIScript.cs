@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Collections;
 using System.Diagnostics;
 using DG.Tweening;
@@ -28,13 +30,13 @@ namespace ProjectDaNyan.Views.StageUI
         private GameObject _hiddenSkillUI;
         private GameObject _bossWarning;
 
-
         public GameObject SkillSelectUI
         {
             get { return _skillSelectUI; }
         }
-
+        
         private PlayerStatus _playerStatus;
+        private PlayerAttack _playerAttack;
 
         //HiddenSkill1 Cool Time
         //private float _hiddenSkillFirstRate = 30f;
@@ -57,13 +59,13 @@ namespace ProjectDaNyan.Views.StageUI
         private float _hiddenSkillDelay = 30f;
         private bool _isHiddenReady;
         private PlayerLaserAttack _playerLaserAttack;
-
-
+        
         private void Awake()
         {
             _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive: true).gameObject;
             _transitionCanvas.SetActive(true);
             _playerStatus = FindObjectOfType<PlayerStatus>().gameObject.GetComponent<PlayerStatus>();
+            _playerAttack = FindObjectOfType<PlayerAttack>();
             Debug.Log(_playerStatus);
         }
 
@@ -84,8 +86,7 @@ namespace ProjectDaNyan.Views.StageUI
             _hiddenSkillType = hiddenSkillTypes[_randomNumber];
             _playerLaserAttack = GameObject.Find("PlayerAttackPosition").GetComponent<PlayerLaserAttack>();
             _bossWarning = transform.Find("BossWarning").gameObject.transform.Find("Warning").gameObject;
-
-
+            
             var buttons = GetComponentsInChildren<Button>(includeInactive: true); // 버튼별 역할 할당, 각 버튼별로 스크립트 편집 예정
             foreach (var button in buttons)
             {
@@ -230,8 +231,22 @@ namespace ProjectDaNyan.Views.StageUI
 
             if (_playerStatus.Level_Up_Require_EXP - _playerStatus.Player_now_EXP <= 0)
             {
-                GameManager.Inst.PauseGame();
-                _skillSelectUI.SetActive(true);
+                var skillDict = new Dictionary<string, int>()
+                {
+                    { "Basic Fire", _playerAttack.basicFireLevel },
+                    { "Drone Attack", _playerAttack.droneLevel },
+                    { "Bomb Attack", _playerAttack.bombLevel },
+                    { "Dash Distance", _playerAttack.dashLevel }
+                };
+                
+                var _skillList = new List<string>(skillDict.Keys);
+                var availableSkills = _skillList.Where(skill => skillDict[skill] < 6).ToList();
+                
+                if (availableSkills.Count > 0)
+                {
+                    GameManager.Inst.PauseGame();
+                    _skillSelectUI.gameObject.SetActive(true);
+                }
             }
 
             //HiddenSkill CoolTime Update

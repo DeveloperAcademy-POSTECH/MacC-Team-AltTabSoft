@@ -199,6 +199,7 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("경험치 획득! 획득한 경험치 : 10");
             Debug.Log("현재 경험치:"+player_now_EXP);
             Debug.Log("다음 레벨업까지 필요한 경험치:"+(_playerData.level_Up_Require_EXP-player_now_EXP));
+
             
             // 플레이어 레벨업 로직을 UI에서 마무리하고 싶다면 주석 처리할 것
             // if (_playerData.level_Up_Require_EXP - player_now_EXP <= 0)
