@@ -188,11 +188,11 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("현재 경험치:"+player_now_EXP);
             Debug.Log("다음 레벨업까지 필요한 경험치:"+(_playerData.level_Up_Require_EXP-player_now_EXP));
 
-            if (_playerData.level_Up_Require_EXP - player_now_EXP <= 0)
-            {
-                player_Level += 1;
-                player_now_EXP -= _playerData.level_Up_Require_EXP;
-            }
+            // if (_playerData.level_Up_Require_EXP - player_now_EXP <= 0)
+            // {
+            //     player_Level += 1;
+            //     player_now_EXP -= _playerData.level_Up_Require_EXP;
+            // }
 
             ItemController.Inst.DropItem();
             
