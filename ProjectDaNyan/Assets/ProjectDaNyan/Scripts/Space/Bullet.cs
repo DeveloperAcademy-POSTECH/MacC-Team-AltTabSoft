@@ -141,9 +141,17 @@ public class Bullet : MonoBehaviour
                 other != null &&
                 (other.transform.Find("BombOnMonster") == null || other.transform.Find("BombOnMonster").gameObject.activeSelf == false))
             {
-                GameObject InstantBomb = ObjectPoolManager.Inst.BringObject(_bomb);
-                InstantBomb.transform.parent = other.transform;
-                InstantBomb.transform.position = other.transform.position + new Vector3(0, 2.5f, 0);
+                
+                try
+                {
+                    GameObject InstantBomb = ObjectPoolManager.Inst.BringObject(_bomb);
+                    InstantBomb.transform.parent = other.transform;
+                    InstantBomb.transform.position = other.transform.position + new Vector3(0, 2.5f, 0);
+                }
+                catch
+                {
+                    ObjectPoolManager.Inst.DestroyObject(_bomb);
+                }
             }
         }
 

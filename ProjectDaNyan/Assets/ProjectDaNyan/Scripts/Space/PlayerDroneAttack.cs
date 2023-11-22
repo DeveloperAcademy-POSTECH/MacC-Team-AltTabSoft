@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerDroneAttack : MonoBehaviour
@@ -37,7 +38,7 @@ public class PlayerDroneAttack : MonoBehaviour
         
         
         //targetCollider = scanner.nearCollider;
-        if(scanner.nearCollider != null)
+        if(scanner.nearCollider != null && !targetCollider.IsDestroyed())
             droneChasing.DroneMoving(targetCollider.transform);
         else
         {
@@ -73,8 +74,7 @@ public class PlayerDroneAttack : MonoBehaviour
                 if (droneLevel > 4)
                     droneLevel = 4;
                 _bulletPosition.LookAt(targetCollider.transform);
-
-                //사운드 오류 떠서 잠시 비활성
+                
                 //_soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Drone_Attack);
                 StartCoroutine(DroneFire(droneLevel));
                 _droneFireDelay = 0;

@@ -253,4 +253,24 @@ public class MonsterNormal : Monster
             }
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag.Equals("PlayerAttack"))
+        {
+            StartCoroutine(monsterHit());
+            // get bullet damage 
+            if (other.gameObject.TryGetComponent(out Bullet bullet))
+            {
+                // apply player attack damage
+                MonsterHP -= bullet.damage;
+            }
+            else
+            {
+                MonsterHP -= 1;
+            }
+        }
+    }
+
+
 }
