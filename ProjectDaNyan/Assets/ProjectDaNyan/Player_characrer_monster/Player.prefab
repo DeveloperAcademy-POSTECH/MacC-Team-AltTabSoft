@@ -174,13 +174,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1
-  m_Radius: 0.5
+  m_Height: 3
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.2, z: 0}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &6667353087869614381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,17 +625,37 @@ PrefabInstance:
       propertyPath: _soundEffectController
       value: 
       objectReference: {fileID: 5689850269325050876}
+    - target: {fileID: 1271424460383090722, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1721976953259513750, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1721976953259513750, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2012497629165759939, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_Name
       value: PlayerAttackPosition
+      objectReference: {fileID: 0}
+    - target: {fileID: 4907029476126752712, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 5238146470352652433, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: _soundEffectController
       value: 
       objectReference: {fileID: 5689850269325050876}
+    - target: {fileID: 7716723175189838683, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 7733001885678021187, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0050000004
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7733001885678021187, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_LocalPosition.y
@@ -643,7 +663,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7733001885678021187, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7733001885678021187, guid: 6c07738f856cc465b82852ece63e1e36, type: 3}
       propertyPath: m_LocalRotation.w

@@ -62,12 +62,12 @@ public class HiddenSkillUI : MonoBehaviour
             switch (_monster.myType)
             {
                 case MonsterType.Normal:
-                    enemyCollider.gameObject.GetComponent<MonsterNormal>().MonsterHP -= _monsterNormalLong.hp;
-                    Debug.Log($"{enemyCollider.gameObject.GetComponent<MonsterNormal>().MonsterHP}");
+                    enemyCollider.gameObject.GetComponent<MonsterNormal>().monsterHP -= _monsterNormalLong.hp;
+                    Debug.Log($"{enemyCollider.gameObject.GetComponent<MonsterNormal>().monsterHP}");
                     break;
                 case MonsterType.Elite:
-                    enemyCollider.gameObject.GetComponent<MonsterNormal>().MonsterHP -= _monsterEliteLong.hp;
-                    Debug.Log($"{enemyCollider.gameObject.GetComponent<MonsterNormal>().MonsterHP}");
+                    enemyCollider.gameObject.GetComponent<MonsterNormal>().monsterHP -= _monsterEliteLong.hp;
+                    Debug.Log($"{enemyCollider.gameObject.GetComponent<MonsterNormal>().monsterHP}");
                     break;
                 case MonsterType.Boss:
                     if(enemyCollider.gameObject.TryGetComponent(out MonsterBossA monsterBossA))

@@ -1,8 +1,6 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Pool;
 
 public class MonsterBossA : Monster
 {
@@ -25,8 +23,6 @@ public class MonsterBossA : Monster
     [Header("Monster Status")]
     public MonsterBossAData _bossData = null;
     
-    // boss monstser status
-    public float monsterHP;
 
     [Header("Monster Attack")]
     [SerializeField] private GameObject skillWaveBlast;
@@ -41,19 +37,12 @@ public class MonsterBossA : Monster
     [Header("Monster Animation")]
     [SerializeField] Animator _animator;
 
-    //Bomb explosion objects
-    [Header("Bomb Explosion")]
-    [SerializeField] GameObject _boom;
-    [SerializeField] GameObject _boomCollider;
-    [SerializeField] GameObject _bomb;//Bomb on the Boss Monster
-
     // privates variables 
     private float _idleTimeCount = 0;
     private float _dashReadyTimeCount = 0;
     private float _attackTimeCount = 0;
     private float _attackedCount = 0;
     private float _dashed = 0;
-    private Vector3 _dashDirection = Vector3.zero;
     private float _dashStoppingDistance = 1f;
     private float _bigWaveTime = 0f;
     private float _bigWaved = 0f;
@@ -64,13 +53,10 @@ public class MonsterBossA : Monster
     private NavMeshAgent _navMeshAgent = null;
     private GameObject _target = null;
     private Transform _targetTransform;
-    private CharacterController _targetCC;
-    private LineRenderer _line;
 
    
     private void OnEnable()
     {
-
         //get Components
         #region Get components
 
@@ -79,10 +65,7 @@ public class MonsterBossA : Monster
 
         // get target transform 
         _targetTransform = _target.GetComponent<PlayerController>().transform;
-
-        // get target rigidbody
-        _targetCC = _target.GetComponent<CharacterController>();
-
+        
         // boss spawn point 
         this.transform.position = _targetTransform.position;
 
@@ -91,9 +74,6 @@ public class MonsterBossA : Monster
 
         // get animator
         _animator = GetComponentInChildren<Animator>();
-      
-        // get line renderer 
-        _line = GetComponent<LineRenderer>();
 
         // skill wave blast
         _skillMonsterBlast = skillWaveBlast.GetComponent<MonsterSkillWaveBlast>();
@@ -104,18 +84,16 @@ public class MonsterBossA : Monster
         #endregion
 
         // set boss status
-        #region
         _monsterAttack.Damage = _bossData.AttackPower;
         monsterHP = _bossData.HP;
-        #endregion
 
         // set monster type 
         myType = MonsterType.Boss;
         
-        
-        // set capsule collider = off 
+        // set capsule collider & trail renderer = off 
         pawsColliderControl(false);
-
+        BearClawTrailRenderer(BearPaw.off);
+        
         // set boss state 
         _currentState = BossState.idle;
 
@@ -271,20 +249,10 @@ public class MonsterBossA : Monster
                 _navMeshAgent.speed = _bossData.DashSpeed;
                 _navMeshAgent.stoppingDistance = _dashStoppingDistance;
 
-                // // get player speed and normalize 
-                // float targetMoveDirLength = _targetCC.velocity.magnitude;
-                //
-                // // set dash direction
-                // float dashPoint = targetMoveDirLength * _bossData.DashPoint;
-                //
-                // // dash in front of player 
-                // _dashDirection = _targetTransform.position + _targetTransform.forward * dashPoint;
-
                 // set current state 
                 _currentState = BossState.onDashAttack;
 
                 _animator.SetBool("Dash", true);
-                
                 
                 break;
 
@@ -349,23 +317,7 @@ public class MonsterBossA : Monster
                 break;
         }
     }
-
-
-
-    // check distance between boss and player 
-
-    private void agentRotation()
-    {
-        // agent moving direction
-        Vector3 direction = _navMeshAgent.desiredVelocity;
-        // calculate quaternion 
-        Quaternion targetAngle = Quaternion.LookRotation(direction);
-        // smooth rotation 
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, Time.deltaTime);
-    }
-
-
-
+    
     private void checkAttackDistance()
     {
         float distance = Vector3.Distance(this.transform.position, _target.transform.position);
@@ -439,20 +391,10 @@ public class MonsterBossA : Monster
         {
             stopDashAndBlastAttack();
         }
-        
-        // if (!_navMeshAgent.pathPending)
-        // {
-        //     if(_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
-        //     {
-        //         // stop dash and change boss state to waveBlast 
-        //         stopDashAndBlastAttack();
-        //     }
-        // }
     }
 
     private void stopDashAndBlastAttack()
     {
-        
         _navMeshAgent.isStopped = true;
         _navMeshAgent.velocity = Vector3.zero;
 
@@ -492,7 +434,6 @@ public class MonsterBossA : Monster
     {
         GameManager.Inst.BossDead();
     }
-    
 
     // capsule collider on/off 
     private void pawsColliderControl(bool isOn)
@@ -503,51 +444,6 @@ public class MonsterBossA : Monster
         }
     }
     
-    // collision check 
-    #region Collision check Code 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag.Equals("PlayerAttack"))
-        {
-            // get bullet damage 
-            if (other.gameObject.TryGetComponent(out Bullet bullet))
-            {
-                // apply player attack damage 
-                applyDamage(bullet.damage);
-
-                // bomb explosion 
-                if (this.gameObject.transform.Find("BombOnMonster") != null && this.gameObject.transform.Find("BombOnMonster").gameObject.activeSelf == true)
-                {
-                    _bomb = this.gameObject.transform.Find("BombOnMonster").gameObject;
-                    bullet.bombStack += 1;
-                    if(bullet.bombStack > 20)
-                        StartCoroutine(bombExplosion(bullet,_bomb));
-                }
-
-                if (bullet.type == Bullet.Type.Bomb && this.gameObject.transform.Find("BombOnMonster") != null && this.gameObject.transform.Find("BombOnMonster").gameObject.activeSelf == false)
-                {
-                    _bomb.SetActive(true);
-                }
-            }
-            // if bullet doesn't have damage 
-            else
-            {
-                applyDamage(1);
-            }
-        }
-
-        if(_currentState == BossState.onDashAttack)
-        {
-            if (other.tag.Equals("Wall"))
-            {
-                stopDashAndBlastAttack();
-            }
-        }
-    }
-
-  
-    
-       
     private void OnCollisionEnter(Collision other)
     {
         if (other.collider.tag.Equals("Player"))
@@ -560,49 +456,8 @@ public class MonsterBossA : Monster
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag.Equals("PlayerAttack"))
-        {
-            // get bullet damage 
-            if (other.gameObject.TryGetComponent(out Bullet bullet))
-            {
-                // apply player attack damage 
-                applyDamage(bullet.damage);
-            }
-            // if bullet doesn't have damage 
-            else
-            {
-                applyDamage(1);
-            }
-        }
-    }
-    #endregion
-
-    // bomb explosion
-    IEnumerator bombExplosion(Bullet bullet, GameObject bomb)
-    {
-        //몬스터 위에 있는 폭탄 비활성
-        ObjectPoolManager.Inst.DestroyObject(bomb);
-        //폭발 파티클 이펙트
-        GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
-        boomEffect.transform.position = this.gameObject.transform.position + new Vector3(0, 1f, 0);
-
-        //터지는 순간 위에서 안보이는 Collider가 떨어지면서 Trigger 발동
-        GameObject boomCollider = ObjectPoolManager.Inst.BringObject(_boomCollider);
-        boomCollider.transform.position = this.gameObject.transform.position + new Vector3(0, 10, 0);
-        Rigidbody boomColliderRigid = boomCollider.GetComponent<Rigidbody>();
-        boomColliderRigid.velocity = boomCollider.transform.up * -100f;
-
-        yield return new WaitForSeconds(0.2f);
-        ObjectPoolManager.Inst.DestroyObject(boomEffect);
-        ObjectPoolManager.Inst.DestroyObject(boomCollider);
-
-        bullet.bombStack = 0;
-    }
-
     // apply damage 
-    private void applyDamage(float damage)
+    protected override void applyDamage(float damage)
     {
         if(_currentState == BossState.dead)
         {

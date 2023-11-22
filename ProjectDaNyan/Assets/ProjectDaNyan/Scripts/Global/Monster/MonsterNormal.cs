@@ -20,28 +20,11 @@ public class MonsterNormal : Monster
     [SerializeField] private GameObject _expBox;
     
     [Header("Monster Data")]
-    [SerializeField] public float MonsterHP;
+    // [SerializeField] public float MonsterHP;
     
     [SerializeField] private state _currentState;
-    [SerializeField] private Renderer _renderer;
     [SerializeField] private Transform _attackPoint;
     
-    
-    //부착된 폭탄이 터질 때 폭발효과
-    [Header("Bomb Effects")]
-    [SerializeField] private GameObject _boom;
-    [SerializeField] private GameObject _boomCollider;
-    [SerializeField] private PlayerAttack _playerAttack;
-    private int _bombLevel;
-
-    // attack range
-    [SerializeField] private float _monsterSpeed;
-    [SerializeField] private float _attackRange;
-    [SerializeField] private float _attackinterval;
-    [SerializeField] private float _attackSpeed;
-    [SerializeField] private float _exp;
-    public float monsterHP;
-
     // private variables 
 
     private float _attacktime;
@@ -96,10 +79,10 @@ public class MonsterNormal : Monster
         _currentState = state.chasing;
 
         // set monster HP 
-        MonsterHP = _monsterData.hp;
+        monsterHP = _monsterData.hp;
         
         // set material color 
-        _renderer.material.color = Color.white;
+        _renderers[0].material.color = Color.white;
 
         // set nav mesh agent values 
         _navMeshAgent.stoppingDistance = _monsterData.attackRange;
@@ -118,7 +101,7 @@ public class MonsterNormal : Monster
     IEnumerator monsterState()
     {
 
-        while (MonsterHP > 0)
+        while (monsterHP > 0)
         {
             yield return new WaitForSeconds(0.1f);
 
@@ -200,18 +183,17 @@ public class MonsterNormal : Monster
             GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
             boomEffect.transform.localScale = new Vector3(boomSize + (0.25f * boomSize * bombLevel), boomSize + (0.25f * boomSize * bombLevel), boomSize + (0.25f * boomSize * bombLevel));
             boomEffect.transform.position = this.gameObject.transform.position + new Vector3(0, 1f, 0);
-
+    
             //터지는 순간 위에서 안보이는 Collider가 떨어지면서 Trigger 발동
             GameObject boomCollider = ObjectPoolManager.Inst.BringObject(_boomCollider);
             boomCollider.transform.localScale = new Vector3(1.2f * boomSize + (0.25f * boomSize * bombLevel), boomSize + (0.25f * boomSize * bombLevel), boomSize + (0.25f * boomSize * bombLevel));
             boomCollider.transform.position = this.gameObject.transform.position + new Vector3(0, 10, 0);
             Rigidbody boomColliderRigid = boomCollider.GetComponent<Rigidbody>();
             boomColliderRigid.velocity = boomCollider.transform.up * -100f;
-
+    
             yield return new WaitForSeconds(1f);
             ObjectPoolManager.Inst.DestroyObject(boomEffect);
             ObjectPoolManager.Inst.DestroyObject(boomCollider);
-        
     }
 
     private void checkAttackDistance()
@@ -248,11 +230,10 @@ public class MonsterNormal : Monster
 
     IEnumerator monsterHit()
     {
-        _renderer.material.color = Color.red;
+        _renderers[0].material.color = Color.red;
         yield return new WaitForSeconds(0.25f);
-        _renderer.material.color = Color.white;
+        _renderers[0].material.color = Color.white;
     }
-
     
     
     private void OnTriggerEnter(Collider other)
@@ -264,13 +245,11 @@ public class MonsterNormal : Monster
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage
-                MonsterHP -= bullet.damage;
-                Debug.Log($"bullet type is : {bullet.type}");
-               
+                monsterHP -= bullet.damage;
             }
             else
             {
-                MonsterHP -= 1;
+                monsterHP -= 1;
             }
         }
     }
@@ -284,11 +263,11 @@ public class MonsterNormal : Monster
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage
-                MonsterHP -= bullet.damage;
+                monsterHP -= bullet.damage;
             }
             else
             {
-                MonsterHP -= 1;
+                monsterHP -= 1;
             }
         }
     }

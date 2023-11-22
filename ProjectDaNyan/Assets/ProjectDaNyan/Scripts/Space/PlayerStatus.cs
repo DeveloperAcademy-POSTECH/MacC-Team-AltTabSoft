@@ -184,6 +184,14 @@ public class PlayerStatus : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("MonsterAttack"))
+        {
+            ApplyDamage((int)other.gameObject.GetComponent<MonsterAttack>().Damage);
+            //other.gameObject.SetActive(false);
+            Debug.Log($"{other.gameObject.name} : 몬스터 공격! {other.gameObject.GetComponent<MonsterAttack>().Damage}");
+            StartCoroutine(PlayerHitEffect());
+        }
+        
         if (other.CompareTag("boxCat") || other.CompareTag("EXPBox"))
         {
             other.gameObject.SetActive(false);
@@ -204,20 +212,5 @@ public class PlayerStatus : MonoBehaviour
             soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Boxcat_Gold);
         }
 
-        if (other.CompareTag("MonsterAttack"))
-        {
-            Debug.Log($"{other.gameObject.name} 폭발 공격!");
-            
-            // check if attack has MonsterAttack class
-            if (other.TryGetComponent(out MonsterAttack attack))
-            {
-                ApplyDamage((int)attack.Damage);
-            }
-            // if not, apply damage 10
-            else
-            {
-                ApplyDamage(10);
-            }
-        }
     }
 }
