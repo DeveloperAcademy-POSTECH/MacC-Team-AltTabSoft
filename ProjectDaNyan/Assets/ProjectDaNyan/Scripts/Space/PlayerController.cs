@@ -244,6 +244,7 @@ public class PlayerController : MonoBehaviour
     
     void PlayerExitDashFromRock()
     {
+        dashTimerCount += 1;
         playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
         
         //대시가 1/2 진행된 지점에서 바위에서 탈출하는 대시 > 일반 대시로 판정을 변경 > 추후 미세조정 필요
@@ -251,8 +252,6 @@ public class PlayerController : MonoBehaviour
         {
             _playerState.setPsData(PlayerState.PSData.dash);
         }
-        
-        dashTimerCount += 1;
     }
     
     public void PlayDashSound()
@@ -287,8 +286,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                PlayerDashEnds();
-                dashTimerCount -= 1;
+                StartCoroutine(PlayerDashEnds());
             }
         }
     }
