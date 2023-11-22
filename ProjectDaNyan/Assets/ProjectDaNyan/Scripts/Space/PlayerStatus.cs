@@ -36,7 +36,7 @@ public class PlayerStatus : MonoBehaviour
     public int player_Level = 1;
 
     private int player_now_EXP = 0;
-    private int player_Now_HP = 100;
+    public int player_Now_HP = 100;
 
     private int heal_Cooltime = 0;
 
