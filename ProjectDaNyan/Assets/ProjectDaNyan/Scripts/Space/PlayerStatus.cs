@@ -51,7 +51,14 @@ public class PlayerStatus : MonoBehaviour
         set { dashCharged = value; }
     }
     private int dashRechargeTimer = 0;
-    
+    private int dashSpeed = 0;
+
+    public int DashSpeed
+    {
+        get { return dashSpeed; }
+        set { dashSpeed = value; }
+    }
+
     public int Player_collected_box_cat
     {
         get { return player_collected_box_cat; }
@@ -69,7 +76,8 @@ public class PlayerStatus : MonoBehaviour
     {
         player_Now_HP = _playerData.player_Max_HP;
         dashCharged = _playerData.maxDashSavings;
-        _playerData.dashSpeed = 10; //게임 리셋마다 스크립터블에서 지정한 값으로 초기화 필요 
+        // _playerData.dashSpeed = 10; //게임 리셋마다 스크립터블에서 지정한 값으로 초기화 필요 
+        dashSpeed = _playerData.dashSpeed;
     }
 
     private void FixedUpdate()
@@ -183,12 +191,13 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("경험치 획득! 획득한 경험치 : 10");
             Debug.Log("현재 경험치:"+player_now_EXP);
             Debug.Log("다음 레벨업까지 필요한 경험치:"+(_playerData.level_Up_Require_EXP-player_now_EXP));
-
-            if (_playerData.level_Up_Require_EXP - player_now_EXP <= 0)
-            {
-                player_Level += 1;
-                player_now_EXP -= _playerData.level_Up_Require_EXP;
-            }
+            
+            // 플레이어 레벨업 로직을 UI에서 마무리하고 싶다면 주석 처리할 것
+            // if (_playerData.level_Up_Require_EXP - player_now_EXP <= 0)
+            // {
+            //     player_Level += 1;
+            //     player_now_EXP -= _playerData.level_Up_Require_EXP;
+            // }
 
             ItemController.Inst.DropItem();
             

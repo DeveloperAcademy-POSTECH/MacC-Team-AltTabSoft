@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
@@ -9,12 +10,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject playerBodyBullet;
     
     [SerializeField] private PlayerData _playerData;
+    [SerializeField] private PlayerStatus _playerStatus;
     
     [SerializeField] private JoystickController _joy;
     [SerializeField] private PlayerState _playerState;
     
     [SerializeField] private Animator playerAnim;
-
+    
     [SerializeField] private SoundEffectController _soundEffectController;
     
     private enum AnimatorStateName
@@ -78,6 +80,11 @@ public class PlayerController : MonoBehaviour
                 PlayerWalk();
                 break;
             }
+            case PlayerState.PSData.dashStart:
+            {
+                StartCoroutine(PlayerDashSetting());
+                break;
+            }
             case PlayerState.PSData.dash:
             {
                 PlayerDash();
@@ -125,7 +132,7 @@ public class PlayerController : MonoBehaviour
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
         movePosition = normalized * (Time.deltaTime * _playerData.playerSpeed);
         playerCharacterController.Move(new Vector3(movePosition.x,_floatingPosition,movePosition.z));
-        dashMovePosition = movePosition * _playerData.dashSpeed;
+        dashMovePosition = movePosition * _playerStatus.DashSpeed;
         //대시 준비 상태가 아니라면 현재 이동방향을 표시
         if (!_joy.isJoystickPositionGoEnd)
         {
@@ -141,34 +148,50 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator PlayerDashSetting()
+    {
+        this.gameObject.layer = 7;
+        PlayDashSound();
+        dashTimerCount = 0;
+        playerAnim.SetInteger("State",2);
+        if (_playerAttack.dashLevel > 4) 
+            playerBodyBullet.SetActive(true);
+        playerTrailRenderer.emitting = true;
+        playerLineRenderer.enabled = false;
+        
+        yield return new WaitForFixedUpdate();
+        
+        if (_playerState.getPsData() == PlayerState.PSData.dashStart)
+        {
+            _playerState.setPsData(PlayerState.PSData.dash);
+        }
+        else if (_playerState.getPsData() == PlayerState.PSData.exitStartFromRock)
+        {
+            _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
+        }
+    }
+
     void PlayerDash()
     {
-        if (dashTimerCount == 0)
-        {
-            playerAnim.SetInteger("State",2);
-            if(_playerAttack.dashLevel > 4)
-                playerBodyBullet.SetActive(true);
-            playerTrailRenderer.emitting = true;
-            playerLineRenderer.enabled = false;
-        }
-
-        if (this.gameObject.layer == 7)
-        {
-            playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
-        }
-        else
-        {
-            this.gameObject.layer = 7;
-            playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
-        }
-        
+        playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
         if (dashTimerCount >= _playerData.dashLimitTic1SecondsTo50)
         {
-            PlayerDashEnds();
+            StartCoroutine(PlayerDashEnds());
             return;
         }
-        
         dashTimerCount += 1;
+    }
+
+    private IEnumerator PlayerDashEnds()
+    {
+        playerTrailRenderer.emitting = false;
+        playerAnim.SetInteger("State",0);
+        playerBodyBullet.SetActive(false);
+
+        yield return new WaitForFixedUpdate();
+        _playerState.setPsData(PlayerState.PSData.stop);
+        yield return new WaitForFixedUpdate();
+        this.gameObject.layer = 6;
     }
 
     void PlayerFall()
@@ -201,57 +224,33 @@ public class PlayerController : MonoBehaviour
 
         if (rockQuitTimerCount >= _playerData.onTheRockQuitTic)
         {
-            rockQuitTimerCount = 0;
             _playerState.setPsData(PlayerState.PSData.exitStartFromRock);
             return;
         }
         rockQuitTimerCount += 1;
     }
 
-    // void PlayerWallReflection(Collision wall)
-    // {
-    //     dashMovePosition = Vector3.Reflect(dashMovePosition, wall.contacts[0].normal);
-    //     dashTimerCount = 0;
-    //     isWallReflectDash = true;
-    // }
-
-    private void PlayerDashEnds()
-    {
-        _playerState.setPsData(PlayerState.PSData.stop);
-        this.gameObject.layer = 6;
-        playerTrailRenderer.emitting = false;
-        playerAnim.SetInteger("State",0);
-        playerBodyBullet.SetActive(false);
-        dashTimerCount = 0;
-        Debug.Log(dashTimerCount+"대시종료");
-    }
-
     void PlayerMoveOnTheRock(GameObject rock)
     {
-        playerAnim.SetInteger("State",0);
-        _playerState.setPsData(PlayerState.PSData.onTheRock);
-        dashTimerCount = 0;
-        transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
+        rockQuitTimerCount = 0;
         _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
+        playerAnim.SetInteger("State",0);
+        transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
+        _playerState.setPsData(PlayerState.PSData.onTheRock);
         if (_playerAttack.dashLevel > 4)
             playerBodyBullet.SetActive(true);
     }
     
     void PlayerExitStartFromRock()
     {
-        if (_playerAttack.dashLevel > 4)
-            playerBodyBullet.SetActive(true);
-        playerAnim.SetInteger("State",2);
-        playerLineRenderer.enabled = false;
+        StartCoroutine(PlayerDashSetting());
         transform.position = new Vector3(transform.position.x, y:1.3f, transform.position.z);
-        _joy.PlayDashSound();
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
+    
     void PlayerExitDashFromRock()
     {
-        playerTrailRenderer.emitting = true;
-
-        this.gameObject.layer = 7;
+        dashTimerCount += 1;
         playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
         
         //대시가 1/2 진행된 지점에서 바위에서 탈출하는 대시 > 일반 대시로 판정을 변경 > 추후 미세조정 필요
@@ -259,8 +258,19 @@ public class PlayerController : MonoBehaviour
         {
             _playerState.setPsData(PlayerState.PSData.dash);
         }
-        
-        dashTimerCount += 1;
+    }
+    
+    public void PlayDashSound()
+    {
+        if (dashEffectToggle)
+        {
+            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_0);
+        }
+        else
+        {
+            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_1);
+        }
+        dashEffectToggle = !dashEffectToggle;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -269,24 +279,24 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.gameObject.CompareTag("Wall"))
             {
-                //playerwallrefelection 코드를 여기에만 사용하게 됨 > 그냥 코드 여기에 넣음
                 dashMovePosition = Vector3.Reflect(dashMovePosition, hit.normal);
-                _soundEffectController.playStageSoundEffect(2f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
-                playerBodyBullet.SetActive(true);
-                dashTimerCount = 0;
+                StartCoroutine(PlayerDashSetting());
             }
             else if (hit.gameObject.CompareTag("Rock"))
             {
                 PlayerMoveOnTheRock(hit.gameObject);
             }
-            else if (hit.gameObject.layer == 11 || hit.gameObject.layer == 8)
+            else if (hit.gameObject.layer == 8)
+            {
+                dashTimerCount = 0;
+            }
+            else if (hit.gameObject.layer == 11)
             {
                 return;
             }
             else
             {
-                PlayerDashEnds();
-                dashTimerCount -= 1;
+                StartCoroutine(PlayerDashEnds());
             }
         }
     }
