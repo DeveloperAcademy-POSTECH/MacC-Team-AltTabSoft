@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerDroneAttack : MonoBehaviour
@@ -37,7 +38,7 @@ public class PlayerDroneAttack : MonoBehaviour
         
         
         //targetCollider = scanner.nearCollider;
-        if(scanner.nearCollider != null)
+        if(scanner.nearCollider != null && !targetCollider.IsDestroyed())
             droneChasing.DroneMoving(targetCollider.transform);
         else
         {
