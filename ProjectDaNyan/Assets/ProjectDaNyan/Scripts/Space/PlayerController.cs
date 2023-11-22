@@ -174,22 +174,24 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDash()
     {
-        dashTimerCount += 1;
         playerCharacterController.Move(new Vector3(dashMovePosition.x,_floatingPosition,dashMovePosition.z));
         if (dashTimerCount >= _playerData.dashLimitTic1SecondsTo50)
         {
             StartCoroutine(PlayerDashEnds());
+            return;
         }
+        dashTimerCount += 1;
     }
 
     private IEnumerator PlayerDashEnds()
     {
-        _playerState.setPsData(PlayerState.PSData.stop);
         playerTrailRenderer.emitting = false;
         playerAnim.SetInteger("State",0);
         playerBodyBullet.SetActive(false);
 
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForFixedUpdate();
+        _playerState.setPsData(PlayerState.PSData.stop);
+        yield return new WaitForFixedUpdate();
         this.gameObject.layer = 6;
     }
 
@@ -282,6 +284,10 @@ public class PlayerController : MonoBehaviour
             else if (hit.gameObject.CompareTag("Rock"))
             {
                 PlayerMoveOnTheRock(hit.gameObject);
+            }
+            else if (hit.gameObject.layer == 8)
+            {
+                dashTimerCount = 0;
             }
             else if (hit.gameObject.layer == 11)
             {

@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 8053427458890090582}
   - component: {fileID: 4212278155795712472}
   - component: {fileID: 5689850269325050876}
-  - component: {fileID: 5664507652802496739}
   - component: {fileID: 4853398999115314500}
   - component: {fileID: 5432781030662005881}
   - component: {fileID: 6176409126218365443}
@@ -196,7 +195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObject: {fileID: 5792001150830992708}
   playerBodyBullet: {fileID: 5321906846377244750}
-  joystickObject: {fileID: 0}
   _playerData: {fileID: 11400000, guid: 2f7d25fabc5c945399187fcef0055c2b, type: 2}
   _joy: {fileID: 0}
   _playerState: {fileID: 8053427458890090582}
@@ -246,33 +244,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 5432781030662005881}
   isSoundEffectPlayTemp: 1
---- !u!54 &5664507652802496739
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5792001150830992708}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 2
 --- !u!120 &4853398999115314500
 LineRenderer:
   serializedVersion: 2
