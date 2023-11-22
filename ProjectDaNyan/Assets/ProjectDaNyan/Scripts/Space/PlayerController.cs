@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     [SerializeField] private GameObject playerObject;
     [SerializeField] private GameObject playerBodyBullet;
     
@@ -72,6 +71,12 @@ public class PlayerController : MonoBehaviour
     {
         PlayerRotate();
         PlayerFall();
+
+        if (GameManager.Inst.CurrentGameState == GameState.bossReady)
+        {
+            PlayerStop();
+            return;
+        }
 
         switch (_playerState.getPsData())
         {
