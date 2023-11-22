@@ -12,6 +12,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
         private PlayerAttack _playerAttack;
         private PlayerBasicAttack _playerBasicAttack;
         private PlayerRandomFieldAttack _playerRandomFieldAttack;
+        private PlayerStatus _playerStatus;
         [SerializeField] private PlayerData _playerData;
         [SerializeField] private List<SkillSelectButton> _skillLevelUpButtons;
         private Dictionary<string, int> _skillDict;
@@ -24,7 +25,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
             _skillSelectUI = FindObjectOfType<SkillSelectUI>();
             _playerAttack = FindObjectOfType<PlayerAttack>();
             _playerBasicAttack = FindObjectOfType<PlayerBasicAttack>();
-            
+            _playerStatus = FindObjectOfType<PlayerStatus>();
         }
 
         public void GoToGameStage()
@@ -111,12 +112,11 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
                                 _playerAttack.dashLevel < 5)
                             {
                                 _playerAttack.dashLevel += 1;
-                                _playerData.dashSpeed += 2;
+                                _playerStatus.DashSpeed += 2;
                             }
-                                
                             break;
-                            
                     }
+                    _playerStatus.player_Level += 1;
                 });
                 //_skillCount += 1;
             }

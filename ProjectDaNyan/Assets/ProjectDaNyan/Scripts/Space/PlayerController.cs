@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject playerBodyBullet;
     
     [SerializeField] private PlayerData _playerData;
+    [SerializeField] private PlayerStatus _playerStatus;
     
     [SerializeField] private JoystickController _joy;
     [SerializeField] private PlayerState _playerState;
@@ -131,7 +132,7 @@ public class PlayerController : MonoBehaviour
         Vector3 normalized = new Vector3(_joy.Horizontal+_joy.Vertical, 0, _joy.Vertical-_joy.Horizontal).normalized;
         movePosition = normalized * (Time.deltaTime * _playerData.playerSpeed);
         playerCharacterController.Move(new Vector3(movePosition.x,_floatingPosition,movePosition.z));
-        dashMovePosition = movePosition * _playerData.dashSpeed;
+        dashMovePosition = movePosition * _playerStatus.DashSpeed;
         //대시 준비 상태가 아니라면 현재 이동방향을 표시
         if (!_joy.isJoystickPositionGoEnd)
         {
