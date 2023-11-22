@@ -70,22 +70,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myType: 0
+  monsterHP: 0
+  _renderers:
+  - {fileID: 2877425146989300607}
+  _boom: {fileID: 6516240114102030008, guid: 37e7401034c044df0918e1f181bf72e4, type: 3}
+  _boomCollider: {fileID: 7107076862786558208, guid: 1fc2125f6450945478dfe55bc1575004, type: 3}
+  _bomb: {fileID: 0}
+  _playerAttack: {fileID: 0}
+  _bombLevel: 0
   _monsterData: {fileID: 11400000, guid: f99acaac83ac145d995537371eb46671, type: 2}
   _monsterBulletPrefab: {fileID: 4130157634977493257, guid: 7b3fc1aa656114442acfa51848a40af6, type: 3}
   _expBox: {fileID: 7703086083745402384, guid: d4e304cf3b1f049619280b63ac734983, type: 3}
-  MonsterHP: 0
   _currentState: 0
-  _renderer: {fileID: 2877425146989300607}
   _attackPoint: {fileID: 1022124332221860566}
-  _boom: {fileID: 6516240114102030008, guid: 37e7401034c044df0918e1f181bf72e4, type: 3}
-  _boomCollider: {fileID: 7107076862786558208, guid: 1fc2125f6450945478dfe55bc1575004, type: 3}
-  _playerAttack: {fileID: 0}
-  _monsterSpeed: 0
-  _attackRange: 0
-  _attackinterval: 0
-  _attackSpeed: 0
-  _exp: 0
-  monsterHP: 0
 --- !u!65 &1790176278812915998
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -174,6 +171,10 @@ PrefabInstance:
     - target: {fileID: -5568371526223589888, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -3290247662164583081, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
       propertyPath: m_Layer

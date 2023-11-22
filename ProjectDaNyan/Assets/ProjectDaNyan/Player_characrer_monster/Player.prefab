@@ -175,13 +175,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1
-  m_Radius: 0.5
+  m_Height: 3
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.2, z: 0}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &6667353087869614381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +199,6 @@ MonoBehaviour:
   _playerData: {fileID: 11400000, guid: 2f7d25fabc5c945399187fcef0055c2b, type: 2}
   _joy: {fileID: 0}
   _playerState: {fileID: 8053427458890090582}
-  rockHeight: 2
   playerAnim: {fileID: 4897326528916399538}
   _soundEffectController: {fileID: 5689850269325050876}
 --- !u!114 &8053427458890090582
@@ -230,6 +229,8 @@ MonoBehaviour:
   _playerState: {fileID: 8053427458890090582}
   playerRenderer: {fileID: 8133638722044627839}
   soundEffectController: {fileID: 5689850269325050876}
+  player_Level: 1
+  player_Now_HP: 100
 --- !u!114 &5689850269325050876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,7 +897,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -940,7 +941,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -999,7 +1000,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1053,7 +1054,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

@@ -39,19 +39,14 @@ public class MonsterBullet : MonsterAttack
     }
 
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") || 
+            other.gameObject.layer == LayerMask.NameToLayer("Map_Object") ||
+            other.gameObject.layer == LayerMask.NameToLayer("Map_Floor"))
         {
-            GameObject afterExplosion = ObjectPoolManager.Inst.BringObject(_explosion);
+            GameObject afterExplosion = ObjectPoolManager.Inst.BringObject(_explosion); 
             afterExplosion.transform.position = this.gameObject.transform.position;
-            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
-        }
-
-
-        if ((collision.gameObject.layer == LayerMask.NameToLayer("Map_Object") ||
-             collision.gameObject.layer == LayerMask.NameToLayer("Map_Floor")))
-        {
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         }
     }

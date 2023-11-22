@@ -48,22 +48,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myType: 0
+  monsterHP: 0
+  _renderers:
+  - {fileID: 6086203418545236476}
+  _boom: {fileID: 6516240114102030008, guid: 37e7401034c044df0918e1f181bf72e4, type: 3}
+  _boomCollider: {fileID: 7107076862786558208, guid: 1fc2125f6450945478dfe55bc1575004, type: 3}
+  _bomb: {fileID: 0}
+  _playerAttack: {fileID: 0}
+  _bombLevel: 0
   _monsterData: {fileID: 11400000, guid: 116e88e71562a491ab41969107d5fb2c, type: 2}
   _monsterBulletPrefab: {fileID: 4130157634977493257, guid: 7b3fc1aa656114442acfa51848a40af6, type: 3}
   _expBox: {fileID: 7703086083745402384, guid: d4e304cf3b1f049619280b63ac734983, type: 3}
-  MonsterHP: 0
   _currentState: 0
-  _renderer: {fileID: 6086203418545236476}
   _attackPoint: {fileID: 6021140740380600468}
-  _boom: {fileID: 6516240114102030008, guid: 37e7401034c044df0918e1f181bf72e4, type: 3}
-  _boomCollider: {fileID: 7107076862786558208, guid: 1fc2125f6450945478dfe55bc1575004, type: 3}
-  _playerAttack: {fileID: 0}
-  _monsterSpeed: 0
-  _attackRange: 0
-  _attackinterval: 0
-  _attackSpeed: 0
-  _exp: 0
-  monsterHP: 0
 --- !u!195 &8376100200426359010
 NavMeshAgent:
   m_ObjectHideFlags: 0
