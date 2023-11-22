@@ -238,11 +238,17 @@ public class PlayerController : MonoBehaviour
         playerAnim.SetInteger("State",0);
         transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
         _playerState.setPsData(PlayerState.PSData.onTheRock);
+        if (_playerAttack.dashLevel > 4)
+            playerBodyBullet.SetActive(true);
     }
     
     void PlayerExitStartFromRock()
     {
         StartCoroutine(PlayerDashSetting());
+        if (_playerAttack.dashLevel > 4)
+            playerBodyBullet.SetActive(true);
+        playerAnim.SetInteger("State",2);
+        playerLineRenderer.enabled = false;
         transform.position = new Vector3(transform.position.x, y:1.3f, transform.position.z);
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
