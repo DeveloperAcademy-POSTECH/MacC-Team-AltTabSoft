@@ -263,11 +263,11 @@ public class MonsterNormal : Monster
             if (other.gameObject.TryGetComponent(out Bullet bullet))
             {
                 // apply player attack damage
-                MonsterHP -= bullet.damage;
+                monsterHP -= bullet.damage;
             }
             else
             {
-                MonsterHP -= 1;
+                monsterHP -= 1;
             }
         }
     }
