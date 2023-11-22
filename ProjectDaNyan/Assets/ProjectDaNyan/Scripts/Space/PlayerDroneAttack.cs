@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerDroneAttack : MonoBehaviour
@@ -35,10 +36,14 @@ public class PlayerDroneAttack : MonoBehaviour
     private void Update()
     {
         
-        droneChasing.StartCoroutine("ReturnToPlayer");
+        
         //targetCollider = scanner.nearCollider;
-        if(scanner.nearCollider != null)
+        if(scanner.nearCollider != null && !targetCollider.IsDestroyed())
             droneChasing.DroneMoving(targetCollider.transform);
+        else
+        {
+            droneChasing.StartCoroutine("ReturnToPlayer");
+        }
     }
 
     public void UseDroneAttack(bool isDrone, int droneLevel)
@@ -69,8 +74,7 @@ public class PlayerDroneAttack : MonoBehaviour
                 if (droneLevel > 4)
                     droneLevel = 4;
                 _bulletPosition.LookAt(targetCollider.transform);
-
-                //사운드 오류 떠서 잠시 비활성화
+                
                 //_soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Drone_Attack);
                 StartCoroutine(DroneFire(droneLevel));
                 _droneFireDelay = 0;
@@ -84,7 +88,7 @@ public class PlayerDroneAttack : MonoBehaviour
     {
         GameObject bullet = ObjectPoolManager.Inst.BringObject(bulletObject);
         bullet.transform.position = bulletObjectPosition.position;
-        bullet.transform.LookAt(targetCollider.transform);
+        bullet.transform.LookAt(bullet.transform.forward);
         Rigidbody basicBulletRigid = bullet.GetComponent<Rigidbody>();
         basicBulletRigid.useGravity = isGravity;
         basicBulletRigid.velocity = bulletObjectPosition.forward * fireSpeed;

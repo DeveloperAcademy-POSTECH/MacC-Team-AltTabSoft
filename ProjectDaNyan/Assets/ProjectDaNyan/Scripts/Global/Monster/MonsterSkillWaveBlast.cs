@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-public enum SkillType
+public enum WaveType
 {
     WaveBlast,
     BigWave
@@ -20,33 +22,34 @@ public class MonsterSkillWaveBlast : MonsterAttack
     // skill status data 
     [SerializeField] private MonsterBlastData _monsterBlastData;
 
-    public SphereCollider _sphereCollider;
-    private LineRenderer _lineRenderer;
+    public SphereCollider BlastSphereCollider;
+    private LineRenderer _blastLineRenderer;
     
     private void Awake()
     {
         // set damage 
         Damage = _monsterBlastData.WaveBlastDamage;
 
-        _sphereCollider = GetComponent<SphereCollider>();
-        _lineRenderer = GetComponent<LineRenderer>();
+        BlastSphereCollider = GetComponent<SphereCollider>();
+        _blastLineRenderer = GetComponent<LineRenderer>();
 
-        _lineRenderer.positionCount = _monsterBlastData.PositionCount + 1;
+        _blastLineRenderer.positionCount = _monsterBlastData.PositionCount + 1;
         
     }
 
-    public void StartWaveBlastAttack(SkillType skill)
+    public void StartWaveBlastAttack(WaveType skill)
     {
         isCollided = false;
+        
         switch (skill)
         {
-            case SkillType.WaveBlast:
+            case WaveType.WaveBlast:
                 StartCoroutine(waveblast(_monsterBlastData.WaveBlastMaxRadius,
                     _monsterBlastData.WaveBlastSpeed, _monsterBlastData.WaveBlastStartWidth));
                 Damage = _monsterBlastData.WaveBlastDamage;
                 break;
 
-            case SkillType.BigWave:
+            case WaveType.BigWave:
                 StartCoroutine(waveblast(_monsterBlastData.BigWaveMaxRadius,
                   _monsterBlastData.BigWaveSpeed, _monsterBlastData.BigWaveStartWidth));
                 Damage = _monsterBlastData.BigWaveDamage;
@@ -55,12 +58,20 @@ public class MonsterSkillWaveBlast : MonsterAttack
     }
 
 
+    public void ResetWave()
+    {
+        _blastLineRenderer.positionCount = 0;
+        BlastSphereCollider.radius = 0;
+    }
+    
     private IEnumerator waveblast(float maxRadius, float speed, float startWidth)
     {
-        _lineRenderer.enabled = true;
-        _sphereCollider.enabled = true;
+        
+        _blastLineRenderer.enabled = true;
+        BlastSphereCollider.enabled = true;
         
         float currentRadius = 0f;
+        
 
         while(currentRadius < maxRadius)
         {
@@ -71,8 +82,6 @@ public class MonsterSkillWaveBlast : MonsterAttack
 
         // unity event handler  
         EventHandlerWaveBlastEnd.Invoke();
-
-        _lineRenderer.enabled = false;
         
         // reset collider radius
         setSphereCollider(0);
@@ -89,7 +98,7 @@ public class MonsterSkillWaveBlast : MonsterAttack
             Vector3 direction = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0f);
             Vector3 position = direction * currentRadius;
 
-            _lineRenderer.SetPosition(i, position);
+            _blastLineRenderer.SetPosition(i, position);
         }
 
         if (!isCollided)
@@ -97,14 +106,13 @@ public class MonsterSkillWaveBlast : MonsterAttack
             setSphereCollider(currentRadius);
         }
 
-        _lineRenderer.widthMultiplier = Mathf.Lerp(0f, startWidth, 1f - currentRadius / maxRadius);
+        _blastLineRenderer.widthMultiplier = Mathf.Lerp(0f, startWidth, 1f - currentRadius / maxRadius);
     }
 
 
-    
     private void setSphereCollider(float currentRadius)
     {
         // change collider position
-        _sphereCollider.radius = currentRadius;
+        BlastSphereCollider.radius = currentRadius;
     }
 }

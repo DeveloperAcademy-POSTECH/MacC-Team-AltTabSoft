@@ -15,7 +15,18 @@ public class JoystickController : FloatingJoystick
     private PlayerController _playerController;
     private SoundEffectController _soundEffectController;
 
-    private bool dashEffectToggle = true;
+    private bool isTriggerDown = false;
+
+    void FixedUpdate()
+    {
+        if (isTriggerDown)
+        {
+            if (_playerState.getPsData() == PlayerState.PSData.stop)
+            {
+                _playerState.setPsData(PlayerState.PSData.walk);
+            }
+        }
+    }
 
     protected override void Start()
     {
@@ -29,6 +40,7 @@ public class JoystickController : FloatingJoystick
     
     public override void OnPointerUp(PointerEventData eventData)
     {
+        isTriggerDown = false;
         background.gameObject.SetActive(false);
         base.OnPointerUp(eventData);
 
@@ -37,16 +49,13 @@ public class JoystickController : FloatingJoystick
             if (_playerState.getPsData() == PlayerState.PSData.onTheRock)
             {
                 _playerState.setPsData(PlayerState.PSData.exitStartFromRock);
-                PlayDashSound();
             }
             else
             {
                 if (_playerStatus.DashCharged > 0)
                 {
-                    player.gameObject.layer = 7;
-                    _playerState.setPsData(PlayerState.PSData.dash);
                     _playerStatus.DashCharged -= 1;
-                    PlayDashSound();
+                    _playerState.setPsData(PlayerState.PSData.dashStart);
                 }
                 else
                 {
@@ -66,10 +75,7 @@ public class JoystickController : FloatingJoystick
     
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if (_playerState.getPsData() != PlayerState.PSData.onTheRock)
-        {
-            _playerState.setPsData(PlayerState.PSData.walk);
-        }
+        isTriggerDown = true;
         background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
         background.gameObject.SetActive(true);
         base.OnPointerDown(eventData);
@@ -89,18 +95,5 @@ public class JoystickController : FloatingJoystick
                 isJoystickPositionGoEnd = false;
             }
         }
-    }
-
-    public void PlayDashSound()
-    {
-        if (dashEffectToggle)
-        {
-            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_0);
-        }
-        else
-        {
-            _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Dash_1);
-        }
-        dashEffectToggle = !dashEffectToggle;
     }
 }

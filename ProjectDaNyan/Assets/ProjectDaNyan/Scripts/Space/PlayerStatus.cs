@@ -36,7 +36,7 @@ public class PlayerStatus : MonoBehaviour
     public int player_Level = 1;
 
     private int player_now_EXP = 0;
-    private int player_Now_HP = 100;
+    public int player_Now_HP = 100;
 
     private int heal_Cooltime = 0;
 
@@ -51,7 +51,14 @@ public class PlayerStatus : MonoBehaviour
         set { dashCharged = value; }
     }
     private int dashRechargeTimer = 0;
-    
+    private int dashSpeed = 0;
+
+    public int DashSpeed
+    {
+        get { return dashSpeed; }
+        set { dashSpeed = value; }
+    }
+
     public int Player_collected_box_cat
     {
         get { return player_collected_box_cat; }
@@ -69,7 +76,8 @@ public class PlayerStatus : MonoBehaviour
     {
         player_Now_HP = _playerData.player_Max_HP;
         dashCharged = _playerData.maxDashSavings;
-        _playerData.dashSpeed = 10; //게임 리셋마다 스크립터블에서 지정한 값으로 초기화 필요 
+        // _playerData.dashSpeed = 10; //게임 리셋마다 스크립터블에서 지정한 값으로 초기화 필요 
+        dashSpeed = _playerData.dashSpeed;
     }
 
     private void FixedUpdate()
@@ -152,35 +160,31 @@ public class PlayerStatus : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Collide");
         if (other.collider.gameObject.CompareTag("Monster"))
         {
-            player_Now_HP -= 10;
-            Debug.Log("10의 데미지를 입었다.");
+            Debug.Log($"{other.gameObject.name} : 몬스터와 충돌! 10의 데미지를 입었다.");
+
+            ApplyDamage(10);
             
             StartCoroutine(PlayerHitEffect());
         }
         else if (other.collider.gameObject.CompareTag("MonsterAttack"))
         {
-            player_Now_HP -= (int)other.gameObject.GetComponent<MonsterAttack>().Damage;
+            ApplyDamage((int)other.gameObject.GetComponent<MonsterAttack>().Damage);
             //other.gameObject.SetActive(false);
-            Debug.Log($"총에 맞았다! 총 데미지를 입었다. {other.gameObject.GetComponent<MonsterAttack>().Damage}");
+            Debug.Log($"{other.gameObject.name} : 몬스터 공격! {other.gameObject.GetComponent<MonsterAttack>().Damage}");
             StartCoroutine(PlayerHitEffect());
         }
     }
-    private void OnCollisionExit(Collision other)
+    
+    private void ApplyDamage(int damage)
     {
-        /*
-        if (other.gameObject.CompareTag("Monster"))
-        {
-            hitEnemy -= 1;
-        }
-        */
+        player_Now_HP -= damage;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("boxCat"))
+        if (other.CompareTag("boxCat") || other.CompareTag("EXPBox"))
         {
             other.gameObject.SetActive(false);
             player_now_EXP += 10;
@@ -188,6 +192,8 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log("현재 경험치:"+player_now_EXP);
             Debug.Log("다음 레벨업까지 필요한 경험치:"+(_playerData.level_Up_Require_EXP-player_now_EXP));
 
+            
+            // 플레이어 레벨업 로직을 UI에서 마무리하고 싶다면 주석 처리할 것
             // if (_playerData.level_Up_Require_EXP - player_now_EXP <= 0)
             // {
             //     player_Level += 1;
@@ -198,14 +204,21 @@ public class PlayerStatus : MonoBehaviour
             
             soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Boxcat_Gold);
         }
-    }
-    
-    private void OnTriggerStay(Collider other)
-    {
-    }
-    
-    private void OnTriggerExit(Collider other)
-    {
-        
+
+        if (other.CompareTag("MonsterAttack"))
+        {
+            Debug.Log($"{other.gameObject.name} 폭발 공격!");
+            
+            // check if attack has MonsterAttack class
+            if (other.TryGetComponent(out MonsterAttack attack))
+            {
+                ApplyDamage((int)attack.Damage);
+            }
+            // if not, apply damage 10
+            else
+            {
+                ApplyDamage(10);
+            }
+        }
     }
 }

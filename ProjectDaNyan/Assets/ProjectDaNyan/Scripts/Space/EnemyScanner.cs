@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyScanner : MonoBehaviour
@@ -21,6 +22,7 @@ public class EnemyScanner : MonoBehaviour
         float maxRange = Mathf.Infinity;
         foreach (Collider objectCollider in colliders)
         {
+            if (objectCollider.IsDestroyed()) return;
             float distance = Vector3.Distance(transform.position, objectCollider.transform.position);
             if (distance < maxRange && objectCollider.gameObject.activeSelf == true)
             {

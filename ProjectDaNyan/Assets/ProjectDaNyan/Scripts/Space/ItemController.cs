@@ -9,6 +9,7 @@ public class ItemController : MonoBehaviour
     // PlayerStatus에서 ItemController에 접근할 수 있도록
     private static ItemController inst = null;
     private PlayerStatus _playerStatus;
+    private Magnet _magnet;
     private int randomCat;
     private int randomGold;
     private int randomDrink;
@@ -32,8 +33,10 @@ public class ItemController : MonoBehaviour
         if (inst == null)
         {
             inst = this; // 인스턴스 할당
-            _playerStatus = FindObjectOfType<PlayerStatus>();
         }
+        
+        _playerStatus = FindObjectOfType<PlayerStatus>();
+        _magnet = FindObjectOfType<Magnet>();
     }
 
     public void DropItem()
@@ -84,6 +87,7 @@ public class ItemController : MonoBehaviour
         if (random <= 25)
         {
             Debug.Log("Drink 획득");
+            _playerStatus.player_Now_HP += 10;
         }
     }
 
@@ -92,6 +96,7 @@ public class ItemController : MonoBehaviour
         if (random <= 10)
         {
             Debug.Log("Magnet 획득");
+            _magnet.isMagnetize = true;
         }
     }
 }

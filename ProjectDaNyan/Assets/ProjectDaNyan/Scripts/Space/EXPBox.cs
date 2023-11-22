@@ -26,9 +26,7 @@ public class EXPBox : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.name == "MapFloor")
-        {
-            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
-        }
+        _rigidbody.useGravity = false;
+        _rigidbody.velocity = Vector3.zero;
     }
 }
