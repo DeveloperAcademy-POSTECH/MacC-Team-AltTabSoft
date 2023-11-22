@@ -285,8 +285,6 @@ public class MonsterNormal : Monster
             {
                 // apply player attack damage
                 MonsterHP -= bullet.damage;
-                Debug.Log($"bullet type is : {bullet.type}");
-
             }
             else
             {
