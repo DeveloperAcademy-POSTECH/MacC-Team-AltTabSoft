@@ -1,77 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &235372021131166838
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4803096130290928185}
-  - component: {fileID: 3369078236011006484}
-  - component: {fileID: 4032631571369035593}
-  m_Layer: 0
-  m_Name: LaserTriggerFront
-  m_TagString: PlayerAttack
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4803096130290928185
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 235372021131166838}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 69.500015}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1260811597061243671}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3369078236011006484
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 235372021131166838}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 10, y: 0.5, z: 300}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4032631571369035593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 235372021131166838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
-  _bomb: {fileID: 0}
-  _explosion: {fileID: 0}
-  type: 2
-  damage: 0
-  bombStack: 0
 --- !u!1 &1319998833847495691
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,13 +126,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUpgrade: 1
   isLaser: 0
-  isDrone: 0
-  isBomb: 1
+  isDrone: 1
+  isBomb: 0
   isField: 0
   basicFireLevel: 1
   laserLevel: 4
-  droneLevel: 1
-  bombLevel: 1
+  droneLevel: 4
+  bombLevel: 0
+  dashLevel: 1
   _drone: {fileID: 0}
   _drone2: {fileID: 0}
   _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
@@ -378,78 +307,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6184229383148067845}
   m_LocalEulerAnglesHint: {x: 0, y: 24, z: 0}
---- !u!1 &5037578027276410629
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 981953095381649297}
-  - component: {fileID: 3576385593782212921}
-  - component: {fileID: 5248498680378098233}
-  m_Layer: 0
-  m_Name: LaserTriggerBack
-  m_TagString: PlayerAttack
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &981953095381649297
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5037578027276410629}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 167.6, y: 0, z: -101.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6973678472964272576}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!65 &3576385593782212921
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5037578027276410629}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 10, y: 0.5, z: 300}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5248498680378098233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5037578027276410629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
-  _bomb: {fileID: 0}
-  _explosion: {fileID: 0}
-  type: 2
-  damage: 0
-  bombStack: 0
 --- !u!1 &5117087748457969773
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,78 +369,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6184229383148067845}
   m_LocalEulerAnglesHint: {x: 0, y: -24, z: 0}
---- !u!1 &5181504209515888693
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5261009505406686614}
-  - component: {fileID: 7881760486879307158}
-  - component: {fileID: 1592506267344313331}
-  m_Layer: 0
-  m_Name: LaserTriggerRight
-  m_TagString: PlayerAttack
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5261009505406686614
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5181504209515888693}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 169.00003, y: 0, z: -112.20001}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7767867608506941550}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!65 &7881760486879307158
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5181504209515888693}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 10, y: 0.5, z: 300}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1592506267344313331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5181504209515888693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
-  _bomb: {fileID: 0}
-  _explosion: {fileID: 0}
-  type: 2
-  damage: 0
-  bombStack: 0
 --- !u!1 &5559339927812018685
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,7 +411,7 @@ GameObject:
   - component: {fileID: 1721976953259513750}
   m_Layer: 0
   m_Name: LaserGroup
-  m_TagString: Untagged
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -640,7 +425,7 @@ Transform:
   m_GameObject: {fileID: 5596707124292945394}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.7, y: 0, z: -9.9}
+  m_LocalPosition: {x: -1.7, y: -1.33, z: -9.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -743,78 +528,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6184229383148067845}
   m_LocalEulerAnglesHint: {x: 0, y: 8, z: 0}
---- !u!1 &6899230934257166735
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8667903527352165164}
-  - component: {fileID: 5753096837459810291}
-  - component: {fileID: 573037957906231853}
-  m_Layer: 0
-  m_Name: LaserTriggerLeft
-  m_TagString: PlayerAttack
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8667903527352165164
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6899230934257166735}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -3, y: 0, z: -285.60007}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4499455495942588292}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!65 &5753096837459810291
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6899230934257166735}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 10, y: 0.5, z: 300}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &573037957906231853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6899230934257166735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cac4ec43dcb843a69ddf3297dc05e03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackStatus: {fileID: 11400000, guid: fc9116f24ec334f54824513b5812cdcb, type: 2}
-  _bomb: {fileID: 0}
-  _explosion: {fileID: 0}
-  type: 2
-  damage: 0
-  bombStack: 0
 --- !u!1 &7968414587611319613
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,14 +567,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1721976953259513750}
     m_Modifications:
-    - target: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 38.6
-      objectReference: {fileID: 0}
     - target: {fileID: 5868021606695627549, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
       propertyPath: m_LocalPosition.x
       value: -79.5
@@ -902,68 +607,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6439257906422882448, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_Name
-      value: LaserParticleLeft
-      objectReference: {fileID: 0}
-    - target: {fileID: 6439257906422882448, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6657890554758346695, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
       propertyPath: m_Name
       value: LaserBeamLeft
       objectReference: {fileID: 0}
-    - target: {fileID: 6657890554758346695, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.enter
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.inside
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.colliderQueryMode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.collidesWith.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.multiplyColliderForceByParticleSpeed
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4672248422201451648, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8667903527352165164}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
---- !u!4 &4499455495942588292 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-  m_PrefabInstance: {fileID: 1546462833675277525}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4907029476126752712 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5868021606695627549, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
@@ -982,14 +634,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1721976953259513750}
     m_Modifications:
-    - target: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5868021606695627549, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1030,96 +674,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6439257906422882448, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_Name
-      value: LaserParticleFront
-      objectReference: {fileID: 0}
-    - target: {fileID: 6439257906422882448, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6657890554758346695, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
       propertyPath: m_Name
       value: LaserBeamFront
       objectReference: {fileID: 0}
-    - target: {fileID: 6657890554758346695, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.enter
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.inside
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.colliderQueryMode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.collidesWith.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.primitives.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.primitives.Array.data[0]
-      value: 
-      objectReference: {fileID: 7568059509539987083, guid: caf8f7305f12d4dd1b3d907daecb3f2b, type: 3}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.primitives.Array.data[1]
-      value: 
-      objectReference: {fileID: 1022124332221860566, guid: 7c6f5fe8d840147d18baa4c35a4faf41, type: 3}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.primitives.Array.data[2]
-      value: 
-      objectReference: {fileID: 6021140740380600468, guid: ab083073d7cb941eba5466117f0098d3, type: 3}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.primitives.Array.data[3]
-      value: 
-      objectReference: {fileID: 1022124332221860566, guid: f2c087bf808f3466f8c33ac37ab59a51, type: 3}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.primitives.Array.data[4]
-      value: 
-      objectReference: {fileID: 1902684750231621932, guid: 47e4983e170f84e1fa797c19bfafb4c5, type: 3}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.primitives.Array.data[5]
-      value: 
-      objectReference: {fileID: 1902684750231621932, guid: 4f020b514b9ee4bedad36514223d6c7d, type: 3}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.multiplyColliderForceByParticleSpeed
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4672248422201451648, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4803096130290928185}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
---- !u!4 &1260811597061243671 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-  m_PrefabInstance: {fileID: 4213161811678990406}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7144114921174216918 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6439257906422882448, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
@@ -1138,18 +701,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1721976953259513750}
     m_Modifications:
-    - target: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 53.2
-      objectReference: {fileID: 0}
     - target: {fileID: 5868021606695627549, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
       propertyPath: m_LocalPosition.x
       value: 59
@@ -1190,61 +741,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6439257906422882448, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_Name
-      value: LaserParticleRight
-      objectReference: {fileID: 0}
-    - target: {fileID: 6439257906422882448, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6657890554758346695, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
       propertyPath: m_Name
       value: LaserBeamRight
       objectReference: {fileID: 0}
-    - target: {fileID: 6657890554758346695, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.enter
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.inside
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.colliderQueryMode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.collidesWith.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.multiplyColliderForceByParticleSpeed
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4672248422201451648, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5261009505406686614}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
 --- !u!4 &1271424460383090722 stripped
@@ -1257,11 +760,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6439257906422882448, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
   m_PrefabInstance: {fileID: 4668657492032000831}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7767867608506941550 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-  m_PrefabInstance: {fileID: 4668657492032000831}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5458396492774220433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1270,14 +768,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1721976953259513750}
     m_Modifications:
-    - target: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5868021606695627549, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1318,61 +808,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6439257906422882448, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_Name
-      value: LaserParticleBack
-      objectReference: {fileID: 0}
-    - target: {fileID: 6439257906422882448, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6657890554758346695, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
       propertyPath: m_Name
       value: LaserBeamBack
       objectReference: {fileID: 0}
-    - target: {fileID: 6657890554758346695, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.enter
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.inside
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: TriggerModule.colliderQueryMode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.collidesWith.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830976505167164214, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      propertyPath: CollisionModule.multiplyColliderForceByParticleSpeed
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4672248422201451648, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 981953095381649297}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
 --- !u!1 &1341166982266716673 stripped
@@ -1383,11 +825,6 @@ GameObject:
 --- !u!4 &1922887778197260684 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5868021606695627549, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
-  m_PrefabInstance: {fileID: 5458396492774220433}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6973678472964272576 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3100558124325098321, guid: b8332611ebd99490fb1d993b8a888e05, type: 3}
   m_PrefabInstance: {fileID: 5458396492774220433}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8039670838710403650
@@ -1412,7 +849,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.41
+      value: -6.8
       objectReference: {fileID: 0}
     - target: {fileID: 5396387601152710441, guid: 1ea27266c731b4ccca22ca2807ffae49, type: 3}
       propertyPath: m_LocalRotation.w
