@@ -146,27 +146,24 @@ public class PlayerStatus : MonoBehaviour
     {
         if (other.collider.gameObject.CompareTag("Monster"))
         {
-            player_Now_HP -= 10;
-            Debug.Log("10의 데미지를 입었다.");
+            Debug.Log($"{other.gameObject.name} : 몬스터와 충돌! 10의 데미지를 입었다.");
+
+            ApplyDamage(10);
             
             StartCoroutine(PlayerHitEffect());
         }
         else if (other.collider.gameObject.CompareTag("MonsterAttack"))
         {
-            player_Now_HP -= (int)other.gameObject.GetComponent<MonsterAttack>().Damage;
+            ApplyDamage((int)other.gameObject.GetComponent<MonsterAttack>().Damage);
             //other.gameObject.SetActive(false);
-            Debug.Log($"총에 맞았다! 총 데미지를 입었다. {other.gameObject.GetComponent<MonsterAttack>().Damage}");
+            Debug.Log($"{other.gameObject.name} : 몬스터 공격! {other.gameObject.GetComponent<MonsterAttack>().Damage}");
             StartCoroutine(PlayerHitEffect());
         }
     }
-    private void OnCollisionExit(Collision other)
+    
+    private void ApplyDamage(int damage)
     {
-        /*
-        if (other.gameObject.CompareTag("Monster"))
-        {
-            hitEnemy -= 1;
-        }
-        */
+        player_Now_HP -= damage;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -186,14 +183,21 @@ public class PlayerStatus : MonoBehaviour
             // TODO: 드랍 아이템별 카운트 구현
             player_collected_box_cat += 1;
         }
-    }
-    
-    private void OnTriggerStay(Collider other)
-    {
-    }
-    
-    private void OnTriggerExit(Collider other)
-    {
-        
+
+        if (other.CompareTag("MonsterAttack"))
+        {
+            Debug.Log($"{other.gameObject.name} 폭발 공격!");
+            
+            // check if attack has MonsterAttack class
+            if (other.TryGetComponent(out MonsterAttack attack))
+            {
+                ApplyDamage((int)attack.Damage);
+            }
+            // if not, apply damage 10
+            else
+            {
+                ApplyDamage(10);
+            }
+        }
     }
 }

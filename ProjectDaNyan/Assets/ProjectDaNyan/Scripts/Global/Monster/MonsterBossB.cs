@@ -164,7 +164,7 @@ public class MonsterBossB : Monster
 
                 // look at player 
                 lookAtPlayer();
-
+                
                 // attack interval 
                 if (_attackTimeCount >= _bossData.AttackInterval)
                 {

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8903948093375411168}
   - component: {fileID: 1238260566389467890}
   m_Layer: 12
-  m_Name: Blast
+  m_Name: BlastBomb
   m_TagString: MonsterAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4107185044143336145}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -156,7 +156,7 @@ MonoBehaviour:
       m_Calls: []
   isCollided: 0
   _monsterBlastData: {fileID: 11400000, guid: f43071abb691e4c7b996f91a63aefb8e, type: 2}
-  BlastSphereCollider: {fileID: 0}
+  _sphereCollider: {fileID: 0}
 --- !u!135 &1238260566389467890
 SphereCollider:
   m_ObjectHideFlags: 0
