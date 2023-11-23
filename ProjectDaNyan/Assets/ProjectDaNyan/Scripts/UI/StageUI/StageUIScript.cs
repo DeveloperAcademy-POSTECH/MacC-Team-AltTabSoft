@@ -14,6 +14,8 @@ namespace ProjectDaNyan.Views.StageUI
 {
     public class StageUIScript : MonoBehaviour
     {
+        [SerializeField] private PlayerData _playerData;
+        
         private Button _shelterButton;
         private Button _pauseButton;
         private GameObject _pauseUI;
@@ -250,6 +252,8 @@ namespace ProjectDaNyan.Views.StageUI
                 {
                     GameManager.Inst.PauseGame();
                     _skillSelectUI.gameObject.SetActive(true);
+                    _playerStatus.player_Level += 1;
+                    _playerStatus.Player_now_EXP -= _playerData.level_Up_Require_EXP;
                 }
             }
 
