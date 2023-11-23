@@ -163,7 +163,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
                         _playerAttack.dashLevel < 5)
                     {
                         _playerAttack.dashLevel += 1;
-                        _playerData.dashSpeed += 2;
+                        _playerStatus.DashSpeed += 2;
                         dashSkillBox.gameObject.SetActive(true);
                         dashSkillBox.SetSkillBoxUI();
                     }

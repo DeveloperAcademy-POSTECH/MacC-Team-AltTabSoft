@@ -194,7 +194,14 @@ public class PlayerStatus : MonoBehaviour
         
         if (other.CompareTag("boxCat") || other.CompareTag("EXPBox"))
         {
-            other.gameObject.SetActive(false);
+            if(other.CompareTag("boxCat"))
+            {
+                other.gameObject.SetActive(false);
+            }
+            else
+            {
+                ObjectPoolManager.Inst.DestroyObject(other.gameObject);
+            }
             player_now_EXP += 10;
             Debug.Log("경험치 획득! 획득한 경험치 : 10");
             Debug.Log("현재 경험치:"+player_now_EXP);

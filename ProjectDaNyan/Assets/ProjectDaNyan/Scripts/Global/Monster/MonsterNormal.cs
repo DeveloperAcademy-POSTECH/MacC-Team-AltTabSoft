@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
@@ -156,20 +154,18 @@ public class MonsterNormal : Monster
         // drop exp 
         expBoxData.exp = _monsterData.exp;
         expBoxData.parentsVelocity = _navMeshAgent.velocity;
-        expBox.transform.position = this.transform.position + Vector3.up * 2f;
+        expBox.transform.position = this.transform.position + Vector3.up * 4f;
 
         //몬스터가 죽을 시 폭탄 터짐
         if (this.gameObject.transform.Find("BombOnMonster") != null)
         {
             StartCoroutine(bombExplosion(_boom, _bombLevel, 1f));
-            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         }
         else
         {
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         }
 
-        ObjectPoolManager.Inst.DestroyObject(this.gameObject);
         yield return null;
     }
 
@@ -194,6 +190,8 @@ public class MonsterNormal : Monster
             yield return new WaitForSeconds(1f);
             ObjectPoolManager.Inst.DestroyObject(boomEffect);
             ObjectPoolManager.Inst.DestroyObject(boomCollider);
+            
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
     }
 
     private void checkAttackDistance()
@@ -271,6 +269,4 @@ public class MonsterNormal : Monster
             }
         }
     }
-
-
 }
