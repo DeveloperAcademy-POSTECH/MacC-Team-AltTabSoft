@@ -88,6 +88,11 @@ public class ItemController : MonoBehaviour
         {
             Debug.Log("Drink 획득");
             _playerStatus.player_Now_HP += 10;
+            
+            if (_playerStatus.player_Now_HP > _playerStatus.Player_Max_HP)
+            {
+                _playerStatus.player_Now_HP = _playerStatus.Player_Max_HP;
+            }
         }
     }
 
