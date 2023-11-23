@@ -25,8 +25,8 @@ public class ShelterUIScript : MonoBehaviour
     
     private GameObject _characterInfoUI;
     private GameObject _weaponInfoUI;
+    private GameObject _tempUI;
     private GameObject _settingUI;
-    
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +47,7 @@ public class ShelterUIScript : MonoBehaviour
         _characterInfoUI = GetComponentInChildren<CharacterInfoUI>(includeInactive: true).gameObject;
         _weaponInfoUI = GetComponentInChildren<WeaponInfoUI>(includeInactive: true).gameObject;
         _settingUI = GetComponentInChildren<SettingUI>(includeInactive: true).gameObject;
+        _tempUI = GetComponentInChildren<TempUI>(includeInactive: true).gameObject;
         
         //화면 불러올 때
         _transitionCanvas.SetActive(true);
@@ -100,31 +101,39 @@ public class ShelterUIScript : MonoBehaviour
                         SceneManager.LoadScene("StageScene");
                     });
                 });
-            } else if (buttonName == "CharacterInfoButton") // 캐릭터 정보창 열기
+            }
+            else if (buttonName != "TempUI")
             {
                 button.onClick.AddListener(() =>
                 {
-                    _characterInfoUI.SetActive(true);
-                });
-            } else if (buttonName == "Button_ExitCharacterInfoUI") // 캐릭터 정보창 닫기
-            {
-                button.onClick.AddListener(() =>
-                {
-                    _characterInfoUI.SetActive(false);
-                });
-            } else if (buttonName == "Button_GoTo_WeaponInfoUI") // 무기 정보창 열기
-            {
-                button.onClick.AddListener(() =>
-                {
-                    _weaponInfoUI.SetActive(true);
-                });
-            } else if (buttonName == "Button_ExitWeaponInfoUI") // 무기 정보창 닫기
-            {
-                button.onClick.AddListener(() =>
-                {
-                    _weaponInfoUI.SetActive(false);
+                    _tempUI.SetActive(true);
                 });
             }
+            // else if (buttonName == "CharacterInfoButton") // 캐릭터 정보창 열기
+            // {
+            //     button.onClick.AddListener(() =>
+            //     {
+            //         _characterInfoUI.SetActive(true);
+            //     });
+            // } else if (buttonName == "Button_ExitCharacterInfoUI") // 캐릭터 정보창 닫기
+            // {
+            //     button.onClick.AddListener(() =>
+            //     {
+            //         _characterInfoUI.SetActive(false);
+            //     });
+            // } else if (buttonName == "Button_GoTo_WeaponInfoUI") // 무기 정보창 열기
+            // {
+            //     button.onClick.AddListener(() =>
+            //     {
+            //         _weaponInfoUI.SetActive(true);
+            //     });
+            // } else if (buttonName == "Button_ExitWeaponInfoUI") // 무기 정보창 닫기
+            // {
+            //     button.onClick.AddListener(() =>
+            //     {
+            //         _weaponInfoUI.SetActive(false);
+            //     });
+            // }
         }
     }
 }
