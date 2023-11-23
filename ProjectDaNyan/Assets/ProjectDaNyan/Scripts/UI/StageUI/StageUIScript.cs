@@ -284,6 +284,7 @@ namespace ProjectDaNyan.Views.StageUI
             
             _hiddenSkillDelay += Time.deltaTime;
             // _coolTimeText = (_hiddenLeftCoolTime < 0) ? "0" : _hiddenLeftCoolTime.ToString("F0"); 
+
         }
 
         private void WarnBoss()

@@ -139,7 +139,8 @@ public class Bullet : MonoBehaviour
             //폭탄총알이 몹에게 닿으면 몹에게 폭탄이 부착됨
             if (type == Type.Bomb &&
                 other != null &&
-                (other.transform.Find("BombOnMonster") == null || other.transform.Find("BombOnMonster").gameObject.activeSelf == false))
+                (other.transform.Find("BombOnMonster") == null))
+                 //|| other.transform.Find("BombOnMonster").gameObject.activeSelf == false
             {
                 
                 try

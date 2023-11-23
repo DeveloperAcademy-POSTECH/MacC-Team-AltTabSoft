@@ -96,6 +96,12 @@ public class MonsterNormal : Monster
         StartCoroutine(monsterState());
 
         _playerAttack = GameObject.Find("PlayerAttackPosition").GetComponent<PlayerAttack>();
+
+        if (this.gameObject.transform.Find("BombOnMonster") != null &&
+                        this.gameObject.transform.Find("BombOnMonster").gameObject.activeSelf == true)
+        {
+            this.gameObject.transform.Find("BombOnMonster").gameObject.SetActive(false);
+        }
     }
 
     IEnumerator monsterState()
