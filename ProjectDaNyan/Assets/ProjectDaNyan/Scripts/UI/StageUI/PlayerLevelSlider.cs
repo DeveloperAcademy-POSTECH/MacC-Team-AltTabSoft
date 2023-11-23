@@ -16,7 +16,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
         // Update is called once per frame
         private void Update()
         {
-            _playerLevelSlider.value = (float) _playerStatus.Player_now_EXP / 100;
+            _playerLevelSlider.value = (float) _playerStatus.Player_now_EXP / playerData.level_Up_EXP;
         }
     }
 }
