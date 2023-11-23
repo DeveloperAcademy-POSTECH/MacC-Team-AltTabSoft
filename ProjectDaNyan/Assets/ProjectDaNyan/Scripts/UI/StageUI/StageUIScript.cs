@@ -30,6 +30,7 @@ namespace ProjectDaNyan.Views.StageUI
         private GameObject _skillSelectUI;
 
         private GameObject _hiddenSkillUI;
+        private GameObject _disabledHiddenSkillUI;
         private GameObject _bossWarning;
 
         public GameObject SkillSelectUI
@@ -60,6 +61,11 @@ namespace ProjectDaNyan.Views.StageUI
         private string _coolTimeText;
         private PlayerLaserAttack _playerLaserAttack;
         
+        public float HiddenLeftCoolTime
+        {
+            get { return _hiddenLeftCoolTime; }
+        }
+        
         private void Awake()
         {
             _transitionCanvas = GetComponentInChildren<TranstionCanvas>(includeInactive: true).gameObject;
@@ -79,6 +85,7 @@ namespace ProjectDaNyan.Views.StageUI
             _stageMainUI = transform.Find("StageMainUI").gameObject;
             _skillSelectUI = transform.Find("SkillSelectUI").gameObject;
             //_hiddenSkillUI = transform.Find("TestHiddenSkill").gameObject;
+            _disabledHiddenSkillUI = FindObjectOfType<DisabledHiddenSkillButton>().gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
 
             //Hidden Skill
@@ -173,7 +180,7 @@ namespace ProjectDaNyan.Views.StageUI
                 //    });
                 //}
 
-                else if (buttonName == "HiddenSkill")
+                else if (buttonName == "HiddenSkillButton")
                 {
                     button.onClick.AddListener(() =>
                     {
@@ -264,9 +271,19 @@ namespace ProjectDaNyan.Views.StageUI
             //HiddenSkill2 CoolTime Update
             //_isHiddenReady = _hiddenSkillRate < _hiddenSkillDelay;
             _hiddenLeftCoolTime = _hiddenSkillRate - _hiddenSkillDelay;
-            _isHiddenReady = _hiddenLeftCoolTime < 0;
+            _isHiddenReady = _hiddenLeftCoolTime <= 0;
+
+            if (_isHiddenReady)
+            {
+                _disabledHiddenSkillUI.SetActive(false);
+            }
+            else
+            {
+                _disabledHiddenSkillUI.SetActive(true);
+            }
+            
             _hiddenSkillDelay += Time.deltaTime;
-            _coolTimeText = (_hiddenLeftCoolTime < 0) ? "0" : _hiddenLeftCoolTime.ToString("F0"); 
+            // _coolTimeText = (_hiddenLeftCoolTime < 0) ? "0" : _hiddenLeftCoolTime.ToString("F0"); 
         }
 
         private void WarnBoss()
