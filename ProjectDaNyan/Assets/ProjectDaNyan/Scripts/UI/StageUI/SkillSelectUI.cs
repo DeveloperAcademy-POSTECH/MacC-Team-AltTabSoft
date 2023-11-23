@@ -176,6 +176,8 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
                     break;
 
             }
+            _playerStatus.player_Level += 1;
+            _playerStatus.Player_now_EXP -= _playerData.level_Up_Require_EXP;
         }
 
         public void SelectSkillBox()

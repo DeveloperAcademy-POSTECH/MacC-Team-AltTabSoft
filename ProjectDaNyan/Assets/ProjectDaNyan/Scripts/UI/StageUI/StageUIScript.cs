@@ -259,8 +259,8 @@ namespace ProjectDaNyan.Views.StageUI
                 {
                     GameManager.Inst.PauseGame();
                     _skillSelectUI.gameObject.SetActive(true);
-                    _playerStatus.player_Level += 1;
-                    _playerStatus.Player_now_EXP -= _playerData.level_Up_Require_EXP;
+                    //_playerStatus.player_Level += 1;
+                    //_playerStatus.Player_now_EXP -= _playerData.level_Up_Require_EXP;
                 }
             }
 
