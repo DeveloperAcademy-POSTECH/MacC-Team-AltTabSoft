@@ -69,7 +69,7 @@ public class PlayerLaserAttack : MonoBehaviour
             
         }
 
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(5f);
 
         for(int laserCount = 0; laserCount < _laserBullets.Length; laserCount++)
         {

@@ -36,11 +36,6 @@ namespace ProjectDaNyan.Views.StageUI
 
         private PlayerStatus _playerStatus;
 
-        //HiddenSkill1 Cool Time
-        //private float _hiddenSkillFirstRate = 30f;
-        //private float _hiddenSkillFirstDelay = 30f;
-        //private bool _isHiddenFirstReady;
-
         //HiddenSkill
         public enum HiddenSkillType
         {
@@ -53,9 +48,12 @@ namespace ProjectDaNyan.Views.StageUI
         public HiddenSkillType[] hiddenSkillTypes = { HiddenSkillType.WideAreaAttack, HiddenSkillType.LaserAttack };
         private HiddenSkillType _hiddenSkillType;
         private int _randomNumber; //To Change Hidden Skill Types Randomly at Start Point
-        private float _hiddenSkillRate = 30f;
-        private float _hiddenSkillDelay = 30f;
+        private float _hiddenSkillRate = 35f;
+        private float _hiddenSkillDelay = 0;
+        //Hidden Skill On/Off Boolean
         private bool _isHiddenReady;
+        private float _hiddenLeftCoolTime;
+        private string _coolTimeText;
         private PlayerLaserAttack _playerLaserAttack;
 
 
@@ -239,8 +237,11 @@ namespace ProjectDaNyan.Views.StageUI
             //_hiddenSkillFirstDelay += Time.deltaTime;
 
             //HiddenSkill2 CoolTime Update
-            _isHiddenReady = _hiddenSkillRate < _hiddenSkillDelay;
+            //_isHiddenReady = _hiddenSkillRate < _hiddenSkillDelay;
+            _hiddenLeftCoolTime = _hiddenSkillRate - _hiddenSkillDelay;
+            _isHiddenReady = _hiddenLeftCoolTime < 0;
             _hiddenSkillDelay += Time.deltaTime;
+            _coolTimeText = (_hiddenLeftCoolTime < 0) ? "0" : _hiddenLeftCoolTime.ToString("F0"); 
         }
 
         private void WarnBoss()
