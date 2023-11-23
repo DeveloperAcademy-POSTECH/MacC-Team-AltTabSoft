@@ -1744,8 +1744,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myType: 0
-  _bossData: {fileID: 11400000, guid: 47ad1b783956144978e2457eb0e1060d, type: 2}
   monsterHP: 0
+  _renderer: {fileID: 4928610914809212351}
+  _renderers:
+  - {fileID: 4928610914809212351}
+  _boom: {fileID: 6516240114102030008, guid: 37e7401034c044df0918e1f181bf72e4, type: 3}
+  _boomCollider: {fileID: 7107076862786558208, guid: 1fc2125f6450945478dfe55bc1575004, type: 3}
+  _bomb: {fileID: 0}
+  _playerAttack: {fileID: 0}
+  _bombLevel: 0
+  _bossData: {fileID: 11400000, guid: 47ad1b783956144978e2457eb0e1060d, type: 2}
   skillWaveBlast: {fileID: 1720287483758939973}
   _pawsColliers:
   - {fileID: 4973479117853686831}
@@ -1754,10 +1762,7 @@ MonoBehaviour:
   - {fileID: 1699459212600843608}
   - {fileID: 2015178386371095683}
   _currentState: 0
-  _animator: {fileID: 0}
-  _boom: {fileID: 6516240114102030008, guid: 37e7401034c044df0918e1f181bf72e4, type: 3}
-  _boomCollider: {fileID: 7107076862786558208, guid: 1fc2125f6450945478dfe55bc1575004, type: 3}
-  _bomb: {fileID: 0}
+  _animator: {fileID: 78200397569372440}
 --- !u!195 &8094538252406000092
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2851,6 +2856,10 @@ PrefabInstance:
     - target: {fileID: 4107185044143336145, guid: 06931dfdb61f944a2a67fe3fe9465a45, type: 3}
       propertyPath: m_Name
       value: Blast
+      objectReference: {fileID: 0}
+    - target: {fileID: 7304235812575450845, guid: 06931dfdb61f944a2a67fe3fe9465a45, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8342239469199423288, guid: 06931dfdb61f944a2a67fe3fe9465a45, type: 3}
       propertyPath: m_LocalPosition.x

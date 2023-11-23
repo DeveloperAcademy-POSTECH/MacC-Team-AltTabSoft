@@ -33,6 +33,7 @@ public class MonsterSkillWaveBlast : MonsterAttack
         BlastSphereCollider = GetComponent<SphereCollider>();
         _blastLineRenderer = GetComponent<LineRenderer>();
 
+        _blastLineRenderer.enabled = false;
         _blastLineRenderer.positionCount = _monsterBlastData.PositionCount + 1;
         
     }
@@ -40,6 +41,7 @@ public class MonsterSkillWaveBlast : MonsterAttack
     public void StartWaveBlastAttack(WaveType skill)
     {
         isCollided = false;
+        _blastLineRenderer.enabled = true;
         
         switch (skill)
         {
