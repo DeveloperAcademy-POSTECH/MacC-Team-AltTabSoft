@@ -14,6 +14,8 @@ namespace ProjectDaNyan.Views.StageUI
 {
     public class StageUIScript : MonoBehaviour
     {
+        [SerializeField] private PlayerData _playerData;
+        
         private Button _shelterButton;
         private Button _pauseButton;
         private GameObject _pauseUI;
@@ -28,6 +30,7 @@ namespace ProjectDaNyan.Views.StageUI
         private GameObject _skillSelectUI;
 
         private GameObject _hiddenSkillUI;
+        private GameObject _disabledHiddenSkillUI;
         private GameObject _bossWarning;
 
         public GameObject SkillSelectUI
@@ -37,11 +40,6 @@ namespace ProjectDaNyan.Views.StageUI
         
         private PlayerStatus _playerStatus;
         private PlayerAttack _playerAttack;
-
-        //HiddenSkill1 Cool Time
-        //private float _hiddenSkillFirstRate = 30f;
-        //private float _hiddenSkillFirstDelay = 30f;
-        //private bool _isHiddenFirstReady;
 
         //HiddenSkill
         public enum HiddenSkillType
@@ -55,10 +53,18 @@ namespace ProjectDaNyan.Views.StageUI
         public HiddenSkillType[] hiddenSkillTypes = { HiddenSkillType.WideAreaAttack, HiddenSkillType.LaserAttack };
         private HiddenSkillType _hiddenSkillType;
         private int _randomNumber; //To Change Hidden Skill Types Randomly at Start Point
-        private float _hiddenSkillRate = 30f;
-        private float _hiddenSkillDelay = 30f;
+        private float _hiddenSkillRate = 35f;
+        private float _hiddenSkillDelay = 0;
+        //Hidden Skill On/Off Boolean
         private bool _isHiddenReady;
+        private float _hiddenLeftCoolTime;
+        private string _coolTimeText;
         private PlayerLaserAttack _playerLaserAttack;
+        
+        public float HiddenLeftCoolTime
+        {
+            get { return _hiddenLeftCoolTime; }
+        }
         
         private void Awake()
         {
@@ -79,6 +85,7 @@ namespace ProjectDaNyan.Views.StageUI
             _stageMainUI = transform.Find("StageMainUI").gameObject;
             _skillSelectUI = transform.Find("SkillSelectUI").gameObject;
             //_hiddenSkillUI = transform.Find("TestHiddenSkill").gameObject;
+            _disabledHiddenSkillUI = FindObjectOfType<DisabledHiddenSkillButton>().gameObject;
             _blackScreen = GetComponentInChildren<BlackScreen>(includeInactive: true).gameObject.GetComponent<Image>();
 
             //Hidden Skill
@@ -173,7 +180,7 @@ namespace ProjectDaNyan.Views.StageUI
                 //    });
                 //}
 
-                else if (buttonName == "HiddenSkill")
+                else if (buttonName == "HiddenSkillButton")
                 {
                     button.onClick.AddListener(() =>
                     {
@@ -252,6 +259,8 @@ namespace ProjectDaNyan.Views.StageUI
                 {
                     GameManager.Inst.PauseGame();
                     _skillSelectUI.gameObject.SetActive(true);
+                    _playerStatus.player_Level += 1;
+                    _playerStatus.Player_now_EXP -= _playerData.level_Up_Require_EXP;
                 }
             }
 
@@ -260,8 +269,21 @@ namespace ProjectDaNyan.Views.StageUI
             //_hiddenSkillFirstDelay += Time.deltaTime;
 
             //HiddenSkill2 CoolTime Update
-            _isHiddenReady = _hiddenSkillRate < _hiddenSkillDelay;
+            //_isHiddenReady = _hiddenSkillRate < _hiddenSkillDelay;
+            _hiddenLeftCoolTime = _hiddenSkillRate - _hiddenSkillDelay;
+            _isHiddenReady = _hiddenLeftCoolTime <= 0;
+
+            if (_isHiddenReady)
+            {
+                _disabledHiddenSkillUI.SetActive(false);
+            }
+            else
+            {
+                _disabledHiddenSkillUI.SetActive(true);
+            }
+            
             _hiddenSkillDelay += Time.deltaTime;
+            // _coolTimeText = (_hiddenLeftCoolTime < 0) ? "0" : _hiddenLeftCoolTime.ToString("F0"); 
         }
 
         private void WarnBoss()
