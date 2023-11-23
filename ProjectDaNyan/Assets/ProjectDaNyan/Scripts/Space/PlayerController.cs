@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 300;
     private float timeBeforeNextJump = 1.2f;
     private float canJump = 0f;
-    private float rockHeight = 4.0f;
+    private float rockHeight = 5.85f;
 
     private float playerRotationPositionX;
     private float playerRotationPositionY;
@@ -77,7 +77,6 @@ public class PlayerController : MonoBehaviour
             PlayerStop();
             return;
         }
-
         switch (_playerState.getPsData())
         {
             case PlayerState.PSData.walk:
@@ -142,14 +141,14 @@ public class PlayerController : MonoBehaviour
         if (!_joy.isJoystickPositionGoEnd)
         {
             playerLineRenderer.enabled = true;
-            playerLineRenderer.SetPosition(0,this.transform.position);
-            playerLineRenderer.SetPosition(1, this.transform.position + movePosition * _playerData.playerSpeed);
+            playerLineRenderer.SetPosition(0,new Vector3(this.transform.position.x, this.transform.position.y + 0.35f, this.transform.position.z));
+            playerLineRenderer.SetPosition(1, new Vector3(this.transform.position.x + movePosition.x * _playerData.playerSpeed * 2, this.transform.position.y + movePosition.y * _playerData.playerSpeed + 0.35f, this.transform.position.z + movePosition.z * _playerData.playerSpeed * 2));
         }
         else
         {
             playerLineRenderer.enabled = true;
-            playerLineRenderer.SetPosition(0,this.transform.position);
-            playerLineRenderer.SetPosition(1, this.transform.position + (dashMovePosition * _playerData.dashLimitTic1SecondsTo50));
+            playerLineRenderer.SetPosition(0,new Vector3(this.transform.position.x, this.transform.position.y + 0.35f, this.transform.position.z));
+            playerLineRenderer.SetPosition(1, new Vector3(this.transform.position.x + dashMovePosition.x * _playerData.dashLimitTic1SecondsTo50, this.transform.position.y + dashMovePosition.y + 0.35f, this.transform.position.z + dashMovePosition.z * _playerData.dashLimitTic1SecondsTo50));
         }
     }
 
@@ -237,13 +236,12 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMoveOnTheRock(GameObject rock)
     {
+        dashTimerCount = 0;
         rockQuitTimerCount = 0;
+        _playerState.setPsData(PlayerState.PSData.onTheRock);
+        transform.position = (new Vector3(rock.transform.position.x,rockHeight,rock.transform.position.z));
         _soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Player_Object_Dash);
         playerAnim.SetInteger("State",0);
-        transform.position = (new Vector3(rock.transform.position.x,rock.transform.position.y + rockHeight,rock.transform.position.z));
-        _playerState.setPsData(PlayerState.PSData.onTheRock);
-        if (_playerAttack.dashLevel > 4)
-            playerBodyBullet.SetActive(true);
     }
     
     void PlayerExitStartFromRock()
@@ -301,7 +299,11 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                StartCoroutine(PlayerDashEnds());
+                playerTrailRenderer.emitting = false;
+                playerAnim.SetInteger("State",0);
+                playerBodyBullet.SetActive(false);
+                _playerState.setPsData(PlayerState.PSData.stop);
+                this.gameObject.layer = 6;
             }
         }
     }
