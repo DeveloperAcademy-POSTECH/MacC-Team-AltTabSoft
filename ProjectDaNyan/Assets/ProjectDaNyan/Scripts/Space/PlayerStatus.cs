@@ -197,6 +197,7 @@ public class PlayerStatus : MonoBehaviour
             if(other.CompareTag("boxCat"))
             {
                 other.gameObject.SetActive(false);
+                ItemController.Inst.DropItem();
             }
             else
             {
@@ -209,8 +210,6 @@ public class PlayerStatus : MonoBehaviour
             //     player_Level += 1;
             //     player_now_EXP -= _playerData.level_Up_Require_EXP;
             // }
-
-            ItemController.Inst.DropItem();
             
             soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Boxcat_Gold);
         }
