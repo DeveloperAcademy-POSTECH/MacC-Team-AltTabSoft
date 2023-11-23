@@ -194,7 +194,14 @@ public class PlayerStatus : MonoBehaviour
         
         if (other.CompareTag("boxCat") || other.CompareTag("EXPBox"))
         {
-            other.gameObject.SetActive(false);
+            if(other.CompareTag("boxCat"))
+            {
+                other.gameObject.SetActive(false);
+            }
+            else
+            {
+                ObjectPoolManager.Inst.DestroyObject(other.gameObject);
+            }
             player_now_EXP += 10;
             // 플레이어 레벨업 로직을 UI에서 마무리하고 싶다면 주석 처리할 것
             // if (_playerData.level_Up_Require_EXP - player_now_EXP <= 0)
