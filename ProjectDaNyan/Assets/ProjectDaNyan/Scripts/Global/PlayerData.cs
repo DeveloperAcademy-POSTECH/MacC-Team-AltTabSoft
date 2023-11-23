@@ -18,6 +18,7 @@ public class PlayerData: ScriptableObject
     [SerializeField] public int hp_Heal_Counter_x50 = 50;
     [SerializeField] public int hp_Heal_Amount = 1;
     [SerializeField] public int level_Up_Require_EXP = 100;
+    [SerializeField] public int level_Up_EXP = 100;
     [SerializeField] public float hitEffectTime = .25f;
     
     // ======= JoystickController 에서 사용될 데이터

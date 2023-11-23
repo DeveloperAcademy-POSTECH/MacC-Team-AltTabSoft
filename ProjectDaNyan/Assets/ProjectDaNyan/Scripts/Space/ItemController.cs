@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ProjectDaNyan.Views.StageUI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,6 +10,7 @@ public class ItemController : MonoBehaviour
     // PlayerStatus에서 ItemController에 접근할 수 있도록
     private static ItemController inst = null;
     private PlayerStatus _playerStatus;
+    private StageUIScript _stage;
     private Magnet _magnet;
     private int randomCat;
     private int randomGold;
@@ -37,6 +39,7 @@ public class ItemController : MonoBehaviour
         
         _playerStatus = FindObjectOfType<PlayerStatus>();
         _magnet = FindObjectOfType<Magnet>();
+        _stage = FindObjectOfType<StageUIScript>();
     }
 
     public void DropItem()
