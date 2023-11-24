@@ -226,12 +226,10 @@ namespace ProjectDaNyan.Views.StageUI
                 case GameState.bossStage:
                     break;
                 case GameState.gameOver:
-                    GameManager.Inst.PauseGame();
                     if (ReferenceEquals(_stageClearUI, null) == false) _stageClearUI.SetActive(false); // serialized, public 변수는 null 체크를 이렇게 하면 안됨
                     if (ReferenceEquals(_stageFailedUI, null) == false) _stageFailedUI.SetActive(true);
                     break;
                 case GameState.win:
-                    GameManager.Inst.PauseGame();
                     if (ReferenceEquals(_stageClearUI, null) == false)  _stageClearUI.SetActive(true); // serialized, public 변수는 null 체크를 이렇게 하면 안됨
                     if (ReferenceEquals(_stageFailedUI, null) == false) _stageFailedUI.SetActive(false);
                     break;

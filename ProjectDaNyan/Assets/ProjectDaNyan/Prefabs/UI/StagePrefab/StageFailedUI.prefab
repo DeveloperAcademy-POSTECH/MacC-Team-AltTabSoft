@@ -2101,6 +2101,7 @@ GameObject:
   - component: {fileID: 6363512620422730543}
   - component: {fileID: 532181405302863877}
   - component: {fileID: 479420911074004823}
+  - component: {fileID: 2581600867513004830}
   m_Layer: 5
   m_Name: StageFailedUI
   m_TagString: Untagged
@@ -2192,6 +2193,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2581600867513004830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7726018178442772932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd8f0e90ee514b54849cdced5f95ea0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8183587466890159477
 GameObject:
   m_ObjectHideFlags: 0
