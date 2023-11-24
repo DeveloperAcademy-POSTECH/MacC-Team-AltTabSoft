@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 3347162405063787977}
   - component: {fileID: 7423167937896033435}
   m_Layer: 5
-  m_Name: PlayerEXPBox
+  m_Name: PlayerLevelBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -502,9 +502,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4862205180626162009}
   - component: {fileID: 6932340206503744989}
-  - component: {fileID: 6744075656161039457}
   m_Layer: 5
-  m_Name: PlayerEXPSlider
+  m_Name: PlayerLevelSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -578,22 +577,10 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.348
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6744075656161039457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6669438949953711606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2ca9ad3860c4014c9694c3f3ca4a123, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6926273399736826089
 GameObject:
   m_ObjectHideFlags: 0
@@ -3021,7 +3008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5055848649039498818, guid: ca5226df552544890943c734e70776a3, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5055848649039498818, guid: ca5226df552544890943c734e70776a3, type: 3}
       propertyPath: m_SortingLayer
