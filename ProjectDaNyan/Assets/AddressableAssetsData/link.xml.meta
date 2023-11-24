@@ -1,0 +1,32 @@
+fileFormatVersion: 2
+guid: f31bc1be1272f48689c9607018db6ec0
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bedca1a7538b4c2e9459cd25414b514, type: 3}
+  m_Name: PlayerData
+  m_EditorClassIdentifier: 
+  playerSpeed: 10
+  dashLimitTic1SecondsTo50: 4
+  onTheRockQuitTic: 50
+  dashSpeed: 15
+  player_Max_HP: 1000
+  hp_Heal_Counter_x50: 0
+  hp_Heal_Amount: 0
+  level_Up_Require_EXP: 300
+  hitEffectTime: 0.25
+  dashRechargeTic: 150
+  maxDashSavings: 5
+  assetBundleVariant: 
