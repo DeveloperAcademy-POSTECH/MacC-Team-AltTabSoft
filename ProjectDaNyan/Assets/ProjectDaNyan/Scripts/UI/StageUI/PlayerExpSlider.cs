@@ -16,7 +16,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
             _playerHpSlider = GetComponent<Slider>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             _playerHpSlider.value = (float)_playerStatus.Player_Now_HP / _playerStatus.Player_Max_HP;
             Move();
@@ -25,7 +25,7 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
         private void Move()
         {
             _playerHpSlider.transform.position =
-                Camera.main.WorldToScreenPoint(_player.transform.position + new Vector3(0, -2f, 0));
+                Camera.main.WorldToScreenPoint(_player.transform.position + new Vector3(0, 4.5f, 0));
         }
     }
 }
