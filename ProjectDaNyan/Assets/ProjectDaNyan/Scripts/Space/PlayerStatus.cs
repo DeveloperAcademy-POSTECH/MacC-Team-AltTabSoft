@@ -9,6 +9,7 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private PlayerState _playerState;
     [SerializeField] private Renderer playerRenderer;
     [SerializeField] private SoundEffectController soundEffectController;
+    [SerializeField] private CharacterController playerController;
 
     private int player_HitCount = 0;
 
@@ -214,6 +215,15 @@ public class PlayerStatus : MonoBehaviour
             
             soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Boxcat_Gold);
         }
+    }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("EXPBox"))
+        {
+            ObjectPoolManager.Inst.DestroyObject(hit.gameObject);
+            player_now_EXP += 10;
+            soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Boxcat_Gold);
+        }
     }
 }
