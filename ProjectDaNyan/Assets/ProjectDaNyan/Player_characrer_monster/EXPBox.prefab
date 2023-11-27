@@ -15,8 +15,7 @@ GameObject:
   - component: {fileID: 7727609116909889756}
   - component: {fileID: 7965975219053388132}
   - component: {fileID: 5532538831822095849}
-  - component: {fileID: 5727685188903578359}
-  - component: {fileID: 2037458738182223159}
+  - component: {fileID: 6721862226773484621}
   m_Layer: 0
   m_Name: EXPBox
   m_TagString: EXPBox
@@ -117,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _magnetData: {fileID: 11400000, guid: 8eaa4d1440f404569bc79329fb5c8154, type: 2}
+  isMagnetize: 1
 --- !u!208 &7965975219053388132
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -160,28 +160,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &5727685188903578359
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7703086083745402384}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.002325307, y: 0.002813251, z: 0.0029506097}
-  m_Center: {x: 0.00008347805, y: 0.00008555886, z: 0.00013627647}
---- !u!65 &2037458738182223159
+--- !u!65 &6721862226773484621
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,5 +179,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.002325307, y: 0.002813251, z: 0.0029506097}
-  m_Center: {x: 0.00008347805, y: 0.00008555886, z: 0.00013627647}
+  m_Size: {x: 0.0020384204, y: 0.0025749833, z: 0.0025}
+  m_Center: {x: 0.0001866871, y: 0.000048066973, z: 0.00013627647}
