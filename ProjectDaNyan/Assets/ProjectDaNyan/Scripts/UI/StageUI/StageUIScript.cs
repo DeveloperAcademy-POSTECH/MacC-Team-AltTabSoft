@@ -53,7 +53,7 @@ namespace ProjectDaNyan.Views.StageUI
         public HiddenSkillType[] hiddenSkillTypes = { HiddenSkillType.WideAreaAttack, HiddenSkillType.LaserAttack };
         private HiddenSkillType _hiddenSkillType;
         private int _randomNumber; //To Change Hidden Skill Types Randomly at Start Point
-        private float _hiddenSkillRate = 35f;
+        private float _hiddenSkillRate = 1f;
         private float _hiddenSkillDelay = 0;
         //Hidden Skill On/Off Boolean
         private bool _isHiddenReady;

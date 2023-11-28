@@ -159,23 +159,23 @@ public class PlayerStatus : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (other.collider.gameObject.CompareTag("Monster"))
+        if (hit.gameObject.CompareTag("Monster"))
         {
-            Debug.Log($"{other.gameObject.name} : 몬스터와 충돌! 10의 데미지를 입었다.");
+            Debug.Log($"{hit.gameObject.name} : 몬스터와 충돌! 10의 데미지를 입었다.");
 
             ApplyDamage(10);
             
             StartCoroutine(PlayerHitEffect());
         }
-        else if (other.collider.gameObject.CompareTag("MonsterAttack"))
+        /*else if (other.collider.gameObject.CompareTag("MonsterAttack"))
         {
             ApplyDamage((int)other.gameObject.GetComponent<MonsterAttack>().Damage);
             //other.gameObject.SetActive(false);
             Debug.Log($"{other.gameObject.name} : 몬스터 공격! {other.gameObject.GetComponent<MonsterAttack>().Damage}");
             StartCoroutine(PlayerHitEffect());
-        }
+        }*/
     }
     
     private void ApplyDamage(int damage)

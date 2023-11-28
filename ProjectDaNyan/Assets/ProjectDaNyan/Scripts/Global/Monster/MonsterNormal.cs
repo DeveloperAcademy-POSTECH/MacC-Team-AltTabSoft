@@ -207,6 +207,7 @@ public class MonsterNormal : Monster
             ObjectPoolManager.Inst.DestroyObject(boomEffect);
             ObjectPoolManager.Inst.DestroyObject(boomCollider);
             
+            yield return new WaitForSeconds(0.1f);
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
     }
 
