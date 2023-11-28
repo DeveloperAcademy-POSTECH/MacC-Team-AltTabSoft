@@ -66,7 +66,13 @@ public class SoundEffectController : MonoBehaviour
         {
             return;
         }
-        audioSource.volume = effectVolume * sampleVolumeSettingValue;
+        audioSource.volume = effectVolume;
+        StartCoroutine(playOneSound(effectVolume, _type));
+    }
+
+    private IEnumerator playOneSound(float vol, StageSoundTypes _type)
+    {
+        yield return new WaitForFixedUpdate();
         audioSource.PlayOneShot(StageSoundEffects[(int)_type]);
     }
     
