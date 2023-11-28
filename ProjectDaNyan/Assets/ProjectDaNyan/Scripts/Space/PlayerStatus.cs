@@ -192,38 +192,23 @@ public class PlayerStatus : MonoBehaviour
             Debug.Log($"{other.gameObject.name} : 몬스터 공격! {other.gameObject.GetComponent<MonsterAttack>().Damage}");
             StartCoroutine(PlayerHitEffect());
         }
-        
-        if (other.CompareTag("boxCat") || other.CompareTag("EXPBox"))
+        else if (other.CompareTag("boxCat"))
         {
-            if(other.CompareTag("boxCat"))
-            {
-                other.gameObject.SetActive(false);
-                ItemController.Inst.DropItem();
-            }
-            else
-            {
-                ObjectPoolManager.Inst.DestroyObject(other.gameObject);
-                player_now_EXP += 10;
-            }
-            
-            // 플레이어 레벨업 로직을 UI에서 마무리하고 싶다면 주석 처리할 것
-            // if (_playerData.level_Up_Require_EXP - player_now_EXP <= 0)
-            // {
-            //     player_Level += 1;
-            //     player_now_EXP -= _playerData.level_Up_Require_EXP;
-            // }
-            
+            other.gameObject.SetActive(false);
+            ItemController.Inst.DropItem();
             soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Boxcat_Gold);
         }
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.gameObject.CompareTag("EXPBox"))
+        else if (other.CompareTag("EXPBox"))
         {
-            ObjectPoolManager.Inst.DestroyObject(hit.gameObject);
+            ObjectPoolManager.Inst.DestroyObject(other.gameObject);
             player_now_EXP += 10;
             soundEffectController.playStageSoundEffect(0.5f,SoundEffectController.StageSoundTypes.Boxcat_Gold);
         }
+        // 플레이어 레벨업 로직을 UI에서 마무리하고 싶다면 주석 처리할 것
+        // if (_playerData.level_Up_Require_EXP - player_now_EXP <= 0)
+        // {
+        //     player_Level += 1;
+        //     player_now_EXP -= _playerData.level_Up_Require_EXP;
+        // }
     }
 }

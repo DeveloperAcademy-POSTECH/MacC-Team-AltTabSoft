@@ -84,6 +84,7 @@ MonoBehaviour:
   _expBox: {fileID: 7703086083745402384, guid: d4e304cf3b1f049619280b63ac734983, type: 3}
   _currentState: 0
   _attackPoint: {fileID: 7568059509539987083}
+  isShort: 1
 --- !u!65 &6483792415486631229
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -103,8 +104,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.33, y: 2, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 1.33, y: 13.694561, z: 1}
+  m_Center: {x: 0, y: 6.3472805, z: 0}
 --- !u!54 &6739086806372851411
 Rigidbody:
   m_ObjectHideFlags: 0
