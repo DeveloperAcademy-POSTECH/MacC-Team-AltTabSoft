@@ -72,8 +72,9 @@ public class SoundEffectController : MonoBehaviour
 
     private IEnumerator playOneSound(float vol, StageSoundTypes _type)
     {
-        yield return new WaitForFixedUpdate();
+        //yield return new WaitForFixedUpdate(); 사운드 딜레이 잠깐 주석처리 (이방법으로 소리크기 여러군데서 수정 시 왔다갔다 하는거 해결안됨)
         audioSource.PlayOneShot(StageSoundEffects[(int)_type]);
+        yield return null;
     }
     
     public void playShelterUISoundEffects(float effectVolume, ShelterUISoundTypes _type)

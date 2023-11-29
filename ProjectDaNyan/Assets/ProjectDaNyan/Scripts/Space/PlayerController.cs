@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 300;
     private float timeBeforeNextJump = 1.2f;
     private float canJump = 0f;
-    private float rockHeight = 5.85f;
+    private float rockHeight = 5.55f;
 
     private float playerRotationPositionX;
     private float playerRotationPositionY;
@@ -202,10 +202,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerCharacterController.isGrounded == false)
         {
-            if (this.transform.position.y > 0f)
-            { 
                 _floatingPosition += -9.81f * Time.deltaTime; 
-            }
         }
         else
         {
@@ -247,7 +244,8 @@ public class PlayerController : MonoBehaviour
     void PlayerExitStartFromRock()
     {
         StartCoroutine(PlayerDashSetting());
-        transform.position = new Vector3(transform.position.x, y:1.3f, transform.position.z);
+        transform.position = new Vector3(transform.position.x + dashMovePosition.x, y:1.3f, transform.position.z + dashMovePosition.z);
+        dashTimerCount = 1;
         _playerState.setPsData(PlayerState.PSData.exitDashFromRock);
     }
     
