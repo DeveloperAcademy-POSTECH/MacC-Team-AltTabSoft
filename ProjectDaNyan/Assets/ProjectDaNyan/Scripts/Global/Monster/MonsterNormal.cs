@@ -71,8 +71,16 @@ public class MonsterNormal : Monster
 
     private void OnEnable()
     {
+        resetMonster();
+    }
+
+
+    private void resetMonster()
+    {
+        // if monster is not on the nav mesh, destroy
         if(!_navMeshAgent.isOnNavMesh)
         {
+            ObjectPoolManager.Inst.DestroyObject(this.gameObject);
             return;
         }
         
@@ -106,12 +114,17 @@ public class MonsterNormal : Monster
         _playerAttack = GameObject.Find("PlayerAttackPosition").GetComponent<PlayerAttack>();
 
         if (this.gameObject.transform.Find("BombOnMonster") != null &&
-                        this.gameObject.transform.Find("BombOnMonster").gameObject.activeSelf == true)
+            this.gameObject.transform.Find("BombOnMonster").gameObject.activeSelf == true)
         {
             this.gameObject.transform.Find("BombOnMonster").gameObject.SetActive(false);
         }
     }
-
+    
+    
+    
+    
+    
+    
     IEnumerator monsterState()
     {
 
@@ -124,6 +137,7 @@ public class MonsterNormal : Monster
             yield return StartCoroutine(_currentState.ToString());
         }
 
+        _currentState = state.dead;
         StartCoroutine(dead());
     }
 
@@ -169,8 +183,7 @@ public class MonsterNormal : Monster
 
         // drop exp 
         expBoxData.exp = _monsterData.exp;
-        expBoxData.parentsVelocity = _navMeshAgent.velocity;
-        expBox.transform.position = this.transform.position + Vector3.up * 4f;
+        expBox.transform.position = this.transform.position + Vector3.up * 2f;
 
         //몬스터가 죽을 시 폭탄 터짐
         if (this.gameObject.transform.Find("BombOnMonster") != null)
@@ -221,7 +234,7 @@ public class MonsterNormal : Monster
             transform.position = _target.position + _target.forward * 30f; 
         }
 
-        else if (_navMeshAgent.remainingDistance <= _monsterData.attackRange && distance <= _monsterData.attackRange)
+        else if (distance <= _monsterData.attackRange || _navMeshAgent.remainingDistance <= _monsterData.attackRange)
         {
             _navMeshAgent.isStopped = true;
             _currentState = state.attack;
