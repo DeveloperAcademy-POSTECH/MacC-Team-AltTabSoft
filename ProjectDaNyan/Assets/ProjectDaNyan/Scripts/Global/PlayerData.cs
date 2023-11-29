@@ -20,6 +20,7 @@ public class PlayerData: ScriptableObject
     [SerializeField] public int level_Up_Require_EXP = 100;
     [SerializeField] public int level_Up_EXP = 100;
     [SerializeField] public float hitEffectTime = .25f;
+    [SerializeField] public int playerAttackedByMobDamage = 10;
     
     // ======= JoystickController 에서 사용될 데이터
     [SerializeField] public int dashRechargeTic = 150;

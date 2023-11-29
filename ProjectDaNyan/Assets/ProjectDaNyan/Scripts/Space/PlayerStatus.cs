@@ -165,7 +165,7 @@ public class PlayerStatus : MonoBehaviour
         {
             Debug.Log($"{hit.gameObject.name} : 몬스터와 충돌! 10의 데미지를 입었다.");
 
-            ApplyDamage(10);
+            ApplyDamage(_playerData.playerAttackedByMobDamage);
             
             StartCoroutine(PlayerHitEffect());
         }
