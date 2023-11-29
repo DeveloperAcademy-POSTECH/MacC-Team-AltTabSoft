@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 4853398999115314500}
   - component: {fileID: 5432781030662005881}
   - component: {fileID: 6176409126218365443}
+  - component: {fileID: 8407775232990650749}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -174,13 +175,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 3
+  m_Height: 5
   m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.5, z: -0.17}
+  m_Center: {x: 0, y: 1, z: -0.17}
 --- !u!114 &6667353087869614381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +370,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -458,14 +459,14 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 09c376cf71fe5404d9305b1034c68ce2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.095
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -542,6 +543,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &8407775232990650749
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792001150830992708}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.8236238, y: 3.085046, z: 1.4040611}
+  m_Center: {x: -0.03133732, y: 1.4167839, z: -0.09112215}
 --- !u!1001 &1289221656642250242
 PrefabInstance:
   m_ObjectHideFlags: 0

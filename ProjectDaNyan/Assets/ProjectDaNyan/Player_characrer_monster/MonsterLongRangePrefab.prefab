@@ -84,6 +84,8 @@ MonoBehaviour:
   _expBox: {fileID: 7703086083745402384, guid: d4e304cf3b1f049619280b63ac734983, type: 3}
   _currentState: 0
   _attackPoint: {fileID: 1022124332221860566}
+  longColor: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 1}
+  isShort: 0
 --- !u!65 &1790176278812915998
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -103,8 +105,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.33, y: 2, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 1.33, y: 10.306787, z: 1}
+  m_Center: {x: 0, y: 4.6533933, z: 0}
 --- !u!54 &1168645230308861768
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -208,6 +210,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ba37fa56140d74b7f8fb83997fc407aa, type: 2}
     - target: {fileID: -3290247662164583081, guid: 0688d5443951f416cba8baf0a27bc26d, type: 3}
       propertyPath: m_Layer
       value: 8

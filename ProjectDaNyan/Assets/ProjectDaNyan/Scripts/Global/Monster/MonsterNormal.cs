@@ -8,7 +8,7 @@ public class MonsterNormal : Monster
     public IObjectPool<GameObject> myPool { get; set; }
 
     [SerializeField] private MonsterData _monsterData;
-
+    
     // nav mesh related variables 
     private NavMeshAgent _navMeshAgent = null;
     private Transform _target = null;
@@ -25,13 +25,17 @@ public class MonsterNormal : Monster
     
     // private variables 
 
+    private Color shortColor = Color.white;
+    [SerializeField] private Color longColor;
+
     private float _attacktime;
     private MonsterAttack _monsterAttack;
     private float _laserHitRate = 0.7f;
     private float _laserHitDelay;
     private bool _isLaserHit;
     private bool _isLaserOn;
-
+    [SerializeField] private bool isShort;
+    
     // Monster state
     public enum state
     {
@@ -57,7 +61,6 @@ public class MonsterNormal : Monster
         if(_currentState == state.attack)
         {
             this.transform.LookAt(_target);
-
         }
     }
 
@@ -80,7 +83,14 @@ public class MonsterNormal : Monster
         monsterHP = _monsterData.hp;
         
         // set material color 
-        _renderers[0].material.color = Color.white;
+        if (isShort)
+        {
+            _renderers[0].material.color = shortColor;
+        }
+        else
+        {
+            _renderers[0].material.color = longColor;
+        }
 
         // set nav mesh agent values 
         _navMeshAgent.stoppingDistance = _monsterData.attackRange;
@@ -197,6 +207,7 @@ public class MonsterNormal : Monster
             ObjectPoolManager.Inst.DestroyObject(boomEffect);
             ObjectPoolManager.Inst.DestroyObject(boomCollider);
             
+            yield return new WaitForSeconds(0.1f);
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
     }
 
@@ -236,7 +247,14 @@ public class MonsterNormal : Monster
     {
         _renderers[0].material.color = Color.red;
         yield return new WaitForSeconds(0.25f);
-        _renderers[0].material.color = Color.white;
+        if (isShort)
+        {
+            _renderers[0].material.color = shortColor;
+        }
+        else
+        {
+            _renderers[0].material.color = longColor;
+        }
     }
     
     
