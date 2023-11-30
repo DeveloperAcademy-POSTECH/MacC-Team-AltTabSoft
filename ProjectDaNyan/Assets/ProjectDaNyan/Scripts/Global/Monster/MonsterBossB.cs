@@ -326,12 +326,12 @@ public class MonsterBossB : Monster
     private void makeFatMan()
     {
         GameObject fatMan = ObjectPoolManager.Inst.BringObject(_fatManPrefab);
-        Vector3 bombPosition = new Vector3(_target.transform.position.x, 20f, _target.transform.position.z);
+        Vector3 bombPosition = new Vector3(_target.transform.position.x, 50f, _target.transform.position.z);
         fatMan.GetComponent<MonsterAttack>().Damage = _bossData.FatManDamage;
         fatMan.transform.position = bombPosition;
 
         Rigidbody fatManRigidbody = fatMan.GetComponent<Rigidbody>();
-        fatManRigidbody.velocity = fatMan.transform.up * -20f;
+        fatManRigidbody.velocity = fatMan.transform.up * -50f;
     }
 
 

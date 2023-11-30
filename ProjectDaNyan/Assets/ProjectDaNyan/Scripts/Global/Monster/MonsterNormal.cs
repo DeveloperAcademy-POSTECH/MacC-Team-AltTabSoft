@@ -34,6 +34,7 @@ public class MonsterNormal : Monster
     private float _laserHitDelay;
     private bool _isLaserHit;
     private bool _isLaserOn;
+    private float killed = 0;
     [SerializeField] private bool isShort;
     
     // Monster state
@@ -54,15 +55,7 @@ public class MonsterNormal : Monster
         // set target 
         _target = FindAnyObjectByType<PlayerStatus>().transform;
     }
-
-
-    private void FixedUpdate()
-    {
-        if(_currentState == state.attack)
-        {
-            this.transform.LookAt(_target);
-        }
-    }
+    
 
     private void Update()
     {
@@ -88,7 +81,7 @@ public class MonsterNormal : Monster
         _currentState = state.chasing;
 
         // set monster HP 
-        monsterHP = _monsterData.hp;
+        monsterHP = _monsterData.hp * killed * 0.1f;
         
         // set material color 
         if (isShort)
@@ -149,6 +142,8 @@ public class MonsterNormal : Monster
 
     IEnumerator attack()
     {
+        this.transform.LookAt(_target);
+        
         _attacktime += 0.1f;
 
 
@@ -176,13 +171,14 @@ public class MonsterNormal : Monster
 
     IEnumerator dead()
     {
+        killed++;
         GameManager.Inst.delegateGameState -= PrepareBossStage;
 
         GameObject expBox = ObjectPoolManager.Inst.BringObject(_expBox);
         EXPBox expBoxData = expBox.GetComponent<EXPBox>();
 
         // drop exp 
-        expBoxData.exp = _monsterData.exp;
+        expBoxData.exp = _monsterData.exp * killed * 0.05f;
         expBox.transform.position = this.transform.position + Vector3.up * 2f;
 
         //몬스터가 죽을 시 폭탄 터짐
@@ -216,11 +212,9 @@ public class MonsterNormal : Monster
             Rigidbody boomColliderRigid = boomCollider.GetComponent<Rigidbody>();
             boomColliderRigid.velocity = boomCollider.transform.up * -100f;
     
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.25f);
             ObjectPoolManager.Inst.DestroyObject(boomEffect);
             ObjectPoolManager.Inst.DestroyObject(boomCollider);
-            
-            yield return new WaitForSeconds(0.1f);
             ObjectPoolManager.Inst.DestroyObject(this.gameObject);
     }
 
@@ -234,7 +228,7 @@ public class MonsterNormal : Monster
             transform.position = _target.position + _target.forward * 30f; 
         }
 
-        else if (distance <= _monsterData.attackRange || _navMeshAgent.remainingDistance <= _monsterData.attackRange)
+        if (_navMeshAgent.remainingDistance <= _monsterData.attackRange && distance <= _monsterData.attackRange)
         {
             _navMeshAgent.isStopped = true;
             _currentState = state.attack;
