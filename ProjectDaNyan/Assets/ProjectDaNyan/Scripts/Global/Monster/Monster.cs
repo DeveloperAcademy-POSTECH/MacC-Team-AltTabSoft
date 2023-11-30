@@ -32,11 +32,19 @@ public class Monster : MonoBehaviour
     // private Queue<Color> _originColorList = new Queue<Color>();
 
     private Queue<Color> _originalColors = new Queue<Color>();
+
+    private List<Color> _originalColorList = new List<Color>();
+    
     
     private void Awake()
     {
         //PlayerAttack Bomb Skill Information
         _playerAttack = GameObject.Find("PlayerAttackPosition").GetComponent<PlayerAttack>();
+        
+        foreach (Renderer ren in _renderers)
+        {
+            _originalColorList.Add(ren.material.color);
+        }
     }
     
     
@@ -82,41 +90,43 @@ public class Monster : MonoBehaviour
         }
     }
     
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag.Equals("PlayerAttack"))
-        {
-            // change color 
-            StartCoroutine(monsterHit());
-            
-            // get bullet damage 
-            if (other.gameObject.TryGetComponent(out Bullet bullet))
-            {
-                // apply player attack damage 
-                applyDamage(bullet.damage);
-            }
-            // if bullet doesn't have damage 
-            else
-            {
-                applyDamage(1);
-            }
-        }
-    }
+    // private void OnTriggerStay(Collider other)
+    // {
+    //     if (other.tag.Equals("PlayerAttack"))
+    //     {
+    //         // change color 
+    //         StartCoroutine(monsterHit());
+    //         
+    //         // get bullet damage 
+    //         if (other.gameObject.TryGetComponent(out Bullet bullet))
+    //         {
+    //             // apply player attack damage 
+    //             applyDamage(bullet.damage);
+    //         }
+    //         // if bullet doesn't have damage 
+    //         else
+    //         {
+    //             applyDamage(1);
+    //         }
+    //     }
+    // }
     
 
     IEnumerator monsterHit()
     {
         foreach (Renderer ren in _renderers)
         {
-            _originalColors.Enqueue(ren.material.color);
             ren.material.color = Color.red;
         }
         
         yield return new WaitForSeconds(0.25f);
+
+        int idx = 0;
         
         foreach (Renderer ren in _renderers)
         {
-            ren.material.color = _originalColors.Dequeue();
+            ren.material.color = _originalColorList[idx];
+            idx++;
         }
     }
     
@@ -133,6 +143,7 @@ public class Monster : MonoBehaviour
             ObjectPoolManager.Inst.DestroyObject(bomb);
             //bomb.SetActive(false);
             //폭발 파티클 이펙트
+
             GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
             boomEffect.transform.localScale = new Vector3(boomSize + (0.25f * bombLevel) , boomSize + (0.25f * bombLevel), boomSize + (0.25f * bombLevel));
             boomEffect.transform.position = this.gameObject.transform.position + new Vector3(0, 1f, 0);

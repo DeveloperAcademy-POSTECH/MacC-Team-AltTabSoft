@@ -12,19 +12,17 @@ public enum BossType
 
 public class MonsterManager : MonoBehaviour
 {
-    private static MonsterManager inst = null;
-
-    public static MonsterManager Inst
-    {
-        get { return inst; }
-    }
+    // private static MonsterManager inst = null;
+    //
+    // public static MonsterManager Inst
+    // {
+    //     get { return inst; }
+    // }
 
     [SerializeField] private List<Transform> _monsterSpawnPoints;
 
     [SerializeField] private GameObject _monsterBossAPrefab;
     [SerializeField] private GameObject _monsterBossBPrefab;
-    [SerializeField] private GameObject _myObjectPool;
-
 
     [SerializeField] private MonsterManagerData _monsterManagerData;
     private MonsterNormalTypeFactory _monsterNormalTypeFactory = null;
@@ -38,25 +36,13 @@ public class MonsterManager : MonoBehaviour
     // monster manage data;
     [SerializeField] private float _spawnInterval;
     [SerializeField] private int _totalSpawnQty;
-    [SerializeField] private int _normalShortRangeQty;
-    [SerializeField] private int _normalLongRangeQty;
-    [SerializeField] private int _eliteShortRangeQty;
-    [SerializeField] private int _eliteLongRangeQty;
     [SerializeField] private BossType _bossMonsterType;
 
 
     private void Awake()
     {
-        inst = this;
-
-        _myObjectPool = Resources.Load<GameObject>("GameObjectPool");
-
         _spawnInterval = _monsterManagerData.SpawnInterval;
         _totalSpawnQty = _monsterManagerData.TotalSpawnQty;
-        _normalShortRangeQty = _monsterManagerData.NormalShortRangeQty;
-        _normalLongRangeQty = _monsterManagerData.NormalLongRangeQty;
-        _eliteShortRangeQty = _monsterManagerData.EliteShortRangeQty;
-        _eliteLongRangeQty = _monsterManagerData.EliteLongRangeQty;
         _bossMonsterType = _monsterManagerData.BossMonsterType;
     }
 
@@ -100,8 +86,7 @@ public class MonsterManager : MonoBehaviour
                 GameObject bossA = ObjectPoolManager.Inst.BringObject(_monsterBossAPrefab);
                 bossA.transform.position = new Vector3(genPos.x, 1.5f, genPos.z);
                 break;
-
-
+            
             case BossType.BossB:
                 GameObject bossB = ObjectPoolManager.Inst.BringObject(_monsterBossBPrefab);
                 bossB.transform.position = new Vector3(genPos.x, 1.5f, genPos.z);
@@ -117,16 +102,15 @@ public class MonsterManager : MonoBehaviour
             _timePasses = 0;
 
             _spawnPosition = Random.Range(0, 4);
-
-
+            
             // total monster spanw quantity 
-            _totalSpawnQty = _normalLongRangeQty + _normalShortRangeQty + _eliteLongRangeQty + _eliteShortRangeQty;
+            _totalSpawnQty = _monsterManagerData.NormalLongRangeQty + _monsterManagerData.NormalShortRangeQty + _monsterManagerData.EliteLongRangeQty + _monsterManagerData.EliteShortRangeQty;
 
-            StartCoroutine(spawnNormalShortMonster(_normalShortRangeQty));
-            StartCoroutine(spawnNormalLongMonster(_normalLongRangeQty));
+            StartCoroutine(spawnNormalShortMonster(_monsterManagerData.NormalShortRangeQty));
+            StartCoroutine(spawnNormalLongMonster(_monsterManagerData.NormalLongRangeQty));
 
-            StartCoroutine(spawnEliteShortMonster(_eliteShortRangeQty));
-            StartCoroutine(spawnEliteLongMonster(_eliteLongRangeQty));
+            StartCoroutine(spawnEliteShortMonster(_monsterManagerData.EliteShortRangeQty));
+            StartCoroutine(spawnEliteLongMonster(_monsterManagerData.EliteLongRangeQty));
         }
     }
 

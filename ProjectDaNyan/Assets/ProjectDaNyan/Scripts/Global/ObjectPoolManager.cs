@@ -11,11 +11,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     [SerializeField] GameObject gameObjectPool;
 
-    private static ObjectPoolManager inst = null;
-    public static ObjectPoolManager Inst { get { if (inst == null) { return null; } return inst; } }
-
-    List<string> keyList = new List<string>();
-    string normalTypeMonster = "Normal";
+    public static ObjectPoolManager Inst;
 
     // rename pool name  
     string pattern = @"Prefab";
@@ -23,25 +19,8 @@ public class ObjectPoolManager : MonoBehaviour
     private void Awake()
     {
         gameObjectPools.Clear();
-        // Singleton Pattern 
-        #region Singleton Pattern
-        if (inst == null)
-        {
-            inst = FindAnyObjectByType<ObjectPoolManager>();
-
-            if (inst == null)
-            {
-                inst = this;
-
-                DontDestroyOnLoad(this);
-            }
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-        #endregion
-        //// Singleton Pattern
+        Inst = this;
+        
     }
 
     public GameObject BringObject(GameObject targetObject)
@@ -84,9 +63,7 @@ public class ObjectPoolManager : MonoBehaviour
     void createNewPool(GameObject targetObject)
     {
         string key = targetObject.name.ToString();
-
-        keyList.Add(key);
-
+        
         // create new pool 
         GameObject newPool = Instantiate<GameObject>(gameObjectPool, this.transform);
         newPool.GetComponent<GameObjectPool>().prefab = targetObject;
