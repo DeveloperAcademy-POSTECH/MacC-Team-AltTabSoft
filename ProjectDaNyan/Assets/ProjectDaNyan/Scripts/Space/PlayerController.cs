@@ -77,42 +77,55 @@ public class PlayerController : MonoBehaviour
             PlayerStop();
             return;
         }
-        switch (_playerState.getPsData())
+
+        if (_playerStatus.Player_Now_HP <= 0)
         {
-            case PlayerState.PSData.walk:
+            playerAnim.SetInteger("State", 3);
+            _playerState.setPsData(PlayerState.PSData.death);
+        }
+        else
+        {
+            switch (_playerState.getPsData())
             {
-                PlayerWalk();
-                break;
-            }
-            case PlayerState.PSData.dashStart:
-            {
-                StartCoroutine(PlayerDashSetting());
-                break;
-            }
-            case PlayerState.PSData.dash:
-            {
-                PlayerDash();
-                break;
-            }
-            case PlayerState.PSData.onTheRock:
-            {
-                PlayerMovingControllOnTheRock();
-                break;
-            }
-            case PlayerState.PSData.exitStartFromRock:
-            {
-                PlayerExitStartFromRock();
-                break;
-            }
-            case PlayerState.PSData.exitDashFromRock:
-            {
-                PlayerExitDashFromRock();
-                break;
-            }
-            default:
-            {
-                PlayerStop();
-                break;
+                case PlayerState.PSData.walk:
+                {
+                    PlayerWalk();
+                    break;
+                }
+                case PlayerState.PSData.dashStart:
+                {
+                    StartCoroutine(PlayerDashSetting());
+                    break;
+                }
+                case PlayerState.PSData.dash:
+                {
+                    PlayerDash();
+                    break;
+                }
+                case PlayerState.PSData.onTheRock:
+                {
+                    PlayerMovingControllOnTheRock();
+                    break;
+                }
+                case PlayerState.PSData.exitStartFromRock:
+                {
+                    PlayerExitStartFromRock();
+                    break;
+                }
+                case PlayerState.PSData.exitDashFromRock:
+                {
+                    PlayerExitDashFromRock();
+                    break;
+                }
+                case PlayerState.PSData.death:
+                {
+                    break;
+                }
+                default:
+                {
+                    PlayerStop();
+                    break;
+                }
             }
         }
     }
