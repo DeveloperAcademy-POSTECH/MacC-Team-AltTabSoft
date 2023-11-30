@@ -142,12 +142,19 @@ public class Bullet : MonoBehaviour
                 (other.transform.Find("BombOnMonster") == null))
                  //|| other.transform.Find("BombOnMonster").gameObject.activeSelf == false
             {
-                
                 try
                 {
                     GameObject InstantBomb = ObjectPoolManager.Inst.BringObject(_bomb);
                     InstantBomb.transform.parent = other.transform;
-                    InstantBomb.transform.position = other.transform.position + new Vector3(0, 2.5f, 0);
+                    
+                    if(other.gameObject.TryGetComponent(out MonsterBossB monsterBossB))
+                    {
+                        InstantBomb.transform.position = other.transform.position + new Vector3(0, 4f, 0);
+                    }
+                    else
+                    {
+                        InstantBomb.transform.position = other.transform.position + new Vector3(0, 2.5f, 0);
+                    }
                 }
                 catch
                 {
