@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class MonsterFatMan : MonsterAttack
 {
-    [FormerlySerializedAs("_explosion")] [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject _explosionPrefab;
     [SerializeField] private GameObject _fatManBody;
     [SerializeField] private MonsterSkillWaveBlast _monsterSkillWaveBlast;
     
@@ -74,8 +74,7 @@ public class MonsterFatMan : MonsterAttack
         _monsterSkillWaveBlast.BlastSphereCollider.enabled = false;
         _monsterSkillWaveBlast.isCollided = true;
     }
-
-
+    
     
     private void FatManExplosion()
     {

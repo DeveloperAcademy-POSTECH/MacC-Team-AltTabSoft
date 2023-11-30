@@ -54,7 +54,7 @@ namespace ProjectDaNyan.Views.StageUI
         private HiddenSkillType _hiddenSkillType;
         private int _randomNumber; //To Change Hidden Skill Types Randomly at Start Point
         private float _hiddenSkillRate = 35f;
-        private float _hiddenSkillDelay = 0;
+        private float _hiddenSkillDelay = 35f;
         //Hidden Skill On/Off Boolean
         private bool _isHiddenReady;
         private float _hiddenLeftCoolTime;
