@@ -178,12 +178,12 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
             }
             _playerStatus.player_Level += 1;
             _playerStatus.Player_now_EXP -= _playerData.level_Up_Require_EXP;
+            Debug.Log($"{_playerStatus.Player_now_EXP} 경험치량 과 레벨은 {_playerStatus.player_Level}");
         }
 
         public void SelectSkillBox()
         {
-            var overFlowedExp = _playerStatus.Player_now_EXP - _playerStatus.Level_Up_Require_EXP;
-            _playerStatus.Player_now_EXP = overFlowedExp; // 레벨에 필요한 만큼만 경험치를 제외, 연속적인 레벨업 가능
+            //_playerStatus.Player_now_EXP -= _playerStatus.Level_Up_Require_EXP; // 레벨에 필요한 만큼만 경험치를 제외, 연속적인 레벨업 가능
             defaultSkillBox.gameObject.SetActive(false);
             droneAttackSkillBox.gameObject.SetActive(false);
             bombardSkillBox.gameObject.SetActive(false);
