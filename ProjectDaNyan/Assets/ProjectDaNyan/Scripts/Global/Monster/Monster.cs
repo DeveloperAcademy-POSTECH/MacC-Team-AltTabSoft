@@ -133,16 +133,17 @@ public class Monster : MonoBehaviour
     
     IEnumerator bombExplosion(Bullet bullet, GameObject bomb, int bombLevel, float boomSize)
     {
-        if (bullet.bombStack > 2) //default 20
+        if (bullet.bombStack > 20) //default 20
         {
             if (bombLevel > 4)
                 bombLevel = 4;
             bullet.bombStack = 0;
             //몬스터 위에 있는 폭탄 비활성
-            // ObjectPoolManager.Inst.DestroyObject(bomb);
-            bomb.SetActive(false);
-            
-            // 폭발 파티클 이펙트
+            bomb.gameObject.transform.SetParent(null);
+            ObjectPoolManager.Inst.DestroyObject(bomb);
+            //bomb.SetActive(false);
+            //폭발 파티클 이펙트
+
             GameObject boomEffect = ObjectPoolManager.Inst.BringObject(_boom);
             boomEffect.transform.localScale = new Vector3(boomSize + (0.25f * bombLevel) , boomSize + (0.25f * bombLevel), boomSize + (0.25f * bombLevel));
             boomEffect.transform.position = this.gameObject.transform.position + new Vector3(0, 1f, 0);
