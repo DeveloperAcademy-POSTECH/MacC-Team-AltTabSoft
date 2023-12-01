@@ -24,8 +24,10 @@ namespace ProjectDaNyan.Scripts.UI.StageUI
 
         private void Move()
         {
-            _playerHpSlider.transform.position =
-                Camera.main.WorldToScreenPoint(_player.transform.position + new Vector3(0, 4.5f, 0));
+            _playerHpSlider.transform.position = _player.transform.position + new Vector3(0, 5f, 0);
+            transform.rotation = Camera.main.transform.rotation;
+            //_playerHpSlider.transform.position =
+            //    Camera.main.WorldToScreenPoint(_player.transform.position + new Vector3(0, 4.5f, 0));
         }
     }
 }
