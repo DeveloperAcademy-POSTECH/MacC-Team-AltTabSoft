@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3312182753857588792}
   - component: {fileID: 726148143184067314}
   - component: {fileID: 4109514615978388642}
+  - component: {fileID: 8644489949338627234}
+  - component: {fileID: 729425340938495056}
   m_Layer: 10
   m_Name: Restriction
   m_TagString: Wall
@@ -106,6 +108,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 11.626588, y: 10.1355715, z: 2.8993273}
   m_Center: {x: 0.06618309, y: 5.3599324, z: 0.014599324}
+--- !u!114 &8644489949338627234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230388230493575975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19697aaf674f84c4c86b4e9db0ad3893, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &729425340938495056
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230388230493575975}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1001 &6531869474712774034
 PrefabInstance:
   m_ObjectHideFlags: 0
