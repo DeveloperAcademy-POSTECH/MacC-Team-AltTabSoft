@@ -65,7 +65,7 @@ public class PlayerAttack : MonoBehaviour
                 _drone.transform.position = this.transform.position + new Vector3(0, 1.9f, 0);
             }
 
-            if(droneLevel > 4)
+            if(droneLevel > 5)
             {
                 if (_drone2.activeSelf == false)
                 {
